@@ -15,7 +15,9 @@ import UIKit
 //MARK: Class custom Operation
 class NetworkDownloadOperation: Operation {
     
+    var response: Response?
     var url: String = ""
+    
     var downloader: ImageDownloader
     
     init(_ manager: ImageDownloader) {
@@ -40,7 +42,7 @@ class NetworkDownloadOperation: Operation {
         
         do {
         
-            try self.downloader.networkManager.callApi(self.url, .GET, nil)
+            self.response = try self.downloader.networkManager.callApi(self.url, .GET, nil)
             
         } catch {
             
@@ -53,7 +55,7 @@ class NetworkDownloadOperation: Operation {
 
 //MARK: Class Image Downloader
 class ImageDownloader:  NetworkManagerProtocol {
-    
+
     //Singleton
     static let sharedService = ImageDownloader()
     
@@ -61,9 +63,6 @@ class ImageDownloader:  NetworkManagerProtocol {
         
         //Create Delegate
         networkManager.delegate = self
-        
-        //Create Observer Function
-        createObservers()
         
         //Config Operation Queue
         operationQueue.maxConcurrentOperationCount = 5
@@ -78,97 +77,93 @@ class ImageDownloader:  NetworkManagerProtocol {
     //Base delegation class
     let networkManager = NetworkManager()
     
+//    //startCallApi
+//    func startCallApi (_ url: String,
+//                       _ method: HttpMethod,
+//                       _ queryItems: [String : String]?,
+//                       session: URLSession,
+//                       completion: @escaping (Result<Response, Error>) -> Void) {
+//        
+//        guard let urlComponent = URLComponents(string: url) else {
+//            
+//            completion(.failure(ManagerErrors.BadURL))
+//            return
+//            
+//        }
+//        
+//        //Create URL
+//        let url = urlComponent.url!
+//        
+//        //Create Download Task
+//        let downloadTask = session.dataTask(with: url) {
+//            
+//            (data, response, error) in
+//            
+//            if let error = error {
+//        
+//                print(error.localizedDescription)
+//        
+//            }
+//    
+//            guard let response = response else {
+//                
+//                completion(.failure(ManagerErrors.BadResponse))
+//                return
+//                
+//            }
+//        
+//            guard let data = data else {
+//                
+//                if let error = error {
+//            
+//                    completion(.failure(error))
+//            
+//                }
+//                
+//                return
+//                
+//            }
+//            
+//            let responseBody = Response(_data: data, _response: response, _error: error)
+//            
+//            completion(.success(responseBody))
+//            
+//        }
+//        
+//        downloadTask.resume()
+//    }
+    
     //MARK: Main function, use this for download
-    func download(url: String,
+    func download (url: String,
              method: HttpMethod = .GET,
-             queryItems: [String: String]? = nil) {
+             queryItems: [String: String]? = nil,
+             completion: @escaping ( Result<Response,Error> ) -> Void ) {
         
         let customOperation = NetworkDownloadOperation(self)
         customOperation.setupOperation(url: url)
+        
+        //Completion block, execute after operation main() done
+        customOperation.completionBlock = {
+            
+            if customOperation.isCancelled {
+                
+                completion(.failure(ManagerErrors.OperationCancel))
+                
+            }
+            
+            guard let response = customOperation.response else {
+                
+                completion(.failure(ManagerErrors.BadData))
+                return
+                
+            }
+            
+            completion(.success(response))
+            
+        }
+        
         operationQueue.addOperation(customOperation)
         
     }
     
-    //startCallApi
-    func startCallApi(_ url: String,
-                      _ method: HttpMethod,
-                      _ queryItems: [String : String]?,
-                      session: URLSession) throws {
-        
-        guard let urlComponent = URLComponents(string: url) else {
-            throw(ManagerErrors.BadURL)
-        }
-        
-        //Create URL
-        let url = urlComponent.url!
-        
-        //Create Download Task
-        let downloadTask = session.dataTask(with: url) {
-            
-            (data, response, error) in
-            
-            if let error = error {
-        
-                print(error.localizedDescription)
-        
-            }
-    
-            guard let response = response else {
-                
-                return
-                
-            }
-        
-            guard let data = data else {
-                
-                return
-                
-            }
-            
-            let responseBody = Response(_data: data, _response: response, _error: error)
-            let userInfo = ["responseBody": responseBody]
-            let notificationName = NSNotification.Name("download1")
-            
-            // Post noti
-            NotificationCenter.default.post(
-                name: notificationName,
-                object: nil,
-                userInfo: userInfo)
-            
-        }
-        
-        downloadTask.resume()
-    }
-    
-    //MARK: Create Observers to get noti
-    func createObservers() {
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(dosomething(_:)),
-            name: NSNotification.Name ("download1"),
-            object: nil)
-        
-    }
-    
-    //MARK: Observers Function
-    @objc func dosomething(_ notification: Notification) {
-        
-        try? checkResponse(response: notification.userInfo?["responseBody"] as! Response)
-        
-        if let data = (notification.userInfo?["responseBody"] as! Response )._data {
-            
-            let imgData: Data = data as! Data
-            if let img = UIImage(data: imgData) {
-                
-                print(img.description)
-                
-            }
-           
-        }
-
-    }
-    
 }
-
-

@@ -62,7 +62,7 @@ final class Cache<Key: Hashable, Value> {
 
 private extension Cache {
     
-    //Class để wrap Key
+    //Class to wrap Key
     final class WrappedKey: NSObject {
         
         let key: Key
@@ -86,7 +86,7 @@ private extension Cache {
         }
     }
     
-    //class để wrap value
+    //class to wrap value
     final class WrappedValue: NSObject {
         
         let value: Value
