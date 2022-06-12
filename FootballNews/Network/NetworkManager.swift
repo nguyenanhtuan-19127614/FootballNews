@@ -17,7 +17,7 @@ let _headerFields: (String, String) = ("api_key", "bm_fresher_2022")
 //MARK: RESPONSE BODY
 struct Response {
     
-    var _data: Any?
+    var _data: Data?
     var _response: URLResponse?
     var _error: Error?
     
@@ -118,7 +118,6 @@ extension NetworkManagerProtocol {
             _headerFields.0: _headerFields.1
         ]
         
-        print(request)
         let dataTask = session.dataTask(with: request) {
             
 
@@ -158,25 +157,6 @@ extension NetworkManagerProtocol {
     
 }
 
-extension NetworkManagerProtocol {
-    
-    func checkResponse(response: Response) throws {
-        
-        guard response._data != nil else {
-            
-            throw(ManagerErrors.BadData)
-            
-        }
-        
-        guard response._response != nil else {
-            
-            throw(ManagerErrors.BadResponse)
-            
-        }
-        
-    }
-    
-}
 // MARK: MULTICAST CLASS
 class NetworkManager: NSObject, URLSessionDelegate {
     

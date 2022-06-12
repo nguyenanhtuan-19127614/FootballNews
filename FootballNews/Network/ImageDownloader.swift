@@ -77,61 +77,7 @@ class ImageDownloader:  NetworkManagerProtocol {
     //Base delegation class
     let networkManager = NetworkManager()
     
-//    //startCallApi
-//    func startCallApi (_ url: String,
-//                       _ method: HttpMethod,
-//                       _ queryItems: [String : String]?,
-//                       session: URLSession,
-//                       completion: @escaping (Result<Response, Error>) -> Void) {
-//        
-//        guard let urlComponent = URLComponents(string: url) else {
-//            
-//            completion(.failure(ManagerErrors.BadURL))
-//            return
-//            
-//        }
-//        
-//        //Create URL
-//        let url = urlComponent.url!
-//        
-//        //Create Download Task
-//        let downloadTask = session.dataTask(with: url) {
-//            
-//            (data, response, error) in
-//            
-//            if let error = error {
-//        
-//                print(error.localizedDescription)
-//        
-//            }
-//    
-//            guard let response = response else {
-//                
-//                completion(.failure(ManagerErrors.BadResponse))
-//                return
-//                
-//            }
-//        
-//            guard let data = data else {
-//                
-//                if let error = error {
-//            
-//                    completion(.failure(error))
-//            
-//                }
-//                
-//                return
-//                
-//            }
-//            
-//            let responseBody = Response(_data: data, _response: response, _error: error)
-//            
-//            completion(.success(responseBody))
-//            
-//        }
-//        
-//        downloadTask.resume()
-//    }
+
     
     //MARK: Main function, use this for download
     func download (url: String,
@@ -157,6 +103,8 @@ class ImageDownloader:  NetworkManagerProtocol {
                 return
                 
             }
+            
+            //MARK: -- STORE DATA TO CACHE --
             
             completion(.success(response))
             

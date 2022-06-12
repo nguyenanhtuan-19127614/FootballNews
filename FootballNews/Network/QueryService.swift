@@ -61,13 +61,6 @@ class QueryServiceOperation: Operation {
     }
 }
 
-//Query Service Notification Name
-enum QueryNotiName: String {
-    
-    case case1 = "NetworkManager.startCallApi.Finish"
-    case case2
-}
-
 //MARK: DELEGATION CLASS - QUERY DATA API
 
 class QueryService: NetworkManagerProtocol {
@@ -95,10 +88,11 @@ class QueryService: NetworkManagerProtocol {
     
     
     //MARK: GET METHOD - use this for calling GET method
-    func get (url: String,
+    // Return: decoded Data (Struct, Class)
+    func get<T: Codable> (url: String,
                  _ method: HttpMethod = .GET,
                  queryItems: [String: String]? = nil,
-                 completion: @escaping ( Result<Response,Error> ) -> Void ) {
+                 completion: @escaping ( Result<T,Error> ) -> Void ) {
         
         let customOperation = QueryServiceOperation(self)
         
@@ -119,12 +113,31 @@ class QueryService: NetworkManagerProtocol {
                 return
                 
             }
+            
+           //MARK: -- FUNCTION TO DECODE RESPONSE --
+            guard let data = response._data else {
+                
+                completion(.failure(ManagerErrors.BadData))
+                return
+                
+            }
+            
+            let decoder = JSONDecoder()
+            do {
 
-            completion(.success(response))
+                let jsonData = try decoder.decode(T.self, from: data)
+                completion(.success(jsonData))
+
+            } catch {
+
+                completion(.failure(error))
+                print(error.localizedDescription)
+
+            }
             
         }
-        operationQueue.addOperation(customOperation)
         
+        operationQueue.addOperation(customOperation)
         
     }
 }

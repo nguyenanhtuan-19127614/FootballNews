@@ -34,12 +34,9 @@ class FootballNewsTests: XCTestCase {
     }
     
     func testNetwork() {
-        
-        let link1: String = "https://jsonplaceholder.typicode.com/todos/1"
-        let link2: String = "https://picsum.photos/500/300?random=3"
        
-//        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/detail?team_id=20"
-//        let link3: String = "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=42611430"
+        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=chelsea"
+        let link3: String = "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=42611430"
 //        let link4: String = "https://bm-fresher.herokuapp.com/api/contents/team?zone=sct_20"
 //        let link5: String = "https://bm-fresher.herokuapp.com/api/matches/by-date?competition_id=0&date=20220211"
 //        let link6: String = "https://bm-fresher.herokuapp.com/api/competitions/standings?id=11"
@@ -48,82 +45,46 @@ class FootballNewsTests: XCTestCase {
 //        let link9: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=manchester"
 //        let link10: String = "https://bm-fresher.herokuapp.com/api/contents/match?id=10335"
         
-        QueryService.sharedService.get(url: link1) {
-            
-            result in
-            
+        QueryService.sharedService.get(url: link2) {
+
+        (result: Result<ResponseStructure<SoccerTeamData>, Error>) in
+
             switch result {
             case .success(let res):
                 
-                if let data = res._data {
-                    
-                    print("querydone")
-                    print(data)
-                    
-                }
-                
+                print(res)
+
             case .failure(let err):
                 print(err)
-                
+
             }
-            
+
         }
         
-        ImageDownloader.sharedService.download(url: link2) {
-            
-            result in
-            
-            switch result {
-                
-            case .success(let res):
-               
-                if let data = res._data {
-                    
-                    print("imageDone")
-                    print(data)
-                    
-                }
-                
-            case .failure(let err):
-                print(err)
-                
-            }
-            
-        }
-        
-//        QueryService.sharedService.get(url: link2)
-//        QueryService.sharedService.get(url: link3)
-//        QueryService.sharedService.get(url: link4)
-//        QueryService.sharedService.get(url: link5)
-//        QueryService.sharedService.get(url: link6)
-//        QueryService.sharedService.get(url: link7)
-//        QueryService.sharedService.get(url: link8)
-//        QueryService.sharedService.get(url: link9)
-//        QueryService.sharedService.get(url: link10)
-        
-//
+
+    
         RunLoop.main.run()
         
     }
     
     func testDownloat() {
         
-        let randomLink: String = "https://picsum.photos/500/300?random=3"
-        
-        ImageDownloader.sharedService.download(url: randomLink) {
-            
-            result in
-            
-            switch result {
-                
-            case .success(let res):
-                print(res)
-                
-            case .failure(let err):
-                print(err)
-                
-            }
-        }
+//        let randomLink: String = "https://picsum.photos/500/300?random=3"
+//
+//        ImageDownloader.sharedService.download(url: randomLink) {
+//
+//            result in
+//
+//            switch result {
+//                
+//            case .success(let res):
+//                print("")
+//
+//            case .failure(let err):
+//                print(err)
+//
+//            }
+//        }
         
         
         RunLoop.main.run()
