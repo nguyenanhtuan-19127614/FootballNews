@@ -84,9 +84,6 @@ class QueryService: NetworkManagerProtocol {
     let networkManager = NetworkManager()
     
     
-    
-    
-    
     //MARK: GET METHOD - use this for calling GET method
     // Return: decoded Data (Struct, Class)
     func get<T: Codable> (url: String,
@@ -137,6 +134,7 @@ class QueryService: NetworkManagerProtocol {
             
         }
         
+        // Operation Queue execute Operation
         operationQueue.addOperation(customOperation)
         
     }

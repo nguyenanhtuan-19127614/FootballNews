@@ -35,19 +35,13 @@ class FootballNewsTests: XCTestCase {
     
     func testNetwork() {
        
-        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=chelsea"
-        let link3: String = "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=42611430"
-//        let link4: String = "https://bm-fresher.herokuapp.com/api/contents/team?zone=sct_20"
-//        let link5: String = "https://bm-fresher.herokuapp.com/api/matches/by-date?competition_id=0&date=20220211"
-//        let link6: String = "https://bm-fresher.herokuapp.com/api/competitions/standings?id=11"
-//        let link7: String = "https://bm-fresher.herokuapp.com/api/competitions/hot"
-//        let link8: String = "https://bm-fresher.herokuapp.com/api/contents/home"
-//        let link9: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=manchester"
-//        let link10: String = "https://bm-fresher.herokuapp.com/api/contents/match?id=10335"
+        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search"
+     
+        let queryItem = ["name":"real"]
         
-        QueryService.sharedService.get(url: link2) {
+        QueryService.sharedService.get(url: link2, queryItems: queryItem ) {
 
-        (result: Result<ResponseStructure<SoccerTeamData>, Error>) in
+        (result: Result<ResponseStructure<TeamData>, Error>) in
 
             switch result {
             case .success(let res):
@@ -69,24 +63,38 @@ class FootballNewsTests: XCTestCase {
     
     func testDownloat() {
         
-//        let randomLink: String = "https://picsum.photos/500/300?random=3"
+        let _: String = "https://picsum.photos/500/300?random=3"
+        let link1 = "https://i.picsum.photos/id/817/500/300.jpg?hmac=YepWK_ujczi0SlqEvc2ZsSgaDvQrHOvMuSEFXYtOIsY"
+        let link2 = "https://i.picsum.photos/id/248/500/300.jpg?hmac=-nNcVN6EFbe_pRMbHedsknzyODQbQI8jCaLiGGJLP60"
+        let link3 = "https://i.picsum.photos/id/865/500/300.jpg?hmac=Rb8FuZL0U3MTnQZzXtnaHw7CPXPmN7HGAKcBLrMR3uE"
+        let links = [link1, link2 , link3, link1]
 //
-//        ImageDownloader.sharedService.download(url: randomLink) {
-//
-//            result in
-//
-//            switch result {
-//                
-//            case .success(let res):
-//                print("")
-//
-//            case .failure(let err):
-//                print(err)
-//
-//            }
-//        }
+        let gr = DispatchGroup()
         
-        
+        gr.enter()
+        for i in links {
+            gr.enter()
+            ImageDownloader.sharedService.download(url: i) {
+
+                result in
+
+                switch result {
+                    
+                case .success(let res):
+                    
+                    print(res)
+                    print( ImageCache.sharedCache[link3] )
+                    
+                case .failure(let err):
+                    print(err)
+
+                }
+            }
+            gr.leave()
+        }
+        gr.leave()
+     
+  
         RunLoop.main.run()
         
     }

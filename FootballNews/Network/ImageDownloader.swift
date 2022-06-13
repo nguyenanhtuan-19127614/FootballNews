@@ -83,7 +83,16 @@ class ImageDownloader:  NetworkManagerProtocol {
     func download (url: String,
              method: HttpMethod = .GET,
              queryItems: [String: String]? = nil,
-             completion: @escaping ( Result<Response,Error> ) -> Void ) {
+             completion: @escaping ( Result<Data,Error> ) -> Void ) {
+        
+        //Check if image is in cache
+        if let imageCache = ImageCache.sharedCache[url] {
+            
+            print("Image is already in cache")
+            completion(.success(imageCache))
+            return
+            
+        }
         
         let customOperation = NetworkDownloadOperation(self)
         customOperation.setupOperation(url: url)
@@ -106,8 +115,13 @@ class ImageDownloader:  NetworkManagerProtocol {
             
             //MARK: -- STORE DATA TO CACHE --
             
-            completion(.success(response))
-            
+            if let data = response._data {
+                
+                ImageCache.sharedCache[url] = data
+                completion(.success(data))
+                
+            }
+
         }
         
         operationQueue.addOperation(customOperation)

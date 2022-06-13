@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0305AF122850877C009398A6 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF112850877C009398A6 /* QueryService.swift */; };
-		0305AF1928561633009398A6 /* SoccerTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF1828561633009398A6 /* SoccerTeam.swift */; };
 		0305AF1B28563C5E009398A6 /* ResponseStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF1A28563C5E009398A6 /* ResponseStructure.swift */; };
+		0305AF1F2856419F009398A6 /* TeamStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF1E2856419F009398A6 /* TeamStructure.swift */; };
 		032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB20C284E01C400C6A83A /* AppDelegate.swift */; };
 		032AB211284E01C400C6A83A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB210284E01C400C6A83A /* ViewController.swift */; };
 		032AB216284E01C600C6A83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 032AB215284E01C600C6A83A /* Assets.xcassets */; };
@@ -42,8 +42,8 @@
 
 /* Begin PBXFileReference section */
 		0305AF112850877C009398A6 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
-		0305AF1828561633009398A6 /* SoccerTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeam.swift; sourceTree = "<group>"; };
 		0305AF1A28563C5E009398A6 /* ResponseStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStructure.swift; sourceTree = "<group>"; };
+		0305AF1E2856419F009398A6 /* TeamStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStructure.swift; sourceTree = "<group>"; };
 		032AB209284E01C400C6A83A /* FootballNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootballNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		032AB20C284E01C400C6A83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		032AB210284E01C400C6A83A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		0305AF172856161D009398A6 /* DataStructure */ = {
 			isa = PBXGroup;
 			children = (
-				0305AF1828561633009398A6 /* SoccerTeam.swift */,
+				0305AF1E2856419F009398A6 /* TeamStructure.swift */,
 			);
 			path = DataStructure;
 			sourceTree = "<group>";
@@ -314,12 +314,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				03CF3DAB284F3D1A00200D02 /* NetworkManager.swift in Sources */,
-				0305AF1928561633009398A6 /* SoccerTeam.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
 				03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */,
 				032AB211284E01C400C6A83A /* ViewController.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,
+				0305AF1F2856419F009398A6 /* TeamStructure.swift in Sources */,
 				0305AF1B28563C5E009398A6 /* ResponseStructure.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
