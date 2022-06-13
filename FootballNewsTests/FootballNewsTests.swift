@@ -35,27 +35,45 @@ class FootballNewsTests: XCTestCase {
     
     func testNetwork() {
        
-        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search"
+        //let link1: String = "https://bm-fresher.herokuapp.com/api/teams/highlights"
+        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=manchester"
      
-        let queryItem = ["name":"real"]
+        //let queryItem = ["name":""]
         
-        QueryService.sharedService.get(url: link2, queryItems: queryItem ) {
+        QueryService.sharedService.get(url: link2 ) {
 
         (result: Result<ResponseStructure<TeamData>, Error>) in
 
             switch result {
             case .success(let res):
-                
+            
                 print(res)
-
+                
+                
+                //print(res.data.boxes[0].soccerMatches[0])
+                
             case .failure(let err):
                 print(err)
 
             }
 
         }
-        
-
+//
+//        QueryService.sharedService.get(url: link1, queryItems: queryItem ) {
+//
+//        (result: Result<ResponseStructure<TeamData>, Error>) in
+//
+//            switch result {
+//            case .success(let res):
+//
+//                print(res)
+//
+//            case .failure(let err):
+//                print(err)
+//
+//            }
+//
+//        }
     
         RunLoop.main.run()
         
@@ -67,34 +85,30 @@ class FootballNewsTests: XCTestCase {
         let link1 = "https://i.picsum.photos/id/817/500/300.jpg?hmac=YepWK_ujczi0SlqEvc2ZsSgaDvQrHOvMuSEFXYtOIsY"
         let link2 = "https://i.picsum.photos/id/248/500/300.jpg?hmac=-nNcVN6EFbe_pRMbHedsknzyODQbQI8jCaLiGGJLP60"
         let link3 = "https://i.picsum.photos/id/865/500/300.jpg?hmac=Rb8FuZL0U3MTnQZzXtnaHw7CPXPmN7HGAKcBLrMR3uE"
-        let links = [link1, link2 , link3, link1]
+        let links = [link1, link2 , link3, link1, link2]
 //
         let gr = DispatchGroup()
         
-        gr.enter()
         for i in links {
             gr.enter()
             ImageDownloader.sharedService.download(url: i) {
 
                 result in
-
+                
                 switch result {
                     
                 case .success(let res):
-                    
                     print(res)
-                    print( ImageCache.sharedCache[link3] )
-                    
+                   
                 case .failure(let err):
                     print(err)
-
+                   
                 }
+                gr.leave()
             }
-            gr.leave()
+            gr.wait()
         }
-        gr.leave()
-     
-  
+        
         RunLoop.main.run()
         
     }

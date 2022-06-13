@@ -113,7 +113,7 @@ class ImageDownloader:  NetworkManagerProtocol {
                 
             }
             
-            //MARK: -- STORE DATA TO CACHE --
+            //Store image data to cache
             
             if let data = response._data {
                 

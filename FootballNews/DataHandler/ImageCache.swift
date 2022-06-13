@@ -20,14 +20,14 @@ class ImageCache {
     
     //Cache config
     private let lock = NSLock()
-    private let countLimit = 50
-    private let memoryLimit = 1024 * 1024 * 5
+    private let countLimit = 20
+    //private let memoryLimit = 1024 * 1024 * 5
     
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         
         let cache = NSCache<AnyObject, AnyObject>()
         cache.countLimit = self.countLimit
-        cache.totalCostLimit = self.memoryLimit
+        //cache.totalCostLimit = self.memoryLimit
         
         return cache
         

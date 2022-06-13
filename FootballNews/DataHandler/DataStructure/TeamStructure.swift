@@ -9,11 +9,10 @@
 
 import Foundation
 
-// MARK: - DataClass
+// MARK: - DataClass [Team]
 struct TeamData: Codable {
     
-    let soccerTeams: [SoccerTeam]?
-    let soccerTeam: SoccerTeam?
+    var soccerTeams: [SoccerTeam]
     
     enum CodingKeys: String, CodingKey {
         
@@ -22,24 +21,24 @@ struct TeamData: Codable {
         
     }
     
-//    func encode(to encoder: Encoder) throws {}
-//
-//    init(from decoder: Decoder) throws {
-//
-//        let values = try decoder.container(keyedBy: CodingKeys.self)
-//
-//        do {
-//
-//            soccerTeams = try values.decode(SoccerTeam.self, forKey: .multipleTeam)
-//
-//        } catch {
-//
-//            print(error.localizedDescription)
-//            soccerTeams = try values.decode(SoccerTeam.self, forKey: .singleTeam)
-//
-//        }
-//
-//    }
+    func encode(to encoder: Encoder) throws {}
+    
+    init(from decoder: Decoder) throws {
+
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        do {
+
+            soccerTeams = try values.decode([SoccerTeam].self, forKey: .soccerTeams)
+
+        } catch {
+
+            let singleTeam = try values.decode(SoccerTeam.self, forKey: .soccerTeam)
+            soccerTeams = [singleTeam]
+            
+        }
+
+    }
 }
 
 // MARK: - SoccerTeam
