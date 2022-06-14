@@ -1,9 +1,3 @@
-//
-//  ResponseStructure.swift
-//  FootballNews
-//
-//  Created by LAP13606 on 12/06/2022.
-//
 
 import Foundation
 
