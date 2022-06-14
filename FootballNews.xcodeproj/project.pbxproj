@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		0305AF122850877C009398A6 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF112850877C009398A6 /* QueryService.swift */; };
 		0305AF1B28563C5E009398A6 /* ResponseStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF1A28563C5E009398A6 /* ResponseStructure.swift */; };
-		0305AF1F2856419F009398A6 /* TeamStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF1E2856419F009398A6 /* TeamStructure.swift */; };
-		0305AF212856E991009398A6 /* ContentsStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF202856E991009398A6 /* ContentsStructure.swift */; };
-		0305AF23285723F5009398A6 /* MatchStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF22285723F5009398A6 /* MatchStructure.swift */; };
-		0305AF252857240E009398A6 /* CompetitionsStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF242857240E009398A6 /* CompetitionsStructure.swift */; };
+		0305AF2728574354009398A6 /* NetworkManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF2628574354009398A6 /* NetworkManagers.swift */; };
+		0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF2828583C2E009398A6 /* ContentModel.swift */; };
+		0305AF2B28583C59009398A6 /* TeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF2A28583C59009398A6 /* TeamModel.swift */; };
+		0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF2C28583C71009398A6 /* MatchModel.swift */; };
+		0305AF2F28583C8E009398A6 /* CompetitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF2E28583C8E009398A6 /* CompetitionModel.swift */; };
 		032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB20C284E01C400C6A83A /* AppDelegate.swift */; };
 		032AB211284E01C400C6A83A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB210284E01C400C6A83A /* ViewController.swift */; };
 		032AB216284E01C600C6A83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 032AB215284E01C600C6A83A /* Assets.xcassets */; };
@@ -46,10 +47,11 @@
 /* Begin PBXFileReference section */
 		0305AF112850877C009398A6 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
 		0305AF1A28563C5E009398A6 /* ResponseStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStructure.swift; sourceTree = "<group>"; };
-		0305AF1E2856419F009398A6 /* TeamStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStructure.swift; sourceTree = "<group>"; };
-		0305AF202856E991009398A6 /* ContentsStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsStructure.swift; sourceTree = "<group>"; };
-		0305AF22285723F5009398A6 /* MatchStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStructure.swift; sourceTree = "<group>"; };
-		0305AF242857240E009398A6 /* CompetitionsStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionsStructure.swift; sourceTree = "<group>"; };
+		0305AF2628574354009398A6 /* NetworkManagers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagers.swift; sourceTree = "<group>"; };
+		0305AF2828583C2E009398A6 /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
+		0305AF2A28583C59009398A6 /* TeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamModel.swift; sourceTree = "<group>"; };
+		0305AF2C28583C71009398A6 /* MatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchModel.swift; sourceTree = "<group>"; };
+		0305AF2E28583C8E009398A6 /* CompetitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionModel.swift; sourceTree = "<group>"; };
 		032AB209284E01C400C6A83A /* FootballNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootballNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		032AB20C284E01C400C6A83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		032AB210284E01C400C6A83A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,10 +107,10 @@
 		0305AF172856161D009398A6 /* DataStructure */ = {
 			isa = PBXGroup;
 			children = (
-				0305AF202856E991009398A6 /* ContentsStructure.swift */,
-				0305AF1E2856419F009398A6 /* TeamStructure.swift */,
-				0305AF22285723F5009398A6 /* MatchStructure.swift */,
-				0305AF242857240E009398A6 /* CompetitionsStructure.swift */,
+				0305AF2828583C2E009398A6 /* ContentModel.swift */,
+				0305AF2E28583C8E009398A6 /* CompetitionModel.swift */,
+				0305AF2A28583C59009398A6 /* TeamModel.swift */,
+				0305AF2C28583C71009398A6 /* MatchModel.swift */,
 			);
 			path = DataStructure;
 			sourceTree = "<group>";
@@ -179,6 +181,7 @@
 				03CF3DA8284F3D1A00200D02 /* NetworkManager.swift */,
 				03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */,
 				0305AF112850877C009398A6 /* QueryService.swift */,
+				0305AF2628574354009398A6 /* NetworkManagers.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -322,17 +325,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0305AF212856E991009398A6 /* ContentsStructure.swift in Sources */,
+				0305AF2728574354009398A6 /* NetworkManagers.swift in Sources */,
 				03CF3DAB284F3D1A00200D02 /* NetworkManager.swift in Sources */,
+				0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
+				0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */,
 				03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */,
+				0305AF2B28583C59009398A6 /* TeamModel.swift in Sources */,
 				032AB211284E01C400C6A83A /* ViewController.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,
-				0305AF252857240E009398A6 /* CompetitionsStructure.swift in Sources */,
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,
-				0305AF23285723F5009398A6 /* MatchStructure.swift in Sources */,
-				0305AF1F2856419F009398A6 /* TeamStructure.swift in Sources */,
 				0305AF1B28563C5E009398A6 /* ResponseStructure.swift in Sources */,
+				0305AF2F28583C8E009398A6 /* CompetitionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

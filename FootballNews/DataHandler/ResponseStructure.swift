@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - QueryTeam
-struct ResponseStructure<T: Codable>: Codable {
+struct ResponseModel<T: Codable>: Codable {
     
     let data: T
     let errorCode: Int

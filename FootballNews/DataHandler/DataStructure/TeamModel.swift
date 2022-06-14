@@ -10,7 +10,7 @@
 import Foundation
 
 // MARK: - DataClass [Team]
-struct TeamData: Codable {
+struct TeamModel: Codable {
     
     var soccerTeams: [SoccerTeam]
     

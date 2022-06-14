@@ -11,9 +11,9 @@
 import Foundation
 
 // MARK: - DataClass [Contents]
-struct ContentsData: Codable {
+struct ContentModel: Codable {
     
-    let contents: [Contents]
+    let contents: [Content]
     let boxes: [Box]
     
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ struct ContentsData: Codable {
 }
 
 // MARK: - Contents ===========================
-struct Contents: Codable {
+struct Content: Codable {
     
     let contentID: Int
     let title: String
@@ -42,8 +42,8 @@ struct Contents: Codable {
     let categoryName: String
 
     let avatar: String
-    let images: [ImagesContents]
-    let tags: [Tags]?
+    let images: [ImageContents]
+    let tags: [Tag]?
     
     let attributes: Int
     let commentCount: Int
@@ -70,7 +70,7 @@ struct Contents: Codable {
 }
 
 // MARK: - ImagesContents
-struct ImagesContents: Codable {
+struct ImageContents: Codable {
     
     let url: String
     let width: Int
@@ -86,7 +86,7 @@ struct ImagesContents: Codable {
 }
 
 // MARK: - Tags
-struct Tags: Codable {
+struct Tag: Codable {
     
     let name: String
     let segmentID: Int
@@ -114,7 +114,7 @@ struct Box: Codable {
     //let segmentIDS
     let objectType: Int
     let soccerMatches: [SoccerMatch]? //Struct from MatchStructure
-    let soccerCompetitions: [Competition]?
+    let soccerCompetitions: [Competition]? // Struct from CompetitionsStructure
     //let zone
     let maxShow: Int?
     let positions: [Int]?
@@ -134,29 +134,6 @@ struct Box: Codable {
         case maxShow = "max_show"
         case positions
         //case videos
-    }
-    
-}
-
-// MARK: - Competition
-struct Competition: Codable {
-    
-    let competitionID: Int
-    let competitionName: String
-    let competitionLogo: String
-    let countryID: Int
-    let countryName: String?
-    let zone: String
-    
-    enum CodingKeys: String, CodingKey {
-        
-        case competitionID = "competition_id"
-        case competitionName = "competition_name"
-        case competitionLogo = "competition_logo"
-        case countryID = "country_id"
-        case countryName = "country_name"
-        case zone
-        
     }
     
 }

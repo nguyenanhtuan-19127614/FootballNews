@@ -7,7 +7,7 @@
 import Foundation
 
 // MARK: - DataClass [Match]
-struct MatchData: Codable {
+struct MatchModel: Codable {
     
     let soccerMatch: [SoccerMatch]
 

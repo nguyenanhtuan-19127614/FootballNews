@@ -40,14 +40,26 @@ class NetworkDownloadOperation: Operation {
             
         }
         
-        do {
+        let gr = DispatchGroup()
         
-            self.response = try self.downloader.networkManager.callApi(self.url, .GET, nil)
-            
-        } catch {
-            
-            print(error.localizedDescription)
-            
+        if let session = downloader.session {
+            gr.enter()
+            self.downloader.startCallApi(self.url, .GET, session: session) {
+                
+                result in
+                
+                switch result {
+                    
+                case .success(let res):
+                    self.response = res
+                    
+                case .failure(let err):
+                    print(err)
+                
+                }
+                gr.leave()
+            }
+            gr.wait()
         }
     
     }
@@ -59,10 +71,27 @@ class ImageDownloader:  NetworkManagerProtocol {
     //Singleton
     static let sharedService = ImageDownloader()
     
+    //Constant (Use to config sessoin)
+    private let timeoutForRequest = TimeInterval(30)
+    private let timeoutForResource = TimeInterval(60)
+    
+    private let sessionConfig = URLSessionConfiguration.default
+    
+    var session: URLSession?
+    
+    //Operation queue to manage download
+    let operationQueue = OperationQueue()
+    
+    //Private Init
     private init() {
         
-        //Create Delegate
-        networkManager.delegate = self
+        //Create session
+        sessionConfig.timeoutIntervalForRequest = timeoutForRequest
+        sessionConfig.timeoutIntervalForResource = timeoutForResource
+        
+        self.session = URLSession(configuration: sessionConfig,
+                                  delegate: nil,
+                                  delegateQueue: operationQueue)
         
         //Config Operation Queue
         operationQueue.maxConcurrentOperationCount = 5
@@ -71,13 +100,8 @@ class ImageDownloader:  NetworkManagerProtocol {
         operationQueue.underlyingQueue = dispatchQueue
         
     }
-    //Operation queue to manage download
-    let operationQueue = OperationQueue()
     
-    //Base delegation class
-    let networkManager = NetworkManager()
     
-
     
     //MARK: Main function, use this for download
     func download (url: String,

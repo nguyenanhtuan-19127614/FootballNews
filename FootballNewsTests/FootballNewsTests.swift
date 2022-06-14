@@ -35,45 +35,18 @@ class FootballNewsTests: XCTestCase {
     
     func testNetwork() {
        
-        //let link1: String = "https://bm-fresher.herokuapp.com/api/teams/highlights"
-        let link2: String = "https://bm-fresher.herokuapp.com/api/teams/search?name=manchester"
-     
-        //let queryItem = ["name":""]
-        
-        QueryService.sharedService.get(url: link2 ) {
-
-        (result: Result<ResponseStructure<TeamData>, Error>) in
-
+        QueryService.sharedService.get(MatchAPITarget.Detail(matchID: "10021")) {(result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
+                
             case .success(let res):
-            
                 print(res)
-                
-                
-                //print(res.data.boxes[0].soccerMatches[0])
-                
+       
             case .failure(let err):
                 print(err)
-
+                
             }
-
+            
         }
-//
-//        QueryService.sharedService.get(url: link1, queryItems: queryItem ) {
-//
-//        (result: Result<ResponseStructure<TeamData>, Error>) in
-//
-//            switch result {
-//            case .success(let res):
-//
-//                print(res)
-//
-//            case .failure(let err):
-//                print(err)
-//
-//            }
-//
-//        }
     
         RunLoop.main.run()
         
@@ -86,7 +59,7 @@ class FootballNewsTests: XCTestCase {
         let link2 = "https://i.picsum.photos/id/248/500/300.jpg?hmac=-nNcVN6EFbe_pRMbHedsknzyODQbQI8jCaLiGGJLP60"
         let link3 = "https://i.picsum.photos/id/865/500/300.jpg?hmac=Rb8FuZL0U3MTnQZzXtnaHw7CPXPmN7HGAKcBLrMR3uE"
         let links = [link1, link2 , link3, link1, link2]
-//
+
         let gr = DispatchGroup()
         
         for i in links {

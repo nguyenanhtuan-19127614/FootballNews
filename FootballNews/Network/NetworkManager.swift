@@ -46,20 +46,125 @@ enum HttpMethod: String {
     
 }
 
+//MARK: API Enum
+protocol APITarget {
+    
+    var link: String { get }
+  
+}
+
+// Team API
+enum TeamAPITarget: APITarget {
+    
+    case Detail(teamID: String)
+    case Search(name: String)
+    case Highlights
+    
+    var link: String {
+        
+        switch self {
+            
+        case.Detail(teamID: let teamID):
+            return "https://bm-fresher.herokuapp.com/api/teams/detail?team_id=" + teamID
+            
+        case .Search(name: let name):
+            return "https://bm-fresher.herokuapp.com/api/teams/search?name=" + name
+            
+        case .Highlights:
+            return "https://bm-fresher.herokuapp.com/api/teams/highlights"
+            
+        }
+    }
+}
+
+//Contents API
+enum ContentAPITarget: APITarget {
+    
+    case Detail(contentID: String)
+    case Home
+    case Team(teamID: String)
+    case Comp(id: String)
+    case Match(id: String)
+    case Zone(zone: String)
+    
+    var link: String {
+        
+        switch self {
+        case .Detail(let contentID):
+            return "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=" + contentID
+            
+        case .Home:
+            return "https://bm-fresher.herokuapp.com/api/contents/home"
+            
+        case .Team(let teamID):
+            return "https://bm-fresher.herokuapp.com/api/contents/team?id=" + teamID
+            
+        case .Comp(let id):
+            return "https://bm-fresher.herokuapp.com/api/contents/comp?id=" + id
+            
+        case .Match(let id):
+            return "https://bm-fresher.herokuapp.com/api/contents/match?id=" + id
+            
+        case .Zone(let zone):
+            return "https://bm-fresher.herokuapp.com/api/contents/team?zone=" + zone
+            
+        }
+    }
+}
+
+//Match API
+enum MatchAPITarget: APITarget {
+    
+    case Detail(matchID: String)
+    case MatchByDate(compID: String, date: String)
+    
+    var link: String {
+        
+        switch self {
+            
+        case .Detail(let matchID):
+            return "https://bm-fresher.herokuapp.com/api/matches/detail?match_id=" + matchID
+            
+        case .MatchByDate(let compID, let date):
+            return "https://bm-fresher.herokuapp.com/api/matches/by-date?competition_id=\(compID)&date=\(date)"
+            
+        }
+    }
+}
+
+//Competition API
+enum CompetitionAPITarget: APITarget {
+    
+    case Standing(id: String)
+    case Hot
+    
+    var link: String {
+        
+        switch self {
+        case .Standing(let id):
+            return "https://bm-fresher.herokuapp.com/api/competitions/standings?id=" + id
+            
+        case .Hot:
+            return "https://bm-fresher.herokuapp.com/api/competitions/hot"
+            
+        }
+    }
+}
 /****
-Delegation Protocol
+Protocol
  */
 protocol NetworkManagerProtocol: AnyObject {
         
     func startCallApi (_ url: String,
                        _ method: HttpMethod,
-                       _ queryItems: [String : String]?,
                        session: URLSession,
                        completion: @escaping (Result<Response, Error>) -> Void)
     
 }
 
 extension NetworkManagerProtocol {
+    
+    
     
     /* Create Query String
     Parameters:
@@ -89,22 +194,14 @@ extension NetworkManagerProtocol {
     //startCallApi
     func startCallApi (_ url: String,
                        _ method: HttpMethod,
-                       _ queryItems: [String : String]?,
                        session: URLSession,
                        completion: @escaping (Result<Response, Error>) -> Void) {
         
         //Create URL Components
-        guard var urlComponent = URLComponents(string: url) else {
+        guard let urlComponent = URLComponents(string: url) else {
             
             completion(.failure(ManagerErrors.BadURL))
             return
-            
-        }
-        
-        //Add query string (if exist)
-        if let queryItems = queryItems {
-            
-            urlComponent.query = createQueryString(queryItems: queryItems)
             
         }
         
@@ -117,6 +214,8 @@ extension NetworkManagerProtocol {
         request.allHTTPHeaderFields = [
             _headerFields.0: _headerFields.1
         ]
+        
+        
         
         let dataTask = session.dataTask(with: request) {
             
@@ -148,107 +247,32 @@ extension NetworkManagerProtocol {
             
             completion(.success(responseBody))
             
-      
         }
         
         dataTask.resume()
-    
+        
     }
     
 }
 
-// MARK: MULTICAST CLASS
-class NetworkManager: NSObject, URLSessionDelegate {
-    
-    //Delegation
-    weak var delegate: NetworkManagerProtocol?
-    
-    //Constant (Use to config sessoin)
-    private let timeoutForRequest = TimeInterval(30)
-    private let timeoutForResource = TimeInterval(60)
-    let operationQueue = OperationQueue()
-    
-    private let sessionConfig = URLSessionConfiguration.default
-    
-    private var session: URLSession?
-   
-    
-    //INIT
-    override init() {
-        
-        super.init()
-        
-        //create session
-        sessionConfig.timeoutIntervalForRequest = timeoutForRequest
-        sessionConfig.timeoutIntervalForResource = timeoutForResource
-        
-        self.session = URLSession(configuration: sessionConfig,
-                                  delegate: self,
-                                  delegateQueue: operationQueue)
-        
-        print("Create Network Manager")
-        
-    }
-    //DELEGATE FUNCTION
-    
-    /*  Call API
-    Parameters:
-    - url: url to call API
-    - httpMethod: GET, POST,...
-    - queryItem: query data
-    Output:
-    -> Raw Response (data, response, error)
-    */
-    
-    func callApi(_ url: String,
-                 _ method: HttpMethod,
-                 _ queryItems: [String: String]?) throws -> Response {
-        
-        var response: Response?
-        
-        if let delegate = delegate {
-            
-            guard let session = session else {
-                
-                throw(ManagerErrors.NullSession)
-                
-            }
-            
-            //Use dispatchGroup for waiting execution finish
-            let dispatchGroup = DispatchGroup()
-            dispatchGroup.enter()
-            
-            delegate.startCallApi(url, method, queryItems, session: session) {
-                
-                result in
-                switch result {
-                    
-                case .success(let res):
-                    response = res
-                    
-                case .failure(let err):
-                    print(err)
-                    
-                }
-                
-                dispatchGroup.leave()
-                
-            }
-            
-            dispatchGroup.wait()
-            
-        } else {
-            
-            throw(ManagerErrors.NullDelegation)
-            
-        }
-        
-        guard let response = response else {
-            throw(ManagerErrors.BadData)
-        }
-        
-        return response
-        
-    }
-    
-}
+
+
+
+//URLRequest - protocol
+//baseURL, queryItems, headers, method (POST, GET)
+//
+//Converter -> (URLTarget) convert -> URLSessionDataTask
+//OperationQueue
+//
+//NetworkCaller -> (URLTarget) -> Converter -> URLSessionDataTask => call api via URLSession
+//
+//
+//
+//enum TeamAPITarget: URLTarget {
+//    case detail(id: String)
+//    case highlight(id: String)
+//}
+//
+//NetworkCaller.shared.call(TeamAPITarget.detail(id: "1")) { (response: )
+//    
+//}
