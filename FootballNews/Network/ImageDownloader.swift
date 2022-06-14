@@ -119,7 +119,8 @@ class ImageDownloader:  NetworkManager {
             completion(.failure(ManagerErrors.NullSession))
             return
         }
-
+        
+       
         let customOperation = NetworkDownloadOperation(url: url, session: downlaodSession )
 
         
@@ -140,8 +141,8 @@ class ImageDownloader:  NetworkManager {
             }
             
             //Store image data to cache
-            
             if let data = response._data {
+                
                 
                 ImageCache.sharedCache[url] = data
                 completion(.success(data))

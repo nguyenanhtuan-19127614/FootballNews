@@ -34,8 +34,10 @@ class FootballNewsTests: XCTestCase {
     }
     
     func testNetwork() {
-       
-        QueryService.sharedService.get(MatchAPITarget.Detail(matchID: "10021")) {(result: Result<ResponseModel<MatchModel>, Error>) in
+        
+        
+        
+        QueryService.sharedService.get(MatchAPITarget.detail(matchID: "10234")) {(result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
                 
             case .success(let res):
@@ -47,7 +49,18 @@ class FootballNewsTests: XCTestCase {
             }
             
         }
-    
+        
+        QueryService.sharedService.get(MatchAPITarget.detail(matchID: "10323")) {(result: Result<ResponseModel<MatchModel>, Error>) in
+            switch result {
+                
+            case .success(let res):
+                print(res)
+       
+            case .failure(let err):
+                print(err)
+                
+            }
+        }
         RunLoop.main.run()
         
     }
@@ -67,21 +80,23 @@ class FootballNewsTests: XCTestCase {
             ImageDownloader.sharedService.download(url: i) {
 
                 result in
-                
+
                 switch result {
-                    
+
                 case .success(let res):
                     print(res)
-                   
+
                 case .failure(let err):
                     print(err)
-                   
+
                 }
                 gr.leave()
             }
             gr.wait()
         }
         
+        
+       
         RunLoop.main.run()
         
     }

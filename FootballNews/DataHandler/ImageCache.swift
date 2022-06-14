@@ -21,7 +21,7 @@ class ImageCache {
     //Cache config
     private let lock = NSLock()
     private let countLimit = 20
-    //private let memoryLimit = 1024 * 1024 * 5
+    private let memoryLimit = 1024 * 1024 * 5
     
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         
@@ -32,6 +32,7 @@ class ImageCache {
         return cache
         
     }()
+    
     
     func getCache() -> NSCache<AnyObject, AnyObject> {
         
@@ -51,7 +52,10 @@ class ImageCache {
             
         }
         
-        imageCache.setObject(imgData as AnyObject, forKey: url as AnyObject)
+        //cost of image base on size
+        let cost: Int = imgData.count
+        //store image to cache
+        imageCache.setObject(imgData as AnyObject, forKey: url as AnyObject, cost: cost)
 
     }
     

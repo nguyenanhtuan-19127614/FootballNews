@@ -56,21 +56,21 @@ protocol APITarget {
 // Team API
 enum TeamAPITarget: APITarget {
     
-    case Detail(teamID: String)
-    case Search(name: String)
-    case Highlights
+    case detail(teamID: String)
+    case search(name: String)
+    case highlights
     
     var link: String {
         
         switch self {
             
-        case.Detail(teamID: let teamID):
+        case.detail(teamID: let teamID):
             return "https://bm-fresher.herokuapp.com/api/teams/detail?team_id=" + teamID
             
-        case .Search(name: let name):
+        case .search(name: let name):
             return "https://bm-fresher.herokuapp.com/api/teams/search?name=" + name
             
-        case .Highlights:
+        case .highlights:
             return "https://bm-fresher.herokuapp.com/api/teams/highlights"
             
         }
@@ -80,32 +80,32 @@ enum TeamAPITarget: APITarget {
 //Contents API
 enum ContentAPITarget: APITarget {
     
-    case Detail(contentID: String)
-    case Home
-    case Team(teamID: String)
-    case Comp(id: String)
-    case Match(id: String)
-    case Zone(zone: String)
+    case detail(contentID: String)
+    case home
+    case team(teamID: String)
+    case comp(id: String)
+    case match(id: String)
+    case zone(zone: String)
     
     var link: String {
         
         switch self {
-        case .Detail(let contentID):
+        case .detail(let contentID):
             return "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=" + contentID
             
-        case .Home:
+        case .home:
             return "https://bm-fresher.herokuapp.com/api/contents/home"
             
-        case .Team(let teamID):
+        case .team(let teamID):
             return "https://bm-fresher.herokuapp.com/api/contents/team?id=" + teamID
             
-        case .Comp(let id):
+        case .comp(let id):
             return "https://bm-fresher.herokuapp.com/api/contents/comp?id=" + id
             
-        case .Match(let id):
+        case .match(let id):
             return "https://bm-fresher.herokuapp.com/api/contents/match?id=" + id
             
-        case .Zone(let zone):
+        case .zone(let zone):
             return "https://bm-fresher.herokuapp.com/api/contents/team?zone=" + zone
             
         }
@@ -115,17 +115,17 @@ enum ContentAPITarget: APITarget {
 //Match API
 enum MatchAPITarget: APITarget {
     
-    case Detail(matchID: String)
-    case MatchByDate(compID: String, date: String)
+    case detail(matchID: String)
+    case matchByDate(compID: String, date: String)
     
     var link: String {
         
         switch self {
             
-        case .Detail(let matchID):
+        case .detail(let matchID):
             return "https://bm-fresher.herokuapp.com/api/matches/detail?match_id=" + matchID
             
-        case .MatchByDate(let compID, let date):
+        case .matchByDate(let compID, let date):
             return "https://bm-fresher.herokuapp.com/api/matches/by-date?competition_id=\(compID)&date=\(date)"
             
         }
@@ -135,16 +135,16 @@ enum MatchAPITarget: APITarget {
 //Competition API
 enum CompetitionAPITarget: APITarget {
     
-    case Standing(id: String)
-    case Hot
+    case standing(id: String)
+    case hot
     
     var link: String {
         
         switch self {
-        case .Standing(let id):
+        case .standing(let id):
             return "https://bm-fresher.herokuapp.com/api/competitions/standings?id=" + id
             
-        case .Hot:
+        case .hot:
             return "https://bm-fresher.herokuapp.com/api/competitions/hot"
             
         }
@@ -153,8 +153,9 @@ enum CompetitionAPITarget: APITarget {
 
 //MARK: ParentClass
 
-class NetworkManager {
+class NetworkManager  {
     
+   
     /* Create Query String
     Parameters:
     - queryItems: Dictionary with query value as [key:item]
