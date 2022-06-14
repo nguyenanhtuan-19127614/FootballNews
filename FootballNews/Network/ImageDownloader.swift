@@ -17,18 +17,17 @@ class NetworkDownloadOperation: Operation {
     
     var response: Response?
     var url: String = ""
+    var session: URLSession
     
-    var downloader: ImageDownloader
-    
-    init(_ manager: ImageDownloader) {
+    init(url: String, session: URLSession) {
         
-        downloader = manager
+        self.url = url
+        self.session = session
         
     }
     
-    func setupOperation(url: String) {
-        
-        self.url = url
+    deinit {
+        print("♻️ Deallocating Download Operation from memory")
         
     }
     
@@ -42,31 +41,29 @@ class NetworkDownloadOperation: Operation {
         
         let gr = DispatchGroup()
         
-        if let session = downloader.session {
-            gr.enter()
-            self.downloader.startCallApi(self.url, .GET, session: session) {
+        gr.enter()
+        ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) {
+            
+            result in
+            
+            switch result {
                 
-                result in
+            case .success(let res):
+                self.response = res
                 
-                switch result {
-                    
-                case .success(let res):
-                    self.response = res
-                    
-                case .failure(let err):
-                    print(err)
-                
-                }
-                gr.leave()
+            case .failure(let err):
+                print(err)
+            
             }
-            gr.wait()
+            gr.leave()
         }
+        gr.wait()
     
     }
 }
 
 //MARK: Class Image Downloader
-class ImageDownloader:  NetworkManagerProtocol {
+class ImageDownloader:  NetworkManager {
 
     //Singleton
     static let sharedService = ImageDownloader()
@@ -77,19 +74,19 @@ class ImageDownloader:  NetworkManagerProtocol {
     
     private let sessionConfig = URLSessionConfiguration.default
     
-    var session: URLSession?
+    var downlaodSession: URLSession?
     
     //Operation queue to manage download
     let operationQueue = OperationQueue()
     
     //Private Init
-    private init() {
+    override private init() {
         
         //Create session
         sessionConfig.timeoutIntervalForRequest = timeoutForRequest
         sessionConfig.timeoutIntervalForResource = timeoutForResource
         
-        self.session = URLSession(configuration: sessionConfig,
+        self.downlaodSession = URLSession(configuration: sessionConfig,
                                   delegate: nil,
                                   delegateQueue: operationQueue)
         
@@ -118,8 +115,13 @@ class ImageDownloader:  NetworkManagerProtocol {
             
         }
         
-        let customOperation = NetworkDownloadOperation(self)
-        customOperation.setupOperation(url: url)
+        guard let downlaodSession = downlaodSession else {
+            completion(.failure(ManagerErrors.NullSession))
+            return
+        }
+
+        let customOperation = NetworkDownloadOperation(url: url, session: downlaodSession )
+
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {

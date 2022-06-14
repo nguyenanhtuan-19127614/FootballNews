@@ -36,9 +36,9 @@ enum ManagerErrors: Error {
     
 }
 
-/****
-HTTP METHOD
- */
+
+//MARK: HTTP METHOD
+
 enum HttpMethod: String {
     
     case GET
@@ -150,21 +150,10 @@ enum CompetitionAPITarget: APITarget {
         }
     }
 }
-/****
-Protocol
- */
-protocol NetworkManagerProtocol: AnyObject {
-        
-    func startCallApi (_ url: String,
-                       _ method: HttpMethod,
-                       session: URLSession,
-                       completion: @escaping (Result<Response, Error>) -> Void)
-    
-}
 
-extension NetworkManagerProtocol {
-    
-    
+//MARK: ParentClass
+
+class NetworkManager {
     
     /* Create Query String
     Parameters:

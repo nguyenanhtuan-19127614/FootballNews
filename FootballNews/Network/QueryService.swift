@@ -17,22 +17,22 @@ import Foundation
 //MARK: Class custom Operation
 class QueryServiceOperation: Operation {
     
+    
     var response: Response?
     var url: String = ""
     var method: HttpMethod = .GET
-   
-    var service: QueryService
+    var session: URLSession
     
-    init(_ manager: QueryService) {
-        
-        service = manager
-        
-    }
-    
-    func setupOperation(url: String, method: HttpMethod) {
+    init(url: String, method: HttpMethod, session: URLSession) {
         
         self.url = url
         self.method = method
+        self.session = session
+        
+    }
+    
+    deinit {
+        print("♻️ Deallocating Query Operation from memory")
         
     }
     
@@ -46,31 +46,29 @@ class QueryServiceOperation: Operation {
         
         let gr = DispatchGroup()
         
-        if let session = service.session {
-            gr.enter()
-            self.service.startCallApi(self.url, self.method, session: session) {
+        gr.enter()
+        QueryService.sharedService.startCallApi(self.url, self.method, session: session) {
+            
+            result in
+            
+            switch result {
                 
-                result in
+            case .success(let res):
+                self.response = res
                 
-                switch result {
-                    
-                case .success(let res):
-                    self.response = res
-                    
-                case .failure(let err):
-                    print(err)
-                
-                }
-                gr.leave()
+            case .failure(let err):
+                print(err)
+            
             }
-            gr.wait()
+            gr.leave()
         }
+        gr.wait()
     }
 }
 
 //MARK: DELEGATION CLASS - QUERY DATA API
 
-class QueryService: NetworkManagerProtocol {
+class QueryService: NetworkManager {
     
     
     //Singleton
@@ -82,19 +80,19 @@ class QueryService: NetworkManagerProtocol {
     
     private let sessionConfig = URLSessionConfiguration.default
     
-    var session: URLSession?
+    var querySession: URLSession?
     
     //Operation queue to manage download
     let operationQueue = OperationQueue()
     
     //Private Init
-    private init() {
+    override private init() {
         
         //Create session
         sessionConfig.timeoutIntervalForRequest = timeoutForRequest
         sessionConfig.timeoutIntervalForResource = timeoutForResource
         
-        self.session = URLSession(configuration: sessionConfig,
+        self.querySession = URLSession(configuration: sessionConfig,
                                   delegate: nil,
                                   delegateQueue: operationQueue)
         
@@ -104,7 +102,9 @@ class QueryService: NetworkManagerProtocol {
         operationQueue.underlyingQueue = dispatchQueue
 
     }
-  
+    
+    
+    
     
     //MARK: Decode Data Function
     
@@ -118,10 +118,13 @@ class QueryService: NetworkManagerProtocol {
     func get<T: Codable> (_ api: APITarget,
                            completion: @escaping ( Result<T,Error> ) -> Void ) {
         
-        let customOperation = QueryServiceOperation(self)
+        guard let querySession = querySession else {
+            
+            return
+            
+        }
+        let customOperation = QueryServiceOperation(url: api.link, method: .GET, session: querySession)
         
-        
-        customOperation.setupOperation(url: api.link, method: .GET)
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
