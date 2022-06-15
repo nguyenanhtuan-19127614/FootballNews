@@ -37,11 +37,11 @@ class FootballNewsTests: XCTestCase {
         
         
         
-        QueryService.sharedService.get(MatchAPITarget.detail(matchID: "10234")) {(result: Result<ResponseModel<MatchModel>, Error>) in
+        QueryService.sharedService.get(ContentAPITarget.home) {(result: Result<ResponseModel<ContentModel>, Error>) in
             switch result {
                 
             case .success(let res):
-                print(res)
+               print(res)
        
             case .failure(let err):
                 print(err)
@@ -50,17 +50,6 @@ class FootballNewsTests: XCTestCase {
             
         }
         
-        QueryService.sharedService.get(MatchAPITarget.detail(matchID: "10323")) {(result: Result<ResponseModel<MatchModel>, Error>) in
-            switch result {
-                
-            case .success(let res):
-                print(res)
-       
-            case .failure(let err):
-                print(err)
-                
-            }
-        }
         RunLoop.main.run()
         
     }

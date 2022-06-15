@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let viewController = ViewController()
+        
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.isTranslucent = false
+        navController.navigationBar.backgroundColor = .orange
+        
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
         return true
