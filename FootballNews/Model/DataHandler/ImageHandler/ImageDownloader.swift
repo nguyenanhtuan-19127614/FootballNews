@@ -107,7 +107,7 @@ class ImageDownloader:  NetworkManager {
              completion: @escaping ( Result<Data,Error> ) -> Void ) {
         
         //Check if image is in cache
-        if let imageCache = ImageCache.sharedCache[url] {
+        if let imageCache = ImageCache.shared.getImageData(url: url) {
             
             print("Image is already in cache")
             completion(.success(imageCache))
@@ -144,7 +144,7 @@ class ImageDownloader:  NetworkManager {
             if let data = response._data {
                 
                 
-                ImageCache.sharedCache[url] = data
+                ImageCache.shared.addImage(imgData: data, url: url)
                 completion(.success(data))
                 
             }

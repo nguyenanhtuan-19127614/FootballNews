@@ -15,11 +15,10 @@ import UIKit
 class ImageCache {
     
     //Singleton
-    static var sharedCache = ImageCache()
+    static var shared = ImageCache()
     private init() {}
     
     //Cache config
-    private let lock = NSLock()
     private let countLimit = 20
     private let memoryLimit = 1024 * 1024 * 5
     
@@ -27,7 +26,7 @@ class ImageCache {
         
         let cache = NSCache<AnyObject, AnyObject>()
         cache.countLimit = self.countLimit
-        //cache.totalCostLimit = self.memoryLimit
+        cache.totalCostLimit = self.memoryLimit
         
         return cache
         
@@ -45,13 +44,6 @@ class ImageCache {
             return
         }
         
-        lock.lock()
-        defer {
-            
-            lock.unlock()
-            
-        }
-        
         //cost of image base on size
         let cost: Int = imgData.count
         //store image to cache
@@ -61,41 +53,20 @@ class ImageCache {
     
     func removeImage(url: String) {
         
-        lock.lock()
-        defer {
-            
-            lock.unlock()
-            
-        }
         imageCache.removeObject(forKey: url as AnyObject)
         
     }
     
     func removeAll() {
         
-        lock.lock()
-        defer {
-            
-            lock.unlock()
-            
-        }
         imageCache.removeAllObjects()
         
     }
     
-    subscript (_ key: String) -> Data? {
+    func getImageData(url: String) -> Data? {
         
-        get {
-            
-            return imageCache.object(forKey: key as AnyObject) as? Data
-            
-        }
-        
-        set {
-            
-            addImage(imgData: newValue, url: key)
-            
-        }
+        return imageCache.object(forKey: url as AnyObject) as? Data
         
     }
+    
 }
