@@ -8,55 +8,84 @@
 import Foundation
 import UIKit
 
-extension UIImageView {
+fileprivate class LoadImageOperation: CustomOperation {
     
-    
-    func loadImage(url: String) {
-        var tempData = Data()
-        let gr = DispatchGroup()
-        gr.enter()
-        ImageDownloader.sharedService.download(url: url) { [weak self] result in
+    var imgData: Data?
+
+    override func main() {
+        
+        if isCancelled {
             
-            //print("dsadasdasdas")
+            return
+            
+        }
+        
+        ImageDownloader.sharedService.download(url: self.url) { [weak self] result in
+            
             switch result {
            
             case .success(let data):
                 
-                tempData = data
-                DispatchQueue.main.async {
-                    self?.image = UIImage(data: tempData)
-                }
-                
+                self?.imgData = data
+                self?.finish()
+                                
             case .failure(let err):
                 print(err)
                 
             }
-            gr.leave()
         }
         
-        gr.wait()
+    }
+}
+
+extension UIImageView {
+    
+    
+    func loadImage(url: String?) {
         
-//        gr.enter()
-//        ImageDownloader.sharedService.download(url: url) { [weak self] result in
+        guard let url = url else {
+            return
+        }
+        
+//        let operationQueue = OperationQueue()
+//        let customOperation = LoadImageOperation(url: url)
+//        customOperation.completionBlock = {
 //
-//            switch result {
+//            if let imgData = customOperation.imgData {
 //
-//            case .success(let data):
-//
-//                tempData = data
 //                DispatchQueue.main.async {
-//                    self?.image = UIImage(data: tempData)
+//
+//                    self.image = UIImage(data: imgData)
+//
 //                }
 //
-//            case .failure(let err):
-//                print(err)
 //            }
 //
-//            gr.leave()
 //        }
-//        gr.wait()
+//
+//        operationQueue.addOperation(customOperation)
         
-       
+        let gr = DispatchGroup()
+        gr.enter()
+        ImageDownloader.sharedService.download(url: url) { [weak self] result in
 
+            //print("dsadasdasdas")
+            switch result {
+
+            case .success(let data):
+
+                DispatchQueue.main.async {
+                    self?.image = UIImage(data: data)
+                }
+
+            case .failure(let err):
+                print(err)
+
+            }
+            gr.leave()
+        }
+
+        gr.wait()
+        
     }
 }

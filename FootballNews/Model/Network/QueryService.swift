@@ -15,26 +15,8 @@ import Foundation
 
 
 //MARK: Class custom Operation
-class QueryServiceOperation: Operation {
+fileprivate class QueryServiceOperation: CustomOperation {
     
-    
-    var response: Response?
-    var url: String = ""
-    var method: HttpMethod = .GET
-    var session: URLSession
-    
-    init(url: String, method: HttpMethod, session: URLSession) {
-        
-        self.url = url
-        self.method = method
-        self.session = session
-        
-    }
-    
-    deinit {
-        print("♻️ Deallocating Query Operation from memory")
-        
-    }
     
     override func main() {
     
@@ -44,25 +26,25 @@ class QueryServiceOperation: Operation {
             
         }
         
-        let gr = DispatchGroup()
-        
-        gr.enter()
         QueryService.sharedService.startCallApi(self.url, self.method, session: session) {
             
+            [weak self]
             result in
             
             switch result {
                 
             case .success(let res):
-                self.response = res
+                
+                self?.response = res       
+                self?.finish()
                 
             case .failure(let err):
                 print(err)
             
             }
-            gr.leave()
+
         }
-        gr.wait()
+
     }
 }
 

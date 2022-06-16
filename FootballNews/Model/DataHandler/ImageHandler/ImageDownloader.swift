@@ -13,74 +13,7 @@ import UIKit
 //Use
 
 //MARK: Class custom Operation
-class NetworkDownloadOperation: Operation {
-    
-    var response: Response?
-    var url: String = ""
-    var session: URLSession
-    private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
-    
-    init(url: String, session: URLSession) {
-        
-        self.url = url
-        self.session = session
-        
-    }
-    
-    deinit {
-        print("♻️ Deallocating Download Operation from memory")
-        
-    }
-    
-    
-  
-
-    override var isAsynchronous: Bool {
-        return true
-    }
-
-    private var _isExecuting: Bool = false
-    override private(set) var isExecuting: Bool {
-        get {
-            return lockQueue.sync { () -> Bool in
-                return _isExecuting
-            }
-        }
-        set {
-            willChangeValue(forKey: "isExecuting")
-            lockQueue.sync(flags: [.barrier]) {
-                _isExecuting = newValue
-            }
-            didChangeValue(forKey: "isExecuting")
-        }
-    }
-
-    private var _isFinished: Bool = false
-    override private(set) var isFinished: Bool {
-        get {
-            return lockQueue.sync { () -> Bool in
-                return _isFinished
-            }
-        }
-        set {
-            willChangeValue(forKey: "isFinished")
-            lockQueue.sync(flags: [.barrier]) {
-                _isFinished = newValue
-            }
-            didChangeValue(forKey: "isFinished")
-        }
-    }
-
-    override func start() {
-        
-        print("Starting Download")
-        guard !isCancelled else { return }
-        
-        isFinished = false
-        isExecuting = true
-        main()
-        
-    }
+fileprivate class NetworkDownloadOperation: CustomOperation {
     
     override func main() {
     
@@ -90,20 +23,15 @@ class NetworkDownloadOperation: Operation {
             
         }
 
-        ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) {
-            
-            [weak self]
-            result in
+        ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) { [weak self] result in
             
             switch result {
                 
             case .success(let res):
+                
                 self?.response = res
-                
-                self?.isExecuting = false
-                self?.isFinished = true
-                
-                
+                self?.finish()
+       
             case .failure(let err):
                 print(err)
             

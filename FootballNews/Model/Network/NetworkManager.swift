@@ -245,6 +245,98 @@ class NetworkManager  {
     
 }
 
+class CustomOperation: Operation {
+    
+    var response: Response?
+    var url: String = ""
+    var method: HttpMethod = .GET
+    var session: URLSession
+    private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
+    
+    init(url: String) {
+        
+        self.url = url
+        self.session = URLSession()
+    }
+    
+    init(url: String,method: HttpMethod = .GET, session: URLSession) {
+        
+        self.url = url
+        self.session = session
+        self.method = method
+    }
+    
+    deinit {
+        print("♻️ Deallocating Download Operation from memory")
+        
+    }
+
+    override var isAsynchronous: Bool {
+        return true
+    }
+    
+    //avoid get-only isExecuting
+    public var _isExecuting: Bool = false
+    override private(set) var isExecuting: Bool {
+        
+        get {
+            return lockQueue.sync { () -> Bool in
+                return _isExecuting
+            }
+        }
+        
+        set {
+            willChangeValue(forKey: "isExecuting")
+            lockQueue.sync(flags: [.barrier]) {
+                _isExecuting = newValue
+            }
+            didChangeValue(forKey: "isExecuting")
+        }
+        
+    }
+    
+    public var _isFinished: Bool = false
+    override private(set) var isFinished: Bool {
+        
+        get {
+            
+            return lockQueue.sync { () -> Bool in
+                return _isFinished
+            }
+            
+        }
+        
+        set {
+            
+            willChangeValue(forKey: "isFinished")
+            lockQueue.sync(flags: [.barrier]) {
+                _isFinished = newValue
+            }
+            didChangeValue(forKey: "isFinished")
+            
+        }
+    }
+
+    override func start() {
+        
+        //print("Starting Operation")
+        guard !isCancelled else { return }
+        
+        isFinished = false
+        isExecuting = true
+        main()
+        
+    }
+    
+    func finish() {
+        
+        isExecuting = false
+        isFinished = true
+        
+    }
+    
+    
+}
 
 
 
