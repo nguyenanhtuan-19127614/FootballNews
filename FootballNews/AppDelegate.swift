@@ -17,14 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         let viewController = ViewController()
         
-        let navController = UINavigationController(rootViewController: viewController)
+        let tabController = UITabBarController()
+        tabController.addChild(viewController)
+        
+        let navController = UINavigationController(rootViewController: tabController)
         navController.navigationBar.isTranslucent = false
         navController.navigationBar.backgroundColor = .orange
         
-        window?.rootViewController = viewController
+        window?.rootViewController = navController
         window?.makeKeyAndVisible()
         return true
     }
-
+    
 }
 

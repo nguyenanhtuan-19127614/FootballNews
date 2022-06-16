@@ -18,6 +18,7 @@ class NetworkDownloadOperation: Operation {
     var response: Response?
     var url: String = ""
     var session: URLSession
+    private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
     init(url: String, session: URLSession) {
         
@@ -31,6 +32,56 @@ class NetworkDownloadOperation: Operation {
         
     }
     
+    
+  
+
+    override var isAsynchronous: Bool {
+        return true
+    }
+
+    private var _isExecuting: Bool = false
+    override private(set) var isExecuting: Bool {
+        get {
+            return lockQueue.sync { () -> Bool in
+                return _isExecuting
+            }
+        }
+        set {
+            willChangeValue(forKey: "isExecuting")
+            lockQueue.sync(flags: [.barrier]) {
+                _isExecuting = newValue
+            }
+            didChangeValue(forKey: "isExecuting")
+        }
+    }
+
+    private var _isFinished: Bool = false
+    override private(set) var isFinished: Bool {
+        get {
+            return lockQueue.sync { () -> Bool in
+                return _isFinished
+            }
+        }
+        set {
+            willChangeValue(forKey: "isFinished")
+            lockQueue.sync(flags: [.barrier]) {
+                _isFinished = newValue
+            }
+            didChangeValue(forKey: "isFinished")
+        }
+    }
+
+    override func start() {
+        
+        print("Starting Download")
+        guard !isCancelled else { return }
+        
+        isFinished = false
+        isExecuting = true
+        main()
+        
+    }
+    
     override func main() {
     
         if isCancelled {
@@ -38,27 +89,28 @@ class NetworkDownloadOperation: Operation {
             return
             
         }
-        
-        let gr = DispatchGroup()
-        
-        gr.enter()
+
         ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) {
             
+            [weak self]
             result in
             
             switch result {
                 
             case .success(let res):
-                self.response = res
+                self?.response = res
+                
+                self?.isExecuting = false
+                self?.isFinished = true
+                
                 
             case .failure(let err):
                 print(err)
             
             }
-            gr.leave()
+
         }
-        gr.wait()
-    
+
     }
 }
 

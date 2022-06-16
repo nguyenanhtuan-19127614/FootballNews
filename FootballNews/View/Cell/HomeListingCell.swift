@@ -1,14 +1,10 @@
-//
-//  CustomCell.swift
-//  FootballNews
-//
-//  Created by LAP13606 on 15/06/2022.
-//
+
 
 import UIKit
 
-class NewsCell: UICollectionViewCell {
+class HomeListingCell: UICollectionViewCell {
     
+    //MARK: Overide Init
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -20,12 +16,14 @@ class NewsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // MARK: Define Sub-view
     let newsAvatar: UIImageView = {
         
         let imgView = UIImageView()
-        //imgView.backgroundColor = .red
         imgView.layer.cornerRadius = 10.0
         imgView.layer.masksToBounds = true
+        //imgView.image = UIImage(named: "loading")
         
         return imgView
         
@@ -37,7 +35,7 @@ class NewsCell: UICollectionViewCell {
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
         label.textColor = .black
-        label.font = UIFont.boldSystemFont(ofSize: 14.0)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
         
     }()
@@ -50,14 +48,16 @@ class NewsCell: UICollectionViewCell {
         
     }()
     
+    //MARK: Add subviews to cell
     func addViews() {
         
-        self.backgroundColor = .white
         addSubview(newsAvatar)
         addSubview(title)
         addSubview(authorAvatar)
+        
     }
     
+    //MARK: Add layout for subviews
     override func layoutSubviews() {
         
         super.layoutSubviews()
@@ -69,56 +69,27 @@ class NewsCell: UICollectionViewCell {
         
         title.frame = CGRect(x: newsAvatar.bounds.width + 15,
                              y: 0,
-                             width: bounds.width - newsAvatar.bounds.width,
+                             width: bounds.width - newsAvatar.bounds.width - 15,
                              height: 0)
         title.sizeToFit()
         
         authorAvatar.frame = CGRect(x: newsAvatar.bounds.width + 15,
                                     y: bounds.height - bounds.height/8 ,
                                     width: title.bounds.width / 3,
-                                    height: bounds.height/8)
+                                    height: bounds.height/7)
         
     }
     
-    func loadData(inputData: CustomNewsData) {
+    //MARK: Load data to cell
+    func loadData(inputData: HomeListingData) {
         
-        let gr = DispatchGroup()
-        gr.enter()
-        ImageDownloader.sharedService.download(url: inputData.avatar) { [weak self] result in
-            
-            switch result {
-                
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self?.newsAvatar.image = UIImage(data: data)
-                }
-            
-            case .failure(let err):
-                print(err)
-            }
-            gr.leave()
-        }
-        
-        gr.enter()
-        ImageDownloader.sharedService.download(url: inputData.author) { [weak self] result in
-            
-            switch result {
-                
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self?.authorAvatar.image = UIImage(data: data)
-                }
-            
-            case .failure(let err):
-                print(err)
-            }
-            gr.leave()
-        }
-        gr.wait()
-        //self.newsAvatar.image = UIImage(data: avatar)
-        //self.authorAvatar.image = UIImage(data: author)
+        //Subviews that don't need downloading
         self.title.text = inputData.title
+    
+        //Subviews that need downloading
+        self.newsAvatar.loadImage(url: inputData.avatar)
+        self.authorAvatar.loadImage(url: inputData.author)
         
     }
-    
+
 }

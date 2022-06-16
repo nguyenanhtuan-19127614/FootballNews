@@ -37,7 +37,7 @@ class FootballNewsTests: XCTestCase {
         
         
         
-        QueryService.sharedService.get(ContentAPITarget.home) {(result: Result<ResponseModel<ContentModel>, Error>) in
+        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: "0", date: "20220308")) {(result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
                 
             case .success(let res):
