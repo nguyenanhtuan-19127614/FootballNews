@@ -284,6 +284,7 @@ class CustomOperation: Operation {
             return lockQueue.sync { () -> Bool in
                 return _isExecuting
             }
+            
         }
         
         set {

@@ -43,7 +43,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
     let timeLabel: UILabel = {
         
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = UIColor(red: 0.694, green: 0.694, blue: 0.694, alpha: 1)
         return label
         
@@ -98,7 +98,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
         timeLabel.sizeToFit()
         
         homeTeam.frame = CGRect(x: statusView.frame.maxX + 12,
-                                y: timeLabel.frame.maxY + 8,
+                                y: timeLabel.frame.maxY + 20,
                                 width: self.bounds.width - 20,
                                 height: competitionLabel.bounds.height)
 
@@ -114,18 +114,36 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
         //Subviews that don't need downloading
         self.competitionLabel.text = inputData.competition
-        self.timeLabel.text = inputData.time
-        
+        let date = DateManager.shared.timestampToDate(inputData.time)
+       
+        //Load status bar, timelabel based on status bar
         switch inputData.status {
-            
+        
+        // Live Match
         case 0:
             self.statusView.backgroundColor = .red
-            
+            self.timeLabel.text = "Trực tiếp -" + DateManager.shared.dateToString(date)
+            self.timeLabel.textColor = .red
+        
+        // Future Match
         case 1:
-            self.statusView.backgroundColor = .green
-            
+            self.statusView.backgroundColor = UIColor(red: 0, green: 0.533, blue: 0.525, alpha: 1)
+            self.timeLabel.text = DateManager.shared.dateToString(date, fullDate: true)
+        
+        // Complete Match
         case 2:
             self.statusView.backgroundColor = .gray
+            self.timeLabel.text = "Đã Kết Thúc - " + DateManager.shared.dateToString(date)
+            
+            if inputData.awayScore < inputData.homeScore {
+                
+                awayTeam.scoreLabel.textColor = UIColor.lightGray
+                
+            } else if inputData.homeScore < inputData.awayScore {
+                
+                homeTeam.scoreLabel.textColor = UIColor.lightGray
+                
+            }
             
         default:
             self.statusView.backgroundColor = .white

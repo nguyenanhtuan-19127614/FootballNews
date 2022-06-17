@@ -15,14 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let viewController = ViewController()
+        let homeVC = HomeViewController()
         
         let tabController = UITabBarController()
-        tabController.addChild(viewController)
+        tabController.addChild(homeVC)
         
         let navController = UINavigationController(rootViewController: tabController)
         navController.navigationBar.isTranslucent = false
-        navController.navigationBar.backgroundColor = .orange
+        navController.navigationBar.backgroundColor = .white
         
         window?.rootViewController = navController
         window?.makeKeyAndVisible()

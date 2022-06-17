@@ -13,7 +13,7 @@ import UIKit
 //Use
 
 //MARK: Class custom Operation
-fileprivate class NetworkDownloadOperation: CustomOperation {
+class NetworkDownloadOperation: CustomOperation {
     
     override func main() {
     
@@ -54,7 +54,7 @@ class ImageDownloader:  NetworkManager {
     
     private let sessionConfig = URLSessionConfiguration.default
     
-    var downlaodSession: URLSession?
+    var downloadSession: URLSession?
     
     //Operation queue to manage download
     let operationQueue = OperationQueue()
@@ -66,7 +66,7 @@ class ImageDownloader:  NetworkManager {
         sessionConfig.timeoutIntervalForRequest = timeoutForRequest
         sessionConfig.timeoutIntervalForResource = timeoutForResource
         
-        self.downlaodSession = URLSession(configuration: sessionConfig,
+        self.downloadSession = URLSession(configuration: sessionConfig,
                                   delegate: nil,
                                   delegateQueue: operationQueue)
         
@@ -95,13 +95,13 @@ class ImageDownloader:  NetworkManager {
             
         }
         
-        guard let downlaodSession = downlaodSession else {
+        guard let downloaddSession = downloadSession else {
             completion(.failure(ManagerErrors.NullSession))
             return
         }
         
        
-        let customOperation = NetworkDownloadOperation(url: url, session: downlaodSession )
+        let customOperation = NetworkDownloadOperation(url: url, session: downloaddSession )
 
         
         //Completion block, execute after operation main() done

@@ -34,7 +34,7 @@ class HomeListingCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
-        label.textColor = .black
+
         return label
         
     }()
