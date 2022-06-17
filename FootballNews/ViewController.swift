@@ -54,17 +54,19 @@ class ViewController : UIViewController {
         super.loadView()
         //MARK: Create customView
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
+        view.layer.backgroundColor = UIColor(red: 0.937, green: 0.933, blue: 0.957, alpha: 1).cgColor
         
         //MARK: Score Board Collection View
         let scoreBoardLayout = UICollectionViewFlowLayout()
+
         scoreBoardLayout.itemSize = CGSize(width: self.view.bounds.width/1.5,
                                            height: self.view.bounds.height/7)
+        
         scoreBoardLayout.minimumLineSpacing = 20
         scoreBoardLayout.scrollDirection = .horizontal
         
         scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
-        scoreBoardCollection?.layer.cornerRadius = 5.0
         scoreBoardCollection?.backgroundColor = UIColor.white
         
         scoreBoardCollection?.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
@@ -78,7 +80,6 @@ class ViewController : UIViewController {
         listingLayout.minimumLineSpacing = 25
 
         listingCollection = UICollectionView(frame: .zero, collectionViewLayout: listingLayout)
-        listingCollection?.layer.cornerRadius = 5.0
         listingCollection?.backgroundColor = UIColor.white
         
         listingCollection?.register(HomeListingCell.self, forCellWithReuseIdentifier: "HomeListingCell")

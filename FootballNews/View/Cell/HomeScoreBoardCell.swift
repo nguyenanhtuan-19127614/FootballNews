@@ -3,7 +3,7 @@ import UIKit
 //MARK: Home - ScoreBoard Cell
 class HomeScoreBoardCell: UICollectionViewCell {
     
-    //MARK: Overide Init
+    //MARK: Override Init
     override init(frame: CGRect) {
         
         super.init(frame: frame)

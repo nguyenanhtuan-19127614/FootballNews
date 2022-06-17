@@ -17,6 +17,7 @@
 		0305AF4C285ACBDD009398A6 /* HomeScoreBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */; };
 		0305AF4F285AE174009398A6 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF4E285AE174009398A6 /* UIImageViewExtension.swift */; };
 		0305AF52285C2442009398A6 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF51285C2442009398A6 /* DateConverter.swift */; };
+		0305AF54285C30D4009398A6 /* HomeCompetitionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */; };
 		032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB20C284E01C400C6A83A /* AppDelegate.swift */; };
 		032AB211284E01C400C6A83A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB210284E01C400C6A83A /* ViewController.swift */; };
 		032AB216284E01C600C6A83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 032AB215284E01C600C6A83A /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScoreBoardCell.swift; sourceTree = "<group>"; };
 		0305AF4E285AE174009398A6 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		0305AF51285C2442009398A6 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCompetitionCell.swift; sourceTree = "<group>"; };
 		032AB209284E01C400C6A83A /* FootballNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootballNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		032AB20C284E01C400C6A83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		032AB210284E01C400C6A83A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				0305AF472859DE60009398A6 /* HomeListingCell.swift */,
 				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
+				0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */,
 				0305AF2B28583C59009398A6 /* TeamModel.swift in Sources */,
 				032AB211284E01C400C6A83A /* ViewController.swift in Sources */,
+				0305AF54285C30D4009398A6 /* HomeCompetitionCell.swift in Sources */,
 				0305AF4F285AE174009398A6 /* UIImageViewExtension.swift in Sources */,
 				0305AF482859DE60009398A6 /* HomeListingCell.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,

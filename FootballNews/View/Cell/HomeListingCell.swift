@@ -35,7 +35,6 @@ class HomeListingCell: UICollectionViewCell {
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
         label.textColor = .black
-        label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
         
     }()
@@ -71,10 +70,11 @@ class HomeListingCell: UICollectionViewCell {
                              y: 18,
                              width: self.bounds.width - newsAvatar.bounds.width - 50,
                              height: 0)
+        title.font = UIFont.boldSystemFont(ofSize: self.bounds.width / 25)
         title.sizeToFit()
         
         authorAvatar.frame = CGRect(x: newsAvatar.frame.maxX + 15,
-                                    y: bounds.height - bounds.height/8 ,
+                                    y: bounds.height - bounds.height/7 ,
                                     width: title.bounds.width / 3,
                                     height: bounds.height/7)
         
