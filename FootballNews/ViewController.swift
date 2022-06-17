@@ -24,9 +24,26 @@ struct HomeListingData {
     
 }
 
+struct HomeScoreBoardData {
+    
+    var status: Int
+    var competition: String
+    var time: String
+    
+    var homeLogo: String
+    var homeName: String
+    var homeScore: Int
+    
+    var awayLogo: String
+    var awayName: String
+    var awayScore: Int
+    
+}
+
 class ViewController : UIViewController {
     
     var listingData: [HomeListingData] = []
+    var scoreBoardData: [HomeScoreBoardData] = []
     
     var listingCollection: UICollectionView?
     var scoreBoardCollection: UICollectionView?
@@ -41,7 +58,8 @@ class ViewController : UIViewController {
         
         //MARK: Score Board Collection View
         let scoreBoardLayout = UICollectionViewFlowLayout()
-        scoreBoardLayout.itemSize = CGSize(width: self.view.bounds.width/5, height: self.view.bounds.height - 10)
+        scoreBoardLayout.itemSize = CGSize(width: self.view.bounds.width/1.5,
+                                           height: self.view.bounds.height/7)
         scoreBoardLayout.minimumLineSpacing = 20
         scoreBoardLayout.scrollDirection = .horizontal
         
@@ -55,7 +73,8 @@ class ViewController : UIViewController {
         
         //MARK: News Listing Collection View
         let listingLayout = UICollectionViewFlowLayout()
-        listingLayout.itemSize = CGSize(width: self.view.bounds.width - 60, height: self.view.bounds.height/9)
+        listingLayout.itemSize = CGSize(width: self.view.bounds.width,
+                                        height: self.view.bounds.height/7)
         listingLayout.minimumLineSpacing = 25
 
         listingCollection = UICollectionView(frame: .zero, collectionViewLayout: listingLayout)
@@ -81,7 +100,46 @@ class ViewController : UIViewController {
         
         super.viewDidLoad()
         
-        //get data
+        //get data score board
+        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: "0", date: "20220308")) {
+            [weak self]
+            (result: Result<ResponseModel<MatchModel>, Error>) in
+            switch result {
+                
+            case .success(let res):
+                if let soccerMatch = res.data?.soccerMatch {
+                    for i in soccerMatch {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self?.scoreBoardData.append(HomeScoreBoardData(
+                                status: i.matchStatus,
+                                competition: i.competition.competitionName,
+                                time: i.startTime,
+                                homeLogo: i.homeTeam.teamLogo,
+                                homeName: i.homeTeam.teamName,
+                                homeScore: i.homeScored,
+                                awayLogo: i.awayTeam.teamLogo,
+                                awayName: i.awayTeam.teamName,
+                                awayScore: i.awayScored))
+                            
+                            self?.scoreBoardCollection?.reloadData()
+                            
+                        }
+                    }
+                }
+                
+//
+       
+            case .failure(let err):
+                print(err)
+                
+            }
+            
+        }
+        
+        
+        //get data home news
         QueryService.sharedService.get(ContentAPITarget.home) {
             
             [weak self]
@@ -100,8 +158,7 @@ class ViewController : UIViewController {
                             
                             //Reload all collection data
                             self?.listingCollection?.reloadData()
-                            self?.scoreBoardCollection?.reloadData()
-                            
+
                         }
                     }
                 }
@@ -118,13 +175,14 @@ class ViewController : UIViewController {
         
         //Scoreboard Collection
         scoreBoardCollection?.frame = CGRect(x: 0,
-                                             y: 20,
+                                             y: 10,
                                              width: self.view.bounds.width ,
                                              height: self.view.bounds.height/3 - 100)
+        
         //Listing Collection
     
         listingCollection?.frame = CGRect(x: 0,
-                                          y: (scoreBoardCollection?.frame.maxY)! + 20 ,
+                                          y: (scoreBoardCollection?.frame.maxY)! + 10 ,
                                           width: self.view.bounds.width,
                                           height: self.view.bounds.height / 3 + 200)
         
@@ -137,8 +195,21 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        print(listingData.count)
-        return listingData.count // How many cells to display
+        if collectionView == listingCollection {
+            
+            print(listingData.count)
+            return listingData.count
+            
+        }
+        
+        else if collectionView == scoreBoardCollection {
+            
+            print(scoreBoardData.count)
+            return scoreBoardData.count
+            
+        }
+        
+        return 0
         
     }
     
@@ -159,7 +230,7 @@ extension ViewController: UICollectionViewDataSource {
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardCell", for: indexPath) as! HomeScoreBoardCell
             
             scoreBoardCell.backgroundColor = UIColor.white
-            //scoreBoardCell.loadData(inputData: listingData[indexPath.row])
+            scoreBoardCell.loadData(inputData: scoreBoardData[indexPath.row])
             
             return scoreBoardCell
             

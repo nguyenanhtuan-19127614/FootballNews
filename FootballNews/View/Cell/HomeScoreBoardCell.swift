@@ -7,7 +7,12 @@ class HomeScoreBoardCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViews()
+        //custom parent view
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor.gray.cgColor
+        self.layer.cornerRadius = 8.0
+        //add sub views
+        addSubViews()
         
     }
     
@@ -17,9 +22,20 @@ class HomeScoreBoardCell: UICollectionViewCell {
     
     // MARK: Define Sub-views
     
+    let statusView: UILabel = {
+        
+        let label = UILabel()
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 4.0
+        return label
+        
+    }()
+    
     let competitionLabel: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor(red: 0.35, green: 0.35, blue: 0.35, alpha: 1)
         return label
         
     }()
@@ -27,14 +43,34 @@ class HomeScoreBoardCell: UICollectionViewCell {
     let timeLabel: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.textColor = UIColor(red: 0.694, green: 0.694, blue: 0.694, alpha: 1)
         return label
         
     }()
     
+    let homeTeam: ScoreBoardTeamStatus = {
+        
+        let scoreStatus = ScoreBoardTeamStatus()
+        return scoreStatus
+        
+    }()
     
+    let awayTeam: ScoreBoardTeamStatus = {
+        
+        let scoreStatus = ScoreBoardTeamStatus()
+        return scoreStatus
+        
+    }()
     
     //MARK: Add subviews to cell
-    func addViews() {
+    func addSubViews() {
+        
+        addSubview(statusView)
+        addSubview(competitionLabel)
+        addSubview(timeLabel)
+        addSubview(homeTeam)
+        addSubview(awayTeam)
         
     }
     
@@ -42,19 +78,74 @@ class HomeScoreBoardCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         
+        super.layoutSubviews()
         
+        statusView.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: self.bounds.width/50,
+                                  height: self.bounds.height)
+        
+        competitionLabel.frame = CGRect(x: statusView.frame.maxX + 12,
+                                        y: 8,
+                                        width: 0,
+                                        height: 0)
+        competitionLabel.sizeToFit()
+        
+        timeLabel.frame = CGRect(x: statusView.frame.maxX + 12,
+                                 y: competitionLabel.frame.maxY + 6,
+                                 width: 0,
+                                 height: 0)
+        timeLabel.sizeToFit()
+        
+        homeTeam.frame = CGRect(x: statusView.frame.maxX + 12,
+                                y: timeLabel.frame.maxY + 8,
+                                width: self.bounds.width - 20,
+                                height: competitionLabel.bounds.height)
+
+        awayTeam.frame = CGRect(x: statusView.frame.maxX + 12,
+                                y: homeTeam.frame.maxY + 8,
+                                width: homeTeam.bounds.width,
+                                height: competitionLabel.bounds.height)
     }
     
     //MARK: Load data to cell
     
-    func loadData() {
+    func loadData(inputData: HomeScoreBoardData) {
+        
+        //Subviews that don't need downloading
+        self.competitionLabel.text = inputData.competition
+        self.timeLabel.text = inputData.time
+        
+        switch inputData.status {
+            
+        case 0:
+            self.statusView.backgroundColor = .red
+            
+        case 1:
+            self.statusView.backgroundColor = .green
+            
+        case 2:
+            self.statusView.backgroundColor = .gray
+            
+        default:
+            self.statusView.backgroundColor = .white
+            
+        }
         
         
+        //Subviews that need downloading
+        self.homeTeam.loadData(logoTeam: inputData.homeLogo,
+                          teamName: inputData.homeName,
+                          scoreLabel: String(inputData.homeScore))
+        
+        self.awayTeam.loadData(logoTeam: inputData.awayLogo,
+                          teamName: inputData.awayName,
+                          scoreLabel: String(inputData.awayScore))
     }
 }
 
 
-fileprivate class ScoreBoardTeamStatus: UIView {
+class ScoreBoardTeamStatus: UIView {
     
     //MARK: Overide Init
     override init(frame: CGRect) {
@@ -73,6 +164,11 @@ fileprivate class ScoreBoardTeamStatus: UIView {
     let logoTeam: UIImageView = {
         
         let imgView = UIImageView()
+        imgView.layer.borderColor = UIColor.gray.cgColor
+        imgView.layer.borderWidth = 0.5
+        imgView.layer.masksToBounds = true
+        imgView.layer.cornerRadius = 12
+        
         return imgView
         
     }()
@@ -80,6 +176,7 @@ fileprivate class ScoreBoardTeamStatus: UIView {
     let teamName: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
         
     }()
@@ -87,6 +184,7 @@ fileprivate class ScoreBoardTeamStatus: UIView {
     let scoreLabel: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
         
     }()
@@ -103,17 +201,34 @@ fileprivate class ScoreBoardTeamStatus: UIView {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         
+        super.layoutSubviews()
         logoTeam.frame = CGRect (x: 0,
                                  y: 0,
-                                 width: 0,
-                                 height: 0)
+                                 width: self.bounds.width / 9,
+                                 height: self.bounds.height)
         
+        teamName.frame = CGRect (x: logoTeam.frame.maxX + 8,
+                                 y: 0,
+                                 width: self.bounds.width / 1.5,
+                                 height: self.bounds.height)
+        
+        scoreLabel.frame = CGRect (x: self.bounds.width - 20,
+                                   y: 0,
+                                   width: 6,
+                                   height: self.bounds.height)
+        scoreLabel.sizeToFit()
     }
     
     //MARK: Load data to cell
     
-    func loadData() {
+    func loadData(logoTeam: String, teamName: String, scoreLabel: String) {
         
+        //Subviews that don't need downloading
+        self.teamName.text = teamName
+        self.scoreLabel.text = scoreLabel
+    
+        //Subviews that need downloading
+        self.logoTeam.loadImage(url: logoTeam)
     }
     
 }

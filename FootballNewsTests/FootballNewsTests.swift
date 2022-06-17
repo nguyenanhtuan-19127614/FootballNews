@@ -35,13 +35,27 @@ class FootballNewsTests: XCTestCase {
     
     func testNetwork() {
         
-        
-        
         QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: "0", date: "20220308")) {(result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
                 
             case .success(let res):
-               print(res)
+                guard let data = res.data else {
+                    return
+                }
+                
+                print(data.soccerMatch[0].matchStatus)
+                print(data.soccerMatch[0].competition.competitionName)
+                
+                print(data.soccerMatch[0].time)
+                print(data.soccerMatch[0].startTime)
+                
+                print(data.soccerMatch[0].homeTeam.teamName)
+                print(data.soccerMatch[0].homeTeam.teamLogo)
+                print(data.soccerMatch[0].homeScored)
+                
+                print(data.soccerMatch[0].awayTeam.teamName)
+                print(data.soccerMatch[0].homeTeam.teamLogo)
+                print(data.soccerMatch[0].awayScored)
        
             case .failure(let err):
                 print(err)

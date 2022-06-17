@@ -62,18 +62,18 @@ class HomeListingCell: UICollectionViewCell {
         
         super.layoutSubviews()
         
-        newsAvatar.frame = CGRect(x: 0,
-                                  y: 0,
-                                  width: bounds.height + 25,
-                                  height: bounds.height)
+        newsAvatar.frame = CGRect(x: 18,
+                                  y: 18,
+                                  width: bounds.height + 10,
+                                  height: bounds.height - 20)
         
-        title.frame = CGRect(x: newsAvatar.bounds.width + 15,
-                             y: 0,
-                             width: bounds.width - newsAvatar.bounds.width - 15,
+        title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
+                             y: 18,
+                             width: self.bounds.width - newsAvatar.bounds.width - 50,
                              height: 0)
         title.sizeToFit()
         
-        authorAvatar.frame = CGRect(x: newsAvatar.bounds.width + 15,
+        authorAvatar.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                                     y: bounds.height - bounds.height/8 ,
                                     width: title.bounds.width / 3,
                                     height: bounds.height/7)

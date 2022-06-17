@@ -280,6 +280,7 @@ class CustomOperation: Operation {
     override private(set) var isExecuting: Bool {
         
         get {
+            
             return lockQueue.sync { () -> Bool in
                 return _isExecuting
             }
