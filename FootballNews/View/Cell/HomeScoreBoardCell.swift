@@ -116,6 +116,15 @@ class HomeScoreBoardCell: UICollectionViewCell {
         self.competitionLabel.text = inputData.competition
         let date = DateManager.shared.timestampToDate(inputData.time)
        
+        //Subviews that need downloading
+        self.homeTeam.loadData(logoTeam: inputData.homeLogo,
+                          teamName: inputData.homeName,
+                          scoreLabel: String(inputData.homeScore))
+        
+        self.awayTeam.loadData(logoTeam: inputData.awayLogo,
+                          teamName: inputData.awayName,
+                          scoreLabel: String(inputData.awayScore))
+        
         //Load status bar, timelabel based on status bar
         switch inputData.status {
         
@@ -129,6 +138,8 @@ class HomeScoreBoardCell: UICollectionViewCell {
         case 1:
             self.statusView.backgroundColor = UIColor(red: 0, green: 0.533, blue: 0.525, alpha: 1)
             self.timeLabel.text = DateManager.shared.dateToString(date, fullDate: true)
+            self.homeTeam.scoreLabel.text = "-"
+            self.awayTeam.scoreLabel.text = "-"
         
         // Complete Match
         case 2:
@@ -151,14 +162,6 @@ class HomeScoreBoardCell: UICollectionViewCell {
         }
         
         
-        //Subviews that need downloading
-        self.homeTeam.loadData(logoTeam: inputData.homeLogo,
-                          teamName: inputData.homeName,
-                          scoreLabel: String(inputData.homeScore))
-        
-        self.awayTeam.loadData(logoTeam: inputData.awayLogo,
-                          teamName: inputData.awayName,
-                          scoreLabel: String(inputData.awayScore))
     }
 }
 

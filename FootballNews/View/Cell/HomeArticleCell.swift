@@ -2,7 +2,7 @@
 
 import UIKit
 
-class HomeListingCell: UICollectionViewCell {
+class HomeArticleCell: UICollectionViewCell {
     
     //MARK: Overide Init
     override init(frame: CGRect) {
@@ -42,8 +42,15 @@ class HomeListingCell: UICollectionViewCell {
     let authorAvatar: UIImageView = {
         
         let imgView = UIImageView()
-
         return imgView
+        
+    }()
+    
+    let ellipsisLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "..."
+        return label
         
     }()
     
@@ -53,6 +60,7 @@ class HomeListingCell: UICollectionViewCell {
         addSubview(newsAvatar)
         addSubview(title)
         addSubview(authorAvatar)
+        addSubview(ellipsisLabel)
         
     }
     
@@ -77,6 +85,12 @@ class HomeListingCell: UICollectionViewCell {
                                     y: bounds.height - bounds.height/7 ,
                                     width: title.bounds.width / 3,
                                     height: bounds.height/7)
+        
+        ellipsisLabel.frame = CGRect(x: self.frame.maxX - self.bounds.width/10,
+                                     y: authorAvatar.frame.minY ,
+                                     width: title.bounds.width / 10,
+                                     height: authorAvatar.bounds.height)
+        
         
     }
     

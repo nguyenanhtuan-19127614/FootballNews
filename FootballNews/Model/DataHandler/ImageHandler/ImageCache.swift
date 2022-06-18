@@ -38,6 +38,7 @@ class ImageCache {
         return imageCache
         
     }
+    
     func addImage(imgData: Data?, url: String) {
         
         guard let imgData = imgData else {
@@ -47,6 +48,7 @@ class ImageCache {
         //cost of image base on size
         let cost: Int = imgData.count
         //store image to cache
+        
         imageCache.setObject(imgData as AnyObject, forKey: url as AnyObject, cost: cost)
 
     }

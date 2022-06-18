@@ -11,11 +11,12 @@ import UIKit
 //Data for Listing
 struct HomeListingData {
     
+    var contentID: String
     var avatar: String
     var title: String
     var author: String
     var link: String
-    
+  
 }
 
 struct HomeScoreBoardData {
@@ -43,11 +44,11 @@ struct HomeCompetitionData {
 
 class HomeViewController : UIViewController {
     
-    var listingData: [HomeListingData] = []
+    var articleData: [HomeListingData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
     var competitionData: [HomeCompetitionData] = []
     
-    var listingCollection: UICollectionView?
+    var articleCollection: UICollectionView?
     var scoreBoardCollection: UICollectionView?
     var competitionCollection: UICollectionView?
     
@@ -62,10 +63,8 @@ class HomeViewController : UIViewController {
         
         //MARK: Score Board Collection View
         let scoreBoardLayout = UICollectionViewFlowLayout()
-
         scoreBoardLayout.itemSize = CGSize(width: self.view.bounds.width/1.5,
                                            height: self.view.bounds.height/6)
-        
         scoreBoardLayout.minimumLineSpacing = 20
         scoreBoardLayout.scrollDirection = .horizontal
         
@@ -77,25 +76,23 @@ class HomeViewController : UIViewController {
         scoreBoardCollection?.delegate = self
         
         //MARK: News Listing Collection View
-        let listingLayout = UICollectionViewFlowLayout()
-        listingLayout.itemSize = CGSize(width: self.view.bounds.width,
+        let articleLayout = UICollectionViewFlowLayout()
+        articleLayout.itemSize = CGSize(width: self.view.bounds.width,
                                         height: self.view.bounds.height/7)
-        listingLayout.minimumLineSpacing = 25
+        articleLayout.minimumLineSpacing = 25
 
-        listingCollection = UICollectionView(frame: .zero, collectionViewLayout: listingLayout)
-        listingCollection?.backgroundColor = UIColor.white
+        articleCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
+        articleCollection?.backgroundColor = UIColor.white
         
-        listingCollection?.register(HomeListingCell.self, forCellWithReuseIdentifier: "HomeListingCell")
-        listingCollection?.dataSource = self
-        listingCollection?.delegate = self
+        articleCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        articleCollection?.dataSource = self
+        articleCollection?.delegate = self
         
         //MARK: Competition Collection View
         
         let competitionLayout = UICollectionViewFlowLayout()
-
         competitionLayout.itemSize = CGSize(width: self.view.bounds.width/3,
                                            height: self.view.bounds.width/3)
-        
         competitionLayout.minimumLineSpacing = 20
         competitionLayout.scrollDirection = .horizontal
         
@@ -108,7 +105,7 @@ class HomeViewController : UIViewController {
         
         //MARK: Add layout and Subviews
         addSubviewsLayout()
-        view.addSubview(listingCollection ?? UICollectionView())
+        view.addSubview(articleCollection ?? UICollectionView())
         view.addSubview(scoreBoardCollection ?? UICollectionView())
         view.addSubview(competitionCollection ?? UICollectionView())
        
@@ -123,7 +120,7 @@ class HomeViewController : UIViewController {
         
         //get data score board
         //getScoreBoardData(compID: competitionID[0], date: "20220618")
-        getScoreBoardData(compID: 0, date: "20220308")
+        getScoreBoardData(compID: 0, date: "20220618")
         
         //get data home news
         getHomeListingData()
@@ -192,10 +189,14 @@ class HomeViewController : UIViewController {
                         
                         DispatchQueue.main.async {
                             
-                            self?.listingData.append(HomeListingData(avatar: i.avatar, title: i.title, author: i.publisherLogo, link: i.url))
+                            self?.articleData.append(HomeListingData(contentID: String(i.contentID),
+                                                                     avatar: i.avatar,
+                                                                     title: i.title,
+                                                                     author: i.publisherLogo,
+                                                                     link: i.url))
                             
                             //Reload all collection data
-                            self?.listingCollection?.reloadData()
+                            self?.articleCollection?.reloadData()
 
                         }
                     }
@@ -259,7 +260,7 @@ class HomeViewController : UIViewController {
         
         //Listing Collection
     
-        listingCollection?.frame = CGRect(x: 0,
+        articleCollection?.frame = CGRect(x: 0,
                                           y: (competitionCollection?.frame.maxY)! + 10 ,
                                           width: self.view.bounds.width,
                                           height: self.view.bounds.height / 3 + 100)
@@ -273,10 +274,10 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == listingCollection {
+        if collectionView == articleCollection {
             
-            print(listingData.count)
-            return listingData.count
+            print(articleData.count)
+            return articleData.count
             
         } else if collectionView == scoreBoardCollection {
             
@@ -294,12 +295,12 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionView == listingCollection {
+        if collectionView == articleCollection {
             
-            let listingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeListingCell", for: indexPath) as! HomeListingCell
+            let listingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
             listingCell.backgroundColor = UIColor.white
-            listingCell.loadData(inputData: listingData[indexPath.row])
+            listingCell.loadData(inputData: articleData[indexPath.row])
             
             return listingCell
             
@@ -330,22 +331,10 @@ extension HomeViewController: UICollectionViewDelegate {
  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if collectionView == listingCollection {
+        if collectionView == articleCollection {
             
             print("User tapped on item \(indexPath.row)")
-            guard let url = URL(string: listingData[indexPath.row].link) else {
-                return
-            }
-            
-            if #available(iOS 10.0, *) {
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                
-            } else {
-                
-                UIApplication.shared.openURL(url)
-                
-            }
+            print("contentID: \(articleData[indexPath.row].contentID)")
             
         }
         

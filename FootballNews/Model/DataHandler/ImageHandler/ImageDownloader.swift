@@ -134,5 +134,5 @@ class ImageDownloader:  NetworkManager {
         operationQueue.addOperation(customOperation)
         
     }
-    
+
 }

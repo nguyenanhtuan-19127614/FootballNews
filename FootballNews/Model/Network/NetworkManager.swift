@@ -340,8 +340,6 @@ class CustomOperation: Operation {
     
 }
 
-
-
 //URLRequest - protocol
 //baseURL, queryItems, headers, method (POST, GET)
 //

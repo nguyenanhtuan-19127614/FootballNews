@@ -85,16 +85,7 @@ class QueryService: NetworkManager {
 
     }
     
-    
-    
-    
-    //MARK: Decode Data Function
-    
-//    func decodeData<T: APITarget, U: Codable> (api: T) -> ResponseModel<U> {
-//
-//
-//    }
-    
+
     //MARK: GET METHOD - use this for calling GET method
     // Return: decoded Data (Struct, Class)
     func get<T: Codable> (_ api: APITarget,

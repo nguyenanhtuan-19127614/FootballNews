@@ -35,7 +35,7 @@ class FootballNewsTests: XCTestCase {
     
     func testNetwork() {
         
-        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: "0", date: "20220308")) {(result: Result<ResponseModel<MatchModel>, Error>) in
+        QueryService.sharedService.get(ContentAPITarget.detail(contentID: "42611430")) {(result: Result<ResponseModel<ContentModel>, Error>) in
             switch result {
                 
             case .success(let res):
@@ -43,19 +43,8 @@ class FootballNewsTests: XCTestCase {
                     return
                 }
                 
-                print(data.soccerMatch[0].matchStatus)
-                print(data.soccerMatch[0].competition.competitionName)
-                
-                print(data.soccerMatch[0].time)
-                print(data.soccerMatch[0].startTime)
-                
-                print(data.soccerMatch[0].homeTeam.teamName)
-                print(data.soccerMatch[0].homeTeam.teamLogo)
-                print(data.soccerMatch[0].homeScored)
-                
-                print(data.soccerMatch[0].awayTeam.teamName)
-                print(data.soccerMatch[0].homeTeam.teamLogo)
-                print(data.soccerMatch[0].awayScored)
+                print(data.contents[0].body)
+               
        
             case .failure(let err):
                 print(err)
