@@ -11,8 +11,9 @@ import Foundation
 //Support
 //Use
 //
-
+//MARK: Constants
 let _headerFields: (String, String) = ("api_key", "bm_fresher_2022")
+let body: String = "https://bm-fresher.herokuapp.com/api"
 
 //MARK: RESPONSE BODY
 struct Response {
@@ -65,13 +66,13 @@ enum TeamAPITarget: APITarget {
         switch self {
             
         case.detail(teamID: let teamID):
-            return "https://bm-fresher.herokuapp.com/api/teams/detail?team_id=" + teamID
+            return "\(body)/teams/detail?team_id=" + teamID
             
         case .search(name: let name):
-            return "https://bm-fresher.herokuapp.com/api/teams/search?name=" + name
+            return "\(body)/teams/search?name=" + name
             
         case .highlights:
-            return "https://bm-fresher.herokuapp.com/api/teams/highlights"
+            return "\(body)/teams/highlights"
             
         }
     }
@@ -91,22 +92,22 @@ enum ContentAPITarget: APITarget {
         
         switch self {
         case .detail(let contentID):
-            return "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=" + contentID
+            return "\(body)/contents/detail?content_id=" + contentID
             
         case .home:
-            return "https://bm-fresher.herokuapp.com/api/contents/home"
+            return "\(body)/contents/home"
             
         case .team(let teamID):
-            return "https://bm-fresher.herokuapp.com/api/contents/team?id=" + teamID
+            return "\(body)/contents/team?id=" + teamID
             
         case .comp(let id):
-            return "https://bm-fresher.herokuapp.com/api/contents/comp?id=" + id
+            return "\(body)/contents/comp?id=" + id
             
         case .match(let id):
-            return "https://bm-fresher.herokuapp.com/api/contents/match?id=" + id
+            return "\(body)/contents/match?id=" + id
             
         case .zone(let zone):
-            return "https://bm-fresher.herokuapp.com/api/contents/team?zone=" + zone
+            return "\(body)/contents/team?zone=" + zone
             
         }
     }
@@ -123,10 +124,10 @@ enum MatchAPITarget: APITarget {
         switch self {
             
         case .detail(let matchID):
-            return "https://bm-fresher.herokuapp.com/api/matches/detail?match_id=" + matchID
+            return "\(body)/matches/detail?match_id=" + matchID
             
         case .matchByDate(let compID, let date):
-            return "https://bm-fresher.herokuapp.com/api/matches/by-date?competition_id=\(compID)&date=\(date)"
+            return "\(body)/matches/by-date?competition_id=\(compID)&date=\(date)"
             
         }
     }
@@ -142,10 +143,10 @@ enum CompetitionAPITarget: APITarget {
         
         switch self {
         case .standing(let id):
-            return "https://bm-fresher.herokuapp.com/api/competitions/standings?id=" + id
+            return "\(body)/competitions/standings?id=" + id
             
         case .hot:
-            return "https://bm-fresher.herokuapp.com/api/competitions/hot"
+            return "\(body)/competitions/hot"
             
         }
     }

@@ -95,7 +95,7 @@ class HomeArticleCell: UICollectionViewCell {
     }
     
     //MARK: Load data to cell
-    func loadData(inputData: HomeListingData) {
+    func loadData(inputData: HomeArticleData) {
         
         //Subviews that don't need downloading
         self.title.text = inputData.title
@@ -103,7 +103,6 @@ class HomeArticleCell: UICollectionViewCell {
         //Subviews that need downloading
         self.newsAvatar.loadImage(url: inputData.avatar)
         self.authorAvatar.loadImage(url: inputData.author)
-        
     }
 
 }

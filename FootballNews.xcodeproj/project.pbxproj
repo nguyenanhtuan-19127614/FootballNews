@@ -26,6 +26,7 @@
 		032AB224284E01C600C6A83A /* FootballNewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB223284E01C600C6A83A /* FootballNewsTests.swift */; };
 		032AB22E284E01C600C6A83A /* FootballNewsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB22D284E01C600C6A83A /* FootballNewsUITests.swift */; };
 		032AB230284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB22F284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift */; };
+		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
 		03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA7284F3D1A00200D02 /* ImageCache.swift */; };
 		03CF3DAB284F3D1A00200D02 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA8284F3D1A00200D02 /* NetworkManager.swift */; };
 		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
@@ -73,6 +74,7 @@
 		032AB229284E01C600C6A83A /* FootballNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FootballNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		032AB22D284E01C600C6A83A /* FootballNewsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballNewsUITests.swift; sourceTree = "<group>"; };
 		032AB22F284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballNewsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
 		03CF3DA7284F3D1A00200D02 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageCache.swift; sourceTree = SOURCE_ROOT; };
 		03CF3DA8284F3D1A00200D02 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = FootballNews/Model/Network/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
 		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
@@ -166,9 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				03BC50CC285D779000D5C79C /* Home */,
-				0305AF472859DE60009398A6 /* HomeArticleCell.swift */,
-				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
-				0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -207,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				032AB20C284E01C400C6A83A /* AppDelegate.swift */,
+				03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */,
 				0305AF57285C390E009398A6 /* HomeViewController.swift */,
 				0305AF4028597CDA009398A6 /* View */,
 				0305AF3B28597C74009398A6 /* Model */,
@@ -235,6 +235,9 @@
 		03BC50CC285D779000D5C79C /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0305AF472859DE60009398A6 /* HomeArticleCell.swift */,
+				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
+				0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				0305AF482859DE60009398A6 /* HomeArticleCell.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,
+				03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */,
 				0305AF3228583D7E009398A6 /* ResponseModel.swift in Sources */,
 				0305AF2F28583C8E009398A6 /* CompetitionModel.swift in Sources */,
 			);

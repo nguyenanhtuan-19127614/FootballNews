@@ -18,7 +18,7 @@ extension UIImageView {
         guard let url = url else {
             return
         }
-       
+            
 //        ImageDownloader.sharedService.download(url: url) {
 //
 //            [weak self]
@@ -41,7 +41,10 @@ extension UIImageView {
 //                }
 //                print(err)
 //            }
+//            gr.leave()
 //        }
+       
+       
         
         
         if let imageCache = ImageCache.shared.getImageData(url: url) {
@@ -52,18 +55,25 @@ extension UIImageView {
 
         }
 
-        let dispatchQueue = DispatchQueue(label: "loadImageQueue", qos: .userInitiated, attributes: .concurrent)
-        let operationQueue = OperationQueue()
+        let dispatchQueue = DispatchQueue(label: "loadImageQueue", qos: .utility, attributes: .concurrent)
+        let operationQueue = OperationQueue() 
+        operationQueue.maxConcurrentOperationCount = 5
         operationQueue.underlyingQueue = dispatchQueue
 
         guard let downloadSession = ImageDownloader.sharedService.downloadSession else {
             return
         }
+        
         let customOperation = NetworkDownloadOperation(url: url, session: downloadSession )
         customOperation.completionBlock = {
-
+            
             if customOperation.isCancelled {
-
+                
+                DispatchQueue.main.async {
+                    
+                    self.image = UIImage(named: "loading")
+                    
+                }
                 return
 
             }
@@ -77,7 +87,7 @@ extension UIImageView {
             //Store image data to cache
             if let data = response._data {
 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async() {
 
                     ImageCache.shared.addImage(imgData: data, url: url)
                     self.image = UIImage(data: data)

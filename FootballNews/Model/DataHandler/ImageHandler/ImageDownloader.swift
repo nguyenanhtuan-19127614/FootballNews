@@ -15,14 +15,12 @@ import UIKit
 //MARK: Class custom Operation
 class NetworkDownloadOperation: CustomOperation {
     
-    override func main() {
+    override var isAsynchronous: Bool {
+        return false
+    }
     
-        if isCancelled {
-            
-            return
-            
-        }
-
+    override func main() {
+        
         ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) { [weak self] result in
             
             switch result {
@@ -122,8 +120,7 @@ class ImageDownloader:  NetworkManager {
             
             //Store image data to cache
             if let data = response._data {
-                
-                
+   
                 ImageCache.shared.addImage(imgData: data, url: url)
                 completion(.success(data))
                 

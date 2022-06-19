@@ -9,7 +9,7 @@ import UIKit
 //        myCollectionView?.addSubview(refreshControl)
 
 //Data for Listing
-struct HomeListingData {
+struct HomeArticleData {
     
     var contentID: String
     var avatar: String
@@ -44,7 +44,7 @@ struct HomeCompetitionData {
 
 class HomeViewController : UIViewController {
     
-    var articleData: [HomeListingData] = []
+    var articleData: [HomeArticleData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
     var competitionData: [HomeCompetitionData] = []
     
@@ -58,6 +58,7 @@ class HomeViewController : UIViewController {
         super.loadView()
         //MARK: Create customView
         let view = UIView()
+        
         view.backgroundColor = .white
         view.layer.backgroundColor = UIColor(red: 0.937, green: 0.933, blue: 0.957, alpha: 1).cgColor
         
@@ -119,7 +120,6 @@ class HomeViewController : UIViewController {
         super.viewDidLoad()
         
         //get data score board
-        //getScoreBoardData(compID: competitionID[0], date: "20220618")
         getScoreBoardData(compID: 0, date: "20220618")
         
         //get data home news
@@ -189,7 +189,7 @@ class HomeViewController : UIViewController {
                         
                         DispatchQueue.main.async {
                             
-                            self?.articleData.append(HomeListingData(contentID: String(i.contentID),
+                            self?.articleData.append(HomeArticleData(contentID: String(i.contentID),
                                                                      avatar: i.avatar,
                                                                      title: i.title,
                                                                      author: i.publisherLogo,
@@ -304,6 +304,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
             return listingCell
             
+            
         } else if collectionView == scoreBoardCollection{
             
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardCell", for: indexPath) as! HomeScoreBoardCell
@@ -334,17 +335,16 @@ extension HomeViewController: UICollectionViewDelegate {
         if collectionView == articleCollection {
             
             print("User tapped on item \(indexPath.row)")
-            print("contentID: \(articleData[indexPath.row].contentID)")
+            //print("contentID: \(articleData[indexPath.row].contentID)")
+            
+            NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: articleData[indexPath.row])
             
         }
         
         else {
             
             print("User tapped on item \(indexPath.row)")
+            
         }
-    }
-    
-    
-    
-    
+    }    
 }

@@ -13,8 +13,10 @@ import Foundation
 // MARK: - DataClass [Contents]
 struct ContentModel: Codable {
     
-    let contents: [Content]
-    let boxes: [Box]
+    let contents: [Content]?
+    let content: Content?
+    let boxes: [Box]?
+    //let related: [Related]?
     
     enum CodingKeys: String, CodingKey {
         
@@ -22,35 +24,6 @@ struct ContentModel: Codable {
         case content
         case boxes
         
-    }
-    
-    func encode(to encoder: Encoder) throws {}
-    
-    init(from decoder: Decoder) throws {
-
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        do {
-
-            boxes = try values.decode([Box].self, forKey: .boxes )
-
-        } catch {
-
-            boxes = []
-            
-        }
-        
-        do {
-
-            contents = try values.decode([Content].self, forKey: .contents )
-
-        } catch {
-
-            let singleContent = try values.decode(Content.self, forKey: .content)
-            contents = [singleContent]
-            
-        }
-
     }
 }
 
