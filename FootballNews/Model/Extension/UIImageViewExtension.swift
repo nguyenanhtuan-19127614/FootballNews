@@ -89,10 +89,11 @@ extension UIImageView {
 
             //Store image data to cache
             if let data = response._data {
-
+                
+              
                 ImageCache.shared.addImage(imgData: data, url: url)
                 DispatchQueue.main.async() {
-
+                    
                     self.image = UIImage(data: data)
                   
                 }

@@ -15,10 +15,6 @@ import UIKit
 //MARK: Class custom Operation
 class NetworkDownloadOperation: CustomOperation {
     
-    override var isAsynchronous: Bool {
-        return false
-    }
-    
     override func main() {
         
         ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) { [weak self] result in
