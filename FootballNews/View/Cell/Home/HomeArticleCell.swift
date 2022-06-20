@@ -106,8 +106,93 @@ class HomeArticleCell: UICollectionViewCell {
     }
 
 }
+//MARK: Cell that contain collectionView of HomeScoreBoardCell
+class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    var scoreBoardData: [HomeScoreBoardData] = []
+    var scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    //MARK: Overide Init
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    //MARK: Add subviews to cell
+    func addViews() {
+    
+        scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
+        
+        scoreBoardCollection.dataSource = self
+        scoreBoardCollection.delegate = self
+        
+        addSubview(scoreBoardCollection)
+        
+    }
+    
+    //MARK: Add layout for subviews
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        let scoreBoardLayout = UICollectionViewFlowLayout()
+        scoreBoardLayout.itemSize = CGSize(width: self.bounds.width/1.5,
+                                           height: self.bounds.height)
+        scoreBoardLayout.minimumLineSpacing = 20
+        scoreBoardLayout.scrollDirection = .horizontal
+        
+        self.scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
+        self.scoreBoardCollection.showsHorizontalScrollIndicator = false
+        
+        self.scoreBoardCollection.frame = CGRect(x: self.frame.minX,
+                                             y: 20,
+                                             width: self.bounds.width,
+                                             height: self.bounds.height)
+       
+        
+        
+        addViews()
+    }
+    
+    //MARK: Load data to cell
+    func loadData(inputData: [HomeScoreBoardData]) {
+        
+        self.scoreBoardData = inputData
+        DispatchQueue.main.async {
+            
+            self.scoreBoardCollection.reloadData()
+            
+        }
+        
+    }
+    
+    //MARK: Datasource Collection
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return scoreBoardData.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardCell", for: indexPath) as! HomeScoreBoardCell
+        
+        scoreBoardCell.backgroundColor = UIColor.white
+        scoreBoardCell.loadData(inputData: scoreBoardData[indexPath.row])
+        
+        return scoreBoardCell
+        
+    }
 
-//MARK: TESTING===========================================================================
+}
+
+
+//MARK: Cell that contain collectionView of HomeCompetitionCell
 class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var competitionData: [HomeCompetitionData] = []
@@ -118,17 +203,11 @@ class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataS
         
         super.init(frame: frame)
         
-    
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    // MARK: Define Sub-view
-   
     
     //MARK: Add subviews to cell
     func addViews() {
@@ -153,6 +232,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataS
         competitionLayout.scrollDirection = .horizontal
         
         self.competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
+        self.competitionCollection.showsHorizontalScrollIndicator = false
         
         self.competitionCollection.frame = CGRect(x: self.frame.minX,
                                              y: 0,

@@ -44,13 +44,14 @@ struct HomeCompetitionData {
 
 class HomeViewController : UIViewController {
     
+    let scoreBoardIndex = 0
+    let competitionIndex = 2
+    
     var articleData: [HomeArticleData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
     var competitionData: [HomeCompetitionData] = []
     
     var articleCollection: UICollectionView?
-    var scoreBoardCollection: UICollectionView?
-    var competitionCollection: UICollectionView?
     
     //MARK: loadView() state
     override func loadView() {
@@ -61,28 +62,18 @@ class HomeViewController : UIViewController {
         
         view.backgroundColor = .white
         view.layer.backgroundColor = UIColor(red: 0.937, green: 0.933, blue: 0.957, alpha: 1).cgColor
-        
-        //MARK: Score Board Collection View
-        let scoreBoardLayout = UICollectionViewFlowLayout()
-        scoreBoardLayout.minimumLineSpacing = 20
-        scoreBoardLayout.scrollDirection = .horizontal
-        
-        scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
-        scoreBoardCollection?.backgroundColor = UIColor.white
-        
-        scoreBoardCollection?.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
-        scoreBoardCollection?.dataSource = self
-        scoreBoardCollection?.delegate = self
-        
+    
         //MARK: News Listing Collection View
         let articleLayout = UICollectionViewFlowLayout()
         articleLayout.minimumLineSpacing = 25
 
         articleCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
         articleCollection?.backgroundColor = UIColor.white
+        articleCollection?.showsVerticalScrollIndicator = false
         
         articleCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
-        articleCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompCell")
+        articleCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
+        articleCollection?.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         
         articleCollection?.dataSource = self
         articleCollection?.delegate = self
@@ -92,8 +83,6 @@ class HomeViewController : UIViewController {
         //MARK: Add layout and Subviews
         addSubviewsLayout()
         view.addSubview(articleCollection ?? UICollectionView())
-        view.addSubview(scoreBoardCollection ?? UICollectionView())
-       
        
         self.view = view
         
@@ -105,7 +94,7 @@ class HomeViewController : UIViewController {
         super.viewDidLoad()
         
         //get data score board
-        getScoreBoardData(compID: 0, date: "20220618")
+        getScoreBoardData(compID: 0, date: "20220308")
         
         //get data home news
         getHomeArticelData()
@@ -116,50 +105,7 @@ class HomeViewController : UIViewController {
     }
     
     //MARK: GET Data Functions
-    
-    //get data score board
-    func getScoreBoardData(compID: Int, date: String) {
-        
-        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID), date: date)) {
-            [weak self]
-            (result: Result<ResponseModel<MatchModel>, Error>) in
-            switch result {
-                
-            case .success(let res):
-                if let soccerMatch = res.data?.soccerMatch {
-                    
-                    for i in soccerMatch {
-                        
-                        self?.scoreBoardData.append(HomeScoreBoardData(
-                            status: i.matchStatus,
-                            competition: i.competition.competitionName,
-                            time: i.startTime,
-                            homeLogo: i.homeTeam.teamLogo,
-                            homeName: i.homeTeam.teamName,
-                            homeScore: i.homeScored,
-                            awayLogo: i.awayTeam.teamLogo,
-                            awayName: i.awayTeam.teamName,
-                            awayScore: i.awayScored))
-                        
-                    }
-                    
-                    DispatchQueue.main.async {
-    
-                        self?.scoreBoardCollection?.reloadData()
-                        
-                    }
-                    
-                }
-       
-            case .failure(let err):
-                print(err)
-                
-            }
-            
-        }
-        
-    }
-    
+
     //get data home news listing
     func getHomeArticelData() {
         
@@ -198,6 +144,43 @@ class HomeViewController : UIViewController {
         }
     }
     
+    //get data score board
+    func getScoreBoardData(compID: Int, date: String) {
+        
+        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID), date: date)) {
+            [weak self]
+            (result: Result<ResponseModel<MatchModel>, Error>) in
+            switch result {
+                
+            case .success(let res):
+                if let soccerMatch = res.data?.soccerMatch {
+                    
+                    for i in soccerMatch {
+                        
+                        self?.scoreBoardData.append(HomeScoreBoardData(
+                            status: i.matchStatus,
+                            competition: i.competition.competitionName,
+                            time: i.startTime,
+                            homeLogo: i.homeTeam.teamLogo,
+                            homeName: i.homeTeam.teamName,
+                            homeScore: i.homeScored,
+                            awayLogo: i.awayTeam.teamLogo,
+                            awayName: i.awayTeam.teamName,
+                            awayScore: i.awayScored))
+                        
+                    }
+                    
+                }
+       
+            case .failure(let err):
+                print(err)
+                
+            }
+            
+        }
+        
+    }
+    
     //get data competition
     func getCompetitionData() {
         
@@ -227,20 +210,12 @@ class HomeViewController : UIViewController {
     
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
-        
-        //Scoreboard Collection
-        scoreBoardCollection?.frame = CGRect(x: 0,
-                                             y: 10,
-                                             width: self.view.bounds.width ,
-                                             height: self.view.bounds.height/3 - 100)
-
+      
         //Listing Collection
-    
         articleCollection?.frame = CGRect(x: 0,
-                                          y: (scoreBoardCollection?.frame.maxY)! + 10 ,
+                                          y: 10 ,
                                           width: self.view.bounds.width,
-                                          height: self.view.bounds.height / 3 + 200)
-        
+                                          height: self.view.bounds.height)
     }
 
 }
@@ -251,76 +226,47 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cells Number
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == articleCollection {
-            
-            return articleData.count
-            
-        } else if collectionView == scoreBoardCollection {
-            
-            return scoreBoardData.count
-            
-        }
-        
-        return 10
+        return articleData.count
         
     }
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionView == articleCollection {
+        if indexPath.row == competitionIndex {
             
-            if indexPath.row == 2 {
-                
-                let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompCell", for: indexPath) as! HomeCompetitionCollectionCell
-                
-                competitionCell.backgroundColor = UIColor.white
-                competitionCell.loadData(inputData: self.competitionData)
-                
-                return competitionCell
-                
-            } else {
-                
-                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
-                
-                articelCell.backgroundColor = UIColor.white
-                
-                if indexPath.row > 2 {
-                    
-                    articelCell.loadData(inputData: articleData[indexPath.row-1])
-                    
-                } else {
-                    
-                    articelCell.loadData(inputData: articleData[indexPath.row])
-                    
-                }
-                
-               return articelCell
-                
-            }
-             
-        } else if collectionView == scoreBoardCollection{
+            let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
             
-            let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardCell", for: indexPath) as! HomeScoreBoardCell
+            competitionCell.backgroundColor = UIColor.white
+            competitionCell.loadData(inputData: self.competitionData)
+            
+            return competitionCell
+            
+        } else if indexPath.row == scoreBoardIndex {
+            
+            let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
             scoreBoardCell.backgroundColor = UIColor.white
-            scoreBoardCell.loadData(inputData: scoreBoardData[indexPath.row])
+            scoreBoardCell.loadData(inputData: self.scoreBoardData)
             
             return scoreBoardCell
             
         } else {
             
-            let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionCell", for: indexPath) as! HomeCompetitionCell
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
-            competitionCell.backgroundColor = UIColor.white
-            competitionCell.loadData(inputData: competitionData[indexPath.row])
+            articelCell.backgroundColor = UIColor.white
             
-            return competitionCell
+            if indexPath.row != competitionIndex {
+                
+                articelCell.loadData(inputData: articleData[indexPath.row])
+                
+            }
+            
+           return articelCell
             
         }
     }
-    
-    
 }
 
 
@@ -331,7 +277,7 @@ extension HomeViewController: UICollectionViewDelegate {
         
         if collectionView == articleCollection {
             
-            if indexPath.row != 2 {
+            if indexPath.row != competitionIndex {
                 
                 print("User tapped on item \(indexPath.row)")
                 //print("contentID: \(articleData[indexPath.row].contentID)")
@@ -341,9 +287,7 @@ extension HomeViewController: UICollectionViewDelegate {
                 
             }
             
-        }
-        
-        else {
+        } else {
             
             print("User tapped on item \(indexPath.row)")
             
@@ -356,30 +300,26 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if collectionView == articleCollection {
+        if indexPath.row == competitionIndex {
             
-            if indexPath.row != 2 {
-                //articels size
-     
-                return CGSize(width: self.view.bounds.width,
-                                                height: self.view.bounds.height/7)
-                
-            } else {
-              
-                //competition size
-                return CGSize(width: self.view.bounds.width,
-                                                height: self.view.bounds.height/4)
-            }
+            //competition size
+            return CGSize(width: self.view.bounds.width,
+                          height: self.view.bounds.height/4)
             
-        } else {
+        } else if indexPath.row == scoreBoardIndex {
             
             //Hot match size
-            return CGSize(width: self.view.bounds.width/1.5,
-                                               height: self.view.bounds.height/6)
+            return CGSize(width: self.view.bounds.width,
+                          height: self.view.bounds.height/6)
+            
+        } else {
+          
+            //articel size
+            return CGSize(width: self.view.bounds.width,
+                          height: self.view.bounds.height/7)
         }
            
     }
-    
     
 }
 
