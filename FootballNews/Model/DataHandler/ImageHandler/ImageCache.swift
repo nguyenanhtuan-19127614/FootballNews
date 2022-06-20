@@ -47,10 +47,10 @@ class ImageCache {
         
         //cost of image base on size
         let cost: Int = imgData.count
-        //store image to cache
         
+        //store image to cache
         imageCache.setObject(imgData as AnyObject, forKey: url as AnyObject, cost: cost)
-
+      
     }
     
     func removeImage(url: String) {
@@ -66,9 +66,9 @@ class ImageCache {
     }
     
     func getImageData(url: String) -> Data? {
-        
+     
         return imageCache.object(forKey: url as AnyObject) as? Data
-        
+  
     }
     
 }

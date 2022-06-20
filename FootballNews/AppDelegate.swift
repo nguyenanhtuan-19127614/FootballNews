@@ -18,16 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-
-        let tabController = UITabBarController()
-        tabController.addChild(homeVC)
-        
-        navController = UINavigationController(rootViewController: tabController)
-       
-        
-        navController?.navigationBar.isTranslucent = false
+    
+        navController = UINavigationController(rootViewController: homeVC)
         navController?.navigationBar.backgroundColor = .white
-        navController?.title = "Trang Chính"
+        navController?.navigationBar.isTranslucent = false
+        
+        //Drop shadow for navigation bar
+        navController?.navigationBar.layer.masksToBounds = false
+        navController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        navController?.navigationBar.layer.shadowOpacity = 0.8
+        navController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        navController?.navigationBar.layer.shadowRadius = 2
+        
         
         addObservers()
         
@@ -48,10 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func toArticel(_ notification: Notification){
-        
+       
         navController?.pushViewController(articelDetailVC, animated: true)
         
     }
     
 }
+
+
 

@@ -2,6 +2,7 @@
 
 import UIKit
 
+
 class HomeArticleCell: UICollectionViewCell {
     
     //MARK: Overide Init
@@ -126,9 +127,9 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
     
     //MARK: Add subviews to cell
     func addViews() {
-    
-        scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
         
+        scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
+       
         scoreBoardCollection.dataSource = self
         scoreBoardCollection.delegate = self
         
@@ -148,14 +149,11 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
         
         self.scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
         self.scoreBoardCollection.showsHorizontalScrollIndicator = false
-        
         self.scoreBoardCollection.frame = CGRect(x: self.frame.minX,
-                                             y: 20,
-                                             width: self.bounds.width,
-                                             height: self.bounds.height)
-       
-        
-        
+                                                 y: 20,
+                                                 width: self.bounds.width,
+                                                 height: self.bounds.height)
+   
         addViews()
     }
     

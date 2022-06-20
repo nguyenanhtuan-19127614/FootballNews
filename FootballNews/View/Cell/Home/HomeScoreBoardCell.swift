@@ -127,7 +127,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
         //Load status bar, timelabel based on status bar
         switch inputData.status {
-        
+       
         // Live Match
         case 0:
             self.statusView.backgroundColor = .red

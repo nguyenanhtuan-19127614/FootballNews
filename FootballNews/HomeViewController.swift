@@ -45,7 +45,7 @@ struct HomeCompetitionData {
 class HomeViewController : UIViewController {
     
     let scoreBoardIndex = 0
-    let competitionIndex = 2
+    let competitionIndex = 4
     
     var articleData: [HomeArticleData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
@@ -57,6 +57,8 @@ class HomeViewController : UIViewController {
     override func loadView() {
         
         super.loadView()
+        
+        self.title = "Trang Chính"
         //MARK: Create customView
         let view = UIView()
         
@@ -118,7 +120,7 @@ class HomeViewController : UIViewController {
             case .success(let res):
                 
                 if let contents = res.data?.contents {
-                    
+
                     for i in contents {
                         
                         self?.articleData.append(HomeArticleData(contentID: String(i.contentID),
@@ -148,6 +150,7 @@ class HomeViewController : UIViewController {
     func getScoreBoardData(compID: Int, date: String) {
         
         QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID), date: date)) {
+            
             [weak self]
             (result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
@@ -213,7 +216,7 @@ class HomeViewController : UIViewController {
       
         //Listing Collection
         articleCollection?.frame = CGRect(x: 0,
-                                          y: 10 ,
+                                          y: 0 ,
                                           width: self.view.bounds.width,
                                           height: self.view.bounds.height)
     }
@@ -262,8 +265,8 @@ extension HomeViewController: UICollectionViewDataSource {
                 articelCell.loadData(inputData: articleData[indexPath.row])
                 
             }
-            
-           return articelCell
+           
+            return articelCell
             
         }
     }
@@ -275,24 +278,15 @@ extension HomeViewController: UICollectionViewDelegate {
  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if collectionView == articleCollection {
-            
-            if indexPath.row != competitionIndex {
-                
-                print("User tapped on item \(indexPath.row)")
-                //print("contentID: \(articleData[indexPath.row].contentID)")
-                
-                NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: articleData[indexPath.row])
-                
-                
-            }
-            
-        } else {
+        if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {
             
             print("User tapped on item \(indexPath.row)")
+            //print("contentID: \(articleData[indexPath.row].contentID)")
+            
+            NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: articleData[indexPath.row])            
             
         }
-    }    
+    }
 }
 
 //MARK: Delegate Flow Layout extension

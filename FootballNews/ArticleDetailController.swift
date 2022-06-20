@@ -16,7 +16,7 @@ struct ArticelDetailData {
     
     var source: String
     var sourceLogo: String
-    
+    var sourceIcon: String
     
     var body: [Body]?
     
@@ -38,15 +38,20 @@ class ArticelDetailController: UIViewController {
         
         //MARK: Detail Articel Collection
         let detailArticelLayout = UICollectionViewFlowLayout()
-        detailArticelLayout.itemSize = CGSize(width: self.view.bounds.width/1.5,
-                                           height: self.view.bounds.height/6)
+        detailArticelLayout.itemSize = CGSize(width: self.view.bounds.width,
+                                           height: self.view.bounds.height)
+        
         detailArticelLayout.minimumLineSpacing = 20
         detailArticelLayout.scrollDirection = .horizontal
         
         articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        articleDetailCollection?.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
+        articleDetailCollection?.dataSource = self
+        articleDetailCollection?.delegate = self
         
+        addSubviewsLayout()
+        view.addSubview(articleDetailCollection ?? UICollectionView())
         
-
         self.view = view
         
     }
@@ -55,10 +60,7 @@ class ArticelDetailController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-       
-      
-        
+  
     }
     
     
@@ -86,7 +88,11 @@ class ArticelDetailController: UIViewController {
                                                      description: content.description,
                                                      source: content.source,
                                                      sourceLogo: content.publisherLogo,
+                                                     sourceIcon: content.publisherIcon,
                                                      body: content.body)
+                DispatchQueue.main.async {
+                    self?.articleDetailCollection?.reloadData()
+                }
                 
             case .failure(let err):
                 print(err)
@@ -95,6 +101,17 @@ class ArticelDetailController: UIViewController {
             
             
         }
+        
+    }
+    
+    //MARK: Function to add layout for subviews
+    func addSubviewsLayout() {
+      
+        //Listing Collection
+        articleDetailCollection?.frame = CGRect(x: 0,
+                                                y: 10,
+                                                width: self.view.bounds.width,
+                                                height: self.view.bounds.height)
         
     }
     
@@ -126,16 +143,21 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 10
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailArticleCell", for: indexPath) as! HomeArticleCell
+        let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
         
-        articelCell.backgroundColor = UIColor.white
-        
-        return articelCell
+        headerCell.backgroundColor = UIColor.white
+        if let detailData = detailData {
+            
+            headerCell.loadData(detailData)
+            
+        }
+     
+        return headerCell
         
     }
     
