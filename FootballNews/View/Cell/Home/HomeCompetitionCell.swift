@@ -61,7 +61,7 @@ class HomeCompetitionCell: UICollectionViewCell {
                                        height: self.bounds.height * 2 / 3)
         
         competitionName.frame = CGRect(x: 0,
-                                       y: competitionLogo.frame.maxY + 10,
+                                       y: competitionLogo.frame.maxY + 5,
                                        width: self.bounds.width,
                                        height: self.bounds.height - competitionLogo.bounds.height )
         

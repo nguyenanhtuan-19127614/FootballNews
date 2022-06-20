@@ -43,14 +43,19 @@ extension UIImageView {
 //            }
 //            gr.leave()
 //        }
-       
-       
-        
-        
+        let lock = NSLock()
         if let imageCache = ImageCache.shared.getImageData(url: url) {
 
             print("Image is already in cache")
-            self.image = UIImage(data: imageCache)
+            
+            DispatchQueue.main.async {
+                
+                lock.lock()
+                self.image = UIImage(data: imageCache)
+                lock.unlock()
+                
+            }
+           
             return
 
         }
@@ -88,9 +93,11 @@ extension UIImageView {
             if let data = response._data {
 
                 DispatchQueue.main.async() {
-
+                    
+                    lock.lock()
                     ImageCache.shared.addImage(imgData: data, url: url)
                     self.image = UIImage(data: data)
+                    lock.unlock()
 
                 }
 

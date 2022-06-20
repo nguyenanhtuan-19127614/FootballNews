@@ -11,12 +11,14 @@ import UIKit
 struct ArticelDetailData {
     
     var title: String
+    var date: Int
     var description: String
     
     var source: String
     var sourceLogo: String
     
-    var body: [Body]
+    
+    var body: [Body]?
     
 }
 
@@ -25,6 +27,8 @@ class ArticelDetailController: UIViewController {
     var contentID: String? = nil
     var detailData: ArticelDetailData?
     
+    var articleDetailCollection: UICollectionView?
+    
     //MARK: loadView() state
     override func loadView() {
         
@@ -32,6 +36,17 @@ class ArticelDetailController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         
+        //MARK: Detail Articel Collection
+        let detailArticelLayout = UICollectionViewFlowLayout()
+        detailArticelLayout.itemSize = CGSize(width: self.view.bounds.width/1.5,
+                                           height: self.view.bounds.height/6)
+        detailArticelLayout.minimumLineSpacing = 20
+        detailArticelLayout.scrollDirection = .horizontal
+        
+        articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        
+        
+
         self.view = view
         
     }
@@ -41,8 +56,11 @@ class ArticelDetailController: UIViewController {
         
         super.viewDidLoad()
         
+       
+      
         
     }
+    
     
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
@@ -53,6 +71,7 @@ class ArticelDetailController: UIViewController {
         
         QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
             
+            [weak self]
             (result: Result<ResponseModel<ContentModel>, Error>) in
             
             switch result {
@@ -62,11 +81,12 @@ class ArticelDetailController: UIViewController {
                     return
                 }
                 
-                print(content.title)
-                print(content.description)
-                print(content.source)
-                print(content.publisherLogo)
-                print(content.body!)
+                self?.detailData = ArticelDetailData(title: content.title,
+                                                     date: content.date,
+                                                     description: content.description,
+                                                     source: content.source,
+                                                     sourceLogo: content.publisherLogo,
+                                                     body: content.body)
                 
             case .failure(let err):
                 print(err)
@@ -97,6 +117,32 @@ class ArticelDetailController: UIViewController {
         
         }
         getArticelDetailData(self.contentID)
-       
+        
     }
+}
+
+//MARK: Datasource Extension
+extension ArticelDetailController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailArticleCell", for: indexPath) as! HomeArticleCell
+        
+        articelCell.backgroundColor = UIColor.white
+        
+        return articelCell
+        
+    }
+    
+}
+
+//MARK: Delegate Extension
+extension ArticelDetailController: UICollectionViewDelegate {
+    
+    
 }

@@ -118,7 +118,8 @@ struct Body: Codable {
 
     enum CodingKeys: String, CodingKey {
         
-        case type, content
+        case type
+        case content
         case originURL = "originUrl"
         case width
         case height

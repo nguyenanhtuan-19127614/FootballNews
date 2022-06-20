@@ -106,3 +106,90 @@ class HomeArticleCell: UICollectionViewCell {
     }
 
 }
+
+//MARK: TESTING===========================================================================
+class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    var competitionData: [HomeCompetitionData] = []
+    var competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    //MARK: Overide Init
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+    
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: Define Sub-view
+   
+    
+    //MARK: Add subviews to cell
+    func addViews() {
+    
+        competitionCollection.register(HomeCompetitionCell.self, forCellWithReuseIdentifier: "HomeCompetitionCell")
+        
+        competitionCollection.dataSource = self
+        competitionCollection.delegate = self
+        
+        addSubview(competitionCollection)
+        
+    }
+    
+    //MARK: Add layout for subviews
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        let competitionLayout = UICollectionViewFlowLayout()
+        competitionLayout.itemSize = CGSize(width: self.bounds.width/4,
+                                            height: self.bounds.height)
+        competitionLayout.minimumLineSpacing = 20
+        competitionLayout.scrollDirection = .horizontal
+        
+        self.competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
+        
+        self.competitionCollection.frame = CGRect(x: self.frame.minX,
+                                             y: 0,
+                                             width: self.bounds.width,
+                                             height: self.bounds.height)
+        
+        addViews()
+    }
+    
+    //MARK: Load data to cell
+    func loadData(inputData: [HomeCompetitionData]) {
+        
+        self.competitionData = inputData
+        DispatchQueue.main.async {
+            
+            self.competitionCollection.reloadData()
+            
+        }
+        
+    }
+    
+    //MARK: Datasource Collection
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return competitionData.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionCell", for: indexPath) as! HomeCompetitionCell
+        
+        competitionCell.backgroundColor = UIColor.white
+        competitionCell.loadData(inputData: competitionData[indexPath.row])
+        
+        return competitionCell
+        
+    }
+
+}
