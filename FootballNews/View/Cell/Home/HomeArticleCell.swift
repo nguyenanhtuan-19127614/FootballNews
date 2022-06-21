@@ -117,6 +117,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+        addViews()
         
     }
     
@@ -128,8 +129,16 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
     //MARK: Add subviews to cell
     func addViews() {
         
+        let scoreBoardLayout = UICollectionViewFlowLayout()
+        scoreBoardLayout.itemSize = CGSize(width: self.bounds.width/1.5,
+                                           height: self.bounds.height)
+        scoreBoardLayout.minimumLineSpacing = 20
+        scoreBoardLayout.scrollDirection = .horizontal
+        
+        scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
+        scoreBoardCollection.showsHorizontalScrollIndicator = false
+        
         scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
-       
         scoreBoardCollection.dataSource = self
         scoreBoardCollection.delegate = self
         
@@ -141,20 +150,12 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        let scoreBoardLayout = UICollectionViewFlowLayout()
-        scoreBoardLayout.itemSize = CGSize(width: self.bounds.width/1.5,
-                                           height: self.bounds.height)
-        scoreBoardLayout.minimumLineSpacing = 20
-        scoreBoardLayout.scrollDirection = .horizontal
-        
-        self.scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
-        self.scoreBoardCollection.showsHorizontalScrollIndicator = false
+       
         self.scoreBoardCollection.frame = CGRect(x: self.frame.minX,
                                                  y: 20,
                                                  width: self.bounds.width,
                                                  height: self.bounds.height)
    
-        addViews()
     }
     
     //MARK: Load data to cell
@@ -201,6 +202,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataS
         
         super.init(frame: frame)
         
+        addViews()
     }
     
     required init?(coder: NSCoder) {
@@ -209,9 +211,17 @@ class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataS
     
     //MARK: Add subviews to cell
     func addViews() {
-    
-        competitionCollection.register(HomeCompetitionCell.self, forCellWithReuseIdentifier: "HomeCompetitionCell")
         
+        let competitionLayout = UICollectionViewFlowLayout()
+        competitionLayout.itemSize = CGSize(width: self.bounds.width/4,
+                                            height: self.bounds.height)
+        competitionLayout.minimumLineSpacing = 20
+        competitionLayout.scrollDirection = .horizontal
+        
+        competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
+        competitionCollection.showsHorizontalScrollIndicator = false
+        
+        competitionCollection.register(HomeCompetitionCell.self, forCellWithReuseIdentifier: "HomeCompetitionCell")
         competitionCollection.dataSource = self
         competitionCollection.delegate = self
         
@@ -223,21 +233,12 @@ class HomeCompetitionCollectionCell: UICollectionViewCell, UICollectionViewDataS
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        let competitionLayout = UICollectionViewFlowLayout()
-        competitionLayout.itemSize = CGSize(width: self.bounds.width/4,
-                                            height: self.bounds.height)
-        competitionLayout.minimumLineSpacing = 20
-        competitionLayout.scrollDirection = .horizontal
-        
-        self.competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
-        self.competitionCollection.showsHorizontalScrollIndicator = false
-        
+      
         self.competitionCollection.frame = CGRect(x: self.frame.minX,
                                              y: 0,
                                              width: self.bounds.width,
                                              height: self.bounds.height)
         
-        addViews()
     }
     
     //MARK: Load data to cell

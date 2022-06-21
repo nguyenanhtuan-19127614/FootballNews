@@ -275,15 +275,25 @@ extension HomeViewController: UICollectionViewDataSource {
 
 //MARK: Delegate Extension
 extension HomeViewController: UICollectionViewDelegate {
- 
+    
+    //Tap Event
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {
             
             print("User tapped on item \(indexPath.row)")
-            //print("contentID: \(articleData[indexPath.row].contentID)")
             
             NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: articleData[indexPath.row])            
+            
+        }
+    }
+    
+    //Load More Data
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            
+            getHomeArticelData()
             
         }
     }
