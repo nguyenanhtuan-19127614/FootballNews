@@ -8,7 +8,7 @@ import UIKit
 //
 //        myCollectionView?.addSubview(refreshControl)
 
-//Data for Listing
+//Data for Listing Articel
 struct HomeArticleData {
     
     var contentID: String
@@ -19,6 +19,7 @@ struct HomeArticleData {
   
 }
 
+//Data for Score Board
 struct HomeScoreBoardData {
     
     var status: Int
@@ -35,6 +36,7 @@ struct HomeScoreBoardData {
     
 }
 
+//Data for Competition Board
 struct HomeCompetitionData {
     
     var logo: String
@@ -44,13 +46,24 @@ struct HomeCompetitionData {
 
 class HomeViewController : UIViewController {
     
+    //Inex where score board and competition should be based on articels list
     let scoreBoardIndex = 0
     let competitionIndex = 4
     
+    //Location of scoreboard and competiion
+    var scoreBoardLocation: [Int] = [0]
+    var competitionLocation: [Int] = [4]
+    
+    //query param
+    var startArticel = 0
+    var articelSize = 15
+    
+    //Data array
     var articleData: [HomeArticleData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
     var competitionData: [HomeCompetitionData] = []
     
+    //Main CollectionView
     var articleCollection: UICollectionView?
     
     //MARK: loadView() state
@@ -66,13 +79,17 @@ class HomeViewController : UIViewController {
         view.layer.backgroundColor = UIColor(red: 0.937, green: 0.933, blue: 0.957, alpha: 1).cgColor
     
         //MARK: News Listing Collection View
+        
+        //Custom CollectionView layout
         let articleLayout = UICollectionViewFlowLayout()
         articleLayout.minimumLineSpacing = 25
-
+        
+        //Custom CollectionView
         articleCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
         articleCollection?.backgroundColor = UIColor.white
         articleCollection?.showsVerticalScrollIndicator = false
         
+        //Register data for CollectionView
         articleCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         articleCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         articleCollection?.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
@@ -111,7 +128,8 @@ class HomeViewController : UIViewController {
     //get data home news listing
     func getHomeArticelData() {
         
-        QueryService.sharedService.get(ContentAPITarget.home) {
+        QueryService.sharedService.get(ContentAPITarget.home(start: String(startArticel),
+                                                             size: String(articelSize))) {
             
             [weak self]
             (result: Result<ResponseModel<ContentModel>, Error>) in
@@ -120,7 +138,14 @@ class HomeViewController : UIViewController {
             case .success(let res):
                 
                 if let contents = res.data?.contents {
-
+                    
+                    if let dataNumbers = self?.articleData.count  {
+                        
+                        self?.scoreBoardLocation.append(dataNumbers + self!.scoreBoardIndex)
+                        self?.competitionLocation.append(dataNumbers + self!.competitionIndex)
+                        
+                    }
+           
                     for i in contents {
                         
                         self?.articleData.append(HomeArticleData(contentID: String(i.contentID),
@@ -144,6 +169,7 @@ class HomeViewController : UIViewController {
                 
             }
         }
+        
     }
     
     //get data score board
@@ -236,7 +262,7 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.row == competitionIndex {
+        if competitionLocation.contains(indexPath.row) {
             
             let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
             
@@ -245,7 +271,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
             return competitionCell
             
-        } else if indexPath.row == scoreBoardIndex {
+        } else if scoreBoardLocation.contains(indexPath.row) {
             
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
@@ -293,7 +319,10 @@ extension HomeViewController: UICollectionViewDelegate {
         
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
             
+            startArticel += articelSize
+           
             getHomeArticelData()
+           
             
         }
     }
@@ -304,17 +333,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if indexPath.row == competitionIndex {
+        if competitionLocation.contains(indexPath.row) {
             
             //competition size
             return CGSize(width: self.view.bounds.width,
                           height: self.view.bounds.height/4)
             
-        } else if indexPath.row == scoreBoardIndex {
+        } else if scoreBoardLocation.contains(indexPath.row) {
             
             //Hot match size
             return CGSize(width: self.view.bounds.width,
-                          height: self.view.bounds.height/6)
+                          height: self.view.bounds.height/5)
             
         } else {
           

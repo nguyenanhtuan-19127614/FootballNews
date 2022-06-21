@@ -24,12 +24,15 @@ class NetworkDownloadOperation: CustomOperation {
             case .success(let res):
                 
                 self?.response = res
-                self?.finish()
+               
        
             case .failure(let err):
                 print(err)
+                self?.response = nil
             
             }
+            
+            self?.finish()
 
         }
 

@@ -113,6 +113,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
     var scoreBoardData: [HomeScoreBoardData] = []
     var scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    
     //MARK: Overide Init
     override init(frame: CGRect) {
         
@@ -136,6 +137,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell, UICollectionViewDataSo
         scoreBoardLayout.scrollDirection = .horizontal
         
         scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
+        
         scoreBoardCollection.showsHorizontalScrollIndicator = false
         
         scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")

@@ -70,6 +70,7 @@ extension UIImageView {
         let customOperation = NetworkDownloadOperation(url: url, session: downloadSession )
         customOperation.completionBlock = {
             
+            [unowned customOperation] in
             if customOperation.isCancelled {
                 
                 DispatchQueue.main.async {
@@ -82,7 +83,15 @@ extension UIImageView {
             }
 
             guard let response = customOperation.response else {
-
+                
+                DispatchQueue.main.async() {
+                    
+                    self.image = UIImage(named: "loading")
+                  
+                }
+                print("=============================================================")
+                print("Werld URL: \(url)")
+                print("Bad Response")
                 return
 
             }

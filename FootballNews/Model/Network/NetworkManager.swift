@@ -82,7 +82,7 @@ enum TeamAPITarget: APITarget {
 enum ContentAPITarget: APITarget {
     
     case detail(contentID: String)
-    case home
+    case home(start: String, size: String)
     case team(teamID: String)
     case comp(id: String)
     case match(id: String)
@@ -94,8 +94,8 @@ enum ContentAPITarget: APITarget {
         case .detail(let contentID):
             return "\(body)/contents/detail?content_id=" + contentID
             
-        case .home:
-            return "\(body)/contents/home"
+        case .home(let start, let size):
+            return "\(body)/contents/home?start=\(start)&size=\(size)"
             
         case .team(let teamID):
             return "\(body)/contents/team?id=" + teamID
@@ -237,7 +237,7 @@ class NetworkManager  {
             let responseBody = Response(_data: data, _response: response, _error: error)
             
             completion(.success(responseBody))
-            
+           
         }
         
         dataTask.resume()
