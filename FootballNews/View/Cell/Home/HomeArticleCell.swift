@@ -102,8 +102,11 @@ class HomeArticleCell: UICollectionViewCell {
         self.title.text = inputData.title
     
         //Subviews that need downloading
+       
         self.newsAvatar.loadImage(url: inputData.avatar)
+        
         self.authorAvatar.loadImage(url: inputData.author)
+       
     }
 
 }

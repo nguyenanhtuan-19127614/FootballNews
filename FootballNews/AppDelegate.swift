@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         navController?.navigationBar.layer.shadowRadius = 2
         
-        
         addObservers()
         
         window?.rootViewController = navController

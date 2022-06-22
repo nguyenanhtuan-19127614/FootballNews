@@ -12,9 +12,7 @@ fileprivate let paddingLeft = 15.0
 
 class ArticelDetailTextCell: UICollectionViewCell {
     
-
-    var dynamicHeight: CGFloat = 0
-    let fontLabel: UIFont = UIFont(name: "Helvetica", size: 16.0) ?? UIFont.systemFont(ofSize: 16)
+    let fontLabel: UIFont = UIFont(name: "Helvetica", size: 20.0) ?? UIFont.systemFont(ofSize: 16)
     
     //MARK: Overide Init
     override init(frame: CGRect) {
@@ -59,7 +57,6 @@ class ArticelDetailTextCell: UICollectionViewCell {
     //MARK: Add subviews to cell
     func addViews() {
 
-        print("Height1: \(contentLabel.bounds.height)" )
         addSubview(contentLabel)
         
     }
@@ -71,7 +68,7 @@ class ArticelDetailTextCell: UICollectionViewCell {
         
         contentLabel.frame = CGRect (x: paddingLeft,
                                      y: 0,
-                                     width: self.bounds.width - 20,
+                                     width: self.bounds.width - 30,
                                      height: 0)
         contentLabel.sizeToFit()
      
@@ -88,19 +85,20 @@ class ArticelDetailTextCell: UICollectionViewCell {
         
     }
     
-    
-    
+    //MARK: Calculate height of cell base on subviews
+    func calculateHeight() -> CGFloat {
+        
+        var height: CGFloat = 0
+        height += contentLabel.calculateHeight(cellWidth: self.bounds.width)
+        
+        return height
+    }
+   
     //MARK: Load Data
     func loadData(_ inputData: String) {
         
         contentLabel.text = inputData
         contentLabel.font = self.fontLabel
-        
-        dynamicHeight = calculateHeight(text: inputData,
-                                       cellWidth: self.bounds.width - 20,
-                                       font:self.fontLabel)
-        
-        self.bounds.size.height = dynamicHeight
 
     }
 }
@@ -145,7 +143,7 @@ class ArticelDetailImageCell: UICollectionViewCell {
         contentImage.frame = CGRect (x: paddingLeft + 10,
                                      y: 10,
                                      width: self.bounds.width - paddingLeft - 30,
-                                     height: self.bounds.height)
+                                     height: self.bounds.height - 20)
         
    
     }

@@ -285,12 +285,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
             articelCell.backgroundColor = UIColor.white
-            
-            if indexPath.row != competitionIndex {
-                
-                articelCell.loadData(inputData: articleData[indexPath.row])
-                
-            }
+            articelCell.loadData(inputData: articleData[indexPath.row])
            
             return articelCell
             

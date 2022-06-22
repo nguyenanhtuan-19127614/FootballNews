@@ -16,14 +16,14 @@ struct ContentModel: Codable {
     let contents: [Content]?
     let content: Content?
     let boxes: [Box]?
-    //let related: [Related]?
+    let related: Related?
     
     enum CodingKeys: String, CodingKey {
         
         case contents
         case content
         case boxes
-        
+        case related
     }
 }
 
@@ -128,6 +128,13 @@ struct Body: Codable {
         
     }
 }
+
+// MARK: - Related
+struct Related: Codable {
+    let title: String
+    let contents: [Content]
+}
+
 
 //MARK: - Box ===========================
 struct Box: Codable {

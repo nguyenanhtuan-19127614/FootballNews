@@ -9,7 +9,6 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        self.layer.borderWidth = 2
         addViews()
         
     }
@@ -24,7 +23,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
         
     }()
@@ -32,7 +31,6 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     let subTitleLabel: Subtitle = {
         
         let label = Subtitle()
-    
         return label
         
     }()
@@ -42,7 +40,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
         
     }()
@@ -61,23 +59,21 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         
         titleLabel.frame = CGRect(x: paddingLeft,
                                   y: 20,
-                                  width: self.bounds.width - 20,
+                                  width: self.bounds.width - 35,
                                   height: 0)
         titleLabel.sizeToFit()
        
  
         
         subTitleLabel.frame = CGRect(x: paddingLeft,
-                                     y: titleLabel.frame.maxY + 20.0,
-                                     width: self.bounds.width - 20,
+                                     y: titleLabel.frame.maxY + 10.0,
+                                     width: self.bounds.width - 35,
                                      height: 30)
         
-        descriptionLabel.frame = CGRect(x: 15,
-                                        y: subTitleLabel.frame.maxY + 20,
-                                        width: self.bounds.width - 20,
+        descriptionLabel.frame = CGRect(x: paddingLeft,
+                                        y: subTitleLabel.frame.maxY + 10.0,
+                                        width: self.bounds.width - 35,
                                         height: 0)
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.sizeToFit()
         
         self.sizeToFit()
@@ -123,6 +119,9 @@ class Subtitle: UIView {
     let sourceLabel: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.numberOfLines = 0
+        
         return label
         
     }()
@@ -130,6 +129,8 @@ class Subtitle: UIView {
     let date: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.numberOfLines = 0
         return label
         
     }()
@@ -147,23 +148,24 @@ class Subtitle: UIView {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        sourceIcon.frame = CGRect(x: paddingLeft,
+        sourceIcon.frame = CGRect(x: 0,
                                   y: 0,
                                   width: self.bounds.height,
                                   height: self.bounds.height)
         
         sourceLabel.frame = CGRect(x: sourceIcon.frame.maxX + 10,
                                    y: 0,
-                                   width: 100,
+                                   width: sourceLabel.calculateWidth(cellHeight: self.bounds.height),
                                    height: self.bounds.height)
-        sourceLabel.font = UIFont.systemFont(ofSize: 15)
+        
+        //sourceLabel.layer.borderWidth = 1
         
         date.frame = CGRect(x: sourceLabel.frame.maxX + 5,
                             y: 0,
-                            width: 100,
+                            width: date.calculateWidth(cellHeight: self.bounds.height),
                             height: self.bounds.height)
-        date.font = UIFont.systemFont(ofSize: 15)
-
+      
+        
     }
     
     //MARK: Load data to cell
