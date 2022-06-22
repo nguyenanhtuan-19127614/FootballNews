@@ -78,12 +78,20 @@ class ArticelDetailController: UIViewController {
         
         if self.isMovingFromParent {
             
-            self.detailData = nil
-            contentBodyCount = 0
-            relatedCount = 0
+            self.resetData()
             articleDetailCollection?.reloadData()
             
         }
+        
+    }
+    
+    //MARK: Reset Function
+    func resetData() {
+        
+        self.detailData = nil
+        relatedArticleData = []
+        contentBodyCount = 0
+        relatedCount = 0
         
     }
     
@@ -267,8 +275,10 @@ extension ArticelDetailController: UICollectionViewDelegate {
             
             print("User tapped on item \(indexPath.row)")
             let index = indexPath.row - self.contentBodyCount - 1
+            let contentID = relatedArticleData[index].contentID
             
-            print(relatedArticleData[index])
+            resetData()
+            getArticelDetailData(contentID)
             
         }
     }
