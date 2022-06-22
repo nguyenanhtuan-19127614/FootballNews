@@ -31,6 +31,8 @@
 		03CF3DAB284F3D1A00200D02 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA8284F3D1A00200D02 /* NetworkManager.swift */; };
 		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
+		03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */; };
+		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
 		03ECED20284E0C2D009D9D3C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 03ECED1F284E0C2D009D9D3C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +82,8 @@
 		03CF3DA8284F3D1A00200D02 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = FootballNews/Model/Network/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
 		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
+		03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyCell.swift; sourceTree = "<group>"; };
+		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		03ECED1F284E0C2D009D9D3C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,6 +184,7 @@
 			children = (
 				0305AF4E285AE174009398A6 /* UIImageViewExtension.swift */,
 				0305AF5B285C646A009398A6 /* DateExtension.swift */,
+				03E1FFE42862D9AB00851333 /* UILabelExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */,
+				03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */,
 			);
 			path = ArticelDetail;
 			sourceTree = "<group>";
@@ -406,6 +412,7 @@
 				0305AF4C285ACBDD009398A6 /* HomeScoreBoardCell.swift in Sources */,
 				0305AF5C285C646A009398A6 /* DateExtension.swift in Sources */,
 				03CF3DAB284F3D1A00200D02 /* NetworkManager.swift in Sources */,
+				03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */,
 				0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
@@ -421,6 +428,7 @@
 				03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */,
 				0305AF3228583D7E009398A6 /* ResponseModel.swift in Sources */,
 				0305AF2F28583C8E009398A6 /* CompetitionModel.swift in Sources */,
+				03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

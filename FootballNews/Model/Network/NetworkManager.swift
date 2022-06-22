@@ -255,16 +255,20 @@ class CustomOperation: Operation {
     private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
     init(url: String) {
-        
         self.url = url
         self.session = URLSession()
     }
     
     init(url: String,method: HttpMethod = .GET, session: URLSession) {
-        
+       
         self.url = url
         self.session = session
         self.method = method
+        
+        if url.starts(with: "http://10") || url.isEmpty {
+            print("URL: \(url)")
+           
+        }
     }
     
     deinit {

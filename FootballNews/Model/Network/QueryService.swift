@@ -101,9 +101,14 @@ class QueryService: NetworkManager {
         }
         let customOperation = QueryServiceOperation(url: api.link, method: .GET, session: querySession)
         
-        
+        print(api)
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
+            
+            [weak customOperation] in
+            guard let customOperation = customOperation else {
+                return
+            }
             
             if customOperation.isCancelled {
                 

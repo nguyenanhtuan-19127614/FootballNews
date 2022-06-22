@@ -22,6 +22,8 @@ struct ArticelDetailData {
     
 }
 
+
+
 class ArticelDetailController: UIViewController {
     
     var contentID: String? = nil
@@ -38,14 +40,16 @@ class ArticelDetailController: UIViewController {
         
         //MARK: Detail Articel Collection
         let detailArticelLayout = UICollectionViewFlowLayout()
-        detailArticelLayout.itemSize = CGSize(width: self.view.bounds.width,
-                                           height: self.view.bounds.height)
+//        detailArticelLayout.itemSize = CGSize(width: self.view.bounds.width,
+//                                           height: self.view.bounds.height)
         
         detailArticelLayout.minimumLineSpacing = 20
-        detailArticelLayout.scrollDirection = .horizontal
         
         articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        
         articleDetailCollection?.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
+        articleDetailCollection?.register(ArticelDetailTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
+        articleDetailCollection?.register(ArticelDetailImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
         articleDetailCollection?.dataSource = self
         articleDetailCollection?.delegate = self
         
@@ -143,21 +147,59 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        guard let contentNumbers = detailData?.body?.count else {
+            return 1
+        }
+        
+        return 1 + contentNumbers
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
-        
-        headerCell.backgroundColor = UIColor.white
-        if let detailData = detailData {
+        //Header Part
+        if indexPath.row == 0 {
             
-            headerCell.loadData(detailData)
+            let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
+            
+            headerCell.backgroundColor = UIColor.white
+            if let detailData = detailData {
+                
+                headerCell.loadData(detailData)
+                
+            }
+         
+            return headerCell
+            
+        } else { //Body Part
+            
+            guard let bodyContent = detailData?.body else {
+                
+                return UICollectionViewCell()
+                
+            }
+            
+            if bodyContent[indexPath.row - 1].type == "text" {
+                
+                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailTextCell", for: indexPath) as! ArticelDetailTextCell
+                
+                bodyCell.backgroundColor = UIColor.white
+                bodyCell.loadData(bodyContent[indexPath.row - 1].content)
+              
+                return bodyCell
+                
+                
+            } else {
+                
+                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailImageCell", for: indexPath) as! ArticelDetailImageCell
+                
+                bodyCell.backgroundColor = UIColor.white
+
+                bodyCell.loadData(bodyContent[indexPath.row - 1].content)
+                return bodyCell
+                
+            }
             
         }
-     
-        return headerCell
         
     }
     
@@ -167,4 +209,36 @@ extension ArticelDetailController: UICollectionViewDataSource {
 extension ArticelDetailController: UICollectionViewDelegate {
     
     
+}
+
+//MARK: Delegate Flow Layout extension
+extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.row != 0 {
+            
+            guard let bodyContent = detailData?.body else {
+                
+                return CGSize(width: 0,
+                              height: 0)
+                
+            }
+            
+            if bodyContent[indexPath.row - 1].type == "text" {
+                
+                let label = UILabel()
+                label.text = bodyContent[indexPath.row - 1].content
+                label.font =  UIFont(name: "Helvetica", size: 16.0) ?? UIFont.systemFont(ofSize: 16)
+                return CGSize(width: self.view.bounds.width,
+                              height: label.calculateHeight(cellWidth: self.view.bounds.width))
+                
+            }
+            
+        }
+        
+        return CGSize(width: self.view.bounds.width,
+                      height: 200)
+        
+    }
 }

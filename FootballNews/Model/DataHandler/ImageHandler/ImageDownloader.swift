@@ -65,7 +65,7 @@ class ImageDownloader:  NetworkManager {
         
         self.downloadSession = URLSession(configuration: sessionConfig,
                                   delegate: nil,
-                                  delegateQueue: operationQueue)
+                                  delegateQueue: nil)
         
         //Config Operation Queue
         operationQueue.maxConcurrentOperationCount = 5
@@ -104,6 +104,10 @@ class ImageDownloader:  NetworkManager {
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
+            [weak customOperation] in
+            guard let customOperation = customOperation else {
+                return
+            }
             if customOperation.isCancelled {
                 
                 completion(.failure(ManagerErrors.OperationCancel))
