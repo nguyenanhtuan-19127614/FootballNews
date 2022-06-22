@@ -189,7 +189,7 @@ class NetworkManager  {
                        completion: @escaping (Result<Response, Error>) -> Void) {
         
         //Create URL Components
-        guard let urlComponent = URLComponents(string: url) else {
+        guard var urlComponent = URLComponents(string: url) else {
             
             completion(.failure(ManagerErrors.BadURL))
             return

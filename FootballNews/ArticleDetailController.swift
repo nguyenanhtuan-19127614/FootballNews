@@ -65,14 +65,15 @@ class ArticelDetailController: UIViewController {
     //MARK: viewDidLoad() state
     override func viewDidLoad() {
         
+        //articleDetailCollection?.scrollsToTop = true
         super.viewDidLoad()
         
         
     }
     
     //MARK: viewWillDisappear() state - clear all old data
-    
-    override func viewDidDisappear(_ animated: Bool) {
+   
+    override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
         
@@ -89,9 +90,9 @@ class ArticelDetailController: UIViewController {
     func resetData() {
         
         self.detailData = nil
-        relatedArticleData = []
-        contentBodyCount = 0
-        relatedCount = 0
+        self.relatedArticleData = []
+        self.contentBodyCount = 0
+        self.relatedCount = 0
         
     }
     
@@ -111,7 +112,9 @@ class ArticelDetailController: UIViewController {
             case .success(let data):
                 
                 guard let content = data.data?.content else {
+                    
                     return
+                    
                 }
                 
                 self?.detailData = ArticelDetailData(title: content.title,
@@ -125,7 +128,9 @@ class ArticelDetailController: UIViewController {
                 self?.contentBodyCount += self?.detailData?.body?.count ?? 0
                 
                 guard let related = data.data?.related else {
+                    
                     return
+                    
                 }
                 
                 for i in related.contents {
@@ -274,9 +279,9 @@ extension ArticelDetailController: UICollectionViewDelegate {
         if indexPath.row > contentBodyCount {
             
             print("User tapped on item \(indexPath.row)")
+            
             let index = indexPath.row - self.contentBodyCount - 1
             let contentID = relatedArticleData[index].contentID
-            
             resetData()
             getArticelDetailData(contentID)
             

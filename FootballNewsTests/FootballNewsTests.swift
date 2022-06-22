@@ -93,9 +93,23 @@ class FootballNewsTests: XCTestCase {
         
     }
     
-    func testThing() {
+    func testHTMLconverter() {
         
-        print(OperationQueue.defaultMaxConcurrentOperationCount)
+        let html = """
+        Cụ thể, theo vị này chỉ với việc đồng ý gia nhập <strong>Real Madrid</strong>, phía Mbappe nhận khoản thưởng khủng là 100 triệu euro.
+        """
+        
+        let data = NSString(string: html).data(using: String.Encoding.unicode.rawValue)
+        
+        if let attributedString = try? NSAttributedString(data: data!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+           
+            print(attributedString.string)
+            print(type(of: attributedString))
+            
+        } else {
+            
+            print("cannot convert")
+        }
         
     }
 }

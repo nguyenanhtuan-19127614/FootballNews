@@ -43,4 +43,27 @@ extension UILabel {
         return label.frame.width
         
     }
+    
+    func renderHTMLAtribute(from string: String, size: CGFloat = 0) {
+        
+        if let attributeString = string.renderHTMLAttribute() {
+            
+            self.attributedText = attributeString
+           
+            
+        } else {
+            
+            self.text = string
+           
+        }
+        
+       
+        
+        if size != 0 {
+            
+            self.font = self.font.withSize(size)
+            
+        }
+        
+    }
 }

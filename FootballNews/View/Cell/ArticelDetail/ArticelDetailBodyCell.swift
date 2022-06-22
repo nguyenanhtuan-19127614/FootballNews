@@ -38,22 +38,6 @@ class ArticelDetailTextCell: UICollectionViewCell {
         
     }()
     
-    func calculateHeight(text:String , cellWidth : CGFloat, font: UIFont) -> CGFloat
-    {
-        let font = font
-        let label = UILabel()
-        label.frame = CGRect(x: 0,
-                             y: 0,
-                             width: cellWidth,
-                             height: 0)
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = font
-        label.text = text
-        label.sizeToFit()
-        return label.frame.height
-
-    }
     //MARK: Add subviews to cell
     func addViews() {
 
@@ -97,8 +81,7 @@ class ArticelDetailTextCell: UICollectionViewCell {
     //MARK: Load Data
     func loadData(_ inputData: String) {
         
-        contentLabel.text = inputData
-        contentLabel.font = self.fontLabel
+        contentLabel.renderHTMLAtribute(from: inputData, size: 20)
 
     }
 }

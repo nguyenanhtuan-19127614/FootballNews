@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let homeVC = HomeViewController()
     let articelDetailVC = ArticelDetailController()
     
+    //let articelDetailVCContainer: [ArticelDetailController] = []
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
