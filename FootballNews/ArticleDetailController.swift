@@ -35,6 +35,8 @@ class ArticelDetailController: UIViewController {
     
     var articleDetailCollection: UICollectionView?
     
+    var isLoad = false
+    
     //MARK: loadView() state
     override func loadView() {
         
@@ -182,20 +184,26 @@ class ArticelDetailController: UIViewController {
         
         NotificationCenter.default
                           .addObserver(self,
-                                       selector:#selector(getDatafromHome(_:)),
-                                       name: NSNotification.Name ("HomeToArticel"), object: nil)
+                                       selector:#selector(getContentID(_:)),
+                                       name: NSNotification.Name ("SendContentIDToArticel"), object: nil)
         
     }
     
     //MARK: Observers function
-    @objc func getDatafromHome(_ notification: Notification){
+    @objc func getContentID(_ notification: Notification){
         
-        if notification.object is HomeArticleData {
+        if isLoad == false {
             
-            self.contentID = (notification.object as! HomeArticleData).contentID
-        
+            if notification.object is HomeArticleData {
+                
+                self.contentID = (notification.object as! HomeArticleData).contentID
+            
+            }
+            print("hi \(self.contentID)")
+            getArticelDetailData(self.contentID)
+            isLoad = true
         }
-        getArticelDetailData(self.contentID)
+       
         
     }
 }
@@ -285,8 +293,9 @@ extension ArticelDetailController: UICollectionViewDelegate {
             
             let index = indexPath.row - self.contentBodyCount - 1
             let contentID = relatedArticleData[index].contentID
-            resetData()
-            getArticelDetailData(contentID)
+            NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: relatedArticleData[index])
+            //resetData()
+            //getArticelDetailData(contentID)
             
         }
     }

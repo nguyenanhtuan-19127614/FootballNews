@@ -13,9 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var navController: UINavigationController?
     let homeVC = HomeViewController()
-    let articelDetailVC = ArticelDetailController()
-    
-    //let articelDetailVCContainer: [ArticelDetailController] = []
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -46,14 +43,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           .addObserver(self,
                                        selector:#selector(toArticel(_:)),
                                        name: NSNotification.Name ("HomeToArticel"), object: nil)
-        articelDetailVC.addObservers()
+        
         
     }
     
     @objc func toArticel(_ notification: Notification){
        
+        //Define articel Detail view controller
+        let articelDetailVC = ArticelDetailController()
+        articelDetailVC.addObservers()
+        
+        //push view controller
         navController?.pushViewController(articelDetailVC, animated: true)
         
+        //Send contentID to Articel
+        NotificationCenter.default.post(name: NSNotification.Name("SendContentIDToArticel"), object: notification.object)
+
     }
     
 }
