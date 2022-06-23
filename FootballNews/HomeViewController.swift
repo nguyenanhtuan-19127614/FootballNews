@@ -64,7 +64,7 @@ class HomeViewController : UIViewController {
     var competitionData: [HomeCompetitionData] = []
     
     //Main CollectionView
-    var articleCollection: UICollectionView?
+    var homeCollection: UICollectionView?
     
     //MARK: loadView() state
     override func loadView() {
@@ -85,23 +85,22 @@ class HomeViewController : UIViewController {
         articleLayout.minimumLineSpacing = 25
         
         //Custom CollectionView
-        articleCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
-        articleCollection?.backgroundColor = UIColor.white
-        articleCollection?.showsVerticalScrollIndicator = false
+        homeCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
+        homeCollection?.backgroundColor = UIColor.white
         
         //Register data for CollectionView
-        articleCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
-        articleCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
-        articleCollection?.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
+        homeCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        homeCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
+        homeCollection?.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         
-        articleCollection?.dataSource = self
-        articleCollection?.delegate = self
+        homeCollection?.dataSource = self
+        homeCollection?.delegate = self
         
        
         
         //MARK: Add layout and Subviews
         addSubviewsLayout()
-        view.addSubview(articleCollection ?? UICollectionView())
+        view.addSubview(homeCollection ?? UICollectionView())
        
         self.view = view
         
@@ -159,7 +158,7 @@ class HomeViewController : UIViewController {
                     DispatchQueue.main.async {
     
                         //Reload all collection data
-                        self?.articleCollection?.reloadData()
+                        self?.homeCollection?.reloadData()
 
                     }
                 }
@@ -241,7 +240,7 @@ class HomeViewController : UIViewController {
     func addSubviewsLayout() {
       
         //Listing Collection
-        articleCollection?.frame = CGRect(x: 0,
+        homeCollection?.frame = CGRect(x: 0,
                                           y: 0 ,
                                           width: self.view.bounds.width,
                                           height: self.view.bounds.height)

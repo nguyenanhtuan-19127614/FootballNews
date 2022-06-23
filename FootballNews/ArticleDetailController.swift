@@ -39,12 +39,14 @@ class ArticelDetailController: UIViewController {
     override func loadView() {
         
         super.loadView()
+        
+        //MARK: Create customView
         let view = UIView()
         view.backgroundColor = .white
         
         //MARK: Detail Articel Collection
         let detailArticelLayout = UICollectionViewFlowLayout()
-        detailArticelLayout.minimumLineSpacing = 25
+        detailArticelLayout.minimumLineSpacing = 15
         
         articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
         
@@ -65,9 +67,7 @@ class ArticelDetailController: UIViewController {
     //MARK: viewDidLoad() state
     override func viewDidLoad() {
         
-        //articleDetailCollection?.scrollsToTop = true
         super.viewDidLoad()
-        
         
     }
     
@@ -116,7 +116,7 @@ class ArticelDetailController: UIViewController {
                     return
                     
                 }
-                
+                //Load detail data
                 self?.detailData = ArticelDetailData(title: content.title,
                                                      date: content.date,
                                                      description: content.description,
@@ -125,6 +125,9 @@ class ArticelDetailController: UIViewController {
                                                      sourceIcon: content.publisherIcon,
                                                      body: content.body)
                 
+               
+                
+                //number of content
                 self?.contentBodyCount += self?.detailData?.body?.count ?? 0
                 
                 guard let related = data.data?.related else {
@@ -132,7 +135,7 @@ class ArticelDetailController: UIViewController {
                     return
                     
                 }
-                
+                //Load related contents data
                 for i in related.contents {
                     
                     self?.relatedArticleData.append(HomeArticleData(contentID: String(i.contentID),
@@ -144,11 +147,11 @@ class ArticelDetailController: UIViewController {
                 }
                 
                 
-                
+                //related content numbers
                 self?.relatedCount += self?.relatedArticleData.count ?? 0
                 
                 DispatchQueue.main.async {
-                    
+                    //Reload Collection
                     self?.articleDetailCollection?.reloadData()
                     
                 }
@@ -235,7 +238,8 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailTextCell", for: indexPath) as! ArticelDetailTextCell
                 
                 bodyCell.backgroundColor = UIColor.white
-                bodyCell.loadData(bodyContent[indexPath.row - 1].content)
+                bodyCell.loadData(bodyContent[indexPath.row - 1].content,
+                                  subtype: bodyContent[indexPath.row - 1].subtype)
               
                 bodyCell.bounds.size = CGSize(width: self.view.bounds.width,
                                               height: bodyCell.calculateHeight())
@@ -261,7 +265,6 @@ extension ArticelDetailController: UICollectionViewDataSource {
             relatedCell.backgroundColor = UIColor.white
             
             let index = indexPath.row - self.contentBodyCount - 1
-            print(index)
             relatedCell.loadData(inputData: self.relatedArticleData[index])
             return relatedCell
         
@@ -292,7 +295,8 @@ extension ArticelDetailController: UICollectionViewDelegate {
 
 //MARK: Delegate Flow Layout extension
 extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
-
+    
+    //Set size for each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         guard let detailData = detailData else {
@@ -316,7 +320,6 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             height += descriptionLabel.calculateHeight(cellWidth: self.view.bounds.width - 35)
             height += 30 + 50
             
-            print("height: \(height)")
             return CGSize(width: self.view.bounds.width ,
                           height: height)
             
@@ -333,7 +336,17 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 
                 let contentLabel = UILabel()
                 contentLabel.text = bodyContent[indexPath.row - 1].content
-                contentLabel.font =  UIFont(name: "Helvetica", size: 20.0) ?? UIFont.systemFont(ofSize: 16)
+                contentLabel.font =  UIFont(name: "Helvetica", size: 22.0) ?? UIFont.systemFont(ofSize: 20)
+                    
+                if let subtype = bodyContent[indexPath.row - 1].subtype {
+                    
+                    if subtype == "media-caption" {
+                        
+                        contentLabel.font = contentLabel.font.withSize(18)
+                        
+                    }
+                   
+                }
                 
                 return CGSize(width: self.view.bounds.width - 30,
                               height: contentLabel.calculateHeight(cellWidth: self.view.bounds.width ))

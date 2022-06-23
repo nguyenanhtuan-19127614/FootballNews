@@ -33,7 +33,7 @@ class ArticelDetailTextCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-       
+        
         return label
         
     }()
@@ -55,7 +55,7 @@ class ArticelDetailTextCell: UICollectionViewCell {
                                      width: self.bounds.width - 30,
                                      height: 0)
         contentLabel.sizeToFit()
-     
+        contentLabel.frame.size.width = self.bounds.width - 30
         
 //        NSLayoutConstraint.activate([
 //
@@ -79,10 +79,21 @@ class ArticelDetailTextCell: UICollectionViewCell {
     }
    
     //MARK: Load Data
-    func loadData(_ inputData: String) {
+    func loadData(_ inputData: String, subtype: String?) {
         
-        contentLabel.renderHTMLAtribute(from: inputData, size: 20)
+        contentLabel.renderHTMLAtribute(from: inputData, size: 22)
+        
+        guard subtype != nil else {
+            return
+        }
+         
+        if subtype == "media-caption" {
+        
+            contentLabel.font = contentLabel.font.withSize(18)
+            contentLabel.textAlignment = .center
 
+        }
+    
     }
 }
 
@@ -123,11 +134,12 @@ class ArticelDetailImageCell: UICollectionViewCell {
         
         super.layoutSubviews()
     
-        contentImage.frame = CGRect (x: paddingLeft + 10,
-                                     y: 10,
-                                     width: self.bounds.width - paddingLeft - 30,
-                                     height: self.bounds.height - 20)
-        
+        contentImage.frame = CGRect (x: paddingLeft,
+                                     y: 0,
+                                     width: self.bounds.width - (2 * paddingLeft),
+                                     height: self.bounds.height)
+       
+   
    
     }
     

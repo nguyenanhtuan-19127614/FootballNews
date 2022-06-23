@@ -15,11 +15,8 @@ extension String {
         let data = NSString(string: self).data(using: String.Encoding.unicode.rawValue)
         
         if let attributedString = try? NSAttributedString(data: data!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-            
-            print(attributedString)
+
             return attributedString
-//            contentLabel.attributedText = attributedString
-//            contentLabel.font = contentLabel.font.withSize(20)
             
         } else {
             
