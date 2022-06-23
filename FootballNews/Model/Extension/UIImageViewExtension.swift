@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-
-
 extension UIImageView {
     
     
@@ -19,103 +17,31 @@ extension UIImageView {
             return
         }
             
-//        ImageDownloader.sharedService.download(url: url) {
-//
-//            [weak self]
-//            result in
-//            switch result {
-//
-//            case .success(let data):
-//
-//                DispatchQueue.main.async() {
-//
-//                    self?.image = UIImage(data: data)
-//
-//                }
-//
-//
-//            case .failure(let err):
-//
-//                DispatchQueue.main.async {
-//                    self?.image = UIImage(named: "loading")
-//                }
-//                print(err)
-//            }
-//            gr.leave()
-//        }
+       
+        ImageDownloader.sharedService.download(url: url) {
 
-        if let imageCache = ImageCache.shared.getImageData(url: url) {
+            [weak self]
+            result in
+            switch result {
 
-            print("Image is already in cache")
-            
-            DispatchQueue.main.async {
-                
-                self.image = UIImage(data: imageCache)
-                
-            }
-           
-            return
+            case .success(let data):
 
-        }   
+                DispatchQueue.main.async() {
 
-        let dispatchQueue = DispatchQueue(label: "loadImageQueue", qos: .utility, attributes: .concurrent)
-        let operationQueue = OperationQueue() 
-        operationQueue.maxConcurrentOperationCount = 5
-        operationQueue.underlyingQueue = dispatchQueue
+                    self?.image = UIImage(data: data)
 
-        guard let downloadSession = ImageDownloader.sharedService.downloadSession else {
-            return
-        }
-        
-        let customOperation = NetworkDownloadOperation(url: url, session: downloadSession )
-        customOperation.completionBlock = {
-            
-            [weak customOperation] in
-            
-            guard let customOperation = customOperation else {
-                return
-            }
-            
-            if customOperation.isCancelled {
-                
+                }
+
+
+            case .failure(let err):
+
                 DispatchQueue.main.async {
-                    
-                    self.image = UIImage(named: "loading")
-                    
+                    self?.image = UIImage(named: "loading")
                 }
-                return
-
+                print(err)
             }
-
-            guard let response = customOperation.response else {
-                
-                DispatchQueue.main.async() {
-                        
-                    self.image = UIImage(named: "loading")
-                  
-                }
-                print("=============================================================")
-                print("Werld URL: \(url)")
-                print("Bad Response")
-                return
-
-            }
-
-            //Store image data to cache
-            if let data = response._data {
-                
-              
-                ImageCache.shared.addImage(imgData: data, url: url)
-                DispatchQueue.main.async() {
-                    
-                    self.image = UIImage(data: data)
-                  
-                }
-
-            }
-
+  
         }
 
-        operationQueue.addOperation(customOperation)
     }
 }

@@ -17,6 +17,13 @@ class NetworkDownloadOperation: CustomOperation {
     
     override func main() {
         
+        if isCancelled {
+            
+            self.response = nil
+            return
+            
+        }
+        
         ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) { [weak self] result in
             
             switch result {

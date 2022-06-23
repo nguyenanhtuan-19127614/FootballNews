@@ -22,6 +22,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
     
         if isCancelled {
             
+            self.response = nil
             return
             
         }
