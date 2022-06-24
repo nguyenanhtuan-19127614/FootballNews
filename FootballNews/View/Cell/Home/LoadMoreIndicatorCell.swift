@@ -24,6 +24,7 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
         
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         return indicator
         
     }()
@@ -35,15 +36,13 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        
-        print("LoadMoreCellWidt: \(self.bounds.width)")
       
         NSLayoutConstraint.activate([
             
             indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            indicator.widthAnchor.constraint(equalToConstant: self.bounds.width / 5),
-            indicator.heightAnchor.constraint(equalToConstant: self.bounds.height)
+                    
         ])
+        
     }
 }
