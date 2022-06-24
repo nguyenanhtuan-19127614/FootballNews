@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default
                           .addObserver(self,
                                        selector:#selector(toArticel(_:)),
-                                       name: NSNotification.Name ("HomeToArticel"), object: nil)
+                                       name: NSNotification.Name ("ToArticelVC"), object: nil)
         
         
     }
@@ -52,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Define articel Detail view controller
         let articelDetailVC = ArticelDetailController()
         articelDetailVC.addObservers()
-        
         //push view controller
         navController?.pushViewController(articelDetailVC, animated: true)
         

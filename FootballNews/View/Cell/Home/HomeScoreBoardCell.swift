@@ -172,12 +172,13 @@ class ScoreBoardTeamStatus: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViews()
+        addSubViews()
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+      
     }
     
     //MARK: Define SubViews
@@ -211,7 +212,7 @@ class ScoreBoardTeamStatus: UIView {
     }()
     
     //MARK: Add subviews to cell
-    func addViews() {
+    func addSubViews() {
         
         addSubview(logoTeam)
         addSubview(teamName)

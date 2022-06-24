@@ -303,7 +303,7 @@ extension HomeViewController: UICollectionViewDelegate {
             
             print("User tapped on item \(indexPath.row)")
             
-            NotificationCenter.default.post(name: NSNotification.Name("HomeToArticel"), object: articleData[indexPath.row])            
+            NotificationCenter.default.post(name: NSNotification.Name("ToArticelVC"), object: articleData[indexPath.row])            
             
         }
     }
