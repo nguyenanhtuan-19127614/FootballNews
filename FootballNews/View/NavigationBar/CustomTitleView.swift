@@ -53,8 +53,7 @@ class CustomTitleView: UIImageView {
         
         ])
         
-        self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.green.cgColor
+       
         
     }
     

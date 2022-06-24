@@ -173,10 +173,12 @@ class ArticelDetailController: UIViewController {
       
         //Listing Collection
         articleDetailCollection?.frame = CGRect(x: 0,
-                                                y: 10,
+                                                y: 0,
                                                 width: self.view.bounds.width,
-                                                height: self.view.bounds.height)
-        
+                                                height: self.view.bounds.height
+                                                        - self.view.bounds.height/7)
+      
+       
     }
     
     //MARK: Observers

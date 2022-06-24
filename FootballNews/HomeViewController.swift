@@ -62,7 +62,7 @@ class HomeViewController : UIViewController {
     var articleData: [HomeArticleData] = []
     var scoreBoardData: [HomeScoreBoardData] = []
     var competitionData: [HomeCompetitionData] = []
-    
+
     //Main CollectionView
     var homeCollection: UICollectionView?
     
@@ -92,6 +92,7 @@ class HomeViewController : UIViewController {
         homeCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         homeCollection?.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         homeCollection?.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
+        homeCollection?.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "HomeLoadMoreCell")
         
         homeCollection?.dataSource = self
         homeCollection?.delegate = self
@@ -243,7 +244,9 @@ class HomeViewController : UIViewController {
         homeCollection?.frame = CGRect(x: 0,
                                           y: 0 ,
                                           width: self.view.bounds.width,
-                                          height: self.view.bounds.height)
+                                          height: self.view.bounds.height
+                                                  - self.view.bounds.height/7)
+      
     }
 
 }
@@ -251,7 +254,7 @@ class HomeViewController : UIViewController {
 //MARK: Datasource Extension
 extension HomeViewController: UICollectionViewDataSource {
     
-    //Return Cells Number
+    //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return articleData.count
@@ -279,7 +282,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
             return scoreBoardCell
             
-        } else {
+        } else if indexPath.row < articleData.count - 1  {
             
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
@@ -287,6 +290,13 @@ extension HomeViewController: UICollectionViewDataSource {
             articelCell.loadData(inputData: articleData[indexPath.row])
            
             return articelCell
+            
+        } else {
+            
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            return indicatorCell
             
         }
     }
@@ -320,6 +330,7 @@ extension HomeViewController: UICollectionViewDelegate {
             
         }
     }
+
 }
 
 //MARK: Delegate Flow Layout extension
@@ -339,11 +350,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: self.view.bounds.width,
                           height: self.view.bounds.height/5)
             
-        } else {
+        } else if indexPath.row < articleData.count - 1  {
           
             //articel size
             return CGSize(width: self.view.bounds.width,
                           height: self.view.bounds.height/7)
+        } else {
+            
+            //load more animation cell size
+            return CGSize(width: self.view.bounds.width,
+                          height: self.view.bounds.height/25)
+            
         }
            
     }
