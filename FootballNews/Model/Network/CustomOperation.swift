@@ -7,18 +7,22 @@
 
 import Foundation
 
+enum OperationState {
+    
+    case executing
+    case finish
+    
+}
+
 class CustomOperation: Operation {
     
     var response: Response?
+    
     var url: String = ""
     var method: HttpMethod = .GET
     var session: URLSession
-    private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
-    init(url: String) {
-        self.url = url
-        self.session = URLSession()
-    }
+    private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
     init(url: String,method: HttpMethod = .GET, session: URLSession) {
        
@@ -27,7 +31,7 @@ class CustomOperation: Operation {
         self.method = method
         
         if url.starts(with: "http://10") || url.isEmpty {
-            print("URL: \(url)")
+            print("Weird URL: \(url)")
            
         }
     }
@@ -89,7 +93,7 @@ class CustomOperation: Operation {
         
         //print("Starting Operation")
         guard !isCancelled else { return }
-        
+    
         isFinished = false
         isExecuting = true
         main()

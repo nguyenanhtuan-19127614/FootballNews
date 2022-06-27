@@ -158,7 +158,8 @@ class ImageDownloader {
         
        
         let customOperation = NetworkDownloadOperation(url: url, session: downloaddSession)
-
+        //Name custom operation
+        customOperation.name = url
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
@@ -183,12 +184,10 @@ class ImageDownloader {
         
             //Store image data to cache
             if let data = response._data {
-
-                
-                self?.imageCache.addImage(imgData: data, url: url)
                
+                self?.imageCache.addImage(imgData: data, url: url)
                 DispatchQueue.main.async {
-                    
+                
                     completion(.success(UIImage(data: data) ?? nil))
                     
                 }
@@ -202,6 +201,20 @@ class ImageDownloader {
             return
         }
         
+        //check if operation allready in queue
+        
+        for ope in operationQueue.operations {
+            
+            if customOperation.name == ope.name {
+                
+                print("Operation already added")
+                customOperation.cancel()
+                return
+                
+            }
+        }
+        
+        //add operation
         operationQueue.addOperation(customOperation)
         
     }

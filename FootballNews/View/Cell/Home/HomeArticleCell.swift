@@ -17,7 +17,15 @@ class HomeArticleCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    //MARK: prepareForReuse
+    override func prepareForReuse() {
+        
+        super.prepareForReuse()
+        newsAvatar.image = nil
+        authorAvatar.image = nil
+        title.text = nil
+        
+    }
     // MARK: Define Sub-view
     let newsAvatar: UIImageView = {
         

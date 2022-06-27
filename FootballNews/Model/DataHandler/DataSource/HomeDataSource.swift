@@ -44,8 +44,7 @@ struct HomeCompetitionData {
 }
 
 class HomeDataSource {
-    
-    
+
     var articelSize = 0
     var scoreBoardSize = 0
     var competitionSize = 0
