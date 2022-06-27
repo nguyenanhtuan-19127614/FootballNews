@@ -310,6 +310,10 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
 }
 
+//ListViewDatasource<Data>
+//ListViewController
+//
+
 //MARK: Delegate Flow Layout extension
 extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     

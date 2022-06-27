@@ -24,7 +24,7 @@ class HomeArticleCell: UICollectionViewCell {
         let imgView = UIImageView()
         imgView.layer.cornerRadius = 10.0
         imgView.layer.masksToBounds = true
-        //imgView.image = UIImage(named: "loading")
+       
         
         return imgView
         
@@ -35,7 +35,7 @@ class HomeArticleCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
-
+  
         return label
         
     }()
@@ -43,6 +43,8 @@ class HomeArticleCell: UICollectionViewCell {
     let authorAvatar: UIImageView = {
         
         let imgView = UIImageView()
+        imgView.contentMode = .scaleToFill
+        imgView.clipsToBounds = true
         return imgView
         
     }()
@@ -55,6 +57,7 @@ class HomeArticleCell: UICollectionViewCell {
         
     }()
     
+   
     //MARK: Add subviews to cell
     func addViews() {
         

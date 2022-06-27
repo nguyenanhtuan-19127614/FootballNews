@@ -24,8 +24,10 @@ class NetworkDownloadOperation: CustomOperation {
             
         }
         
-        ImageDownloader.sharedService.startCallApi(self.url, .GET, session: self.session) { [weak self] result in
+        ImageDownloader.sharedService.startCallApi(self.url, session: self.session) {
             
+            [weak self] result in
+
             switch result {
                 
             case .success(let res):
@@ -47,10 +49,13 @@ class NetworkDownloadOperation: CustomOperation {
 }
 
 //MARK: Class Image Downloader
-class ImageDownloader:  NetworkManager {
+class ImageDownloader {
 
     //Singleton
     static let sharedService = ImageDownloader()
+    
+    //Image Cache
+    private let imageCache = ImageCache()
     
     //Constant (Use to config sessoin)
     private let timeoutForRequest = TimeInterval(30)
@@ -64,7 +69,7 @@ class ImageDownloader:  NetworkManager {
     let operationQueue = OperationQueue()
     
     //Private Init
-    override private init() {
+    private init() {
         
         //Create session
         sessionConfig.timeoutIntervalForRequest = timeoutForRequest
@@ -79,22 +84,69 @@ class ImageDownloader:  NetworkManager {
         
         let dispatchQueue = DispatchQueue(label: "downloadQueue", qos: .utility, attributes: .concurrent)
         operationQueue.underlyingQueue = dispatchQueue
+    }
+    
+    //startCallApi
+    func startCallApi (_ url: String,
+                       session: URLSession,
+                       completion: @escaping (Result<Response, Error>) -> Void) {
+        
+        //Create URL Components
+        guard let urlComponent = URLComponents(string: url) else {
+            
+            completion(.failure(ManagerErrors.BadURL))
+            return
+            
+        }
+        
+        //Create URL
+        let url = urlComponent.url!
+        // Create a request URL
+        let request = URLRequest(url: url)
+        
+        let dataTask = session.dataTask(with: request) {
+            
+
+            (data, response, error) in
+                                         
+            guard let response = response else {
+                
+                completion(.failure(ManagerErrors.BadResponse))
+                return
+                
+            }
+        
+            guard let data = data else {
+
+                if let error = error {
+            
+                    completion(.failure(error))
+            
+                }
+                
+                return
+                
+            }
+            
+            let responseBody = Response(_data: data, _response: response, _error: error)
+            
+            completion(.success(responseBody))
+           
+        }
+        
+        dataTask.resume()
         
     }
     
-    
-    
     //MARK: Main function, use this for download
     func download (url: String,
-             method: HttpMethod = .GET,
-             queryItems: [String: String]? = nil,
-             completion: @escaping ( Result<Data,Error> ) -> Void ) {
-        
+                   completion: @escaping ( Result<UIImage?,Error> ) -> Void ) {
+
         //Check if image is in cache
-        if let imageCache = ImageCache.shared.getImageData(url: url) {
+        if let imageCache = imageCache.getImageData(url: url) {
             
             print("Image is already in cache")
-            completion(.success(imageCache))
+            completion(.success(UIImage(data: imageCache)))
             return
             
         }
@@ -105,20 +157,21 @@ class ImageDownloader:  NetworkManager {
         }
         
        
-        let customOperation = NetworkDownloadOperation(url: url, session: downloaddSession )
+        let customOperation = NetworkDownloadOperation(url: url, session: downloaddSession)
 
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
-            [weak customOperation] in
+            [weak customOperation, weak self] in
             guard let customOperation = customOperation else {
                 return
             }
+            
             if customOperation.isCancelled {
                 
                 completion(.failure(ManagerErrors.OperationCancel))
-                
+                return
             }
             
             guard let response = customOperation.response else {
@@ -127,15 +180,26 @@ class ImageDownloader:  NetworkManager {
                 return
                 
             }
-            
+        
             //Store image data to cache
             if let data = response._data {
-   
-                ImageCache.shared.addImage(imgData: data, url: url)
-                completion(.success(data))
+
+                
+                self?.imageCache.addImage(imgData: data, url: url)
+               
+                DispatchQueue.main.async {
+                    
+                    completion(.success(UIImage(data: data) ?? nil))
+                    
+                }
+                
                 
             }
 
+        }
+        
+        if customOperation.isCancelled {
+            return
         }
         
         operationQueue.addOperation(customOperation)

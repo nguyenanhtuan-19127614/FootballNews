@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 extension UIImageView {
     
     
@@ -16,19 +17,18 @@ extension UIImageView {
         guard let url = url else {
             return
         }
-            
-       
+        
         ImageDownloader.sharedService.download(url: url) {
 
             [weak self]
             result in
             switch result {
 
-            case .success(let data):
+            case .success(let image):
 
                 DispatchQueue.main.async() {
 
-                    self?.image = UIImage(data: data)
+                    self?.image = image
 
                 }
 

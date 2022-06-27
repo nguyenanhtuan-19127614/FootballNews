@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var navController: UINavigationController?
     let homeVC = HomeViewController()
+
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -43,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           .addObserver(self,
                                        selector:#selector(toArticel(_:)),
                                        name: NSNotification.Name ("ToArticelVC"), object: nil)
-        
+    
         
     }
     

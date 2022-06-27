@@ -44,6 +44,8 @@ class CustomTitleView: UIImageView {
         
         super.layoutSubviews()
         
+        
+        
         NSLayoutConstraint.activate([
             
             titleImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),

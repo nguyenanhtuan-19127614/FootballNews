@@ -114,7 +114,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
         //Subviews that don't need downloading
         self.competitionLabel.text = inputData.competition
-        let date = DateManager.shared.timestampToDate(inputData.time)
+        let date = Date().timestampToDate(inputData.time)
        
         //Subviews that need downloading
         self.homeTeam.loadData(logoTeam: inputData.homeLogo,
@@ -131,20 +131,20 @@ class HomeScoreBoardCell: UICollectionViewCell {
         // Live Match
         case 0:
             self.statusView.backgroundColor = .red
-            self.timeLabel.text = "Trực tiếp -" + DateManager.shared.dateToString(date)
+            self.timeLabel.text = "Trực tiếp -" + Date().dateToString(date)
             self.timeLabel.textColor = .red
         
         // Future Match
         case 1:
             self.statusView.backgroundColor = UIColor(red: 0, green: 0.533, blue: 0.525, alpha: 1)
-            self.timeLabel.text = DateManager.shared.dateToString(date, fullDate: true)
+            self.timeLabel.text = Date().dateToString(date, fullDate: true)
             self.homeTeam.scoreLabel.text = "-"
             self.awayTeam.scoreLabel.text = "-"
         
         // Complete Match
         case 2:
             self.statusView.backgroundColor = .gray
-            self.timeLabel.text = "Đã Kết Thúc - " + DateManager.shared.dateToString(date)
+            self.timeLabel.text = "Đã Kết Thúc - " + Date().dateToString(date)
             
             if inputData.awayScore < inputData.homeScore {
                 

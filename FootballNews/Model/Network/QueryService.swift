@@ -26,7 +26,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
             return
             
         }
-        
+
         QueryService.sharedService.startCallApi(self.url, self.method, session: session) {
             
             [weak self]
@@ -45,7 +45,9 @@ fileprivate class QueryServiceOperation: CustomOperation {
                 self?.response = nil
                 
             }
+            
             self?.finish()
+            
         }
         
 
@@ -54,7 +56,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
 
 //MARK: DELEGATION CLASS - QUERY DATA API
 
-class QueryService: NetworkManager {
+class QueryService {
     
     
     //Singleton
@@ -72,7 +74,7 @@ class QueryService: NetworkManager {
     let operationQueue = OperationQueue()
     
     //Private Init
-    override private init() {
+    private init() {
         
         //Create session
         sessionConfig.timeoutIntervalForRequest = timeoutForRequest
@@ -89,6 +91,79 @@ class QueryService: NetworkManager {
 
     }
     
+    //startCallApi
+    func startCallApi (_ url: String,
+                       _ method: HttpMethod,
+                       session: URLSession,
+                       completion: @escaping (Result<Response, Error>) -> Void) {
+        
+        //Create URL Components
+        guard let urlComponent = URLComponents(string: url) else {
+            
+            completion(.failure(ManagerErrors.BadURL))
+            return
+            
+        }
+        
+        //Create URL
+        let url = urlComponent.url!
+        
+        // Create a request URL
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.allHTTPHeaderFields = [
+            _headerFields.0: _headerFields.1
+        ]
+        
+        
+        
+        let dataTask = session.dataTask(with: request) {
+            
+
+            (data, response, error) in
+                                         
+            
+        
+            guard let response = response else {
+                
+                completion(.failure(ManagerErrors.BadResponse))
+                return
+                
+            }
+            
+            //Check Response Code
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                if httpResponse.statusCode == 503 {
+                    
+                    completion(.failure(ManagerErrors.ServiceUnavailable_503))
+                
+                }
+                
+            }
+            
+            
+            guard let data = data else {
+
+                if let error = error {
+            
+                    completion(.failure(error))
+            
+                }
+                
+                return
+                
+            }
+            
+            let responseBody = Response(_data: data, _response: response, _error: error)
+            
+            completion(.success(responseBody))
+           
+        }
+        
+        dataTask.resume()
+        
+    }
 
     //MARK: GET METHOD - use this for calling GET method
     // Return: decoded Data (Struct, Class)
@@ -100,9 +175,8 @@ class QueryService: NetworkManager {
             return
             
         }
-        let customOperation = QueryServiceOperation(url: api.link, method: .GET, session: querySession)
-        
-        print(api)
+        let customOperation = QueryServiceOperation(url: api.link, method: api.method, session: querySession)
+
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
@@ -114,12 +188,13 @@ class QueryService: NetworkManager {
             if customOperation.isCancelled {
                 
                 completion(.failure(ManagerErrors.OperationCancel))
+                return
                 
             }
             
             guard let response = customOperation.response else {
                 
-                completion(.failure(ManagerErrors.BadData))
+                completion(.failure(ManagerErrors.BadResponse))
                 return
                 
             }
@@ -145,6 +220,10 @@ class QueryService: NetworkManager {
 
             }
             
+        }
+        
+        if customOperation.isCancelled {
+            return
         }
         
         // Operation Queue execute Operation

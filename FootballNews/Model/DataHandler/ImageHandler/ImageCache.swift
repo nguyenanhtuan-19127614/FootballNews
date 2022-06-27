@@ -14,10 +14,6 @@ import UIKit
 
 class ImageCache {
     
-    //Singleton
-    static var shared = ImageCache()
-    private init() {}
-    
     //Cache config
     private let countLimit = 20
     private let memoryLimit = 1024 * 1024 * 5

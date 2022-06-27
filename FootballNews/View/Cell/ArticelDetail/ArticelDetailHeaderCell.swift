@@ -174,8 +174,8 @@ class Subtitle: UIView {
         self.sourceIcon.loadImage(url: sourceIcon)
         self.sourceLabel.text = sourceLabel
         
-        let date = DateManager.shared.timestampToDate(date)
-        self.date.text = DateManager.shared.dateToString(date)
+        let date = Date().timestampToDate(date)
+        self.date.text = Date().dateToString(date)
         
     }
 }
