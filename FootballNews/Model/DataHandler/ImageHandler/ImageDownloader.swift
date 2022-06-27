@@ -151,15 +151,27 @@ class ImageDownloader {
             
         }
         
-        guard let downloaddSession = downloadSession else {
+        guard let downloadSession = downloadSession else {
             completion(.failure(ManagerErrors.NullSession))
             return
         }
         
        
-        let customOperation = NetworkDownloadOperation(url: url, session: downloaddSession)
+        let customOperation = NetworkDownloadOperation(url: url, session: downloadSession)
         //Name custom operation
         customOperation.name = url
+        
+        //check if operation allready in queue
+        for ope in operationQueue.operations {
+            
+            if customOperation.name == ope.name {
+                
+                print("Download Operation already added")
+                customOperation.cancel()
+                return
+                
+            }
+        }
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
@@ -201,18 +213,7 @@ class ImageDownloader {
             return
         }
         
-        //check if operation allready in queue
-        
-        for ope in operationQueue.operations {
-            
-            if customOperation.name == ope.name {
-                
-                print("Operation already added")
-                customOperation.cancel()
-                return
-                
-            }
-        }
+      
         
         //add operation
         operationQueue.addOperation(customOperation)

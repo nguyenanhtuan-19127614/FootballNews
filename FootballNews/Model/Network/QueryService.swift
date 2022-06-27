@@ -112,7 +112,7 @@ class QueryService {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = [
-            _headerFields.0: _headerFields.1
+            "api_key": "bm_fresher_2022"
         ]
         
         
@@ -177,6 +177,21 @@ class QueryService {
         }
         let customOperation = QueryServiceOperation(url: api.link, method: api.method, session: querySession)
 
+        //Name custom operation
+        customOperation.name = api.link
+        
+        //check if operation allready in queue
+        for ope in operationQueue.operations {
+            
+            if customOperation.name == ope.name {
+                
+                print("Query Operation already added")
+                customOperation.cancel()
+                return
+                
+            }
+        }
+        
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             

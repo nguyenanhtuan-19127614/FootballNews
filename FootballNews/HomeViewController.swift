@@ -91,7 +91,7 @@ class HomeViewController : UIViewController {
        
         
         //MARK: Add layout and Subviews
-        addSubviewsLayout()
+       
         view.addSubview(homeCollection )
        
         self.view = view
@@ -102,7 +102,7 @@ class HomeViewController : UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        addSubviewsLayout()
         //get data score board
         getScoreBoardData(compID: 0, date: "20220208")
         
@@ -242,21 +242,16 @@ class HomeViewController : UIViewController {
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
       
-//        NSLayoutConstraint.activate([
-//
-//            homeCollection?.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-//            homeCollection?.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
-//            homeCollection?.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor ),
-//            homeCollection?.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor)
-//
-//        ])
-        
-        //Listing Collection
-        homeCollection.frame = CGRect(x: 0,
-                                       y: 0,
-                                       width: self.view.bounds.width,
-                                       height: self.view.bounds.height)
-      
+        homeCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+
+            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
+            
+        ])
+       
     }
     
     //MARK: Observers
@@ -328,8 +323,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
                 
                 competitionCell.backgroundColor = UIColor.white
-                
-                //competitionCell.loadData(inputData: self.competitionData)
+            
                 competitionCell.loadData(inputData: dataSource.competitionData)
                 return competitionCell
                 
@@ -338,7 +332,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
                 
                 scoreBoardCell.backgroundColor = UIColor.white
-                //scoreBoardCell.loadData(inputData: self.scoreBoardData)
+
                 scoreBoardCell.loadData(inputData: dataSource.scoreBoardData)
                 return scoreBoardCell
                 

@@ -36,7 +36,20 @@ class ArticelDetailController: UIViewController {
     var detailData: ArticelDetailData?
     var relatedArticleData: [HomeArticleData] = []
     
-    var articleDetailCollection: UICollectionView?
+    var articleDetailCollection: UICollectionView = {
+        
+        let detailArticelLayout = UICollectionViewFlowLayout()
+        detailArticelLayout.minimumLineSpacing = 15
+        
+        let articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        
+        articleDetailCollection.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
+        articleDetailCollection.register(ArticelDetailTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
+        articleDetailCollection.register(ArticelDetailImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
+        articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
+        
+        return articleDetailCollection
+    }()
   
     //MARK: loadView() state
     override func loadView() {
@@ -49,20 +62,12 @@ class ArticelDetailController: UIViewController {
         view.backgroundColor = .white
         
         //MARK: Detail Articel Collection
-        let detailArticelLayout = UICollectionViewFlowLayout()
-        detailArticelLayout.minimumLineSpacing = 15
         
-        articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        articleDetailCollection.dataSource = self
+        articleDetailCollection.delegate = self
         
-        articleDetailCollection?.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
-        articleDetailCollection?.register(ArticelDetailTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
-        articleDetailCollection?.register(ArticelDetailImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
-        articleDetailCollection?.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
-        articleDetailCollection?.dataSource = self
-        articleDetailCollection?.delegate = self
         
-        addSubviewsLayout()
-        view.addSubview(articleDetailCollection ?? UICollectionView())
+        view.addSubview(articleDetailCollection)
         
         self.view = view
         
@@ -72,6 +77,7 @@ class ArticelDetailController: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        addSubviewsLayout()
         
         getArticelDetailData(contentID)
     }
@@ -154,7 +160,7 @@ class ArticelDetailController: UIViewController {
                     self?.navigationItem.titleView = titleView
                    
                     //Reload Collection
-                    self?.articleDetailCollection?.reloadData()
+                    self?.articleDetailCollection.reloadData()
                     
                 }
                 
@@ -171,13 +177,16 @@ class ArticelDetailController: UIViewController {
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
       
-        //Listing Collection
-        articleDetailCollection?.frame = CGRect(x: 0,
-                                                y: 0,
-                                                width: self.view.bounds.width,
-                                                height: self.view.bounds.height
-                                                        - self.view.bounds.height/7)
-      
+        articleDetailCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+
+            articleDetailCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            articleDetailCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            articleDetailCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            articleDetailCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
+            
+        ])
+    
        
     }
     
