@@ -44,8 +44,10 @@ class ImageCache {
         //cost of image base on size
         let cost: Int = imgData.count
         
+        let img = UIImage(data: imgData)
+        
         //store image to cache
-        imageCache.setObject(imgData as AnyObject, forKey: url as AnyObject, cost: cost)
+        imageCache.setObject(img as AnyObject, forKey: url as AnyObject, cost: cost)
       
     }
     
@@ -61,9 +63,9 @@ class ImageCache {
         
     }
     
-    func getImageData(url: String) -> Data? {
+    func getImageData(url: String) -> UIImage? {
      
-        return imageCache.object(forKey: url as AnyObject) as? Data
+        return imageCache.object(forKey: url as AnyObject) as? UIImage
   
     }
     

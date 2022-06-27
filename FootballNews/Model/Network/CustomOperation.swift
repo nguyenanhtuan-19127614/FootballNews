@@ -7,40 +7,16 @@
 
 import Foundation
 
-enum OperationState {
-    
-    case executing
-    case finish
-    
-}
-
 class CustomOperation: Operation {
-    
-    var response: Response?
-    
-    var url: String = ""
-    var method: HttpMethod = .GET
-    var session: URLSession
     
     private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
-    init(url: String,method: HttpMethod = .GET, session: URLSession) {
-       
-        self.url = url
-        self.session = session
-        self.method = method
-        
-        if url.starts(with: "http://10") || url.isEmpty {
-            print("Weird URL: \(url)")
-           
-        }
-    }
-    
+   
     deinit {
         print("♻️ Deallocating Download Operation from memory")
         
     }
-
+    
     override var isAsynchronous: Bool {
         return true
     }
@@ -90,8 +66,7 @@ class CustomOperation: Operation {
     }
 
     override func start() {
-        
-        //print("Starting Operation")
+    
         guard !isCancelled else { return }
     
         isFinished = false

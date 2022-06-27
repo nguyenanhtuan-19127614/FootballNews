@@ -11,8 +11,20 @@ import UIKit
 class HomeCompetitionCollectionCell: UICollectionViewCell {
     
     var competitionData: [HomeCompetitionData] = []
-    var competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var competitionCollection: UICollectionView = {
     
+        let competitionLayout = UICollectionViewFlowLayout()
+        competitionLayout.minimumLineSpacing = 20
+        competitionLayout.scrollDirection = .horizontal
+        
+        let competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
+        competitionCollection.showsHorizontalScrollIndicator = false
+        
+        competitionCollection.register(HomeCompetitionCell.self, forCellWithReuseIdentifier: "HomeCompetitionCell")
+        
+        return competitionCollection
+    }()
+
     //MARK: Overide Init
     override init(frame: CGRect) {
         
@@ -28,16 +40,6 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     //MARK: Add subviews to cell
     func addViews() {
         
-        let competitionLayout = UICollectionViewFlowLayout()
-        competitionLayout.itemSize = CGSize(width: self.bounds.width/4,
-                                            height: self.bounds.height)
-        competitionLayout.minimumLineSpacing = 20
-        competitionLayout.scrollDirection = .horizontal
-        
-        competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
-        competitionCollection.showsHorizontalScrollIndicator = false
-        
-        competitionCollection.register(HomeCompetitionCell.self, forCellWithReuseIdentifier: "HomeCompetitionCell")
         competitionCollection.dataSource = self
         competitionCollection.delegate = self
         
@@ -61,8 +63,9 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     func loadData(inputData: [HomeCompetitionData]) {
         
         self.competitionData = inputData
+        //print("datas: \(inputData)")
         DispatchQueue.main.async {
-            
+          
             self.competitionCollection.reloadData()
             
         }
@@ -88,9 +91,10 @@ extension HomeCompetitionCollectionCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionCell", for: indexPath) as! HomeCompetitionCell
-        
+
         competitionCell.backgroundColor = UIColor.white
         competitionCell.loadData(inputData: competitionData[indexPath.row])
+        
         
         return competitionCell
         
@@ -106,6 +110,17 @@ extension HomeCompetitionCollectionCell: UICollectionViewDelegate {
         
         print("User tapped on item \(indexPath.row)")
         
+    }
+    
+}
+
+//MARK: Delegate Flow Layout extension
+extension HomeCompetitionCollectionCell: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: self.bounds.width/4,
+                      height: self.bounds.height)
     }
     
 }

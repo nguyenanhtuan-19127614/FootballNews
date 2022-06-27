@@ -11,8 +11,21 @@ import UIKit
 class HomeScoreBoardCollectionCell: UICollectionViewCell {
     
     var scoreBoardData: [HomeScoreBoardData] = []
-    var scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
+    var scoreBoardCollection: UICollectionView = {
+        
+        let scoreBoardLayout = UICollectionViewFlowLayout()
+        scoreBoardLayout.minimumLineSpacing = 20
+        scoreBoardLayout.scrollDirection = .horizontal
+        
+        let scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
+        
+        scoreBoardCollection.showsHorizontalScrollIndicator = false
+        
+        scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
+        
+        return scoreBoardCollection
+        
+    }()
     
     //MARK: Overide Init
     override init(frame: CGRect) {
@@ -30,17 +43,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
     //MARK: Add subviews to cell
     func addViews() {
         
-        let scoreBoardLayout = UICollectionViewFlowLayout()
-        scoreBoardLayout.itemSize = CGSize(width: self.bounds.width/1.5,
-                                           height: self.bounds.height)
-        scoreBoardLayout.minimumLineSpacing = 20
-        scoreBoardLayout.scrollDirection = .horizontal
-        
-        scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
-        
-        scoreBoardCollection.showsHorizontalScrollIndicator = false
-        
-        scoreBoardCollection.register(HomeScoreBoardCell.self, forCellWithReuseIdentifier: "HomeScoreBoardCell")
+       
         scoreBoardCollection.dataSource = self
         scoreBoardCollection.delegate = self
         
@@ -106,6 +109,19 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         print("User tapped on item \(indexPath.row)")
+        
+    }
+    
+}
+
+
+//MARK: Delegate Flow Layout extension
+extension HomeScoreBoardCollectionCell: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: self.bounds.width/1.5,
+                      height: self.bounds.height)
         
     }
     

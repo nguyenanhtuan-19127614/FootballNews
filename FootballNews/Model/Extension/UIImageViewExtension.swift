@@ -35,9 +35,16 @@ extension UIImageView {
 
             case .failure(let err):
 
-                DispatchQueue.main.async {
-                    self?.image = UIImage(named: "loading")
+                if(err as! ManagerErrors != ManagerErrors.DuplicateOperation) {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.image = UIImage(named: "loading")
+                        
+                    }
+                    
                 }
+   
                 print(err)
             }
   

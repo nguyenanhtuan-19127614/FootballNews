@@ -16,89 +16,28 @@ import Foundation
 
 //MARK: Class custom Operation
 fileprivate class QueryServiceOperation: CustomOperation {
-    
-    
-    override func main() {
-    
-        if isCancelled {
-            
-            self.response = nil
-            return
-            
-        }
 
-        QueryService.sharedService.startCallApi(self.url, self.method, session: session) {
-            
-            [weak self]
-            result in
-            
-            switch result {
-                
-            case .success(let res):
-                
-                self?.response = res       
-               
-                
-            case .failure(let err):
-                
-                print(err)
-                self?.response = nil
-                
-            }
-            
-            self?.finish()
-            
-        }
-        
-
-    }
-}
-
-//MARK: DELEGATION CLASS - QUERY DATA API
-
-class QueryService {
+    var data: Data?
+    var apiTarget: APITarget?
+    var session: URLSession = URLSession()
     
+    private var task : URLSessionDataTask?
     
-    //Singleton
-    static let sharedService = QueryService()
-    
-    //Constant (Use to config sessoin)
-    private let timeoutForRequest = TimeInterval(30)
-    private let timeoutForResource = TimeInterval(60)
-    
-    private let sessionConfig = URLSessionConfiguration.default
-    
-    var querySession: URLSession?
-    
-    //Operation queue to manage download
-    let operationQueue = OperationQueue()
-    
-    //Private Init
-    private init() {
-        
-        //Create session
-        sessionConfig.timeoutIntervalForRequest = timeoutForRequest
-        sessionConfig.timeoutIntervalForResource = timeoutForResource
-        
-        self.querySession = URLSession(configuration: sessionConfig,
-                                  delegate: nil,
-                                  delegateQueue: operationQueue)
-        
-        //Config Operation Queue
-        operationQueue.maxConcurrentOperationCount = 5
-        let dispatchQueue = DispatchQueue(label: "queryQueue", qos: .utility, attributes: .concurrent)
-        operationQueue.underlyingQueue = dispatchQueue
+    init(apiTarget: APITarget, session: URLSession) {
+       
+        super.init()
+        self.apiTarget = apiTarget
+        self.session = session
 
     }
     
-    //startCallApi
-    func startCallApi (_ url: String,
-                       _ method: HttpMethod,
-                       session: URLSession,
-                       completion: @escaping (Result<Response, Error>) -> Void) {
+    //MARK: Create and run query task
+    func runQueryTask(apiTarget: APITarget,
+                      session: URLSession,
+                      completion: @escaping (Result<Data, Error>) -> Void){
         
         //Create URL Components
-        guard let urlComponent = URLComponents(string: url) else {
+        guard let urlComponent = URLComponents(string: apiTarget.link) else {
             
             completion(.failure(ManagerErrors.BadURL))
             return
@@ -110,14 +49,13 @@ class QueryService {
         
         // Create a request URL
         var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        request.httpMethod = apiTarget.method.rawValue
         request.allHTTPHeaderFields = [
             "api_key": "bm_fresher_2022"
         ]
         
         
-        
-        let dataTask = session.dataTask(with: request) {
+        self.task = session.dataTask(with: request) {
             
 
             (data, response, error) in
@@ -155,14 +93,99 @@ class QueryService {
                 
             }
             
-            let responseBody = Response(_data: data, _response: response, _error: error)
-            
-            completion(.success(responseBody))
+            completion(.success(data))
            
         }
         
-        dataTask.resume()
+        self.task?.resume()
+       
+    }
+    
+    //MARK: Main function
+    
+    override func main() {
+    
+        if isCancelled {
         
+            self.data = nil
+            return
+            
+        }
+        
+        guard let apiTarget = apiTarget else {
+            return
+        }
+        
+
+        runQueryTask(apiTarget: apiTarget, session: session) {
+            
+            [weak self]
+            result in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self?.data = data
+               
+                
+            case .failure(let err):
+                
+                print(err)
+                self?.data = nil
+                
+            }
+            
+            self?.finish()
+            
+        }
+        
+    }
+    
+    //Handling cancel, if operation is cancel, cancel download task
+    override func cancel() {
+        super.cancel()
+        self.task?.cancel()
+        self.finish()
+    }
+    
+}
+
+//MARK: DELEGATION CLASS - QUERY DATA API
+
+class QueryService {
+    
+    
+    //Singleton
+    static let sharedService = QueryService()
+    
+    //Constant (Use to config sessoin)
+    private let timeoutForRequest = TimeInterval(30)
+    private let timeoutForResource = TimeInterval(60)
+    
+    private let sessionConfig = URLSessionConfiguration.default
+    
+    var querySession: URLSession?
+    
+    //Operation queue to manage download
+    let operationQueue = OperationQueue()
+    
+    //Private Init
+    private init() {
+        
+        //Create session
+        sessionConfig.timeoutIntervalForRequest = timeoutForRequest
+        sessionConfig.timeoutIntervalForResource = timeoutForResource
+        
+        self.querySession = URLSession(configuration: sessionConfig,
+                                  delegate: nil,
+                                  delegateQueue: nil)
+        
+        //Config Operation Queue
+        operationQueue.maxConcurrentOperationCount = 5
+        let dispatchQueue = DispatchQueue(label: "queryQueue", qos: .utility, attributes: .concurrent)
+        operationQueue.underlyingQueue = dispatchQueue
+
     }
 
     //MARK: GET METHOD - use this for calling GET method
@@ -175,7 +198,7 @@ class QueryService {
             return
             
         }
-        let customOperation = QueryServiceOperation(url: api.link, method: api.method, session: querySession)
+        let customOperation = QueryServiceOperation(apiTarget: api, session: querySession)
 
         //Name custom operation
         customOperation.name = api.link
@@ -187,6 +210,7 @@ class QueryService {
                 
                 print("Query Operation already added")
                 customOperation.cancel()
+                completion(.failure(ManagerErrors.DuplicateOperation))
                 return
                 
             }
@@ -207,20 +231,14 @@ class QueryService {
                 
             }
             
-            guard let response = customOperation.response else {
-                
-                completion(.failure(ManagerErrors.BadResponse))
-                return
-                
-            }
-            
-           //MARK: -- FUNCTION TO DECODE RESPONSE --
-            guard let data = response._data else {
+            guard let data = customOperation.data else {
                 
                 completion(.failure(ManagerErrors.BadData))
                 return
                 
             }
+            
+           //MARK: -- FUNCTION TO DECODE RESPONSE --
            
             let decoder = JSONDecoder()
             do {

@@ -22,14 +22,20 @@ struct Response {
 //MARK: ERROR
 enum ManagerErrors: Error {
     
+    //Data Error Case
     case EmptyData
     case BadURL
     case BadResponse
     case BadData
+
+    //Response Error Case
     case ServiceUnavailable_503
+    
+    //Multithread Case
     case NullDelegation
     case NullSession
     case OperationCancel
+    case DuplicateOperation
     
 }
 

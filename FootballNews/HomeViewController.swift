@@ -325,6 +325,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 competitionCell.backgroundColor = UIColor.white
             
                 competitionCell.loadData(inputData: dataSource.competitionData)
+      
                 return competitionCell
                 
             } else if indexPath.row == scoreBoardIndex {
