@@ -14,6 +14,15 @@ import UIKit
 //
 //
 
+//Passing data with delegate
+protocol ViewControllerDelegate: AnyObject {
+    
+    //pass Content ID (use for articelDetail)
+    func passContentID(contentID: String)
+    func passPublisherLogo(url: String)
+}
+
+
 enum HomeViewState {
     
     case loading
@@ -23,6 +32,9 @@ enum HomeViewState {
 }
 
 class HomeViewController : UIViewController {
+    
+    //Delegate
+    weak var delegate: ViewControllerDelegate?
     
     //ViewController State
     var state: HomeViewState = .loading
@@ -60,7 +72,7 @@ class HomeViewController : UIViewController {
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "HomeLoadMoreCell")
     
-      
+        
         
         return homeCollection
     }()
@@ -376,13 +388,20 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if(self.state == .loaded) {
+            
+            //Pass Data and call articelDetail View Controller
             if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {
                 
                 print("User tapped on item \(indexPath.row)")
                 
-                NotificationCenter.default.post(name: NSNotification.Name("ToArticelVC"),
-                                                object: dataSource.articleData[indexPath.row])
                 
+                let articelDetailVC = ArticelDetailController()
+                self.delegate = articelDetailVC
+                self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].author)
+                
+                navigationController?.pushViewController(articelDetailVC, animated: true)
+             
             }
             
         }

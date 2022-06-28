@@ -9,25 +9,15 @@ import Foundation
 import AVFoundation
 import UIKit
 
-struct ArticelDetailData {
-    
-    var title: String
-    var date: Int
-    var description: String
-    
-    var source: String
-    var sourceLogo: String
-    var sourceIcon: String
-    
-    var body: [Body]?
-    
-}
 
-
-
-class ArticelDetailController: UIViewController {
+class ArticelDetailController: UIViewController,ViewControllerDelegate {
+  
+    
+    
+    weak var delegate: ViewControllerDelegate?
     
     var contentID: String = ""
+    var publisherLogo: String = ""
     var isLoad = false
     
     var contentBodyCount = 0
@@ -50,7 +40,26 @@ class ArticelDetailController: UIViewController {
         
         return articleDetailCollection
     }()
-  
+    
+    
+     deinit {
+         print("♻️ Deallocating Articel Detail Controller")
+         
+     }
+    
+    //MARK: Delegation Function
+    func passContentID(contentID: String) {
+        
+        self.contentID = contentID
+        
+    }
+    
+    func passPublisherLogo(url: String) {
+        
+        self.publisherLogo = url
+        
+    }
+    
     //MARK: loadView() state
     override func loadView() {
         
@@ -77,6 +86,14 @@ class ArticelDetailController: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        
+//        let titleView = CustomTitleView(frame: CGRect(x: 0,
+//                                                      y: 0,
+//                                                      width: 300,
+//                                                      height: 300))
+//        titleView.loadData(url: URL(string: self.publisherLogo))
+//        self.navigationItem.titleView = titleView
+        
         addSubviewsLayout()
         
         getArticelDetailData(contentID)
@@ -152,13 +169,6 @@ class ArticelDetailController: UIViewController {
                 
                 DispatchQueue.main.async {
                    
-                    let titleView = CustomTitleView(frame: CGRect(x: 0,
-                                                                  y: 0,
-                                                                  width: self?.view.bounds.width ?? 0,
-                                                                  height: self?.view.bounds.height ?? 0))
-                    titleView.loadData(url: URL(string: content.publisherLogo))
-                    self?.navigationItem.titleView = titleView
-                   
                     //Reload Collection
                     self?.articleDetailCollection.reloadData()
                     
@@ -190,41 +200,7 @@ class ArticelDetailController: UIViewController {
        
     }
     
-    //MARK: Observers
-    func addObservers() {
- 
-        NotificationCenter.default
-                          .addObserver(self,
-                                       selector:#selector(getContentID(_:)),
-                                       name: NSNotification.Name ("SendContentIDToArticel"), object: nil)
-        
-    }
     
-    //MARK: Observers function
-    @objc func getContentID(_ notification: Notification) {
-        
-        if isLoad == false {
-            
-            if notification.object is HomeArticleData {
-                
-                guard let homeArticelData = notification.object as? HomeArticleData else {
-                    
-                    print("Bad data from Home Article list")
-                    return
-                    
-                }
-           
-                //Load data base on content ID
-                contentID = homeArticelData.contentID
-                //getArticelDetailData(homeArticelData.contentID)
-                isLoad = true
-            
-            }
-            
-        }
-       
-        
-    }
 }
 
 //MARK: Datasource Extension
@@ -306,13 +282,19 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        //Pass data and call articel detail view controller ( Related Articel )
         if indexPath.row > contentBodyCount {
             
             print("User tapped on item \(indexPath.row)")
             
             let index = indexPath.row - self.contentBodyCount - 1
-           
-            NotificationCenter.default.post(name: NSNotification.Name("ToArticelVC"), object: relatedArticleData[index])
+            
+            let articelDetailVC = ArticelDetailController()
+            self.delegate = articelDetailVC
+            self.delegate?.passContentID(contentID: relatedArticleData[index].contentID)
+            self.delegate?.passPublisherLogo(url: relatedArticleData[index].author)
+            
+            navigationController?.pushViewController(articelDetailVC, animated: true)     
             
         }
     }

@@ -30,37 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         navController?.navigationBar.layer.shadowRadius = 2
         
-        addObservers()
         
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
         return true
         
     }
-    
-    func addObservers() {
-        
-        NotificationCenter.default
-                          .addObserver(self,
-                                       selector:#selector(toArticel(_:)),
-                                       name: NSNotification.Name ("ToArticelVC"), object: nil)
-    
-        
-    }
-    
-    @objc func toArticel(_ notification: Notification){
-       
-        //Define articel Detail view controller
-        let articelDetailVC = ArticelDetailController()
-        articelDetailVC.addObservers()
-        //push view controller
-        navController?.pushViewController(articelDetailVC, animated: true)
-        
-        //Send contentID to Articel
-        NotificationCenter.default.post(name: NSNotification.Name("SendContentIDToArticel"), object: notification.object)
-
-    }
-    
+ 
 }
 
 
