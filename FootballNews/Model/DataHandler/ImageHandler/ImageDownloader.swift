@@ -179,8 +179,10 @@ class ImageDownloader {
         }
         
         guard let downloadSession = downloadSession else {
+            
             completion(.failure(ManagerErrors.NullSession))
             return
+            
         }
         
        
@@ -190,27 +192,51 @@ class ImageDownloader {
         customOperation.name = url
 
         //check if operation allready in queue
-//        for ope in operationQueue.operations {
-//
-//            if customOperation.name == ope.name {
-//
-//                print("Download Operation already added")
-//                customOperation.cancel()
-//                completion(.failure(ManagerErrors.DuplicateOperation))
-//                return
-//
-//            }
-//
-//        }
+        for ope in operationQueue.operations {
+
+            if customOperation.name == ope.name {
+                
+                print("Download Operation already added")
+                
+                //Cancel operation and get result from operation that already in queue
+                customOperation.cancel()
+                ope.waitUntilFinished()
+                
+                guard let data = (ope as! NetworkDownloadOperation).data else {
+                    
+                    completion(.failure(ManagerErrors.BadData))
+                    return
+                    
+                }
+                
+                completion(.success(UIImage(data: data) ?? nil))
+                
+//                ope.completionBlock = {
+//                    
+//                    [unowned ope] in
+//                  
+//                    guard let data = (ope as! NetworkDownloadOperation).data else {
+//                        
+//                        completion(.failure(ManagerErrors.BadData))
+//                        return
+//                        
+//                    }
+//                    
+//                    completion(.success(UIImage(data: data) ?? nil))
+//                    
+//                }
+                
+            
+                return
+            }
+
+        }
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
-            [weak customOperation, weak self] in
-            guard let customOperation = customOperation else {
-                return
-            }
-            
+            [unowned customOperation, weak self] in
+        
             guard let data = customOperation.data else {
                 
                 completion(.failure(ManagerErrors.BadData))

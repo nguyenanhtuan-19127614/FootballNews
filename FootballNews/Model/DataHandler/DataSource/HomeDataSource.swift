@@ -60,7 +60,7 @@ class HomeDataSource {
     var scoreBoardSize = 0
     var competitionSize = 0
     
-    var loadingCount = 0
+    var loadedCount = 0
     var apiNumbers = 3
     
     var articleData: [HomeArticleData] = [] {
@@ -68,10 +68,7 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            if loadingCount < apiNumbers {
-               
-               loadingCount += 1
-            }
+            loadedCount += 1
             lock.unlock()
             
         }
@@ -80,7 +77,7 @@ class HomeDataSource {
             
             articelSize = articleData.count
             
-            if loadingCount == apiNumbers {
+            if loadedCount == apiNumbers {
                 
                 self.delegate?.reloadData()
                 
@@ -95,9 +92,9 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            if loadingCount < apiNumbers {
+            if loadedCount < apiNumbers {
                
-               loadingCount += 1
+               loadedCount += 1
             }
             lock.unlock()
             
@@ -107,7 +104,7 @@ class HomeDataSource {
         
             scoreBoardSize = scoreBoardData.count
             
-            if loadingCount == apiNumbers  {
+            if loadedCount == apiNumbers  {
                 
                 self.delegate?.reloadData()
                 
@@ -122,9 +119,9 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            if loadingCount < apiNumbers {
+            if loadedCount < apiNumbers {
                
-               loadingCount += 1
+               loadedCount += 1
             }
             lock.unlock()
             
@@ -134,7 +131,7 @@ class HomeDataSource {
             
             competitionSize = competitionData.count
             
-            if loadingCount == apiNumbers {
+            if loadedCount == apiNumbers {
                 
                 self.delegate?.reloadData()
                 

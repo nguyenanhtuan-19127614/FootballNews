@@ -88,7 +88,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
     override func loadView() {
         
         super.loadView()
-        //add observer method
+        //Add delegate for datasource
        
         dataSource.delegate = self
         self.title = "Trang Chính"
@@ -114,14 +114,15 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
         
         super.viewDidLoad()
         addSubviewsLayout()
-        //get data score board
-        getScoreBoardData(compID: 0, date: "20220208")
+        
+        self.getScoreBoardData(compID: 0, date: "20220208")
         
         //get data home news
-        getHomeArticelData()
+        self.getHomeArticelData()
         
         //get data competition
-        getCompetitionData()
+        self.getCompetitionData()
+        
         
     }
     
@@ -133,19 +134,15 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
         QueryService.sharedService.get(ContentAPITarget.home(start: startArticel,
                                                              size: articelSize)) {
             
-            [weak self]
+            [unowned self]
             (result: Result<ResponseModel<ContentModel>, Error>) in
             switch result {
             
             case .success(let res):
                 
                 if let contents = res.data?.contents {
-                    
-                    guard let dataNumbers = self?.dataSource.articelSize else {
-                        return
-                    }
                         
-                    self?.competitionLocation.append(dataNumbers + self!.competitionIndex)
+                    self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
                         
                    
                     var articelArray: [HomeArticleData] = []
@@ -160,14 +157,27 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
                        
                     }
                     
-                    self?.dataSource.articleData.append(contentsOf: articelArray)
-                    self?.state = .loaded
+                    self.dataSource.articleData.append(contentsOf: articelArray)
+                    
+                    if self.state == .loaded {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.homeCollection.reloadItems(at: self.homeCollection.indexPathsForVisibleItems)
+                                       
+                        }
+    
+                    } else {
+                        
+                        self.state = .loaded
+                        
+                    }
 
                 }
                 
             case .failure(let err):
                 print("Error: \(err)")
-                self?.state = .error
+                self.state = .error
                 
             }
         }
@@ -182,7 +192,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
                                                                   start: 0,
                                                                   size: 25)) {
             
-            [weak self]
+            [unowned self]
             (result: Result<ResponseModel<MatchModel>, Error>) in
             switch result {
                 
@@ -207,7 +217,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
                         
                     }
                     
-                    self?.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
+                    self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
                     
                 }
        
@@ -225,7 +235,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
         
         QueryService.sharedService.get(CompetitionAPITarget.hot) {
             
-            [weak self]
+            [unowned self]
             (result: Result<ResponseModel<CompetitionModel>, Error>) in
             switch result {
             
@@ -241,7 +251,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
                        
                     }
                     
-                    self?.dataSource.competitionData.append(contentsOf: competitionArray)
+                    self.dataSource.competitionData.append(contentsOf: competitionArray)
                 }
                 
             case .failure(let err):
@@ -411,7 +421,7 @@ extension HomeViewController: UICollectionViewDelegate {
                     
             //get data home news
             getHomeArticelData()
-           
+            
             
         }
     }

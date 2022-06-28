@@ -10,20 +10,22 @@ import AVFoundation
 import UIKit
 
 
-class ArticelDetailController: UIViewController,ViewControllerDelegate {
-  
+class ArticelDetailController: UIViewController,ViewControllerDelegate, ArticelDetailDataSoureDelegate {
     
-    
+    //Delegate
     weak var delegate: ViewControllerDelegate?
     
     var contentID: String = ""
     var publisherLogo: String = ""
     
-    var contentBodyCount = 0
-    var relatedCount = 0
+    // Datasource
+    let dataSource = ArticelDetailDataSource()
     
-    var detailData: ArticelDetailData?
-    var relatedArticleData: [HomeArticleData] = []
+//    var contentBodyCount = 0
+//    var relatedCount = 0
+//
+//    var detailData: ArticelDetailData?
+//    var relatedArticleData: [HomeArticleData] = []
     
     var articleDetailCollection: UICollectionView = {
         
@@ -60,12 +62,23 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
         
     }
     
+    func reloadData() {
+        
+        DispatchQueue.main.async {
+            
+            self.articleDetailCollection.reloadData()
+            
+        }
+        
+    }
+    
     //MARK: loadView() state
     override func loadView() {
         
         super.loadView()
-      
-        
+        //Add delegate for datasource
+       
+        dataSource.delegate = self
         //MARK: Create customView
         let view = UIView()
         view.backgroundColor = .white
@@ -101,17 +114,6 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
         getArticelDetailData(contentID)
     }
     
-
-    //MARK: Reset Function
-    func resetData() {
-        
-        self.detailData = nil
-        self.relatedArticleData = []
-        self.contentBodyCount = 0
-        self.relatedCount = 0
-        
-    }
-    
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
         
@@ -121,7 +123,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
         
         QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
             
-            [weak self]
+            [unowned self]
             (result: Result<ResponseModel<ContentModel>, Error>) in
             
             switch result {
@@ -133,7 +135,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
                     
                 }
                 //Load detail data
-                self?.detailData = ArticelDetailData(title: content.title,
+                let detailData = ArticelDetailData(title: content.title,
                                                      date: content.date,
                                                      description: content.description,
                                                      source: content.source,
@@ -141,41 +143,32 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
                                                      sourceIcon: content.publisherIcon,
                                                      body: content.body)
                 
-               
+                self.dataSource.detailData = detailData
                 
-                //number of content
-                self?.contentBodyCount += self?.detailData?.body?.count ?? 0
-                
+//                //number of content
+//                self?.contentBodyCount += self?.detailData?.body?.count ?? 0
+//
                 guard let related = data.data?.related else {
                     
                     return
                     
                 }
+                
+                var articelArray: [HomeArticleData] = []
                 //Load related contents data
                 for i in related.contents {
                     
-                    self?.relatedArticleData.append(HomeArticleData(contentID: String(i.contentID),
-                                                                    avatar: i.avatar,
-                                                                    title: i.title,
-                                                                    author: i.publisherLogo,
-                                                                    link: i.url,
-                                                                    date: i.date))
+                    articelArray.append(HomeArticleData(contentID: String(i.contentID),
+                                                        avatar: i.avatar,
+                                                        title: i.title,
+                                                        author: i.publisherLogo,
+                                                        link: i.url,
+                                                        date: i.date))
                     
                 }
                 
-                
-                //related content numbers
-                self?.relatedCount += self?.relatedArticleData.count ?? 0
-                
+                self.dataSource.relatedArticleData.append(contentsOf: articelArray)
                
-                
-                DispatchQueue.main.async {
-                   
-                    //Reload Collection
-                    self?.articleDetailCollection.reloadData()
-                    
-                }
-                
             case .failure(let err):
                 print(err)
                       
@@ -210,7 +203,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1 + self.contentBodyCount + self.relatedCount
+        return self.dataSource.dataSourceSize
         
     }
     
@@ -222,7 +215,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
             
             headerCell.backgroundColor = UIColor.white
-            if let detailData = detailData {
+            if let detailData = self.dataSource.detailData {
                 
                 headerCell.loadData(detailData)
                 
@@ -230,9 +223,9 @@ extension ArticelDetailController: UICollectionViewDataSource {
          
             return headerCell
             
-        } else if indexPath.row <= contentBodyCount { //Body Part
+        } else if indexPath.row <= dataSource.contentBodySize { //Body Part
             
-            guard let bodyContent = detailData?.body else {
+            guard let bodyContent = dataSource.detailData?.body else {
                 
                 return UICollectionViewCell()
                 
@@ -269,8 +262,8 @@ extension ArticelDetailController: UICollectionViewDataSource {
             
             relatedCell.backgroundColor = UIColor.white
             
-            let index = indexPath.row - self.contentBodyCount - 1
-            relatedCell.loadData(inputData: self.relatedArticleData[index])
+            let index = indexPath.row - dataSource.contentBodySize - 1
+            relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
             return relatedCell
         
         }
@@ -285,16 +278,16 @@ extension ArticelDetailController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         //Pass data and call articel detail view controller ( Related Articel )
-        if indexPath.row > contentBodyCount {
+        if indexPath.row > dataSource.contentBodySize {
             
             print("User tapped on item \(indexPath.row)")
             
-            let index = indexPath.row - self.contentBodyCount - 1
+            let index = indexPath.row - dataSource.contentBodySize  - 1
             
             let articelDetailVC = ArticelDetailController()
             self.delegate = articelDetailVC
-            self.delegate?.passContentID(contentID: relatedArticleData[index].contentID)
-            self.delegate?.passPublisherLogo(url: relatedArticleData[index].author)
+            self.delegate?.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
+            self.delegate?.passPublisherLogo(url: dataSource.relatedArticleData[index].author)
             
             navigationController?.pushViewController(articelDetailVC, animated: true)     
             
@@ -314,7 +307,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
     
-        guard let detailData = detailData else {
+        guard let detailData = dataSource.detailData else {
             
             return CGSize(width: 0,
                           height: 0)
@@ -338,7 +331,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: self.view.bounds.width ,
                           height: height)
             
-        } else if indexPath.row <= contentBodyCount {
+        } else if indexPath.row <= dataSource.contentBodySize {
             
             guard let bodyContent = detailData.body else {
                 
