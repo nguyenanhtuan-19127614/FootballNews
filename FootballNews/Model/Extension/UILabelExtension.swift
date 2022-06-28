@@ -64,6 +64,46 @@ extension UILabel {
             self.font = self.font.withSize(size)
             
         }
+    
+    }
+    
+    func compareDatewithToday(date: Date) {
+        
+        let diff = Date().compareWithToday(date: date)
+    
+        if let year = diff.year,
+           let month = diff.month,
+           let day = diff.day,
+           let hour = diff.hour,
+           let minute = diff.minute {
+            
+            if year == 0 && month == 0 {
+                
+                if day > 0 && day <= 7 {
+                    
+                    self.text = "\(day) Ngày"
+                    
+                } else if hour > 0 {
+                    
+                    self.text = "\(hour) Giờ"
+                    
+                } else if minute > 0 {
+                    
+                    self.text = "\(minute) Phút"
+                    
+                } else {
+                    
+                    self.text = "Mới Đây"
+                    
+                }
+                
+            }
+            
+        } else {
+            
+            self.text = Date().dateToString(date)
+            
+        }
         
     }
 }

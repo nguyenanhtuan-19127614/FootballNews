@@ -87,6 +87,8 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
     
         super.viewDidLoad()
         
+        //Set titleview of navigation bar
+        
 //        let titleView = CustomTitleView(frame: CGRect(x: 0,
 //                                                      y: 0,
 //                                                      width: 300,
@@ -156,7 +158,8 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
                                                                     avatar: i.avatar,
                                                                     title: i.title,
                                                                     author: i.publisherLogo,
-                                                                    link: i.url))
+                                                                    link: i.url,
+                                                                    date: i.date))
                     
                 }
                 
@@ -164,8 +167,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
                 //related content numbers
                 self?.relatedCount += self?.relatedArticleData.count ?? 0
                 
-                //Set titleview of navigation bar
-                
+               
                 
                 DispatchQueue.main.async {
                    

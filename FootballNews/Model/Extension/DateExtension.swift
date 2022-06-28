@@ -79,4 +79,21 @@ extension Date {
         return dateFormatter.string(from: date)
         
     }
+    
+    func compareWithToday(date: Date) -> DateComponents {
+        
+        let now = Date()
+        let calendar = Calendar.current
+        
+        var resultDiff = DateComponents()
+        
+        resultDiff.year = calendar.component(.year, from: now) - calendar.component(.year, from: date)
+        resultDiff.month = calendar.component(.month, from: now) - calendar.component(.month, from: date)
+        resultDiff.day = calendar.component(.day, from: now) - calendar.component(.day, from: date)
+        resultDiff.hour = calendar.component(.hour, from: now) - calendar.component(.hour, from: date)
+        resultDiff.minute = calendar.component(.minute, from: now) - calendar.component(.minute, from: date)
+
+        return resultDiff
+        
+    }
 }

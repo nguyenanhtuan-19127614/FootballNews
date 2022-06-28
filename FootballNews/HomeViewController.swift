@@ -155,7 +155,8 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
                                                             avatar: i.avatar,
                                                             title: i.title,
                                                             author: i.publisherLogo,
-                                                            link: i.url))
+                                                            link: i.url,
+                                                            date: i.date))
                        
                     }
                     
@@ -265,26 +266,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
        
     }
     
-    //MARK: Observers
-    func addObservers() {
- 
-        NotificationCenter.default
-                          .addObserver(self,
-                                       selector:#selector(reloadHomeView(_:)),
-                                       name: NSNotification.Name ("ReloadHomeView"), object: nil)
-        
-    }
     
-    //MARK: Observers function
-    @objc func reloadHomeView(_ notification: Notification) {
-        
-        DispatchQueue.main.async {
-            
-            self.homeCollection.reloadData()
-            
-        }
-      
-    }
 }
 
 //Source of truth
@@ -367,8 +349,8 @@ extension HomeViewController: UICollectionViewDataSource {
                 
                 articelCell.backgroundColor = UIColor.white
                
-                articelCell.loadData(inputData: dataSource.articleData[indexPath.row])
-               
+                articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+            
                 articelCell.layer.borderWidth = 0
                
                 return articelCell

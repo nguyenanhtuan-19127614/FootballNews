@@ -190,18 +190,18 @@ class ImageDownloader {
         customOperation.name = url
 
         //check if operation allready in queue
-        for ope in operationQueue.operations {
-
-            if customOperation.name == ope.name {
-
-                print("Download Operation already added")
-                customOperation.cancel()
-                completion(.failure(ManagerErrors.DuplicateOperation))
-                return
-
-            }
-
-        }
+//        for ope in operationQueue.operations {
+//
+//            if customOperation.name == ope.name {
+//
+//                print("Download Operation already added")
+//                customOperation.cancel()
+//                completion(.failure(ManagerErrors.DuplicateOperation))
+//                return
+//
+//            }
+//
+//        }
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {

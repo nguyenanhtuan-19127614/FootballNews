@@ -15,7 +15,8 @@ struct HomeArticleData {
     var title: String
     var author: String
     var link: String
-  
+    var date: Int
+    
 }
 
 //Data for Score Board

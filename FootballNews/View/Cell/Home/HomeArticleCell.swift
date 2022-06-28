@@ -22,7 +22,7 @@ class HomeArticleCell: UICollectionViewCell {
         
         super.prepareForReuse()
         newsAvatar.image = nil
-        authorAvatar.image = nil
+        publisherLogo.image = nil
         title.text = nil
         
     }
@@ -48,12 +48,22 @@ class HomeArticleCell: UICollectionViewCell {
         
     }()
     
-    let authorAvatar: UIImageView = {
+    let publisherLogo: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.contentMode = .scaleToFill
-        imgView.clipsToBounds = true
+        imgView.contentMode = .scaleAspectFit
+        imgView.layer.masksToBounds = true
+        
         return imgView
+        
+    }()
+    
+    let timeLabel: UILabel = {
+        
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = UIColor.lightGray
+        return label
         
     }()
     
@@ -71,7 +81,8 @@ class HomeArticleCell: UICollectionViewCell {
         
         addSubview(newsAvatar)
         addSubview(title)
-        addSubview(authorAvatar)
+        addSubview(publisherLogo)
+        addSubview(timeLabel)
         addSubview(ellipsisLabel)
         
     }
@@ -82,26 +93,34 @@ class HomeArticleCell: UICollectionViewCell {
         super.layoutSubviews()
         
         newsAvatar.frame = CGRect(x: 18,
-                                  y: 18,
+                                  y: 20,
                                   width: bounds.height + 10,
                                   height: bounds.height - 20)
         
         title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
-                             y: 18,
+                             y: 20,
                              width: self.bounds.width - newsAvatar.bounds.width - 50,
                              height: 0)
         title.font = UIFont.boldSystemFont(ofSize: self.bounds.width / 25)
         title.sizeToFit()
         
-        authorAvatar.frame = CGRect(x: newsAvatar.frame.maxX + 15,
+        publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                                     y: bounds.height - bounds.height/7 ,
-                                    width: title.bounds.width / 3,
+                                    width: title.bounds.width / 5,
                                     height: bounds.height/7)
         
+        timeLabel.frame = CGRect(x: publisherLogo.frame.maxX + 10,
+                                 y: publisherLogo.frame.minY,
+                                 width: self.bounds.width - publisherLogo.bounds.width,
+                                 height: publisherLogo.bounds.height)
+        timeLabel.font = title.font.withSize(10)
+        timeLabel.sizeToFit()
+        timeLabel.frame.size.height = publisherLogo.bounds.height
+        
         ellipsisLabel.frame = CGRect(x: self.frame.maxX - self.bounds.width/10,
-                                     y: authorAvatar.frame.minY ,
+                                     y: publisherLogo.frame.minY ,
                                      width: title.bounds.width / 10,
-                                     height: authorAvatar.bounds.height)
+                                     height: publisherLogo.bounds.height)
         
         
     }
@@ -111,12 +130,20 @@ class HomeArticleCell: UICollectionViewCell {
         
         //Subviews that don't need downloading
         self.title.text = inputData.title
+        
+        let date = Date().timestampToDate(String(inputData.date))
     
+        if let date = date {
+        
+            self.timeLabel.compareDatewithToday(date: date)
+            
+        }
+        
         //Subviews that need downloading
        
         self.newsAvatar.loadImageFromUrl(url: inputData.avatar)
         
-        self.authorAvatar.loadImageFromUrl(url: inputData.author)
+        self.publisherLogo.loadImageFromUrl(url: inputData.author)
        
     }
 
