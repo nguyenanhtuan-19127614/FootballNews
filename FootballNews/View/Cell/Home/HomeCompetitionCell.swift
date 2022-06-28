@@ -23,6 +23,10 @@ class HomeCompetitionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: PrepareForReuse
+   
+    
+    
     //MARK: Define Sub-views
     
     let competitionLogo: UIImageView = {
@@ -73,7 +77,7 @@ class HomeCompetitionCell: UICollectionViewCell {
         self.competitionName.text = inputData.name
     
         //Subviews that need downloading
-        self.competitionLogo.loadImage(url: inputData.logo)
+        self.competitionLogo.loadImageFromUrl(url: inputData.logo)
         
     }
 }

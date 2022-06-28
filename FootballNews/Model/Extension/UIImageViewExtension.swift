@@ -11,8 +11,8 @@ import UIKit
 
 extension UIImageView {
     
-    
-    func loadImage( url: String?)  {
+    //Load Image from URL
+    func loadImageFromUrl(url: String?)  {
         
         guard let url = url else {
             return
@@ -51,4 +51,7 @@ extension UIImageView {
         }
 
     }
+    
+   
+    
 }

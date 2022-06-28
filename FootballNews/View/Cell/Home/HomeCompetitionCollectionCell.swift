@@ -63,12 +63,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     func loadData(inputData: [HomeCompetitionData]) {
         
         self.competitionData = inputData
-        //print("datas: \(inputData)")
-        DispatchQueue.main.async {
-          
-            self.competitionCollection.reloadData()
-            
-        }
+        self.competitionCollection.reloadData()
         
     }
     
@@ -91,8 +86,8 @@ extension HomeCompetitionCollectionCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionCell", for: indexPath) as! HomeCompetitionCell
-
         competitionCell.backgroundColor = UIColor.white
+        
         competitionCell.loadData(inputData: competitionData[indexPath.row])
         
         

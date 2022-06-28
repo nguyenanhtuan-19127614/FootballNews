@@ -55,8 +55,6 @@ class CustomTitleView: UIImageView {
         
         ])
         
-       
-        
     }
     
     //MARK: Load data to cell
@@ -67,7 +65,7 @@ class CustomTitleView: UIImageView {
             return
         }
 
-        titleImageView.loadImage(url: url.absoluteString)
+        titleImageView.loadImageFromUrl(url: url.absoluteString)
         
     }
 }

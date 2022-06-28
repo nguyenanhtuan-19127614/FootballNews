@@ -250,7 +250,7 @@ class ScoreBoardTeamStatus: UIView {
         self.scoreLabel.text = scoreLabel
     
         //Subviews that need downloading
-        self.logoTeam.loadImage(url: logoTeam)
+        self.logoTeam.loadImageFromUrl(url: logoTeam)
     }
     
 }

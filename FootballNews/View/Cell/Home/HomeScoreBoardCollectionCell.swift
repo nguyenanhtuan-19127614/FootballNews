@@ -67,11 +67,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
     func loadData(inputData: [HomeScoreBoardData]) {
         
         self.scoreBoardData = inputData
-        DispatchQueue.main.async {
-            
-            self.scoreBoardCollection.reloadData()
-            
-        }
+        self.scoreBoardCollection.reloadData()
         
     }
     

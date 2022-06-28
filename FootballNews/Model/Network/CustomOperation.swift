@@ -67,7 +67,11 @@ class CustomOperation: Operation {
 
     override func start() {
     
-        guard !isCancelled else { return }
+        guard !isCancelled else {
+            
+            return
+            
+        }
     
         isFinished = false
         isExecuting = true

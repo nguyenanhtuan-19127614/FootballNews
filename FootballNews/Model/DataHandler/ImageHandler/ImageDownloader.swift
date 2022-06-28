@@ -84,8 +84,7 @@ class NetworkDownloadOperation: CustomOperation {
     override func main() {
         
         if isCancelled {
-            
-            self.data = nil
+        
             return
             
         }
@@ -160,7 +159,6 @@ class ImageDownloader {
         
         //Config Operation Queue
         operationQueue.maxConcurrentOperationCount = 5
-        operationQueue.qualityOfService = .utility
 
         let dispatchQueue = DispatchQueue(label: "downloadQueue", qos: .utility, attributes: .concurrent)
         operationQueue.underlyingQueue = dispatchQueue
@@ -169,11 +167,11 @@ class ImageDownloader {
     
     //MARK: Main function, use this for download
     func download (url: String,
-                   completion: @escaping ( Result<UIImage?,Error> ) -> Void ) {
+                   completion: @escaping ( Result<UIImage?,Error> ) -> Void ){
 
         //Check if image is in cache
         if let imageCache = imageCache.getImageData(url: url) {
-            
+        
             print("Image is already in cache")
             completion(.success(imageCache))
             return
@@ -202,6 +200,7 @@ class ImageDownloader {
                 return
 
             }
+
         }
         
         //Completion block, execute after operation main() done
@@ -220,18 +219,16 @@ class ImageDownloader {
             }
             
             //Store image data to cache
-            self?.imageCache.addImage(imgData: data, url: url)
-            DispatchQueue.main.async {
             
-                completion(.success(UIImage(data: data) ?? nil))
-                
-            }
+            self?.imageCache.addImage(imgData: data, url: url)
+            completion(.success(UIImage(data: data) ?? nil))
         
         }
         
       
         //add operation
         operationQueue.addOperation(customOperation)
+       
     }
 
 }

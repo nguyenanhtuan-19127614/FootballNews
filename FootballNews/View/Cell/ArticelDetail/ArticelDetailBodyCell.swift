@@ -146,7 +146,7 @@ class ArticelDetailImageCell: UICollectionViewCell {
     //MARK: Load Data
     func loadData(_ inputData: String) {
         
-        contentImage.loadImage(url: inputData)
+        contentImage.loadImageFromUrl(url: inputData)
         
     }
 }

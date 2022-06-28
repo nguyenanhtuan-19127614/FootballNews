@@ -25,17 +25,8 @@ enum HomeViewState {
 class HomeViewController : UIViewController {
     
     //ViewController State
-    var state: HomeViewState = .loading {
-        
-        didSet {
-            
-            DispatchQueue.main.async {
-                self.homeCollection.reloadData()
-            }
-            
-        }
-        
-    }
+    var state: HomeViewState = .loading
+    
     // Datasource
     let dataSource = HomeDataSource()
     
@@ -83,7 +74,7 @@ class HomeViewController : UIViewController {
         self.title = "Trang Chính"
         //MARK: Create customView
         let view = UIView()
-    
+
         //MARK: News Listing Collection View
        
         homeCollection.dataSource = self
@@ -245,8 +236,8 @@ class HomeViewController : UIViewController {
         homeCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
 
-            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
             
@@ -323,9 +314,15 @@ extension HomeViewController: UICollectionViewDataSource {
                 let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
                 
                 competitionCell.backgroundColor = UIColor.white
-            
-                competitionCell.loadData(inputData: dataSource.competitionData)
-      
+                
+                DispatchQueue.main.async {
+                    
+                    [unowned self] in
+                    competitionCell.loadData(inputData: self.dataSource.competitionData)
+                    
+                    
+                }
+
                 return competitionCell
                 
             } else if indexPath.row == scoreBoardIndex {
@@ -334,7 +331,14 @@ extension HomeViewController: UICollectionViewDataSource {
                 
                 scoreBoardCell.backgroundColor = UIColor.white
 
-                scoreBoardCell.loadData(inputData: dataSource.scoreBoardData)
+                DispatchQueue.main.async {
+                    
+                    [unowned self] in
+                    scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
+                    
+                }
+
+               
                 return scoreBoardCell
                 
             } else if indexPath.row < dataSource.articelSize - 1  {
@@ -344,6 +348,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 articelCell.backgroundColor = UIColor.white
                
                 articelCell.loadData(inputData: dataSource.articleData[indexPath.row])
+               
                 articelCell.layer.borderWidth = 0
                
                 return articelCell

@@ -171,7 +171,7 @@ class Subtitle: UIView {
     //MARK: Load data to cell
     func loadData(sourceIcon: String,sourceLabel: String,date: String) {
         
-        self.sourceIcon.loadImage(url: sourceIcon)
+        self.sourceIcon.loadImageFromUrl(url: sourceIcon)
         self.sourceLabel.text = sourceLabel
         
         let date = Date().timestampToDate(date)
