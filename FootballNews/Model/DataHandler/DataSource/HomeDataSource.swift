@@ -43,42 +43,102 @@ struct HomeCompetitionData {
     
 }
 
+protocol HomeDataSoureDelegate: AnyObject {
+    
+    func reloadData()
+    
+}
+
 class HomeDataSource {
 
+    weak var delegate: HomeDataSoureDelegate?
+    
+    var lock = NSLock()
+    
     var articelSize = 0
     var scoreBoardSize = 0
     var competitionSize = 0
     
+    var loadingCount = 0
+    var apiNumbers = 3
+    
     var articleData: [HomeArticleData] = [] {
+        
+        willSet {
+            
+            lock.lock()
+            if loadingCount < apiNumbers {
+               
+               loadingCount += 1
+            }
+            lock.unlock()
+            
+        }
         
         didSet {
             
             articelSize = articleData.count
-        
-            NotificationCenter.default.post(name: NSNotification.Name("ReloadHomeView"), object: nil)
-           
+            
+            if loadingCount == apiNumbers {
+                
+                self.delegate?.reloadData()
+                
+            }
+      
         }
 
     }
     
     var scoreBoardData: [HomeScoreBoardData] = [] {
         
-        didSet {
+        willSet {
             
+            lock.lock()
+            if loadingCount < apiNumbers {
+               
+               loadingCount += 1
+            }
+            lock.unlock()
+            
+        }
+        
+        didSet {
+        
             scoreBoardSize = scoreBoardData.count
-            NotificationCenter.default.post(name: NSNotification.Name("ReloadHomeView"), object: nil)
-       
+            
+            if loadingCount == apiNumbers  {
+                
+                self.delegate?.reloadData()
+                
+            }
+            
         }
         
     }
     
     var competitionData: [HomeCompetitionData] = [] {
         
+        willSet {
+            
+            lock.lock()
+            if loadingCount < apiNumbers {
+               
+               loadingCount += 1
+            }
+            lock.unlock()
+            
+        }
+        
         didSet {
             
             competitionSize = competitionData.count
-            NotificationCenter.default.post(name: NSNotification.Name("ReloadHomeView"), object: nil)
-     
+            
+            if loadingCount == apiNumbers {
+                
+                self.delegate?.reloadData()
+                
+            }
+
         }
         
     }

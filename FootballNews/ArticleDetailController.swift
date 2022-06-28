@@ -18,7 +18,6 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
     
     var contentID: String = ""
     var publisherLogo: String = ""
-    var isLoad = false
     
     var contentBodyCount = 0
     var relatedCount = 0
@@ -39,6 +38,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate {
         articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
         
         return articleDetailCollection
+        
     }()
     
     

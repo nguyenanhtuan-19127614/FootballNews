@@ -15,13 +15,6 @@ import UIKit
 //
 
 //Passing data with delegate
-protocol ViewControllerDelegate: AnyObject {
-    
-    //pass Content ID (use for articelDetail)
-    func passContentID(contentID: String)
-    func passPublisherLogo(url: String)
-}
-
 
 enum HomeViewState {
     
@@ -31,7 +24,8 @@ enum HomeViewState {
     
 }
 
-class HomeViewController : UIViewController {
+class HomeViewController : UIViewController, HomeDataSoureDelegate {
+    
     
     //Delegate
     weak var delegate: ViewControllerDelegate?
@@ -77,12 +71,26 @@ class HomeViewController : UIViewController {
         return homeCollection
     }()
     
+    
+    //MARK: Delegation Function
+    func reloadData() {
+        
+        DispatchQueue.main.async {
+            
+            self.homeCollection.reloadData()
+            
+        }
+        
+    }
+    
+    
     //MARK: loadView() state
     override func loadView() {
         
         super.loadView()
         //add observer method
-        addObservers()
+       
+        dataSource.delegate = self
         self.title = "Trang Chính"
         //MARK: Create customView
         let view = UIView()
