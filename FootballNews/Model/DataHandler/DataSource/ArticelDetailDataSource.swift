@@ -21,16 +21,9 @@ struct ArticelDetailData {
     
 }
 
-
-protocol ArticelDetailDataSoureDelegate: AnyObject {
-    
-    func reloadData()
-    
-}
-
 class ArticelDetailDataSource {
     
-    weak var delegate: ArticelDetailDataSoureDelegate?
+    weak var delegate: DataSoureDelegate?
     
     let lock = NSLock()
     

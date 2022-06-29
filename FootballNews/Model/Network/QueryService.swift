@@ -210,7 +210,27 @@ class QueryService {
                 
                 print("Query Operation already added")
                 customOperation.cancel()
-                completion(.failure(ManagerErrors.DuplicateOperation))
+                ope.waitUntilFinished()
+                guard let data = (ope as! QueryServiceOperation).data else {
+
+                    completion(.failure(ManagerErrors.BadData))
+                    return
+
+                }
+                let decoder = JSONDecoder()
+                
+                do {
+
+                    let jsonData = try decoder.decode(T.self, from: data)
+                    completion(.success(jsonData))
+
+                } catch {
+
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+
+                }
+                
                 return
                 
             }

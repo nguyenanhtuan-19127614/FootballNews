@@ -10,7 +10,7 @@ import AVFoundation
 import UIKit
 
 
-class ArticelDetailController: UIViewController,ViewControllerDelegate, ArticelDetailDataSoureDelegate {
+class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSoureDelegate {
     
     //Delegate
     weak var delegate: ViewControllerDelegate?
@@ -20,12 +20,6 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, ArticelD
     
     // Datasource
     let dataSource = ArticelDetailDataSource()
-    
-//    var contentBodyCount = 0
-//    var relatedCount = 0
-//
-//    var detailData: ArticelDetailData?
-//    var relatedArticleData: [HomeArticleData] = []
     
     var articleDetailCollection: UICollectionView = {
         
@@ -44,7 +38,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, ArticelD
     }()
     
     
-     deinit {
+    deinit {
          print("♻️ Deallocating Articel Detail Controller")
          
      }
@@ -100,19 +94,29 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, ArticelD
     
         super.viewDidLoad()
         
-        //Set titleview of navigation bar
         
-//        let titleView = CustomTitleView(frame: CGRect(x: 0,
-//                                                      y: 0,
-//                                                      width: 300,
-//                                                      height: 300))
-//        titleView.loadData(url: URL(string: self.publisherLogo))
-//        self.navigationItem.titleView = titleView
         
         addSubviewsLayout()
         
         getArticelDetailData(contentID)
     }
+    
+    //MARK: viewWillAppear() state
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //Set titleview of navigation bar
+        
+        let titleView = CustomTitleView(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                      width: self.navigationController?.navigationBar.bounds.width ?? 0,
+                                                      height: self.navigationController?.navigationBar.bounds.height ?? 0))
+        
+        titleView.loadData(url: URL(string: self.publisherLogo))
+        self.navigationItem.titleView = titleView
+
+    }
+    
     
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {

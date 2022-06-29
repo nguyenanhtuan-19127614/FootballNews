@@ -157,9 +157,7 @@ class Subtitle: UIView {
                                    y: 0,
                                    width: sourceLabel.calculateWidth(cellHeight: self.bounds.height),
                                    height: self.bounds.height)
-        
-        //sourceLabel.layer.borderWidth = 1
-        
+    
         date.frame = CGRect(x: sourceLabel.frame.maxX + 5,
                             y: 0,
                             width: date.calculateWidth(cellHeight: self.bounds.height),
@@ -169,14 +167,17 @@ class Subtitle: UIView {
     }
     
     //MARK: Load data to cell
-    func loadData(sourceIcon: String,sourceLabel: String,date: String) {
+    func loadData(sourceIcon: String, sourceLabel: String, date: String) {
         
         self.sourceIcon.loadImageFromUrl(url: sourceIcon)
         self.sourceLabel.text = sourceLabel
         
         let date = Date().timestampToDate(date)
-        self.date.text = Date().dateToString(date)
-        
+        if let date = date {
+            
+            self.date.compareDatewithToday(date: date)
+            
+        }   
     }
 }
 

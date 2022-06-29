@@ -14,5 +14,13 @@ protocol ViewControllerDelegate: AnyObject {
     //pass Publisher Logo (use for articelDetail)
     func passPublisherLogo(url: String)
     
+}
+
+extension ViewControllerDelegate {
+    
+    //pass Content ID (use for articelDetail)
+    func passContentID(contentID: String) {}
+    //pass Publisher Logo (use for articelDetail)
+    func passPublisherLogo(url: String) {}
     
 }

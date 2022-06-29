@@ -24,9 +24,8 @@ enum HomeViewState {
     
 }
 
-class HomeViewController : UIViewController, HomeDataSoureDelegate {
-    
-    
+class HomeViewController : UIViewController, DataSoureDelegate {
+
     //Delegate
     weak var delegate: ViewControllerDelegate?
     
@@ -45,7 +44,7 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
     
     //query param
     var startArticel = 0
-    var articelSize = 15
+    var articelSize = 20
 
     //Main CollectionView
     var homeCollection: UICollectionView = {
@@ -66,30 +65,17 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "HomeLoadMoreCell")
     
-        
-        
         return homeCollection
+        
     }()
-    
-    
-    //MARK: Delegation Function
-    func reloadData() {
-        
-        DispatchQueue.main.async {
-            
-            self.homeCollection.reloadData()
-            
-        }
-        
-    }
-    
+
     
     //MARK: loadView() state
     override func loadView() {
         
         super.loadView()
+        
         //Add delegate for datasource
-       
         dataSource.delegate = self
         self.title = "Trang Chính"
         //MARK: Create customView
@@ -125,6 +111,19 @@ class HomeViewController : UIViewController, HomeDataSoureDelegate {
         
         
     }
+    
+   
+    //MARK: Delegation Function
+    func reloadData() {
+        
+        DispatchQueue.main.async {
+            
+            self.homeCollection.reloadData()
+            
+        }
+        
+    }
+    
     
     //MARK: GET Data Functions
 
@@ -298,7 +297,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
         } else if state == .loaded {
             
-            return dataSource.articelSize
+            return dataSource.cellSize
             
         } else {
             
@@ -353,7 +352,7 @@ extension HomeViewController: UICollectionViewDataSource {
                
                 return scoreBoardCell
                 
-            } else if indexPath.row < dataSource.articelSize - 1  {
+            } else if indexPath.row < dataSource.articelSize - 1{
                 
                 let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
                 
@@ -361,7 +360,7 @@ extension HomeViewController: UICollectionViewDataSource {
                
                 articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
             
-                articelCell.layer.borderWidth = 0
+               
                
                 return articelCell
                 
@@ -470,4 +469,3 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
-

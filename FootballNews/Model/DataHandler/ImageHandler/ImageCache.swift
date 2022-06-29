@@ -16,7 +16,7 @@ class ImageCache {
     
     //Cache config
     private let countLimit = 20
-    private let memoryLimit = 1024 * 1024 * 5
+    private let memoryLimit = 1024 * 1024 * 4
     
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         

@@ -16,24 +16,14 @@ class HomeArticleCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: prepareForReuse
-    override func prepareForReuse() {
-        
-        super.prepareForReuse()
-        newsAvatar.image = nil
-        publisherLogo.image = nil
-        title.text = nil
-        
-    }
+
     // MARK: Define Sub-view
     let newsAvatar: UIImageView = {
         
         let imgView = UIImageView()
         imgView.layer.cornerRadius = 10.0
         imgView.layer.masksToBounds = true
-       
-        
+
         return imgView
         
     }()
@@ -142,7 +132,6 @@ class HomeArticleCell: UICollectionViewCell {
         //Subviews that need downloading
        
         self.newsAvatar.loadImageFromUrl(url: inputData.avatar)
-        
         self.publisherLogo.loadImageFromUrl(url: inputData.author)
        
     }

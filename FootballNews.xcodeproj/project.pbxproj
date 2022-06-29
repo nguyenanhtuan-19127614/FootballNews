@@ -41,6 +41,9 @@
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
 		03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */; };
 		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
+		03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */; };
+		03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC3286B1804006097C5 /* LRUCache.swift */; };
+		03EB3AD0286C5144006097C5 /* CustomArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3ACF286C5144006097C5 /* CustomArray.swift */; };
 		03ECED20284E0C2D009D9D3C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 03ECED1F284E0C2D009D9D3C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +103,9 @@
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
 		03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyCell.swift; sourceTree = "<group>"; };
 		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceDelegate.swift; sourceTree = "<group>"; };
+		03EB3AC3286B1804006097C5 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
+		03EB3ACF286C5144006097C5 /* CustomArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomArray.swift; sourceTree = "<group>"; };
 		03ECED1F284E0C2D009D9D3C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +137,7 @@
 		0305AF3B28597C74009398A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0305AF50285AE337009398A6 /* Extension */,
 				0305AF3C28597C7A009398A6 /* DataHandler */,
 				0305AF3F28597CBB009398A6 /* Network */,
@@ -165,6 +172,8 @@
 			children = (
 				03CF3DA7284F3D1A00200D02 /* ImageCache.swift */,
 				03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */,
+				03EB3AC3286B1804006097C5 /* LRUCache.swift */,
+				03EB3ACF286C5144006097C5 /* CustomArray.swift */,
 			);
 			path = ImageHandler;
 			sourceTree = "<group>";
@@ -234,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				032AB20C284E01C400C6A83A /* AppDelegate.swift */,
-				03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */,
 				03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */,
 				0305AF57285C390E009398A6 /* HomeViewController.swift */,
 				0305AF4028597CDA009398A6 /* View */,
@@ -297,6 +305,15 @@
 				03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */,
 			);
 			path = ArticelDetail;
+			sourceTree = "<group>";
+		};
+		03EB3ABF286B0A2C006097C5 /* Delegation */ = {
+			isa = PBXGroup;
+			children = (
+				03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */,
+				03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */,
+			);
+			path = Delegation;
 			sourceTree = "<group>";
 		};
 		03ECED1D284E0B65009D9D3C /* Resources */ = {
@@ -455,6 +472,8 @@
 				0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */,
 				036D64CE28656E2A006E68C5 /* LoadMoreIndicatorCell.swift in Sources */,
 				036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */,
+				03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */,
+				03EB3AD0286C5144006097C5 /* CustomArray.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
 				0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */,
@@ -467,6 +486,7 @@
 				0305AF54285C30D4009398A6 /* HomeCompetitionCell.swift in Sources */,
 				036D64D12865957C006E68C5 /* HomeDataSource.swift in Sources */,
 				0305AF4F285AE174009398A6 /* UIImageViewExtension.swift in Sources */,
+				03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */,
 				0305AF482859DE60009398A6 /* HomeArticleCell.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,

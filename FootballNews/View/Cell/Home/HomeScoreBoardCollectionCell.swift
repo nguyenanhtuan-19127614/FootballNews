@@ -71,6 +71,8 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
         
     }
     
+    
+    
 }
 
 //MARK: Datasource Extension
@@ -106,6 +108,8 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegate {
         
         print("User tapped on item \(indexPath.row)")
         
+        NotificationCenter.default.post(name: NSNotification.Name("ScoreBoardCollectionClickItem"), object: indexPath.row)
+          
     }
     
 }

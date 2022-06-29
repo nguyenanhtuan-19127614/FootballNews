@@ -44,15 +44,9 @@ struct HomeCompetitionData {
     
 }
 
-protocol HomeDataSoureDelegate: AnyObject {
-    
-    func reloadData()
-    
-}
-
 class HomeDataSource {
 
-    weak var delegate: HomeDataSoureDelegate?
+    weak var delegate: DataSoureDelegate?
     
     var lock = NSLock()
     
@@ -62,6 +56,16 @@ class HomeDataSource {
     
     var loadedCount = 0
     var apiNumbers = 3
+    
+    var cellSize: Int {
+        
+        get {
+        
+            return articelSize
+            
+        }
+        
+    }
     
     var articleData: [HomeArticleData] = [] {
         

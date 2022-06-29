@@ -43,7 +43,7 @@ class NetworkDownloadOperation: CustomOperation {
             return
             
         }
-        
+
         self.task = session.dataTask(with: url) {
             
 
@@ -133,8 +133,8 @@ class ImageDownloader {
     static let sharedService = ImageDownloader()
     
     //Image Cache
-    private let imageCache = ImageCache()
-    
+    //private let imageCache = ImageCache()
+    private let imageCacheLRU = LRUCache<String, UIImage>(size: 10)
     //Constant (Use to config sessoin)
     private let timeoutForRequest = TimeInterval(30)
     private let timeoutForResource = TimeInterval(60)
@@ -170,13 +170,22 @@ class ImageDownloader {
                    completion: @escaping ( Result<UIImage?,Error> ) -> Void ){
 
         //Check if image is in cache
-        if let imageCache = imageCache.getImageData(url: url) {
-        
+    
+        if let imageCache = imageCacheLRU.getValue(key: url) {
+            
             print("Image is already in cache")
             completion(.success(imageCache))
             return
-            
+
         }
+        
+//        if let imageCache = imageCache.getImageData(url: url) {
+//
+//            print("Image is already in cache")
+//            completion(.success(imageCache))
+//            return
+//
+//        }
         
         guard let downloadSession = downloadSession else {
             
@@ -201,32 +210,20 @@ class ImageDownloader {
                 //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
                 ope.waitUntilFinished()
-                
                 guard let data = (ope as! NetworkDownloadOperation).data else {
-                    
+
                     completion(.failure(ManagerErrors.BadData))
                     return
-                    
+
                 }
                 
-                completion(.success(UIImage(data: data) ?? nil))
-                
-//                ope.completionBlock = {
-//                    
-//                    [unowned ope] in
-//                  
-//                    guard let data = (ope as! NetworkDownloadOperation).data else {
-//                        
-//                        completion(.failure(ManagerErrors.BadData))
-//                        return
-//                        
-//                    }
-//                    
-//                    completion(.success(UIImage(data: data) ?? nil))
-//                    
-//                }
-                
-            
+                guard let image = UIImage(data: data) else {
+                    completion(.failure(ManagerErrors.BadData))
+                    return
+                }
+    
+                completion(.success(image))
+
                 return
             }
 
@@ -246,8 +243,26 @@ class ImageDownloader {
             
             //Store image data to cache
             
-            self?.imageCache.addImage(imgData: data, url: url)
-            completion(.success(UIImage(data: data) ?? nil))
+//            self?.imageCache.addImage(imgData: data, url: url)
+            
+            guard let image = UIImage(data: data) else {
+                
+                completion(.failure(ManagerErrors.BadData))
+                return
+            }
+            
+            let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
+            lockQueue.sync {
+                self?.imageCacheLRU.addValue(value: image, key: url)
+            }
+            
+            
+            DispatchQueue.main.async {
+                
+                
+                completion(.success(image))
+            }
+           
         
         }
         
