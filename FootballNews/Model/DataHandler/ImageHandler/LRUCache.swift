@@ -11,7 +11,7 @@ import Foundation
 
 class LRUCache <Key:Hashable, Value> {
     
-    struct CacheValue: Equatable {
+    private struct CacheValue: Equatable {
         
         static func == (lhs: LRUCache.CacheValue, rhs: LRUCache.CacheValue) -> Bool {
             return lhs.key == rhs.key
@@ -25,13 +25,12 @@ class LRUCache <Key:Hashable, Value> {
     
     private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
-    //Array store data orderedly by accessed numbers
-
-    let array = CustomArray<CacheValue>()
-    //Dict will store value by key, use to look up and access data
-    var nodesDict: [Key: CacheValue] = [:]
+    //Array store key orderedly by accessed numbers
+    private var array: [Key] = []
     
-    //var nodesDict = ThreadSafeDictionary<Data, String>()
+    //Dict will store value by key, use to look up and access data
+    private var nodesDict: [Key: CacheValue] = [:]
+    
     private let sizeLimit: Int
     
     init(size: Int) {
@@ -49,14 +48,14 @@ class LRUCache <Key:Hashable, Value> {
     func addValue(value: Value, key: Key) {
         
         lockQueue.sync(flags: [.barrier]) {
-            [unowned self] in
+        
             //Create Cache value and Node
             let cacheValue = CacheValue(value: value, key: key)
             
             // Add value to linkedlist and dictionary
             if let existedValue = nodesDict[key] {
                 
-                array.moveToHead(existedValue)
+                array.moveToHead(existedValue.key)
                
             } else {
                
@@ -64,7 +63,7 @@ class LRUCache <Key:Hashable, Value> {
                     
                     if let lastKey = array.last {
                         
-                        nodesDict.removeValue(forKey: lastKey.key)
+                        nodesDict.removeValue(forKey: lastKey)
                         
                     }
                     
@@ -72,7 +71,7 @@ class LRUCache <Key:Hashable, Value> {
                     
                 }
                 
-                array.addHead(cacheValue)
+                array.addHead(cacheValue.key)
                 nodesDict[key] = cacheValue
                 print("dictsize: \(nodesDict.count)")
                 
@@ -86,13 +85,14 @@ class LRUCache <Key:Hashable, Value> {
         
         lockQueue.sync {
             
-            guard let value = nodesDict[key] else {
+           
+            guard let existedValue = nodesDict[key] else {
                 return nil
             }
             
-            array.moveToHead(value)
+            array.moveToHead(existedValue.key)
         
-            return value.value
+            return existedValue.value
            
         }
        

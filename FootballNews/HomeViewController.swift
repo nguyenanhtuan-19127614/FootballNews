@@ -161,8 +161,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     if self.state == .loaded {
                         
                         DispatchQueue.main.async {
-                            
-                            self.homeCollection.reloadItems(at: self.homeCollection.indexPathsForVisibleItems)
+
+                            self.homeCollection.reloadData()
                                        
                         }
     

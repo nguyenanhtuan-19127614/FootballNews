@@ -36,14 +36,13 @@
 		03ADCEB928677252007E5668 /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEB828677252007E5668 /* APITarget.swift */; };
 		03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEBA28677453007E5668 /* CustomOperation.swift */; };
 		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
-		03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA7284F3D1A00200D02 /* ImageCache.swift */; };
 		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
 		03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */; };
 		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
 		03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */; };
 		03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC3286B1804006097C5 /* LRUCache.swift */; };
-		03EB3AD0286C5144006097C5 /* CustomArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3ACF286C5144006097C5 /* CustomArray.swift */; };
+		03EB3AD3286C5E73006097C5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AD2286C5E73006097C5 /* ArrayExtension.swift */; };
 		03ECED20284E0C2D009D9D3C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 03ECED1F284E0C2D009D9D3C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -98,14 +97,13 @@
 		03ADCEB828677252007E5668 /* APITarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITarget.swift; sourceTree = "<group>"; };
 		03ADCEBA28677453007E5668 /* CustomOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperation.swift; sourceTree = "<group>"; };
 		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
-		03CF3DA7284F3D1A00200D02 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageCache.swift; sourceTree = SOURCE_ROOT; };
 		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
 		03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyCell.swift; sourceTree = "<group>"; };
 		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceDelegate.swift; sourceTree = "<group>"; };
 		03EB3AC3286B1804006097C5 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
-		03EB3ACF286C5144006097C5 /* CustomArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomArray.swift; sourceTree = "<group>"; };
+		03EB3AD2286C5E73006097C5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		03ECED1F284E0C2D009D9D3C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -170,10 +168,8 @@
 		0305AF3E28597CA3009398A6 /* ImageHandler */ = {
 			isa = PBXGroup;
 			children = (
-				03CF3DA7284F3D1A00200D02 /* ImageCache.swift */,
 				03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */,
 				03EB3AC3286B1804006097C5 /* LRUCache.swift */,
-				03EB3ACF286C5144006097C5 /* CustomArray.swift */,
 			);
 			path = ImageHandler;
 			sourceTree = "<group>";
@@ -214,6 +210,7 @@
 				0305AF5B285C646A009398A6 /* DateExtension.swift */,
 				03E1FFE42862D9AB00851333 /* UILabelExtension.swift */,
 				037DE5F82863240500DD588D /* StringExtension.swift */,
+				03EB3AD2286C5E73006097C5 /* ArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -473,12 +470,11 @@
 				036D64CE28656E2A006E68C5 /* LoadMoreIndicatorCell.swift in Sources */,
 				036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */,
 				03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */,
-				03EB3AD0286C5144006097C5 /* CustomArray.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
+				03EB3AD3286C5E73006097C5 /* ArrayExtension.swift in Sources */,
 				0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */,
 				0340FF322869C9F1000F022E /* ArticelDetailDataSource.swift in Sources */,
-				03CF3DAA284F3D1A00200D02 /* ImageCache.swift in Sources */,
 				03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */,
 				03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */,
 				036D64CC2865652F006E68C5 /* HomeCompetitionCollectionCell.swift in Sources */,

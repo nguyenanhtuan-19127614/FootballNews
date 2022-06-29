@@ -133,8 +133,8 @@ class ImageDownloader {
     static let sharedService = ImageDownloader()
     
     //Image Cache
-    //private let imageCache = ImageCache()
-    private let imageCacheLRU = LRUCache<String, UIImage>(size: 10)
+    private let imageCacheLRU = LRUCache<String, UIImage>(size: 20)
+    
     //Constant (Use to config sessoin)
     private let timeoutForRequest = TimeInterval(30)
     private let timeoutForResource = TimeInterval(60)
@@ -249,19 +249,12 @@ class ImageDownloader {
                 
                 completion(.failure(ManagerErrors.BadData))
                 return
-            }
-            
-            let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
-            lockQueue.sync {
-                self?.imageCacheLRU.addValue(value: image, key: url)
-            }
-            
-            
-            DispatchQueue.main.async {
                 
-                
-                completion(.success(image))
             }
+            
+            self?.imageCacheLRU.addValue(value: image, key: url)
+            
+            completion(.success(image))
            
         
         }
