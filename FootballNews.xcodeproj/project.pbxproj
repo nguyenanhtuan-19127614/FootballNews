@@ -26,6 +26,9 @@
 		032AB22E284E01C600C6A83A /* FootballNewsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB22D284E01C600C6A83A /* FootballNewsUITests.swift */; };
 		032AB230284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032AB22F284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift */; };
 		0340FF322869C9F1000F022E /* ArticelDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0340FF312869C9F1000F022E /* ArticelDetailDataSource.swift */; };
+		0344A93B286D940C00B38E38 /* ArticelDetailBodyTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */; };
+		0344A93D286D942400B38E38 /* ArticelDetailBodyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */; };
+		0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */; };
 		03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */; };
 		036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C7286479CD006E68C5 /* CustomTitleView.swift */; };
 		036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */; };
@@ -38,7 +41,6 @@
 		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
 		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
-		03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */; };
 		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
 		03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */; };
 		03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC3286B1804006097C5 /* LRUCache.swift */; };
@@ -87,6 +89,9 @@
 		032AB22D284E01C600C6A83A /* FootballNewsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballNewsUITests.swift; sourceTree = "<group>"; };
 		032AB22F284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballNewsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0340FF312869C9F1000F022E /* ArticelDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailDataSource.swift; sourceTree = "<group>"; };
+		0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyTextCell.swift; sourceTree = "<group>"; };
+		0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyImageCell.swift; sourceTree = "<group>"; };
+		0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtension.swift; sourceTree = "<group>"; };
 		03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		036D64C7286479CD006E68C5 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScoreBoardCollectionCell.swift; sourceTree = "<group>"; };
@@ -99,7 +104,6 @@
 		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
 		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
-		03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyCell.swift; sourceTree = "<group>"; };
 		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceDelegate.swift; sourceTree = "<group>"; };
 		03EB3AC3286B1804006097C5 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 		0305AF50285AE337009398A6 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */,
 				0305AF4E285AE174009398A6 /* UIImageViewExtension.swift */,
 				0305AF5B285C646A009398A6 /* DateExtension.swift */,
 				03E1FFE42862D9AB00851333 /* UILabelExtension.swift */,
@@ -299,7 +304,8 @@
 			isa = PBXGroup;
 			children = (
 				03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */,
-				03E1FFE02862235500851333 /* ArticelDetailBodyCell.swift */,
+				0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */,
+				0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */,
 			);
 			path = ArticelDetail;
 			sourceTree = "<group>";
@@ -466,13 +472,16 @@
 				0305AF4C285ACBDD009398A6 /* HomeScoreBoardCell.swift in Sources */,
 				0305AF5C285C646A009398A6 /* DateExtension.swift in Sources */,
 				03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */,
+				0344A93B286D940C00B38E38 /* ArticelDetailBodyTextCell.swift in Sources */,
 				0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */,
 				036D64CE28656E2A006E68C5 /* LoadMoreIndicatorCell.swift in Sources */,
 				036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */,
 				03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */,
+				0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
 				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
 				03EB3AD3286C5E73006097C5 /* ArrayExtension.swift in Sources */,
+				0344A93D286D942400B38E38 /* ArticelDetailBodyImageCell.swift in Sources */,
 				0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */,
 				0340FF322869C9F1000F022E /* ArticelDetailDataSource.swift in Sources */,
 				03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */,
@@ -492,7 +501,6 @@
 				03ADCEB928677252007E5668 /* APITarget.swift in Sources */,
 				037DE5F92863240500DD588D /* StringExtension.swift in Sources */,
 				036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */,
-				03E1FFE12862235500851333 /* ArticelDetailBodyCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

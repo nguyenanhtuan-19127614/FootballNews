@@ -76,7 +76,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         //Add delegate for datasource
         dataSource.delegate = self
-        self.title = "Trang Chính"
+
         //MARK: Create customView
         let view = UIView()
 
@@ -112,6 +112,24 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         
     }
+    //MARK: viewWillAppear() state
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        //Custom navigation bar
+ 
+        if #available(iOS 13.0, *) {
+            
+            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
+            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
+            let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
+            
+            navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
+            
+        }
+ 
+    }
     
     //Custom Layout
     override func viewDidLayoutSubviews() {
@@ -120,6 +138,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeLayout.minimumLineSpacing = 25
        
     }
+    
+    
    
     //MARK: Delegation Function
     func reloadData() {

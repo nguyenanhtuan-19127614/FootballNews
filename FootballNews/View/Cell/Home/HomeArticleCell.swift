@@ -21,7 +21,7 @@ class HomeArticleCell: UICollectionViewCell {
     let newsAvatar: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.layer.cornerRadius = 10.0
+        imgView.layer.cornerRadius = 5.0
         imgView.layer.masksToBounds = true
 
         return imgView
@@ -74,14 +74,14 @@ class HomeArticleCell: UICollectionViewCell {
         
         newsAvatar.frame = CGRect(x: 18,
                                   y: 20,
-                                  width: bounds.height + 10,
+                                  width: bounds.height + 20,
                                   height: bounds.height - 20)
         
         title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                              y: 20,
                              width: self.bounds.width - newsAvatar.bounds.width - 60,
                              height: 0)
-        title.font = UIFont.boldSystemFont(ofSize: self.bounds.width / 26)
+        title.font = title.font.withSize(self.bounds.width/25)
         title.sizeToFit()
         
         publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,

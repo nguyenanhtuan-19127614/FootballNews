@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AVFoundation
+//import AVFoundation
 import UIKit
 
 //ListViewDatasource<Data>
@@ -32,8 +32,8 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         let articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
         
         articleDetailCollection.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
-        articleDetailCollection.register(ArticelDetailTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
-        articleDetailCollection.register(ArticelDetailImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
+        articleDetailCollection.register(ArticelDetailBodyTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
+        articleDetailCollection.register(ArticelDetailBodyImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
         articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
         
         return articleDetailCollection
@@ -112,7 +112,10 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         titleView.loadData(url: URL(string: self.publisherLogo))
         
         self.navigationItem.titleView = titleView
-
+        
+        //set background color
+        self.navigationController?.navigationBar.setImageBackground(image: nil)
+       
     }
  
     //MARK: GET Data Functions
@@ -145,18 +148,14 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                                                      body: content.body)
                 self.dataSource.detailData = detailData
                 
-                
-//                //number of content
-//                self?.contentBodyCount += self?.detailData?.body?.count ?? 0
-//
                 guard let related = data.data?.related else {
                     
                     return
                     
                 }
                 
-                var articelArray: [HomeArticleModel] = []
                 //Load related contents data
+                var articelArray: [HomeArticleModel] = []
                 for i in related.contents {
                     
                     articelArray.append(HomeArticleModel(contentID: String(i.contentID),
@@ -184,6 +183,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     func addSubviewsLayout() {
       
         articleDetailCollection.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
 
             articleDetailCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -210,9 +210,9 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        //Header Part
         if indexPath.row == 0 {
             
+            //Header Part
             let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
             
             headerCell.backgroundColor = UIColor.white
@@ -224,8 +224,9 @@ extension ArticelDetailController: UICollectionViewDataSource {
          
             return headerCell
             
-        } else if indexPath.row <= dataSource.contentBodySize { //Body Part
+        } else if indexPath.row <= dataSource.contentBodySize {
             
+            //Body Part
             guard let bodyContent = dataSource.detailData?.body else {
                 
                 return UICollectionViewCell()
@@ -234,7 +235,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             
             if bodyContent[indexPath.row - 1].type == "text" {
                 
-                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailTextCell", for: indexPath) as! ArticelDetailTextCell
+                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailTextCell", for: indexPath) as! ArticelDetailBodyTextCell
                 
                 bodyCell.backgroundColor = UIColor.white
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content,
@@ -248,7 +249,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 
             } else {
                 
-                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailImageCell", for: indexPath) as! ArticelDetailImageCell
+                let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailImageCell", for: indexPath) as! ArticelDetailBodyImageCell
                 
                 bodyCell.backgroundColor = UIColor.white
 
@@ -278,7 +279,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //Pass data and call articel detail view controller ( Related Articel )
+        //Pass data and call articel detail view controller (Related Articel)
         if indexPath.row > dataSource.contentBodySize {
             
             
