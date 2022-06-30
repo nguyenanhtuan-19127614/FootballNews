@@ -39,7 +39,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
         //Create URL Components
         guard let urlComponent = URLComponents(string: apiTarget.link) else {
             
-            completion(.failure(ManagerErrors.BadURL))
+            completion(.failure(AppErrors.BadURL))
             return
             
         }
@@ -64,7 +64,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
         
             guard let response = response else {
                 
-                completion(.failure(ManagerErrors.BadResponse))
+                completion(.failure(AppErrors.BadResponse))
                 return
                 
             }
@@ -74,7 +74,7 @@ fileprivate class QueryServiceOperation: CustomOperation {
                 
                 if httpResponse.statusCode == 503 {
                     
-                    completion(.failure(ManagerErrors.ServiceUnavailable_503))
+                    completion(.failure(AppErrors.ServiceUnavailable_503))
                 
                 }
                 
@@ -113,7 +113,9 @@ fileprivate class QueryServiceOperation: CustomOperation {
         }
         
         guard let apiTarget = apiTarget else {
+            
             return
+            
         }
         
 
@@ -165,7 +167,7 @@ class QueryService {
     
     private let sessionConfig = URLSessionConfiguration.default
     
-    var querySession: URLSession?
+    private var querySession: URLSession?
     
     //Operation queue to manage download
     let operationQueue = OperationQueue()
@@ -208,12 +210,11 @@ class QueryService {
             
             if customOperation.name == ope.name {
                 
-                print("Query Operation already added")
                 customOperation.cancel()
                 ope.waitUntilFinished()
                 guard let data = (ope as! QueryServiceOperation).data else {
 
-                    completion(.failure(ManagerErrors.BadData))
+                    completion(.failure(AppErrors.BadData))
                     return
 
                 }
@@ -246,14 +247,14 @@ class QueryService {
             
             if customOperation.isCancelled {
                 
-                completion(.failure(ManagerErrors.OperationCancel))
+                completion(.failure(AppErrors.OperationCancel))
                 return
                 
             }
             
             guard let data = customOperation.data else {
                 
-                completion(.failure(ManagerErrors.BadData))
+                completion(.failure(AppErrors.BadData))
                 return
                 
             }

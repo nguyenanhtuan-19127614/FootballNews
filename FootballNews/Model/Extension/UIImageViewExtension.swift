@@ -35,7 +35,7 @@ extension UIImageView {
 
             case .failure(let err):
 
-                if(err as! ManagerErrors != ManagerErrors.DuplicateOperation) {
+                if(err as! AppErrors != AppErrors.DuplicateOperation) {
                     
                     DispatchQueue.main.async {
                         

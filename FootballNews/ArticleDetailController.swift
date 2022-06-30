@@ -38,11 +38,6 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     }()
     
     
-    deinit {
-         print("♻️ Deallocating Articel Detail Controller")
-         
-     }
-    
     //MARK: Delegation Function
     func passContentID(contentID: String) {
         
@@ -284,7 +279,6 @@ extension ArticelDetailController: UICollectionViewDelegate {
         //Pass data and call articel detail view controller ( Related Articel )
         if indexPath.row > dataSource.contentBodySize {
             
-            print("User tapped on item \(indexPath.row)")
             
             let index = indexPath.row - dataSource.contentBodySize  - 1
             
@@ -344,7 +338,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 
             }
             
-                if bodyContent[indexPath.row - 1].type == "text" {
+            if bodyContent[indexPath.row - 1].type == "text" {
                 
                 let contentLabel = UILabel()
                 contentLabel.text = bodyContent[indexPath.row - 1].content
@@ -362,12 +356,12 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 
                 return CGSize(width: self.view.bounds.width - 30,
                               height: contentLabel.calculateHeight(cellWidth: self.view.bounds.width ))
+               
                 
             } else {
                 
-                
                 return CGSize(width: self.view.bounds.width,
-                              height: 250)
+                              height: self.view.bounds.height/3)
                 
             }
             

@@ -11,12 +11,6 @@ class CustomOperation: Operation {
     
     private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
-   
-    deinit {
-        print("♻️ Deallocating Download Operation from memory")
-        
-    }
-    
     override var isAsynchronous: Bool {
         return true
     }

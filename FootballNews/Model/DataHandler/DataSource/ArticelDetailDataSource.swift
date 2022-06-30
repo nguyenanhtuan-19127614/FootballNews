@@ -69,7 +69,6 @@ class ArticelDetailDataSource {
             
             if loadedCount == apiNumbers {
                 
-                print("reload")
                 self.delegate?.reloadData()
                 
             }

@@ -43,7 +43,6 @@ class FootballNewsTests: XCTestCase {
                     return
                 }
                 
-                print(data.contents![0].body as Any)
                
        
             case .failure(let err):

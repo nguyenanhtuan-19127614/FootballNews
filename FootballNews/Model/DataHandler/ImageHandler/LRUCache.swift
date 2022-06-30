@@ -35,9 +35,9 @@ class LRUCache <Key:Hashable, Value> {
     
     init(size: Int) {
         
-        if size < 0 {
+        if size < 1 {
             
-            self.sizeLimit = 0
+            self.sizeLimit = 1
             return
             
         }
@@ -73,7 +73,6 @@ class LRUCache <Key:Hashable, Value> {
                 
                 array.addHead(cacheValue.key)
                 nodesDict[key] = cacheValue
-                print("dictsize: \(nodesDict.count)")
                 
             }
        

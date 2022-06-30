@@ -13,7 +13,7 @@ import UIKit
 //Use
 
 //MARK: Class custom Operation
-class NetworkDownloadOperation: CustomOperation {
+fileprivate class NetworkDownloadOperation: CustomOperation {
     
     var data: Data?
     
@@ -38,7 +38,7 @@ class NetworkDownloadOperation: CustomOperation {
         //Create URL
         guard let url = URL(string: url) else {
           
-            completion(.failure(ManagerErrors.BadURL))
+            completion(.failure(AppErrors.BadURL))
            
             return
             
@@ -52,7 +52,7 @@ class NetworkDownloadOperation: CustomOperation {
           
             guard response != nil else {
                 
-                completion(.failure(ManagerErrors.BadResponse))
+                completion(.failure(AppErrors.BadResponse))
             
                 return
                 
@@ -141,7 +141,7 @@ class ImageDownloader {
     
     private let sessionConfig = URLSessionConfiguration.default
     
-    var downloadSession: URLSession?
+    private var downloadSession: URLSession?
     
     //Operation queue to manage download
     let operationQueue = OperationQueue()
@@ -173,23 +173,15 @@ class ImageDownloader {
     
         if let imageCache = imageCacheLRU.getValue(key: url) {
             
-            print("Image is already in cache")
+           
             completion(.success(imageCache))
             return
 
         }
         
-//        if let imageCache = imageCache.getImageData(url: url) {
-//
-//            print("Image is already in cache")
-//            completion(.success(imageCache))
-//            return
-//
-//        }
-        
         guard let downloadSession = downloadSession else {
             
-            completion(.failure(ManagerErrors.NullSession))
+            completion(.failure(AppErrors.NullSession))
             return
             
         }
@@ -205,20 +197,18 @@ class ImageDownloader {
 
             if customOperation.name == ope.name {
                 
-                print("Download Operation already added")
-                
                 //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
                 ope.waitUntilFinished()
                 guard let data = (ope as! NetworkDownloadOperation).data else {
 
-                    completion(.failure(ManagerErrors.BadData))
+                    completion(.failure(AppErrors.BadData))
                     return
 
                 }
                 
                 guard let image = UIImage(data: data) else {
-                    completion(.failure(ManagerErrors.BadData))
+                    completion(.failure(AppErrors.BadData))
                     return
                 }
     
@@ -236,7 +226,7 @@ class ImageDownloader {
         
             guard let data = customOperation.data else {
                 
-                completion(.failure(ManagerErrors.BadData))
+                completion(.failure(AppErrors.BadData))
                 return
                 
             }
@@ -247,7 +237,7 @@ class ImageDownloader {
             
             guard let image = UIImage(data: data) else {
                 
-                completion(.failure(ManagerErrors.BadData))
+                completion(.failure(AppErrors.BadData))
                 return
                 
             }

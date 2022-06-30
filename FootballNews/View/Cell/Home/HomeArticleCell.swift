@@ -56,15 +56,6 @@ class HomeArticleCell: UICollectionViewCell {
         return label
         
     }()
-    
-    let ellipsisLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "..."
-        return label
-        
-    }()
-    
    
     //MARK: Add subviews to cell
     func addViews() {
@@ -73,7 +64,6 @@ class HomeArticleCell: UICollectionViewCell {
         addSubview(title)
         addSubview(publisherLogo)
         addSubview(timeLabel)
-        addSubview(ellipsisLabel)
         
     }
     
@@ -106,12 +96,6 @@ class HomeArticleCell: UICollectionViewCell {
         timeLabel.font = title.font.withSize(10)
         timeLabel.sizeToFit()
         timeLabel.frame.size.height = publisherLogo.bounds.height
-        
-        ellipsisLabel.frame = CGRect(x: self.frame.maxX - self.bounds.width/10,
-                                     y: publisherLogo.frame.minY ,
-                                     width: title.bounds.width / 10,
-                                     height: publisherLogo.bounds.height)
-        
         
     }
     

@@ -7,20 +7,8 @@
 
 import Foundation
 
-//MARK: Constants
-let _headerFields: (String, String) = ("api_key", "bm_fresher_2022")
-
-//MARK: RESPONSE BODY
-struct Response {
-    
-    var _data: Data?
-    var _response: URLResponse?
-    var _error: Error?
-    
-}
-
 //MARK: ERROR
-enum ManagerErrors: Error {
+enum AppErrors: Error {
     
     //Data Error Case
     case EmptyData

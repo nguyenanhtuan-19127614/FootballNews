@@ -25,10 +25,10 @@ enum HomeViewState {
 }
 
 class HomeViewController : UIViewController, DataSoureDelegate {
-
+    
     //Delegate
     weak var delegate: ViewControllerDelegate?
-    
+   
     //ViewController State
     var state: HomeViewState = .loading
     
@@ -36,11 +36,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     let dataSource = HomeDataSource()
     
     //Inex where score board and competition should be based on articels list
-    let scoreBoardIndex = 0
+    var scoreBoardExist: Bool = false
+    var scoreBoardIndex = 0
     let competitionIndex = 4
     
     //Location of scoreboard and competiion
-    var competitionLocation: [Int] = [4]
+    var competitionLocation: [Int] = []
     
     //query param
     var startArticel = 0
@@ -64,7 +65,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "HomeLoadMoreCell")
-    
+        
         return homeCollection
         
     }()
@@ -101,7 +102,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         addSubviewsLayout()
         
-        self.getScoreBoardData(compID: 0, date: "20220208")
+        //get data score board 
+        self.getScoreBoardData(compID: 0, date: "20220211")
         
         //get data home news
         self.getHomeArticelData()
@@ -171,7 +173,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         self.state = .loaded
                         
                     }
-
+                    
                 }
                 
             case .failure(let err):
@@ -218,6 +220,15 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     
                     self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
                     
+                    if dataSource.scoreBoardData.isEmpty {
+                        
+                        scoreBoardExist = false
+                        return
+                        
+                    }
+                    
+                    scoreBoardExist = true
+                    
                 }
        
             case .failure(let err):
@@ -251,6 +262,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     }
                     
                     self.dataSource.competitionData.append(contentsOf: competitionArray)
+                    if competitionLocation.isEmpty {
+                        
+                        competitionLocation.append(self.competitionIndex)
+                        return
+                        
+                    }
+                    self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
                 }
                 
             case .failure(let err):
@@ -272,6 +290,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
             
         ])
+        
        
     }
     
@@ -291,6 +310,7 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+       
         if state == .loading {
              
             return 1
@@ -336,7 +356,7 @@ extension HomeViewController: UICollectionViewDataSource {
 
                 return competitionCell
                 
-            } else if indexPath.row == scoreBoardIndex {
+            } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
                 
                 let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
                 
@@ -391,9 +411,6 @@ extension HomeViewController: UICollectionViewDelegate {
             //Pass Data and call articelDetail View Controller
             if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {
                 
-                print("User tapped on item \(indexPath.row)")
-                
-                
                 let articelDetailVC = ArticelDetailController()
                 self.delegate = articelDetailVC
                 self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
@@ -441,10 +458,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             if competitionLocation.contains(indexPath.row){
                 
                 //competition size
+                
                 return CGSize(width: self.view.bounds.width,
                               height: self.view.bounds.height/4)
                 
-            } else if indexPath.row == scoreBoardIndex  {
+            } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
                 
                 //Hot match size
                 return CGSize(width: self.view.bounds.width,
