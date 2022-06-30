@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArticelDetailData {
+struct ArticelDetailModel {
     
     var title: String
     var date: Int
@@ -44,7 +44,7 @@ class ArticelDetailDataSource {
         
     }
     
-    var detailData: ArticelDetailData? {
+    var detailData: ArticelDetailModel? {
         
         willSet {
             
@@ -76,7 +76,7 @@ class ArticelDetailDataSource {
         }
         
     }
-    var relatedArticleData: [HomeArticleData] = [] {
+    var relatedArticleData: [HomeArticleModel] = [] {
        
         didSet {
         

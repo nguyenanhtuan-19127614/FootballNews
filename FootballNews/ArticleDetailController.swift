@@ -9,6 +9,9 @@ import Foundation
 import AVFoundation
 import UIKit
 
+//ListViewDatasource<Data>
+//ListViewController
+//
 
 class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSoureDelegate {
     
@@ -89,11 +92,10 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     
         super.viewDidLoad()
         
-        
-        
         addSubviewsLayout()
         
         getArticelDetailData(contentID)
+        
     }
     
     //MARK: viewWillAppear() state
@@ -104,15 +106,15 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
         let titleView = CustomTitleView(frame: CGRect(x: 0,
                                                       y: 0,
-                                                      width: self.navigationController?.navigationBar.bounds.width ?? 0,
-                                                      height: self.navigationController?.navigationBar.bounds.height ?? 0))
+                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/2,
+                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/2))
         
         titleView.loadData(url: URL(string: self.publisherLogo))
+        
         self.navigationItem.titleView = titleView
 
     }
-    
-    
+ 
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
         
@@ -134,15 +136,15 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                     
                 }
                 //Load detail data
-                let detailData = ArticelDetailData(title: content.title,
+                let detailData = ArticelDetailModel(title: content.title,
                                                      date: content.date,
                                                      description: content.description,
                                                      source: content.source,
                                                      sourceLogo: content.publisherLogo,
                                                      sourceIcon: content.publisherIcon,
                                                      body: content.body)
-                
                 self.dataSource.detailData = detailData
+                
                 
 //                //number of content
 //                self?.contentBodyCount += self?.detailData?.body?.count ?? 0
@@ -153,11 +155,11 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                     
                 }
                 
-                var articelArray: [HomeArticleData] = []
+                var articelArray: [HomeArticleModel] = []
                 //Load related contents data
                 for i in related.contents {
                     
-                    articelArray.append(HomeArticleData(contentID: String(i.contentID),
+                    articelArray.append(HomeArticleModel(contentID: String(i.contentID),
                                                         avatar: i.avatar,
                                                         title: i.title,
                                                         author: i.publisherLogo,
@@ -294,17 +296,12 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
 }
 
-//ListViewDatasource<Data>
-//ListViewController
-//
-
 //MARK: Delegate Flow Layout extension
 extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     
     //Set size for each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-    
         guard let detailData = dataSource.detailData else {
             
             return CGSize(width: 0,
@@ -325,6 +322,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             var height = titleLabel.calculateHeight(cellWidth: self.view.bounds.width - 35)
             height += descriptionLabel.calculateHeight(cellWidth: self.view.bounds.width - 35)
             height += 30 + 50
+
             
             return CGSize(width: self.view.bounds.width ,
                           height: height)

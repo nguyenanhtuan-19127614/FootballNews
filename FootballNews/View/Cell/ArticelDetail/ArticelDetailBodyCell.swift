@@ -57,16 +57,6 @@ class ArticelDetailTextCell: UICollectionViewCell {
         contentLabel.sizeToFit()
         contentLabel.frame.size.width = self.bounds.width - 30
         
-//        NSLayoutConstraint.activate([
-//
-//            contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor , constant: paddingLeft),
-//            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor , constant: -paddingLeft),
-//            contentLabel.topAnchor.constraint(equalTo: self.topAnchor , constant: paddingLeft),
-//            contentLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor , constant: 0),
-//
-//
-//        ])
-        
     }
     
     //MARK: Calculate height of cell base on subviews
@@ -77,7 +67,7 @@ class ArticelDetailTextCell: UICollectionViewCell {
         
         return height
     }
-   
+    
     //MARK: Load Data
     func loadData(_ inputData: String, subtype: String?) {
         
@@ -142,7 +132,7 @@ class ArticelDetailImageCell: UICollectionViewCell {
    
    
     }
-    
+
     //MARK: Load Data
     func loadData(_ inputData: String) {
         

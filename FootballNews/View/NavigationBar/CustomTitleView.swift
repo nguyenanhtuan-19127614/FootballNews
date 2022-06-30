@@ -28,6 +28,8 @@ class CustomTitleView: UIImageView {
         
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.contentMode = .scaleAspectFit
+       
         return imgView
         
     }()
@@ -44,17 +46,15 @@ class CustomTitleView: UIImageView {
         
         super.layoutSubviews()
         
-        
-        
         NSLayoutConstraint.activate([
             
             titleImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             titleImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            titleImageView.widthAnchor.constraint(equalToConstant: self.bounds.width / 5),
-            titleImageView.heightAnchor.constraint(equalToConstant: self.bounds.height / 2)
-        
+            titleImageView.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            titleImageView.heightAnchor.constraint(equalToConstant: self.bounds.height)
+            
         ])
-        
+  
     }
     
     //MARK: Load data to cell

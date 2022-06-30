@@ -10,7 +10,7 @@ import UIKit
 //MARK: Cell that contain collectionView of HomeScoreBoardCell
 class HomeScoreBoardCollectionCell: UICollectionViewCell {
     
-    var scoreBoardData: [HomeScoreBoardData] = []
+    var scoreBoardData: [HomeScoreBoardModel] = []
     var scoreBoardCollection: UICollectionView = {
         
         let scoreBoardLayout = UICollectionViewFlowLayout()
@@ -64,7 +64,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
     }
     
     //MARK: Load data to cell
-    func loadData(inputData: [HomeScoreBoardData]) {
+    func loadData(inputData: [HomeScoreBoardModel]) {
         
         self.scoreBoardData = inputData
         self.scoreBoardCollection.reloadData()

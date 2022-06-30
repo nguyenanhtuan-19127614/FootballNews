@@ -81,7 +81,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     }
     
     //MARK: Load Data
-    func loadData(_ inputData: ArticelDetailData) {
+    func loadData(_ inputData: ArticelDetailModel) {
         
         titleLabel.text = inputData.title
         descriptionLabel.text = inputData.description
@@ -165,6 +165,8 @@ class Subtitle: UIView {
       
         
     }
+    
+    
     
     //MARK: Load data to cell
     func loadData(sourceIcon: String, sourceLabel: String, date: String) {

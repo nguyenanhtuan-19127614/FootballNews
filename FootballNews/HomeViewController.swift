@@ -16,7 +16,7 @@ import UIKit
 
 //Passing data with delegate
 
-enum HomeViewState {
+enum ViewControllerState {
     
     case loading
     case loaded
@@ -30,7 +30,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     weak var delegate: ViewControllerDelegate?
    
     //ViewController State
-    var state: HomeViewState = .loading
+    var state: ViewControllerState = .loading
     
     // Datasource
     let dataSource = HomeDataSource()
@@ -46,17 +46,15 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //query param
     var startArticel = 0
     var articelSize = 20
-
+    
+    //Main CollectionView Layout
+    var homeLayout = UICollectionViewFlowLayout()
+    
     //Main CollectionView
     var homeCollection: UICollectionView = {
         
-        //Custom CollectionView layout
-        let articleLayout = UICollectionViewFlowLayout()
-        articleLayout.sectionInsetReference = .fromSafeArea
-        articleLayout.minimumLineSpacing = 25
-        
         //Custom CollectionView
-        let homeCollection = UICollectionView(frame: .zero, collectionViewLayout: articleLayout)
+        let homeCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         homeCollection.backgroundColor = UIColor.white
         homeCollection.contentInsetAdjustmentBehavior = .always
         
@@ -83,11 +81,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         let view = UIView()
 
         //MARK: News Listing Collection View
-       
+        
         homeCollection.dataSource = self
         homeCollection.delegate = self
        
-        
+      
+        homeCollection.collectionViewLayout = homeLayout
         //MARK: Add layout and Subviews
        
         view.addSubview(homeCollection )
@@ -114,6 +113,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
+    //Custom Layout
+    override func viewDidLayoutSubviews() {
+        
+        homeLayout.sectionInsetReference = .fromSafeArea
+        homeLayout.minimumLineSpacing = 25
+       
+    }
    
     //MARK: Delegation Function
     func reloadData() {
@@ -146,10 +152,10 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
                         
                    
-                    var articelArray: [HomeArticleData] = []
+                    var articelArray: [HomeArticleModel] = []
                     for i in contents {
                         
-                        articelArray.append(HomeArticleData(contentID: String(i.contentID),
+                        articelArray.append(HomeArticleModel(contentID: String(i.contentID),
                                                             avatar: i.avatar,
                                                             title: i.title,
                                                             author: i.publisherLogo,
@@ -201,11 +207,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
                 if let soccerMatch = res.data?.soccerMatch {
                     
-                    var soccerMatchsArray: [HomeScoreBoardData] = []
+                    var soccerMatchsArray: [HomeScoreBoardModel] = []
                    
                     for i in soccerMatch {
                         
-                        soccerMatchsArray.append(HomeScoreBoardData(
+                        soccerMatchsArray.append(HomeScoreBoardModel(
                             status: i.matchStatus,
                             competition: i.competition.competitionName,
                             time: i.startTime,
@@ -253,10 +259,10 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
                 if let contents = res.data?.soccerCompetitions {
                     
-                    var competitionArray: [HomeCompetitionData] = []
+                    var competitionArray: [HomeCompetitionModel] = []
                     for i in contents {
                         
-                        competitionArray.append(HomeCompetitionData(logo: i.competitionLogo,
+                        competitionArray.append(HomeCompetitionModel(logo: i.competitionLogo,
                                                                     name: i.competitionName))
                        
                     }
@@ -394,7 +400,9 @@ extension HomeViewController: UICollectionViewDataSource {
             }
             
         }
+        
         return UICollectionViewCell()
+        
     }
 }
 
@@ -449,36 +457,39 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if state == .loading {
+        let totalWidth = self.view.bounds.width
+        let totalHeight = self.view.bounds.height
+        
+        if state == .loading || state == .error {
             
-            return CGSize(width: self.view.bounds.width ,
-                          height: self.view.bounds.height)
+            return CGSize(width: totalWidth ,
+                          height: totalHeight)
         } else {
             
             if competitionLocation.contains(indexPath.row){
                 
                 //competition size
                 
-                return CGSize(width: self.view.bounds.width,
-                              height: self.view.bounds.height/4)
+                return CGSize(width: totalWidth,
+                              height: totalHeight/4)
                 
             } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
                 
                 //Hot match size
-                return CGSize(width: self.view.bounds.width,
-                              height: self.view.bounds.height/5)
+                return CGSize(width: totalWidth,
+                              height: totalHeight/5)
                 
-            } else if indexPath.row < dataSource.articelSize - 1 || dataSource.articelSize == 0  {
+            } else if indexPath.row < dataSource.articelSize - 1 {
         
                 //articel size
-                return CGSize(width: self.view.bounds.width,
-                              height: self.view.bounds.height/7)
+                return CGSize(width: totalWidth,
+                              height: totalHeight/7)
                 
             } else {
                 
                 //load more animation cell size
-                return CGSize(width: self.view.bounds.width,
-                              height: self.view.bounds.height/25)
+                return CGSize(width: totalWidth,
+                              height: totalHeight/24)
                 
             }
             

@@ -79,9 +79,9 @@ class HomeArticleCell: UICollectionViewCell {
         
         title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                              y: 20,
-                             width: self.bounds.width - newsAvatar.bounds.width - 50,
+                             width: self.bounds.width - newsAvatar.bounds.width - 60,
                              height: 0)
-        title.font = UIFont.boldSystemFont(ofSize: self.bounds.width / 25)
+        title.font = UIFont.boldSystemFont(ofSize: self.bounds.width / 26)
         title.sizeToFit()
         
         publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,
@@ -100,7 +100,7 @@ class HomeArticleCell: UICollectionViewCell {
     }
     
     //MARK: Load data to cell
-    func loadData(inputData: HomeArticleData) {
+    func loadData(inputData: HomeArticleModel) {
         
         //Subviews that don't need downloading
         self.title.text = inputData.title

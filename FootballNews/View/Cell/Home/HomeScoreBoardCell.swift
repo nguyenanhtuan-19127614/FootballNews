@@ -110,7 +110,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
     
     //MARK: Load data to cell
     
-    func loadData(inputData: HomeScoreBoardData) {
+    func loadData(inputData: HomeScoreBoardModel) {
         
         //Subviews that don't need downloading
         self.competitionLabel.text = inputData.competition

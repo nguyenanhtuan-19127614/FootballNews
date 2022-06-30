@@ -72,7 +72,7 @@ class HomeCompetitionCell: UICollectionViewCell {
     }
     
     //MARK: Load data to cell
-    func loadData(inputData: HomeCompetitionData) {
+    func loadData(inputData: HomeCompetitionModel) {
         //Subviews that don't need downloading
         self.competitionName.text = inputData.name
     

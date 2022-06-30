@@ -16,6 +16,7 @@ protocol ViewControllerDelegate: AnyObject {
     
 }
 
+//Optionnal Protocol Function
 extension ViewControllerDelegate {
     
     //pass Content ID (use for articelDetail)

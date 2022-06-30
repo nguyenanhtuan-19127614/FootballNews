@@ -8,7 +8,8 @@
 import Foundation
 
 //Data for Listing Articel
-struct HomeArticleData {
+
+struct HomeArticleModel {
     
     var contentID: String
     var avatar: String
@@ -20,7 +21,7 @@ struct HomeArticleData {
 }
 
 //Data for Score Board
-struct HomeScoreBoardData {
+struct HomeScoreBoardModel {
     
     var status: Int
     var competition: String
@@ -37,7 +38,7 @@ struct HomeScoreBoardData {
 }
 
 //Data for Competition Board
-struct HomeCompetitionData {
+struct HomeCompetitionModel {
     
     var logo: String
     var name: String
@@ -67,7 +68,7 @@ class HomeDataSource {
         
     }
     
-    var articleData: [HomeArticleData] = [] {
+    var articleData: [HomeArticleModel] = [] {
         
         willSet {
             
@@ -91,7 +92,7 @@ class HomeDataSource {
 
     }
     
-    var scoreBoardData: [HomeScoreBoardData] = [] {
+    var scoreBoardData: [HomeScoreBoardModel] = [] {
         
         willSet {
             
@@ -118,7 +119,7 @@ class HomeDataSource {
         
     }
     
-    var competitionData: [HomeCompetitionData] = [] {
+    var competitionData: [HomeCompetitionModel] = [] {
         
         willSet {
             

@@ -10,7 +10,7 @@ import UIKit
 //MARK: Cell that contain collectionView of HomeCompetitionCell
 class HomeCompetitionCollectionCell: UICollectionViewCell {
     
-    var competitionData: [HomeCompetitionData] = []
+    var competitionData: [HomeCompetitionModel] = []
     var competitionCollection: UICollectionView = {
     
         let competitionLayout = UICollectionViewFlowLayout()
@@ -60,7 +60,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     }
     
     //MARK: Load data to cell
-    func loadData(inputData: [HomeCompetitionData]) {
+    func loadData(inputData: [HomeCompetitionModel]) {
         
         self.competitionData = inputData
         self.competitionCollection.reloadData()
