@@ -15,13 +15,6 @@ import UIKit
 //
 
 //Passing data with delegate
-enum ViewControllerState {
-    
-    case loading
-    case loaded
-    case error
-    
-}
 
 class HomeViewController : UIViewController, DataSoureDelegate {
     
@@ -61,7 +54,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         homeCollection.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
-        homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "HomeLoadMoreCell")
+        homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         
         return homeCollection
         
@@ -362,17 +355,13 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
        
-        if state == .loading {
+        if state == .loading || state == .error {
              
             return 1
             
-        } else if state == .loaded {
-            
-            return dataSource.cellSize
-            
         } else {
             
-            return 0
+            return dataSource.cellSize
             
         }
         
@@ -383,7 +372,7 @@ extension HomeViewController: UICollectionViewDataSource {
         
         if state == .loading {
             
-            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
             
             indicatorCell.indicator.startAnimating()
             return indicatorCell
@@ -437,7 +426,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 
             } else {
                 
-                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
                 
                 indicatorCell.indicator.startAnimating()
                 return indicatorCell

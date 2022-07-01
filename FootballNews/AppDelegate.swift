@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum ViewControllerState {
+    
+    case loading
+    case loaded
+    case error
+    
+}
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

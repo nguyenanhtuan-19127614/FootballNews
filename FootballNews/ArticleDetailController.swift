@@ -18,6 +18,10 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     //Delegate
     weak var delegate: ViewControllerDelegate?
     
+    //ViewController State
+    var state: ViewControllerState = .loading
+    
+    //Variable
     var contentID: String = ""
     var publisherLogo: String = ""
     
@@ -35,6 +39,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         articleDetailCollection.register(ArticelDetailBodyTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
         articleDetailCollection.register(ArticelDetailBodyImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
         articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
+        articleDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         
         return articleDetailCollection
         
@@ -168,9 +173,12 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                 }
                 
                 self.dataSource.relatedArticleData.append(contentsOf: articelArray)
+                self.state = .loaded
+               
                
             case .failure(let err):
                 print(err)
+                self.state = .error
                       
             }
             
@@ -202,14 +210,36 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
 //MARK: Datasource Extension
 extension ArticelDetailController: UICollectionViewDataSource {
     
+    //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.dataSource.dataSourceSize
+        if state == .loading || state == .error {
+             
+            return 1
+            
+        } else {
+            
+            return dataSource.dataSourceSize
+            
+        }
         
     }
     
+    //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        guard state == .loaded else {
+            
+            //Loading State
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            return indicatorCell
+            //Error State
+            //...
+        }
+        
+        //Loaded state
         if indexPath.row == 0 {
             
             //Header Part
@@ -303,6 +333,16 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     //Set size for each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        let totalWidth = self.view.bounds.width
+        let totalHeight = self.view.bounds.height
+        
+        if state == .loading || state == . error {
+            
+            return CGSize(width: totalWidth,
+                          height: totalHeight)
+            
+        }
+        
         guard let detailData = dataSource.detailData else {
             
             return CGSize(width: 0,
@@ -320,12 +360,12 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             descriptionLabel.text = detailData.description
             descriptionLabel.font = UIFont.boldSystemFont(ofSize: 25)
             
-            var height = titleLabel.calculateHeight(cellWidth: self.view.bounds.width - 35)
-            height += descriptionLabel.calculateHeight(cellWidth: self.view.bounds.width - 35)
+            var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
+            height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
             height += 30 + 50
 
             
-            return CGSize(width: self.view.bounds.width ,
+            return CGSize(width: totalWidth ,
                           height: height)
             
         } else if indexPath.row <= dataSource.contentBodySize {
@@ -353,21 +393,21 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                    
                 }
                 
-                return CGSize(width: self.view.bounds.width - 30,
-                              height: contentLabel.calculateHeight(cellWidth: self.view.bounds.width ))
+                return CGSize(width: totalWidth - 30,
+                              height: contentLabel.calculateHeight(cellWidth: totalWidth ))
                
                 
             } else {
                 
-                return CGSize(width: self.view.bounds.width,
-                              height: self.view.bounds.height/3)
+                return CGSize(width: totalWidth,
+                              height: totalHeight/3)
                 
             }
             
         }
         
-        return CGSize(width: self.view.bounds.width,
-                      height: self.view.bounds.height/7)
+        return CGSize(width: totalWidth,
+                      height: totalHeight/7)
         
     }
 }
