@@ -33,11 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navController?.navigationBar.isTranslucent = false
         
         //Drop shadow for navigation bar
-        navController?.navigationBar.layer.masksToBounds = false
-        navController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        navController?.navigationBar.layer.shadowOpacity = 0.8
-        navController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        navController?.navigationBar.layer.shadowRadius = 2
+        navController?.navigationBar.addShadow(color: UIColor.lightGray.cgColor,
+                                               opacity: 0.5,
+                                               offset: CGSize(width: 0, height: 1.0),
+                                               radius: 2)
         
         
         window?.rootViewController = navController

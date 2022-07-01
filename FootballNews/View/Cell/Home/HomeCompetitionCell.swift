@@ -32,7 +32,8 @@ class HomeCompetitionCell: UICollectionViewCell {
     let competitionLogo: UIImageView = {
         
         let imgView = UIImageView()
-        
+        imgView.contentMode = .scaleAspectFit
+    
         return imgView
         
     }()
@@ -59,15 +60,24 @@ class HomeCompetitionCell: UICollectionViewCell {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         
-        competitionLogo.frame = CGRect(x: 0,
-                                       y: 0,
-                                       width: self.bounds.width,
-                                       height: self.bounds.height * 2 / 3)
+        competitionLogo.translatesAutoresizingMaskIntoConstraints = false
+        competitionName.translatesAutoresizingMaskIntoConstraints = false
         
-        competitionName.frame = CGRect(x: 0,
-                                       y: competitionLogo.frame.maxY + 5,
-                                       width: self.bounds.width,
-                                       height: self.bounds.height - competitionLogo.bounds.height )
+        NSLayoutConstraint.activate([
+
+            competitionLogo.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            competitionLogo.heightAnchor.constraint(equalToConstant: self.bounds.height * 2 / 3),
+            competitionLogo.topAnchor.constraint(equalTo: self.topAnchor),
+        
+            competitionName.topAnchor.constraint(equalTo: competitionLogo.bottomAnchor),
+            competitionName.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            competitionName.heightAnchor.constraint(equalToConstant: self.bounds.height * 1 / 3)
+            
+        ])
+        
+
+        //competitionName.sizeToFit()
+        //competitionName.frame.size.width = self.bounds.width
         
     }
     

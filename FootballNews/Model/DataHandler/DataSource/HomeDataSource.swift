@@ -14,8 +14,7 @@ struct HomeArticleModel {
     var contentID: String
     var avatar: String
     var title: String
-    var author: String
-    var link: String
+    var publisherLogo: String
     var date: Int
     
 }

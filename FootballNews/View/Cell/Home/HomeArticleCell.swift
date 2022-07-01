@@ -116,7 +116,7 @@ class HomeArticleCell: UICollectionViewCell {
         //Subviews that need downloading
        
         self.newsAvatar.loadImageFromUrl(url: inputData.avatar)
-        self.publisherLogo.loadImageFromUrl(url: inputData.author)
+        self.publisherLogo.loadImageFromUrl(url: inputData.publisherLogo)
        
     }
 

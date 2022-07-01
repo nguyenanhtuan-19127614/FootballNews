@@ -172,8 +172,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                     articelArray.append(HomeArticleModel(contentID: String(i.contentID),
                                                         avatar: i.avatar,
                                                         title: i.title,
-                                                        author: i.publisherLogo,
-                                                        link: i.url,
+                                                        publisherLogo: i.publisherLogo,
                                                         date: i.date))
                     
                 }
@@ -324,7 +323,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
             let articelDetailVC = ArticelDetailController()
             self.delegate = articelDetailVC
             self.delegate?.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
-            self.delegate?.passPublisherLogo(url: dataSource.relatedArticleData[index].author)
+            self.delegate?.passPublisherLogo(url: dataSource.relatedArticleData[index].publisherLogo)
             
             navigationController?.pushViewController(articelDetailVC, animated: true)     
             

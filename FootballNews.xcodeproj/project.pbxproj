@@ -29,6 +29,7 @@
 		0344A93B286D940C00B38E38 /* ArticelDetailBodyTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */; };
 		0344A93D286D942400B38E38 /* ArticelDetailBodyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */; };
 		0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */; };
+		0344A941286EF3BF00B38E38 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A940286EF3BF00B38E38 /* UIViewExtension.swift */; };
 		03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */; };
 		036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C7286479CD006E68C5 /* CustomTitleView.swift */; };
 		036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */; };
@@ -92,6 +93,7 @@
 		0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyTextCell.swift; sourceTree = "<group>"; };
 		0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyImageCell.swift; sourceTree = "<group>"; };
 		0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtension.swift; sourceTree = "<group>"; };
+		0344A940286EF3BF00B38E38 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		036D64C7286479CD006E68C5 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScoreBoardCollectionCell.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				03E1FFE42862D9AB00851333 /* UILabelExtension.swift */,
 				037DE5F82863240500DD588D /* StringExtension.swift */,
 				03EB3AD2286C5E73006097C5 /* ArrayExtension.swift */,
+				0344A940286EF3BF00B38E38 /* UIViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				0305AF2D28583C71009398A6 /* MatchModel.swift in Sources */,
 				036D64CE28656E2A006E68C5 /* LoadMoreIndicatorCell.swift in Sources */,
 				036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */,
+				0344A941286EF3BF00B38E38 /* UIViewExtension.swift in Sources */,
 				03EB3AC4286B1804006097C5 /* LRUCache.swift in Sources */,
 				0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,

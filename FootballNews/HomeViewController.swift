@@ -1,18 +1,19 @@
 
 import UIKit
 
-//refresh
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.attributedTitle = NSAttributedString(string: "Refresh List News")
-//        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-//
-//        myCollectionView?.addSubview(refreshControl)
 
 // API main + (n API) => all APIs done => state = .loaded
 //
 //
 //
 //
+
+//Source of truth
+//Datasource: Store data [] -> signal -> CollectionView reload
+
+//State: Loading -> Datasource update loading
+//State: idle -> data -> Datasource
+
 
 //Passing data with delegate
 
@@ -27,12 +28,15 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     // Datasource
     let dataSource = HomeDataSource()
     
-    //Inex where score board and competition should be based on articels list
+    //ScoreBoard and competition Exist or not
     var scoreBoardExist: Bool = false
+    var competitionExist: Bool = false
+    
+    //Index where score board and competition should be based on articels list
     var scoreBoardIndex = 0
     let competitionIndex = 4
     
-    //Location of scoreboard and competiion
+    //Location and competiion
     var competitionLocation: [Int] = []
 
     //query param
@@ -108,6 +112,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     @objc func refresh() {
         
         self.startArticel = 0
+        self.competitionLocation = []
+        
         dataSource.refresh()
         
     }
@@ -137,8 +143,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeLayout.minimumLineSpacing = 25
        
     }
-    
-    
    
     //MARK: Delegation Function
     
@@ -199,14 +203,14 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         articelArray.append(HomeArticleModel(contentID: String(i.contentID),
                                                             avatar: i.avatar,
                                                             title: i.title,
-                                                            author: i.publisherLogo,
-                                                            link: i.url,
+                                                            publisherLogo: i.publisherLogo,
                                                             date: i.date))
                        
                     }
                     
                     self.dataSource.articleData.append(contentsOf: articelArray)
                     
+                    //Load more case
                     if self.state == .loaded {
                         
                         DispatchQueue.main.async {
@@ -216,7 +220,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         }
     
                     } else {
-                        
+                        //First time load
                         self.state = .loaded
                         
                     }
@@ -307,13 +311,26 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     }
                     
                     self.dataSource.competitionData.append(contentsOf: competitionArray)
+                    
+                    //Check if competition exist
+                    if dataSource.competitionData.isEmpty {
+                        
+                        competitionExist = false
+                        return
+                        
+                    }
+                    competitionExist = true
+                    
+                    //Add location for competition cell
                     if competitionLocation.isEmpty {
                         
                         competitionLocation.append(self.competitionIndex)
                         return
                         
                     }
+                    
                     self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
+                    
                 }
                 
             case .failure(let err):
@@ -341,13 +358,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     
 }
-
-//Source of truth
-//Datasource: Store data [] -> signal -> CollectionView reload
-
-//State: Loading -> Datasource update loading
-//State: idle -> data -> Datasource
-
 
 //MARK: Datasource Extension
 extension HomeViewController: UICollectionViewDataSource {
@@ -381,7 +391,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
         } else if state == .loaded {
             
-            if competitionLocation.contains(indexPath.row) {
+            if competitionLocation.contains(indexPath.row)  && competitionExist == true  {
                 
                 let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
                 
@@ -457,7 +467,7 @@ extension HomeViewController: UICollectionViewDelegate {
                 let articelDetailVC = ArticelDetailController()
                 self.delegate = articelDetailVC
                 self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].author)
+                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
                 
                 navigationController?.pushViewController(articelDetailVC, animated: true)
              
@@ -501,12 +511,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                           height: totalHeight)
         } else {
             
-            if competitionLocation.contains(indexPath.row){
+            if competitionLocation.contains(indexPath.row)  && competitionExist == true {
                 
                 //competition size
                 
                 return CGSize(width: totalWidth,
-                              height: totalHeight/4)
+                              height: totalHeight/5)
                 
             } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
                 

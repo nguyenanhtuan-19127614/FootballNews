@@ -52,11 +52,13 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         
         super.layoutSubviews()
       
-        self.competitionCollection.frame = CGRect(x: self.frame.minX,
+        self.competitionCollection.frame = CGRect(x:0,
                                              y: 0,
                                              width: self.bounds.width,
                                              height: self.bounds.height)
         
+        //self.competitionCollection.addShadow()
+      
     }
     
     //MARK: Load data to cell
