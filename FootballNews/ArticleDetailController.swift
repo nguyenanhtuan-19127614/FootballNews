@@ -28,12 +28,11 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     // Datasource
     let dataSource = ArticelDetailDataSource()
     
+    //Main Collection
+    let articleDetailLayout = UICollectionViewFlowLayout()
     var articleDetailCollection: UICollectionView = {
         
-        let detailArticelLayout = UICollectionViewFlowLayout()
-        detailArticelLayout.minimumLineSpacing = 15
-        
-        let articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: detailArticelLayout)
+        let articleDetailCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         
         articleDetailCollection.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
         articleDetailCollection.register(ArticelDetailBodyTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
@@ -84,7 +83,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
         articleDetailCollection.dataSource = self
         articleDetailCollection.delegate = self
-        
+        articleDetailCollection.collectionViewLayout = articleDetailLayout
         
         view.addSubview(articleDetailCollection)
         
@@ -120,9 +119,16 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
+        
+    }
+    
+    //MARK: Custom Layout
+    override func viewDidLayoutSubviews() {
+        
+        articleDetailLayout.sectionInsetReference = .fromSafeArea
+        articleDetailLayout.minimumLineSpacing = 15
        
     }
- 
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
         
@@ -209,7 +215,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
 
 //MARK: Datasource Extension
 extension ArticelDetailController: UICollectionViewDataSource {
-    
+
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -362,7 +368,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             
             var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
             height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += 30 + 50
+            height += 50 
 
             
             return CGSize(width: totalWidth ,
@@ -381,20 +387,20 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 
                 let contentLabel = UILabel()
                 contentLabel.text = bodyContent[indexPath.row - 1].content
-                contentLabel.font =  UIFont(name: "Helvetica", size: 22.0) ?? UIFont.systemFont(ofSize: 20)
+                contentLabel.font =  UIFont(name: "TimesNewRomanPS-BoldMT", size: 22.0) ?? UIFont.systemFont(ofSize: 20)
                     
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {
-                        
-                        contentLabel.font = contentLabel.font.withSize(18)
+            
+                        contentLabel.font =  UIFont(name: "TimesNewRomanPS-ItalicMT", size: 18.0) ?? UIFont.systemFont(ofSize: 18)
                         
                     }
                    
                 }
                 
                 return CGSize(width: totalWidth - 30,
-                              height: contentLabel.calculateHeight(cellWidth: totalWidth ))
+                              height: contentLabel.calculateHeight(cellWidth: totalWidth - 30 ))
                
                 
             } else {
@@ -410,4 +416,6 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                       height: totalHeight/7)
         
     }
+    
+   
 }

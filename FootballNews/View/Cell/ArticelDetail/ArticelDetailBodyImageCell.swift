@@ -28,7 +28,7 @@ class ArticelDetailBodyImageCell: UICollectionViewCell {
     let contentImage: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.contentMode = .scaleAspectFit
+        imgView.contentMode = .scaleToFill
         return imgView
         
     }()

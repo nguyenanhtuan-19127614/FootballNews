@@ -85,9 +85,13 @@ extension UILabel {
                     
                 } else if hour > 0 {
                     
-                    if minute < 0 {
+                    if minute < 0 && hour == 1{
                         
                         self.text = "\(60 + minute) Phút"
+                        
+                    } else if minute < 0 && hour > 1 {
+                        
+                        self.text = "\(hour - 1) Giờ"
                         
                     } else {
                         

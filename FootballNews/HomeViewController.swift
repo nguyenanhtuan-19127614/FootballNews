@@ -106,7 +106,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //MARK: Refresh methods
     @objc func refresh() {
-
+        
+        self.startArticel = 0
         dataSource.refresh()
         
     }
@@ -129,7 +130,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
  
     }
     
-    //Custom Layout
+    //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
         homeLayout.sectionInsetReference = .fromSafeArea
@@ -143,7 +144,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     func getData() {
         
-        self.getScoreBoardData(compID: 0, date: "0")
+        self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
         
         //get data home news
         self.getHomeArticelData()

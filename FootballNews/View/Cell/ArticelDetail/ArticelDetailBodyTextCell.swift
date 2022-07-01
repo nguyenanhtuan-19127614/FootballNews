@@ -12,8 +12,6 @@ fileprivate let paddingLeft = 15.0
 //MARK: Articel Detail Body Cell that have type "text"
 class ArticelDetailBodyTextCell: UICollectionViewCell {
     
-    let fontLabel: UIFont = UIFont(name: "Helvetica", size: 20.0) ?? UIFont.systemFont(ofSize: 16)
-    
     //MARK: Overide Init
     override init(frame: CGRect) {
         
@@ -83,6 +81,5 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
             contentLabel.textAlignment = .center
 
         }
-    
     }
 }

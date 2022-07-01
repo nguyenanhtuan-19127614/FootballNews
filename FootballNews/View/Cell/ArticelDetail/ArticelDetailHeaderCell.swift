@@ -58,7 +58,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         titleLabel.frame = CGRect(x: paddingLeft,
-                                  y: 20,
+                                  y: 0,
                                   width: self.bounds.width - 35,
                                   height: 0)
         titleLabel.sizeToFit()
@@ -76,7 +76,6 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
                                         height: 0)
         descriptionLabel.sizeToFit()
         
-        self.sizeToFit()
         
     }
     
@@ -178,6 +177,7 @@ class Subtitle: UIView {
         if let date = date {
             
             self.date.compareDatewithToday(date: date)
+            self.date.text?.insert(contentsOf: " - ", at: self.date.text!.startIndex)
             
         }   
     }
