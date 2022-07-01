@@ -15,7 +15,6 @@ import UIKit
 //
 
 //Passing data with delegate
-
 enum ViewControllerState {
     
     case loading
@@ -42,7 +41,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //Location of scoreboard and competiion
     var competitionLocation: [Int] = []
-    
+
     //query param
     var startArticel = 0
     var articelSize = 20
@@ -67,7 +66,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         return homeCollection
         
     }()
-
     
     //MARK: loadView() state
     override func loadView() {
@@ -101,19 +99,26 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         addSubviewsLayout()
         
+        //Add Refresh control to homeCollection
+       
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Đang Cập Nhật")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        homeCollection.refreshControl = refreshControl
+       
         //get data score board 
-        self.getScoreBoardData(compID: 0, date: "20220211")
-        
-        //get data home news
-        self.getHomeArticelData()
-        
-        //get data competition
-        self.getCompetitionData()
-        
+        self.getData()
         
     }
-    //MARK: viewWillAppear() state
     
+    //MARK: Refresh methods
+    @objc func refresh() {
+
+        dataSource.refresh()
+        
+    }
+    
+    //MARK: viewWillAppear() state
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
@@ -142,6 +147,19 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
    
     //MARK: Delegation Function
+    
+    func getData() {
+        
+        self.getScoreBoardData(compID: 0, date: "0")
+        
+        //get data home news
+        self.getHomeArticelData()
+        
+        //get data competition
+        self.getCompetitionData()
+        
+    }
+    
     func reloadData() {
         
         DispatchQueue.main.async {
@@ -152,6 +170,15 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
+    func stopRefresh() {
+
+        DispatchQueue.main.async {
+
+            self.homeCollection.refreshControl?.endRefreshing()
+            
+        }
+      
+    }
     
     //MARK: GET Data Functions
 
@@ -213,7 +240,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //get data score board
     func getScoreBoardData(compID: Int, date: String) {
-        
+    
         QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID),
                                                                   date: date,
                                                                   start: 0,
@@ -225,10 +252,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
             case .success(let res):
                 
+                var soccerMatchsArray: [HomeScoreBoardModel] = []
                 if let soccerMatch = res.data?.soccerMatch {
                     
-                    var soccerMatchsArray: [HomeScoreBoardModel] = []
-                   
                     for i in soccerMatch {
                         
                         soccerMatchsArray.append(HomeScoreBoardModel(
@@ -243,27 +269,26 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                             awayScore: i.awayScored))
                         
                     }
+                   
+                }
+                
+                self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
+                if dataSource.scoreBoardData.isEmpty {
                     
-                    self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
-                    
-                    if dataSource.scoreBoardData.isEmpty {
-                        
-                        scoreBoardExist = false
-                        return
-                        
-                    }
-                    
-                    scoreBoardExist = true
+                    scoreBoardExist = false
+                    return
                     
                 }
-       
-            case .failure(let err):
+                
+                scoreBoardExist = true
+              
+                
+           case .failure(let err):
                 print(err)
                 
             }
-            
-        }
         
+        }
     }
     
     //get data competition

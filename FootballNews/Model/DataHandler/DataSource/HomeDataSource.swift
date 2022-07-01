@@ -55,8 +55,21 @@ class HomeDataSource {
     var scoreBoardSize = 0
     var competitionSize = 0
     
-    var loadedCount = 0
     var apiNumbers = 3
+    var apiLoadedCount = 0 {
+        
+        didSet {
+            
+            if apiLoadedCount == apiNumbers {
+                
+                delegate?.reloadData()
+                delegate?.stopRefresh()
+                
+            }
+           
+        }
+    }
+    
     
     var cellSize: Int {
         
@@ -73,7 +86,7 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            loadedCount += 1
+            apiLoadedCount += 1
             lock.unlock()
             
         }
@@ -82,12 +95,6 @@ class HomeDataSource {
             
             articelSize = articleData.count
             
-            if loadedCount == apiNumbers {
-                
-                self.delegate?.reloadData()
-                
-            }
-      
         }
 
     }
@@ -97,9 +104,9 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            if loadedCount < apiNumbers {
+            if apiLoadedCount < apiNumbers {
                
-               loadedCount += 1
+               apiLoadedCount += 1
             }
             lock.unlock()
             
@@ -108,12 +115,6 @@ class HomeDataSource {
         didSet {
         
             scoreBoardSize = scoreBoardData.count
-            
-            if loadedCount == apiNumbers  {
-                
-                self.delegate?.reloadData()
-                
-            }
             
         }
         
@@ -124,9 +125,9 @@ class HomeDataSource {
         willSet {
             
             lock.lock()
-            if loadedCount < apiNumbers {
+            if apiLoadedCount < apiNumbers {
                
-               loadedCount += 1
+               apiLoadedCount += 1
             }
             lock.unlock()
             
@@ -135,15 +136,25 @@ class HomeDataSource {
         didSet {
             
             competitionSize = competitionData.count
-            
-            if loadedCount == apiNumbers {
-                
-                self.delegate?.reloadData()
-                
-            }
 
         }
         
+    }
+    
+    //Refresh data source
+    func refresh() {
+        
+        articelSize = 0
+        scoreBoardSize = 0
+        competitionSize = 0
+        
+        articleData = []
+        scoreBoardData = []
+        competitionData = []
+        
+        apiLoadedCount = 0
+        self.delegate?.getData()
+
     }
     
 }

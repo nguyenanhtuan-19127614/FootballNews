@@ -10,5 +10,16 @@ import Foundation
 protocol DataSoureDelegate: AnyObject {
     
     func reloadData()
+    func getData()
+    
+    func stopRefresh()
+    
+}
+
+//Optionnal Protocol Function
+extension DataSoureDelegate {
+    
+    func getData() {}
+    func stopRefresh() {}
     
 }

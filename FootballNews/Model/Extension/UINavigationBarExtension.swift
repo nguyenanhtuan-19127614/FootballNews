@@ -11,23 +11,24 @@ extension UINavigationBar {
     
     func setGradientBackground(colors: [CGColor]) {
     
+        //Config Gradient Layer
         let gradient = CAGradientLayer()
-    
-        gradient.locations = [0.0,0.5,1.0]
+
         gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
         
-        
-        var updatedFrame = self.bounds
+        var updatedFrame = self.frame
         updatedFrame.size.height += self.frame.origin.y
         
         gradient.frame = updatedFrame
         gradient.colors = colors;
         
+        //Render Gradient Image
         UIGraphicsBeginImageContext(gradient.bounds.size)
         gradient.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
+        //Set Navigation Bar Background
         self.setImageBackground(image: image)
 
     }
