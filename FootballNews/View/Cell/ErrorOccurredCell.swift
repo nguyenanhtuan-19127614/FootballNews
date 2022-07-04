@@ -47,13 +47,10 @@ class ErrorOccurredCell: UICollectionViewCell {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
         if #available(iOS 13.0, *) {
-            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
-            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
-            let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
             
-            let gradientImage = UIImage().createGradientImage(colors: [startColor,middleColor,endColor],
-                                                              frame: button.frame)
-            button.setBackgroundImage(gradientImage, for: .normal)
+            let color = UIColor(cgColor: CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1))
+            button.backgroundColor = color
+             
         }
         
         button.layer.cornerRadius = 7.0

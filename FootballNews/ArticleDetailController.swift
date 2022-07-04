@@ -69,6 +69,12 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
     }
     
+    func getData() {
+        
+        self.getArticelDetailData(contentID)
+        
+    }
+    
     func changeState(state: ViewControllerState) {
         
         self.state = state
@@ -191,7 +197,10 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
             case .failure(let err):
                 print(err)
                 self.state = .error
-                      
+                
+                DispatchQueue.main.async {
+                    self.articleDetailCollection.reloadData()
+                }
             }
             
             
