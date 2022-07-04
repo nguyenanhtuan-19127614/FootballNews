@@ -39,6 +39,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         articleDetailCollection.register(ArticelDetailBodyImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
         articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
         articleDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
+        articleDetailCollection.register(ErrorOccurredCell.self, forCellWithReuseIdentifier: "ErrorCell")
         
         return articleDetailCollection
         
@@ -241,13 +242,21 @@ extension ArticelDetailController: UICollectionViewDataSource {
         
         guard state == .loaded else {
             
-            //Loading State
-            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
-            
-            indicatorCell.indicator.startAnimating()
-            return indicatorCell
-            //Error State
-            //...
+            if state == .loading {
+                //Loading State
+                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+                
+                indicatorCell.indicator.startAnimating()
+                return indicatorCell
+                
+            } else {
+                //Error State
+                let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
+                errorCell.delegate = self
+                return errorCell
+                
+            }
+           
         }
         
         //Loaded state
