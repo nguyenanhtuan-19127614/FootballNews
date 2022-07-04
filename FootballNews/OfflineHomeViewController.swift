@@ -19,6 +19,15 @@ import UIKit
 
 class OfflineHomeViewController : UIViewController, DataSoureDelegate {
     
+    func reloadData() {
+        return
+    }
+    
+    func changeState(state: ViewControllerState) {
+        return
+    }
+    
+    
     //Delegate
     weak var delegate: ViewControllerDelegate?
    
@@ -59,32 +68,6 @@ class OfflineHomeViewController : UIViewController, DataSoureDelegate {
    
     }
     
-    func reloadData() {
-        
-        DispatchQueue.main.async {
-            
-            self.homeCollection.reloadData()
-            
-        }
-        
-    }
-    
-    func stopRefresh() {
-
-        DispatchQueue.main.async {
-
-            self.homeCollection.refreshControl?.endRefreshing()
-            
-        }
-      
-    }
-    
-    func changeState(state: ViewControllerState) {
-        
-        self.state = state
-        self.homeCollection.reloadData()
-        
-    }
     
     //MARK: loadView() state
     override func loadView() {

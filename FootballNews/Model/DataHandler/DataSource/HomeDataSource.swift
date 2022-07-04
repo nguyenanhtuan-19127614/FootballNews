@@ -107,7 +107,7 @@ class HomeDataSource {
                     [unowned self] in
                     //Save article Data
                     self.diskCache.cacheData(data: self.articleData, key: .homeArticel)
-
+    
                 }
                 
                 DispatchQueue.global(qos: .background).async {
