@@ -16,7 +16,7 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViews()
+        addSubViews()
         
     }
     
@@ -37,7 +37,7 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
     }()
     
     //MARK: Add subviews to cell
-    func addViews() {
+    func addSubViews() {
 
         addSubview(contentLabel)
         
@@ -70,15 +70,16 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
     func loadData(_ inputData: String, subtype: String?) {
         
         contentLabel.renderHTMLAtribute(from: inputData, size: 22)
-        
+       
         guard subtype != nil else {
             return
         }
          
         if subtype == "media-caption" {
-        
+            
             contentLabel.font = contentLabel.font.withSize(18)
             contentLabel.textAlignment = .center
+        
 
         }
     }

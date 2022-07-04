@@ -59,10 +59,52 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
+        homeCollection.register(ErrorOccurredCell.self, forCellWithReuseIdentifier: "ErrorCell")
         
         return homeCollection
         
     }()
+    
+    //MARK: Delegation Function
+    
+    func getData() {
+        
+        self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
+        
+        //get data home news
+        self.getHomeArticelData()
+        
+        //get data competition
+        self.getCompetitionData()
+        
+    }
+    
+    func reloadData() {
+        
+        DispatchQueue.main.async {
+            
+            self.homeCollection.reloadData()
+            
+        }
+        
+    }
+    
+    func stopRefresh() {
+
+        DispatchQueue.main.async {
+
+            self.homeCollection.refreshControl?.endRefreshing()
+            
+        }
+      
+    }
+    
+    func changeState(state: ViewControllerState) {
+        
+        self.state = state
+        self.homeCollection.reloadData()
+        
+    }
     
     //MARK: loadView() state
     override func loadView() {
@@ -136,48 +178,30 @@ class HomeViewController : UIViewController, DataSoureDelegate {
  
     }
     
+    //MARK: Function to add layout for subviews
+    func addSubviewsLayout() {
+      
+        homeCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+
+            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
+            
+        ])
+    
+    }
+    
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
         homeLayout.sectionInsetReference = .fromSafeArea
-        homeLayout.minimumLineSpacing = 25
+        homeLayout.minimumLineSpacing = 20
        
     }
    
-    //MARK: Delegation Function
-    
-    func getData() {
-        
-        self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
-        
-        //get data home news
-        self.getHomeArticelData()
-        
-        //get data competition
-        self.getCompetitionData()
-        
-    }
-    
-    func reloadData() {
-        
-        DispatchQueue.main.async {
-            
-            self.homeCollection.reloadData()
-            
-        }
-        
-    }
-    
-    func stopRefresh() {
-
-        DispatchQueue.main.async {
-
-            self.homeCollection.refreshControl?.endRefreshing()
-            
-        }
-      
-    }
-    
+   
     //MARK: GET Data Functions
 
     //get data home news listing
@@ -230,6 +254,10 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             case .failure(let err):
                 print("Error: \(err)")
                 self.state = .error
+                    
+                DispatchQueue.main.async {
+                    self.homeCollection.reloadData()
+                }
                 
             }
         }
@@ -340,21 +368,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
     }
     
-    //MARK: Function to add layout for subviews
-    func addSubviewsLayout() {
-      
-        homeCollection.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-
-            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
-            
-        ])
-        
-       
-    }
     
     
 }
@@ -381,73 +394,75 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if state == .loading {
+        guard state == .loaded else {
             
-            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
             
-            indicatorCell.indicator.startAnimating()
-            return indicatorCell
-         
-            
-        } else if state == .loaded {
-            
-            if competitionLocation.contains(indexPath.row)  && competitionExist == true  {
-                
-                let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
-                
-                competitionCell.backgroundColor = UIColor.white
-                
-                DispatchQueue.main.async {
-                    
-                    [unowned self] in
-                    competitionCell.loadData(inputData: self.dataSource.competitionData)
-                    
-                    
-                }
-
-                return competitionCell
-                
-            } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
-                
-                let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
-                
-                scoreBoardCell.backgroundColor = UIColor.white
-
-                DispatchQueue.main.async {
-                    
-                    [unowned self] in
-                    scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
-                    
-                }
-
-               
-                return scoreBoardCell
-                
-            } else if indexPath.row < dataSource.articelSize - 1{
-                
-                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
-                
-                articelCell.backgroundColor = UIColor.white
-               
-                articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
-            
-               
-               
-                return articelCell
-                
-            } else {
-                
+            if state == .loading {
+                //Loading State
                 let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
                 
                 indicatorCell.indicator.startAnimating()
                 return indicatorCell
                 
+            } else {
+                //Error State
+                let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
+                errorCell.delegate = self
+                return errorCell
+                
             }
-            
         }
         
-        return UICollectionViewCell()
-        
+        //Loaded State
+        if competitionLocation.contains(indexPath.row)  && competitionExist == true  {
+            
+            let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
+            
+            competitionCell.backgroundColor = UIColor.white
+            
+            DispatchQueue.main.async {
+                
+                [unowned self] in
+                competitionCell.loadData(inputData: self.dataSource.competitionData)
+                
+                
+            }
+
+            return competitionCell
+            
+        } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
+            
+            let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
+            
+            scoreBoardCell.backgroundColor = UIColor.white
+
+            DispatchQueue.main.async {
+                
+                [unowned self] in
+                scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
+                
+            }
+
+           
+            return scoreBoardCell
+            
+        } else if indexPath.row < dataSource.articelSize - 1{
+            
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            
+            articelCell.backgroundColor = UIColor.white
+            articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+    
+            return articelCell
+            
+        } else {
+            
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            return indicatorCell
+            
+        }
     }
 }
 
@@ -459,7 +474,7 @@ extension HomeViewController: UICollectionViewDelegate {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if(self.state == .loaded) {
+        if self.state == .loaded {
             
             //Pass Data and call articelDetail View Controller
             if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {

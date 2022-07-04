@@ -186,10 +186,7 @@ class ScoreBoardTeamStatus: UIView {
     let logoTeam: UIImageView = {
         
         let imgView = UIImageView()
-//        imgView.layer.borderColor = UIColor.gray.cgColor
-//        imgView.layer.borderWidth = 0.5
-//        imgView.layer.masksToBounds = true
-//        imgView.layer.cornerRadius = 12
+        imgView.layer.masksToBounds = true
         imgView.contentMode = .scaleAspectFit
         
         return imgView

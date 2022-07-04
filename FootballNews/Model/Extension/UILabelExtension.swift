@@ -57,8 +57,6 @@ extension UILabel {
            
         }
         
-       
-        
         if size != 0 {
             
             self.font = self.font.withSize(size)
@@ -68,16 +66,16 @@ extension UILabel {
     }
     
     func compareDatewithToday(date: Date) {
-        
+ 
         let diff = Date().compareWithToday(date: date)
-    
+       
         if let year = diff.year,
            let month = diff.month,
            let day = diff.day,
            let hour = diff.hour,
            let minute = diff.minute {
             
-            if year == 0 && month == 0 {
+            if year <= 0 && month <= 0 {
                 
                 if day > 0 && day <= 7 {
                     
@@ -109,13 +107,13 @@ extension UILabel {
                     
                 }
                 
+            } else {
+                
+                self.text = Date().dateToString(date)
+                
             }
             
-        } else {
-            
-            self.text = Date().dateToString(date)
-            
         }
-        
+
     }
 }

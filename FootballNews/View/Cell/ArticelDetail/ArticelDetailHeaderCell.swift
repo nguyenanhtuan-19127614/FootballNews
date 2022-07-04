@@ -9,7 +9,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViews()
+        addSubViews()
         
     }
     
@@ -46,7 +46,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     }()
     
     //MARK: Add subviews to cell
-    func addViews() {
+    func addSubViews() {
         
         addSubview(titleLabel)
         addSubview(subTitleLabel)
@@ -111,6 +111,8 @@ class Subtitle: UIView {
     let sourceIcon: UIImageView = {
         
         let imgView = UIImageView()
+        imgView.contentMode = .scaleAspectFit
+        imgView.layer.masksToBounds = true
         return imgView
         
     }()

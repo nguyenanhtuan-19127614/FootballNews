@@ -68,6 +68,12 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
     }
     
+    func changeState(state: ViewControllerState) {
+        
+        self.state = state
+        self.articleDetailCollection.reloadData()
+        
+    }
     //MARK: loadView() state
     override func loadView() {
         

@@ -16,7 +16,7 @@ class ArticelDetailBodyImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViews()
+        addSubViews()
         
     }
     
@@ -34,7 +34,7 @@ class ArticelDetailBodyImageCell: UICollectionViewCell {
     }()
     
     //MARK: Add subviews to cell
-    func addViews() {
+    func addSubViews() {
         
         addSubview(contentImage)
         

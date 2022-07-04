@@ -23,7 +23,6 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
     var indicator : UIActivityIndicatorView = {
         
         let indicator = UIActivityIndicatorView()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         return indicator
         
@@ -36,7 +35,9 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-      
+        
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             
             indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),

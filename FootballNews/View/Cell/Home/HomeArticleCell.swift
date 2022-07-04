@@ -14,7 +14,10 @@ class HomeArticleCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
+        
+        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
+        
     }
 
     // MARK: Define Sub-view
@@ -23,6 +26,7 @@ class HomeArticleCell: UICollectionViewCell {
         let imgView = UIImageView()
         imgView.layer.cornerRadius = 5.0
         imgView.layer.masksToBounds = true
+        imgView.contentMode = .scaleAspectFill
 
         return imgView
         
@@ -97,6 +101,16 @@ class HomeArticleCell: UICollectionViewCell {
         timeLabel.sizeToFit()
         timeLabel.frame.size.height = publisherLogo.bounds.height
         
+    }
+    
+    //MARK: PrepareForReuse
+    override func prepareForReuse() {
+        
+        super.prepareForReuse()
+        self.newsAvatar.image = nil
+        self.title.text = nil
+        self.publisherLogo.image = nil
+        self.timeLabel.text = nil
     }
     
     //MARK: Load data to cell

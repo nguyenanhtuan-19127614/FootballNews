@@ -10,8 +10,8 @@ import Foundation
 protocol DataSoureDelegate: AnyObject {
     
     func reloadData()
+    func changeState(state: ViewControllerState)
     func getData()
-    
     func stopRefresh()
     
 }
