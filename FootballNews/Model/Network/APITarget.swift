@@ -91,6 +91,7 @@ enum ContentAPITarget: APITarget {
             return "https://bm-fresher.herokuapp.com/api/contents/detail?content_id=" + contentID
             
         case .home(let start, let size):
+            //return "hihi"
             return "https://bm-fresher.herokuapp.com/api/contents/home?start=\(start)&size=\(size)"
             
         case .team(let teamID, let start, let size):

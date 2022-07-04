@@ -6,14 +6,17 @@
 //
 
 import UIKit
+import Network
 
 enum ViewControllerState {
     
     case loading
     case loaded
     case error
+    case offline
     
 }
+
 
 
 @UIApplicationMain
@@ -21,14 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var navController: UINavigationController?
-    let homeVC = HomeViewController()
-
+    //let homeVC = HomeViewController()
+    let offlineHomeVC = OfflineHomeViewController()
+    let monitor = NWPathMonitor()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-    
-        navController = UINavigationController(rootViewController: homeVC)
+        
+        navController = UINavigationController(rootViewController: offlineHomeVC)
         navController?.navigationBar.backgroundColor = .white
         navController?.navigationBar.isTranslucent = false
         

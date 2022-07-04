@@ -9,7 +9,7 @@ import Foundation
 
 //Data for Listing Articel
 
-struct HomeArticleModel {
+struct HomeArticleModel: Codable {
     
     var contentID: String
     var avatar: String
@@ -48,11 +48,15 @@ class HomeDataSource {
 
     weak var delegate: DataSoureDelegate?
     
+    lazy var diskCache = DiskCache()
+    
     var lock = NSLock()
     
     var articelSize = 0
     var scoreBoardSize = 0
     var competitionSize = 0
+    
+    var cacheActive = false
     
     var apiNumbers = 3
     var apiLoadedCount = 0 {
@@ -80,6 +84,7 @@ class HomeDataSource {
         
     }
     
+    //When articleData are loaded, store it to local
     var articleData: [HomeArticleModel] = [] {
         
         willSet {
@@ -91,11 +96,64 @@ class HomeDataSource {
         }
         
         didSet {
-            
+
             articelSize = articleData.count
             
-        }
+            //Store article Data swift
+            if cacheActive == false {
+                
+                DispatchQueue.global(qos: .background).async {
+                    
+                    [unowned self] in
+                    //Save article Data
+                    self.diskCache.cacheData(data: self.articleData, key: .homeArticel)
 
+                }
+                
+                DispatchQueue.global(qos: .background).async {
+                    
+                    [unowned self] in
+                    var articelDetail: [String: ArticelDetailModel] = [:]
+                    
+                    //Save detail article data
+                    for article in self.articleData {
+                        
+                        QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
+                    
+                            (result: Result<ResponseModel<ContentModel>, Error>) in
+                            
+                            switch result {
+                            case .success(let data):
+                                
+                                guard let content = data.data?.content else {
+                                    return
+                                }
+                                //Save detail data
+                                let detailData = ArticelDetailModel(title: content.title,
+                                                                    date: content.date,
+                                                                    description: content.description,
+                                                                    source: content.source,
+                                                                    sourceLogo: content.publisherLogo,
+                                                                    sourceIcon: content.publisherIcon,
+                                                                    body: content.body)
+                                
+                                articelDetail[article.contentID] = detailData
+                                self.diskCache.cacheData(data: articelDetail, key: .articelDetail)
+                                
+                            case .failure(_):
+                                return
+                                
+                            }
+                        }
+                    }
+                }
+                
+                cacheActive = true
+                
+                
+            }
+ 
+        }
     }
     
     var scoreBoardData: [HomeScoreBoardModel] = [] {
@@ -106,6 +164,7 @@ class HomeDataSource {
             if apiLoadedCount < apiNumbers {
                
                apiLoadedCount += 1
+                
             }
             lock.unlock()
             

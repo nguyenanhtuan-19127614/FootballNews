@@ -13,20 +13,26 @@ import UIKit
 //ListViewController
 //
 
-class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSoureDelegate {
+class OfflineArticelDetailController: UIViewController,ViewControllerDelegate, DataSoureDelegate {
+   
+    func reloadData() {
+        return
+    }
     
-    //Delegate
-    weak var delegate: ViewControllerDelegate?
+    func changeState(state: ViewControllerState) {
+        return
+    }
+    
     
     //ViewController State
-    var state: ViewControllerState = .loading
+    var state: ViewControllerState = .offline
     
     //Variable
     var contentID: String = ""
     var publisherLogo: String = ""
     
-    // Datasource
-    let dataSource = ArticelDetailDataSource()
+    // Datasource from diskcache
+    var articelDetail: ArticelDetailModel?
     
     //Main Collection
     let articleDetailLayout = UICollectionViewFlowLayout()
@@ -37,10 +43,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         articleDetailCollection.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
         articleDetailCollection.register(ArticelDetailBodyTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
         articleDetailCollection.register(ArticelDetailBodyImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
-        articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
-        articleDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
-        articleDetailCollection.register(ErrorOccurredCell.self, forCellWithReuseIdentifier: "ErrorCell")
-        
+    
         return articleDetailCollection
         
     }()
@@ -59,35 +62,18 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
     }
     
-    func reloadData() {
-        
-        DispatchQueue.main.async {
-            
-            self.articleDetailCollection.reloadData()
-            
+    func passArticelDetail(detail: ArticelDetailModel?) {
+        guard let detail = detail else {
+            return
         }
-        
-    }
-    
-    func getData() {
-        
-        self.getArticelDetailData(contentID)
-        
-    }
-    
-    func changeState(state: ViewControllerState) {
-        
-        self.state = state
-        self.articleDetailCollection.reloadData()
-        
+
+        self.articelDetail = detail
     }
     //MARK: loadView() state
     override func loadView() {
         
         super.loadView()
-        //Add delegate for datasource
-       
-        dataSource.delegate = self
+
         //MARK: Create customView
         let view = UIView()
         view.backgroundColor = .white
@@ -145,66 +131,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
         
-        guard let contentID = contentID else {
-            return
-        }
-        
-        QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<ContentModel>, Error>) in
-            
-            switch result {
-            case .success(let data):
-                
-                guard let content = data.data?.content else {
-                    
-                    return
-                    
-                }
-                //Load detail data
-                let detailData = ArticelDetailModel(title: content.title,
-                                                    date: content.date,
-                                                    description: content.description,
-                                                    source: content.source,
-                                                    sourceLogo: content.publisherLogo,
-                                                    sourceIcon: content.publisherIcon,
-                                                    body: content.body)
-                self.dataSource.detailData = detailData
-                
-                guard let related = data.data?.related else {
-                    
-                    return
-                    
-                }
-                
-                //Load related contents data
-                var articelArray: [HomeArticleModel] = []
-                for i in related.contents {
-                    
-                    articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                        avatar: i.avatar,
-                                                        title: i.title,
-                                                        publisherLogo: i.publisherLogo,
-                                                        date: i.date))
-                    
-                }
-                
-                self.dataSource.relatedArticleData.append(contentsOf: articelArray)
-                self.state = .loaded
-               
-               
-            case .failure(let err):
-                print(err)
-                self.state = .error
-                
-                DispatchQueue.main.async {
-                    self.articleDetailCollection.reloadData()
-                }
-            }
-            
-            
-        }
+       return
         
     }
     
@@ -227,44 +154,18 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
 }
 
 //MARK: Datasource Extension
-extension ArticelDetailController: UICollectionViewDataSource {
+extension OfflineArticelDetailController: UICollectionViewDataSource {
 
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if state == .loading || state == .error {
-             
-            return 1
-            
-        } else {
-            
-            return dataSource.dataSourceSize
-            
-        }
+        return (articelDetail?.body?.count ?? 0) + 1
         
     }
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard state == .loaded else {
-            
-            if state == .loading {
-                //Loading State
-                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
-                
-                indicatorCell.indicator.startAnimating()
-                return indicatorCell
-                
-            } else {
-                //Error State
-                let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
-                errorCell.delegate = self
-                return errorCell
-                
-            }
-           
-        }
         
         //Loaded state
         if indexPath.row == 0 {
@@ -273,7 +174,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
             
             headerCell.backgroundColor = UIColor.white
-            if let detailData = self.dataSource.detailData {
+            if let detailData = self.articelDetail {
                 
                 headerCell.loadData(detailData)
                 
@@ -281,10 +182,10 @@ extension ArticelDetailController: UICollectionViewDataSource {
          
             return headerCell
             
-        } else if indexPath.row <= dataSource.contentBodySize {
+        } else  {
             
             //Body Part
-            guard let bodyContent = dataSource.detailData?.body else {
+            guard let bodyContent = articelDetail?.body else {
                 
                 return UICollectionViewCell()
                 
@@ -315,62 +216,22 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 
             }
             
-        } else {
-            
-            let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
-            
-            relatedCell.backgroundColor = UIColor.white
-            
-            let index = indexPath.row - dataSource.contentBodySize - 1
-            relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
-            return relatedCell
-        
         }
-        
     }
     
 }
 
-//MARK: Delegate Extension
-extension ArticelDetailController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        //Pass data and call articel detail view controller (Related Articel)
-        if indexPath.row > dataSource.contentBodySize {
-            
-            
-            let index = indexPath.row - dataSource.contentBodySize  - 1
-            
-            let articelDetailVC = ArticelDetailController()
-            self.delegate = articelDetailVC
-            self.delegate?.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
-            self.delegate?.passPublisherLogo(url: dataSource.relatedArticleData[index].publisherLogo)
-            
-            navigationController?.pushViewController(articelDetailVC, animated: true)     
-            
-        }
-    }
-    
-}
 
 //MARK: Delegate Flow Layout extension
-extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
+extension OfflineArticelDetailController: UICollectionViewDelegateFlowLayout {
     
     //Set size for each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let totalWidth = self.view.bounds.width
         let totalHeight = self.view.bounds.height
-        
-        if state == .loading || state == . error {
-            
-            return CGSize(width: totalWidth,
-                          height: totalHeight)
-            
-        }
-        
-        guard let detailData = dataSource.detailData else {
+      
+        guard let detailData = articelDetail else {
             
             return CGSize(width: 0,
                           height: 0)
@@ -389,13 +250,13 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             
             var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
             height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += 50 
+            height += 50
 
             
             return CGSize(width: totalWidth ,
                           height: height)
             
-        } else if indexPath.row <= dataSource.contentBodySize {
+        } else {
             
             guard let bodyContent = detailData.body else {
                 
@@ -433,8 +294,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             
         }
         
-        return CGSize(width: totalWidth,
-                      height: totalHeight/7)
+       
         
     }
     

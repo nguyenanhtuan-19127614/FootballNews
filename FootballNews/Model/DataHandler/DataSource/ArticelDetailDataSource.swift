@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArticelDetailModel {
+struct ArticelDetailModel: Codable {
     
     var title: String
     var date: Int

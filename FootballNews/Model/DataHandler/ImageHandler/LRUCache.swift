@@ -33,6 +33,12 @@ class LRUCache <Key:Hashable, Value> {
     
     private let sizeLimit: Int
     
+    var size: Int {
+        get {
+            return nodesDict.count
+        }
+    }
+    
     init(size: Int) {
         
         if size < 1 {
@@ -83,8 +89,7 @@ class LRUCache <Key:Hashable, Value> {
     func getValue(key: Key) -> Value? {
         
         lockQueue.sync {
-            
-           
+   
             guard let existedValue = nodesDict[key] else {
                 return nil
             }

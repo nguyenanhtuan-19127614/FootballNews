@@ -10,7 +10,7 @@ import UIKit
 class ErrorOccurredCell: UICollectionViewCell {
     
     weak var delegate: DataSoureDelegate?
-   
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
@@ -96,7 +96,7 @@ class ErrorOccurredCell: UICollectionViewCell {
     @objc func refresh() {
         
         self.delegate?.changeState(state: .loading)
-        
+       
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.delegate?.getData()
         }

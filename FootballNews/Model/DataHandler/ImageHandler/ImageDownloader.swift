@@ -171,10 +171,9 @@ class ImageDownloader {
 
         //Check if image is in cache
     
-        if let imageCache = imageCacheLRU.getValue(key: url) {
-            
-           
-            completion(.success(imageCache))
+        if let cachedImage = imageCacheLRU.getValue(key: url) {
+            print(imageCacheLRU.size)
+            completion(.success(cachedImage))
             return
 
         }
