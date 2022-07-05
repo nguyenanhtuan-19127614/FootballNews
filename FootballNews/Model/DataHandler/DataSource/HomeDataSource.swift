@@ -168,7 +168,8 @@ class HomeDataSource {
         
         //Store article Data swift
         if cacheActive == false {
-       
+            print("size: \(self.articelSize)")
+            diskCache.removeAllImageFromDisk()
             DispatchQueue.global(qos: .background).async {
                 
                 [unowned self] in
@@ -180,12 +181,17 @@ class HomeDataSource {
                     let avatar = data.avatar
                     ImageDownloader.sharedService.download(url: avatar) {
                         
+                        [unowned self]
                         result in
                         switch result {
                             
                         case .success(let image):
                             
-                            image?.saveImageToDisk(avatar)
+                            guard let image = image else {
+                                return
+                            }
+                            self.diskCache.saveImageToDisk(imageName: avatar, image: image)
+                            
                             
                         case .failure( _):
                             return
@@ -205,7 +211,7 @@ class HomeDataSource {
                 for article in self.articleData {
                     
                     QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
-                        
+                        [unowned self]
                         (result: Result<ResponseModel<ContentModel>, Error>) in
                         
                         switch result {
@@ -241,7 +247,13 @@ class HomeDataSource {
                                                 
                                             case .success(let image):
                                                 
-                                                image?.saveImageToDisk(content.content)
+                                                guard let image = image else {
+                                                    return
+                                                }
+                                                
+                                                self.diskCache.saveImageToDisk(imageName: content.content,
+                                                                               image: image)
+                                                
                                                 
                                             case .failure( _):
                                                 return

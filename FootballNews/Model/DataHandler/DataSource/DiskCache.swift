@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 enum DiskCacheKey: String {
     
     case homeArticel
@@ -49,7 +49,7 @@ class DiskCache {
             
         } catch {
             
-            print("Unable to Encode Note (\(error))")
+            print("Unable to Encode (\(error))")
             
         }
         
@@ -71,7 +71,7 @@ class DiskCache {
             
         } catch {
             
-            print("Unable to Encode Note (\(error))")
+            print("Unable to Encode (\(error))")
             
         }
         
@@ -100,8 +100,89 @@ class DiskCache {
                 
             }
         }
+        
+       
+        
     }
     
+    //Save Image Data to disk
+    func saveImageToDisk(imageName: String, image: UIImage) {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        
+        if let jpgData = image.jpegData(compressionQuality: 0.5) {
+            
+            let path = documentsDirectory.appendingPathComponent(URL(fileURLWithPath: imageName).lastPathComponent )
+        
+            do {
+                
+                try jpgData.write(to: path)
+                
+            } catch let err {
+                
+                print(err)
+                
+            }
+            
+        }
+    }
+    //Load Image Data From Disk
+    func loadImageFromDisk(imageName: String) -> UIImage? {
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        
+        let filePathName = URL(fileURLWithPath: imageName).lastPathComponent
+        let imageUrl = documentsDirectory.appendingPathComponent(filePathName)
+        
+        do {
+            
+            let imageData = try Data(contentsOf: imageUrl)
+            return UIImage(data: imageData)
+            
+        } catch {
+            //print("Error loading image : \(error)")
+            return nil
+        }
+        
+    }
     
+    //Remove image data from disk
+    func removeImageFromDisk(fileName: String) {
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        
+        let filePathName = URL(fileURLWithPath: fileName).lastPathComponent
+        let fileURL = documentsDirectory.appendingPathComponent(filePathName)
+        
+        do {
+            try FileManager.default.removeItem(atPath: fileURL.path)
+            
+        } catch let removeError {
+            print("couldn't remove file at path", removeError)
+        }
+    }
     
+    //Remove all images data from disk
+    func removeAllImageFromDisk() {
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        
+        do {
+            print("paths: \(documentsDirectory.absoluteString)")
+            let fileNames = try FileManager.default.contentsOfDirectory(atPath: documentsDirectory.path)
+            
+            for fileName in fileNames {
+                
+                let filePath = URL(fileURLWithPath: documentsDirectory.absoluteString).appendingPathComponent(fileName).absoluteURL
+                try FileManager.default.removeItem(at: filePath)
+                
+            }
+            
+        } catch let removeError{
+            print("couldn't remove files at path", removeError)
+        }
+    }
 }

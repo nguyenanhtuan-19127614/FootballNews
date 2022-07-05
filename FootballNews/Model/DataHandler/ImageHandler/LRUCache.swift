@@ -106,12 +106,5 @@ class LRUCache {
         }
 
     }
-    
-    func getDiskValue(key: String) -> UIImage? {
-        
-        let image = UIImage().loadImageFromDisk(imageName: key)
-        return image
-        
-    }
 
 }

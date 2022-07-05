@@ -128,12 +128,15 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
 //MARK: Class Image Downloader
 class ImageDownloader {
     
-    var offlineMode: Bool = true
+    var offlineMode: Bool = false
     //Singleton
     static let sharedService = ImageDownloader()
     
     //Image Cache
     private let imageCacheLRU: LRUCache
+    
+    //Disk Cache
+    private let diskCache = DiskCache()
     
     //Constant (Use to config sessoin)
     private let timeoutForRequest = TimeInterval(30)
@@ -176,7 +179,7 @@ class ImageDownloader {
         //Check if offline mode
         if offlineMode == true {
             
-            guard let image = imageCacheLRU.getDiskValue(key: url) else {
+            guard let image = diskCache.loadImageFromDisk(imageName: url) else {
                 completion(.failure(AppErrors.BadData))
                 return
             }
@@ -186,7 +189,7 @@ class ImageDownloader {
         }
         //Check if image is in cache
         if let cachedImage = imageCacheLRU.getValue(key: url) {
-            print(imageCacheLRU.size)
+    
             completion(.success(cachedImage))
             return
             

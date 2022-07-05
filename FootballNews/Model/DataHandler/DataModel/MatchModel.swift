@@ -51,15 +51,15 @@ struct SoccerMatch: Codable {
     
     let matchStatus: Int
     let time: String
-    let round: String
+    let round: String?
     
     let competition: Competition
     
     let homeScored: Int
-    let homeScoredNote: String
+    let homeScoredNote: String?
     
     let awayScored: Int
-    let awayScoredNote: String
+    let awayScoredNote: String?
     
     let homeTeam: SoccerTeam //Struct from TeamStructure
     let awayTeam: SoccerTeam

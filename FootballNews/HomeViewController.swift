@@ -1,6 +1,6 @@
 
 import UIKit
-
+import Network
 
 // API main + (n API) => all APIs done => state = .loaded
 //
@@ -17,11 +17,15 @@ import UIKit
 
 //Passing data with delegate
 
+
 class HomeViewController : UIViewController, DataSoureDelegate {
+    
+    // Internet Connection
+    
     
     //Delegate
     weak var delegate: ViewControllerDelegate?
-   
+    
     //ViewController State
     var state: ViewControllerState = .loading
     
@@ -41,7 +45,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //Location and competiion
     var competitionLocation: [Int] = []
-
+    
     //query param
     var startArticel = 0
     var articelSize = 20
@@ -72,11 +76,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     func getData() {
         
+        //Get offline data from disk if offline mode
         if state == .offline {
             diskCache.getData()
             return
         }
-        
+        //Get data from server
         self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
         
         //get data home news
@@ -98,13 +103,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     }
     
     func stopRefresh() {
-
+        
         DispatchQueue.main.async {
-
+            
             self.homeCollection.refreshControl?.endRefreshing()
             
         }
-      
+        
     }
     
     func changeState(state: ViewControllerState) {
@@ -121,20 +126,20 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         //Add delegate for datasource
         dataSource.delegate = self
-
+        
         //MARK: Create customView
         let view = UIView()
-
+        view.backgroundColor = .white
         //MARK: News Listing Collection View
         
         homeCollection.dataSource = self
         homeCollection.delegate = self
-       
+        
         homeCollection.collectionViewLayout = homeLayout
         //MARK: Add layout and Subviews
-       
+        
         view.addSubview(homeCollection )
-       
+        
         self.view = view
         
     }
@@ -146,13 +151,17 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         addSubviewsLayout()
         
         //Add Refresh control to homeCollection
-       
+        
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Đang Cập Nhật")
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         homeCollection.refreshControl = refreshControl
+        
+        //Internet checking
        
-        //get data score board 
+        
+        
+        //get data score board
         self.getData()
         
     }
@@ -177,7 +186,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewWillAppear(animated)
         //Custom navigation bar
- 
+        
         if #available(iOS 13.0, *) {
             
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
@@ -187,22 +196,22 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
             
         }
- 
+        
     }
     
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
-      
+        
         homeCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-
+            
             homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
             
         ])
-    
+        
     }
     
     //MARK: Custom Layout
@@ -210,12 +219,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         homeLayout.sectionInsetReference = .fromSafeArea
         homeLayout.minimumLineSpacing = 20
-       
+        
     }
-   
-   
+    
+    
     //MARK: GET Data Functions
-
+    
     //get data home news listing
     func getHomeArticelData() {
         
@@ -225,23 +234,23 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             [unowned self]
             (result: Result<ResponseModel<ContentModel>, Error>) in
             switch result {
-            
+                
             case .success(let res):
                 
                 if let contents = res.data?.contents {
-                        
+                    
                     self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
-                        
-                   
+                    
+                    
                     var articelArray: [HomeArticleModel] = []
                     for i in contents {
                         
                         articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                            avatar: i.avatar,
-                                                            title: i.title,
-                                                            publisherLogo: i.publisherLogo,
-                                                            date: i.date))
-                       
+                                                             avatar: i.avatar,
+                                                             title: i.title,
+                                                             publisherLogo: i.publisherLogo,
+                                                             date: i.date))
+                        
                     }
                     
                     self.dataSource.articleData.append(contentsOf: articelArray)
@@ -250,11 +259,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     if self.state == .loaded {
                         
                         DispatchQueue.main.async {
-
+                            
                             self.homeCollection.reloadData()
-                                       
+                            
                         }
-    
+                        
                     } else {
                         //First time load
                         self.state = .loaded
@@ -265,8 +274,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
             case .failure(let err):
                 print("Error: \(err)")
+             
                 self.state = .error
-                    
+                
                 DispatchQueue.main.async {
                     self.homeCollection.reloadData()
                 }
@@ -278,7 +288,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //get data score board
     func getScoreBoardData(compID: Int, date: String) {
-    
+        
         QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID),
                                                                   date: date,
                                                                   start: 0,
@@ -307,7 +317,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                             awayScore: i.awayScored))
                         
                     }
-                   
+                    
                 }
                 
                 self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
@@ -319,13 +329,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 }
                 
                 scoreBoardExist = true
-              
                 
-           case .failure(let err):
+                
+            case .failure(let err):
                 print(err)
                 
             }
-        
+            
         }
     }
     
@@ -337,7 +347,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             [unowned self]
             (result: Result<ResponseModel<CompetitionModel>, Error>) in
             switch result {
-            
+                
             case .success(let res):
                 
                 if let contents = res.data?.soccerCompetitions {
@@ -346,8 +356,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     for i in contents {
                         
                         competitionArray.append(HomeCompetitionModel(logo: i.competitionLogo,
-                                                                    name: i.competitionName))
-                       
+                                                                     name: i.competitionName))
+                        
                     }
                     
                     self.dataSource.competitionData.append(contentsOf: competitionArray)
@@ -360,7 +370,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         
                     }
                     competitionExist = true
-                    
+                    print("hi \(self.dataSource.competitionData)")
                     //Add location for competition cell
                     if competitionLocation.isEmpty {
                         
@@ -374,6 +384,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 }
                 
             case .failure(let err):
+                
                 print(err)
                 
             }
@@ -395,7 +406,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         
         if state == .loading || state == .error {
-             
+            
             return 1
             
         } else {
@@ -451,7 +462,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 
                 
             }
-
+            
             return competitionCell
             
         } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
@@ -459,15 +470,15 @@ extension HomeViewController: UICollectionViewDataSource {
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
             scoreBoardCell.backgroundColor = UIColor.white
-
+            
             DispatchQueue.main.async {
                 
                 [unowned self] in
                 scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
                 
             }
-
-           
+            
+            
             return scoreBoardCell
             
         } else if indexPath.row < dataSource.articelSize - 1{
@@ -476,7 +487,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
-    
+            
             return articelCell
             
         } else {
@@ -495,7 +506,7 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
     
     //Tap Event
-   
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if state == .offline {
@@ -521,7 +532,7 @@ extension HomeViewController: UICollectionViewDelegate {
                 self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
                 
                 navigationController?.pushViewController(articelDetailVC, animated: true)
-             
+                
             }
             
         }
@@ -540,14 +551,14 @@ extension HomeViewController: UICollectionViewDelegate {
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
             
             startArticel += articelSize
-                    
+            
             //get data home news
             getHomeArticelData()
             
             
         }
     }
-
+    
 }
 
 //MARK: Delegate Flow Layout extension
@@ -562,7 +573,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             
             return CGSize(width: totalWidth,
                           height: totalHeight/7)
-               
+            
         }
         
         if state == .loading || state == .error {
@@ -585,7 +596,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                               height: totalHeight/5)
                 
             } else if indexPath.row < dataSource.articelSize - 1 {
-        
+                
                 //articel size
                 return CGSize(width: totalWidth,
                               height: totalHeight/7)
@@ -599,7 +610,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             }
             
         }
-           
+        
     }
     
 }
