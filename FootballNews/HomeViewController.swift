@@ -205,7 +205,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewWillAppear(animated)
         //Custom navigation bar
-        
         if #available(iOS 13.0, *) {
             
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
@@ -547,17 +546,19 @@ extension HomeViewController: UICollectionViewDelegate {
         if self.state == .loaded {
             
             //Pass Data and call articelDetail View Controller
-            if indexPath.row != competitionIndex && indexPath.row != scoreBoardIndex {
+            if (competitionLocation.contains(indexPath.row) && competitionExist) ||
+                (indexPath.row == scoreBoardIndex && scoreBoardExist) {
                 
-                let articelDetailVC = ArticelDetailController()
-                self.delegate = articelDetailVC
-                self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
-                
-                navigationController?.pushViewController(articelDetailVC, animated: true)
+              return
                 
             }
             
+            let articelDetailVC = ArticelDetailController()
+            self.delegate = articelDetailVC
+            self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+            self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
+            
+            navigationController?.pushViewController(articelDetailVC, animated: true)
         }
         
     }

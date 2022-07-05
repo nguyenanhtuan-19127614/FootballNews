@@ -126,6 +126,33 @@ class DiskCache {
             
         }
     }
+    
+    //Download First, than save Image Data to disk
+    
+    func downloadAndsaveImageToDisk(url: String) {
+        
+        ImageDownloader.sharedService.download(url: url) {
+            
+            [unowned self]
+            result in
+            switch result {
+                
+            case .success(let image):
+                
+                guard let image = image else {
+                    return
+                }
+                self.saveImageToDisk(imageName: url, image: image)
+                
+                
+            case .failure( _):
+                return
+                
+            }
+        }
+        
+    }
+    
     //Load Image Data From Disk
     func loadImageFromDisk(imageName: String) -> UIImage? {
         

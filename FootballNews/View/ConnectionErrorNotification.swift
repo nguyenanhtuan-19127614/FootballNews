@@ -31,7 +31,7 @@ class ConnectionErrorNotification: UIViewController {
         
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 15)
-        
+        label.sizeToFit()
         return label
         
     }()
@@ -113,17 +113,15 @@ class ConnectionErrorNotification: UIViewController {
             
             titleImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             titleImage.bottomAnchor.constraint(equalTo: messageLabel.topAnchor, constant: -15),
-            titleImage.widthAnchor.constraint(equalToConstant: self.view.bounds.width - 20 ),
+            titleImage.widthAnchor.constraint(equalToConstant: self.view.bounds.width - 30 ),
             titleImage.heightAnchor.constraint(equalToConstant: self.view.bounds.height / 4),
             
             doneButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             doneButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15),
-            doneButton.widthAnchor.constraint(equalToConstant: self.view.bounds.width - 20),
+            doneButton.widthAnchor.constraint(equalToConstant: self.view.bounds.width - 30),
             doneButton.heightAnchor.constraint(equalToConstant: 30)
                     
         ])
-           
-        
-        messageLabel.sizeToFit()
+   
     }
 }

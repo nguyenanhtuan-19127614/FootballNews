@@ -187,25 +187,9 @@ class HomeDataSource {
                 for data in articleData {
                     
                     let avatar = data.avatar
-                    ImageDownloader.sharedService.download(url: avatar) {
-                        
-                        [unowned self]
-                        result in
-                        switch result {
-                            
-                        case .success(let image):
-                            
-                            guard let image = image else {
-                                return
-                            }
-                            self.diskCache.saveImageToDisk(imageName: avatar, image: image)
-                            
-                            
-                        case .failure( _):
-                            return
-                            
-                        }
-                    }
+                    let publisherLogo = data.publisherLogo
+                    self.diskCache.downloadAndsaveImageToDisk(url: avatar)
+                    self.diskCache.downloadAndsaveImageToDisk(url: publisherLogo)
                 }
                 
             }
@@ -248,32 +232,13 @@ class HomeDataSource {
                                     
                                     if content.type != "text" {
                                         
-                                        ImageDownloader.sharedService.download(url: content.content) {
+                                        self.diskCache.downloadAndsaveImageToDisk(url: content.content)
+                        
                                             
-                                            result in
-                                            switch result {
-                                                
-                                            case .success(let image):
-                                                
-                                                guard let image = image else {
-                                                    return
-                                                }
-                                                
-                                                self.diskCache.saveImageToDisk(imageName: content.content,
-                                                                               image: image)
-                                                
-                                                
-                                            case .failure( _):
-                                                return
-                                                
-                                            }
-                                            
-                                        }
-                                        
                                     }
-                                    
+                                        
                                 }
-                                
+                                    
                             }
 
                         case .failure(_):
