@@ -531,19 +531,7 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if state == .offline {
-            
-            let articelDetailVC = OfflineArticelDetailController()
-            self.delegate = articelDetailVC
-            let contentID = diskCache.homeArticelData[indexPath.row].contentID
-            let detail = diskCache.articelDetail[contentID]
-            self.delegate?.passArticelDetail(detail: detail)
-            
-            navigationController?.pushViewController(articelDetailVC, animated: true)
-            
-        }
-        
-        if self.state == .loaded {
+        if self.state == .loaded || state == .offline{
             
             //Pass Data and call articelDetail View Controller
             if (competitionLocation.contains(indexPath.row) && competitionExist) ||
@@ -554,13 +542,14 @@ extension HomeViewController: UICollectionViewDelegate {
             }
             
             let articelDetailVC = ArticelDetailController()
-            
+         
             if state == .offline {
                 articelDetailVC.state = .offline
                 self.delegate = articelDetailVC
                 let contentID = diskCache.homeArticelData[indexPath.row].contentID
                 let detail = diskCache.articelDetail[contentID]
                 self.delegate?.passArticelDetail(detail: detail)
+                
                 
             } else {
                 

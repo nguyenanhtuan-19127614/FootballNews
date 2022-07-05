@@ -99,6 +99,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         //Add delegate for datasource
        
         dataSource.delegate = self
+   
         //MARK: Create customView
         let view = UIView()
         view.backgroundColor = .white
@@ -263,7 +264,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard state == .loaded else {
+        guard state == .loaded || state == .offline else {
             
             if state == .loading {
                 //Loading State
