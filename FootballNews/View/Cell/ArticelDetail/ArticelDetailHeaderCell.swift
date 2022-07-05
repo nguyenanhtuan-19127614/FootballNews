@@ -23,7 +23,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 27)
         return label
         
     }()
@@ -40,7 +40,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.font = UIFont.boldSystemFont(ofSize: 23)
         return label
         
     }()

@@ -59,6 +59,14 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
     }
     
+    func passArticelDetail(detail: ArticelDetailModel?) {
+        guard let detail = detail else {
+            return
+        }
+
+        self.dataSource.detailData = detail
+    }
+    
     func reloadData() {
         
         DispatchQueue.main.async {
@@ -71,6 +79,9 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     
     func getData() {
         
+        if state == .offline {
+            return
+        }
         self.getArticelDetailData(contentID)
         
     }
@@ -236,7 +247,12 @@ extension ArticelDetailController: UICollectionViewDataSource {
              
             return 1
             
-        } else {
+        } else if state == .offline{
+            
+            return (self.dataSource.detailData?.body?.count ?? 0) + 1
+            
+            
+        }else {
             
             return dataSource.dataSourceSize
             
@@ -281,8 +297,19 @@ extension ArticelDetailController: UICollectionViewDataSource {
          
             return headerCell
             
-        } else if indexPath.row <= dataSource.contentBodySize {
+        } else if indexPath.row > dataSource.contentBodySize && state != .offline {
             
+            let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
+            
+            relatedCell.backgroundColor = UIColor.white
+            
+            let index = indexPath.row - dataSource.contentBodySize - 1
+            relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
+            return relatedCell
+            
+            
+        } else {
+             
             //Body Part
             guard let bodyContent = dataSource.detailData?.body else {
                 
@@ -314,16 +341,6 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 return bodyCell
                 
             }
-            
-        } else {
-            
-            let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
-            
-            relatedCell.backgroundColor = UIColor.white
-            
-            let index = indexPath.row - dataSource.contentBodySize - 1
-            relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
-            return relatedCell
         
         }
         
@@ -336,6 +353,9 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if state == .offline {
+            return
+        }
         //Pass data and call articel detail view controller (Related Articel)
         if indexPath.row > dataSource.contentBodySize {
             
@@ -381,11 +401,11 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             
             let titleLabel = UILabel()
             titleLabel.text = detailData.title
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 30)
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 27)
             
             let descriptionLabel = UILabel()
             descriptionLabel.text = detailData.description
-            descriptionLabel.font = UIFont.boldSystemFont(ofSize: 25)
+            descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
             
             var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
             height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)

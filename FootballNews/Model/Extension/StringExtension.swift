@@ -12,8 +12,10 @@ extension String {
     func renderHTMLAttribute() -> NSAttributedString? {
         
         let data = NSString(string: self).data(using: String.Encoding.unicode.rawValue)
-        
-        if let attributedString = try? NSAttributedString(data: data!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+     
+        if let attributedString = try? NSAttributedString(data: data!,
+                                                          options: [.documentType: NSAttributedString.DocumentType.html],
+                                                          documentAttributes: nil) {
 
             return attributedString
             

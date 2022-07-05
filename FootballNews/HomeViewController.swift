@@ -554,10 +554,22 @@ extension HomeViewController: UICollectionViewDelegate {
             }
             
             let articelDetailVC = ArticelDetailController()
-            self.delegate = articelDetailVC
-            self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-            self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
             
+            if state == .offline {
+                articelDetailVC.state = .offline
+                self.delegate = articelDetailVC
+                let contentID = diskCache.homeArticelData[indexPath.row].contentID
+                let detail = diskCache.articelDetail[contentID]
+                self.delegate?.passArticelDetail(detail: detail)
+                
+            } else {
+                
+                self.delegate = articelDetailVC
+                self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
+                
+            }
+  
             navigationController?.pushViewController(articelDetailVC, animated: true)
         }
         
