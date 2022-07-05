@@ -44,6 +44,7 @@
 		03ADCEB928677252007E5668 /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEB828677252007E5668 /* APITarget.swift */; };
 		03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEBA28677453007E5668 /* CustomOperation.swift */; };
 		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
+		03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */; };
 		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
 		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
@@ -112,6 +113,7 @@
 		03ADCEB828677252007E5668 /* APITarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITarget.swift; sourceTree = "<group>"; };
 		03ADCEBA28677453007E5668 /* CustomOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperation.swift; sourceTree = "<group>"; };
 		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
+		03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionErrorNotification.swift; sourceTree = "<group>"; };
 		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
 		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 		0305AF4028597CDA009398A6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */,
 				036D64C6286479BD006E68C5 /* NavigationBar */,
 				0305AF462859DE33009398A6 /* Cell */,
 			);
@@ -521,6 +524,7 @@
 				03ADCEB928677252007E5668 /* APITarget.swift in Sources */,
 				037DE5F92863240500DD588D /* StringExtension.swift in Sources */,
 				036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */,
+				03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

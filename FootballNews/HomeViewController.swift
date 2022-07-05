@@ -95,7 +95,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     func reloadData() {
         
         DispatchQueue.main.async {
-            
+            print("state: \(self.state)")
             self.homeCollection.reloadData()
             
         }
@@ -158,11 +158,24 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.refreshControl = refreshControl
         
         //Internet checking
-       
         
+        //Push Offline alert notification
+        connectionErrorAlert()
         
         //get data score board
         self.getData()
+        
+    }
+    
+    //MARK: Offline alert notification
+    func connectionErrorAlert() {
+        
+        if state == .offline {
+            
+            let notification = ConnectionErrorNotification()
+            self.present(notification, animated: false, completion: nil)
+           
+        }
         
     }
     
@@ -170,7 +183,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     @objc func refresh() {
         
         if state == .offline {
+            
             self.stopRefresh()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                self.connectionErrorAlert()
+            }
+            
             return
         }
         
@@ -253,8 +272,16 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         
                     }
                     
-                    self.dataSource.articleData.append(contentsOf: articelArray)
+                    //changed vc state ( first time loading, when vc is loading state)
+                    if state == .loading {
+                        
+                        self.state = .loaded
+                        
+                    }
                     
+                    // add data to datasource
+                    self.dataSource.articleData.append(contentsOf: articelArray)
+                   
                     //Load more case
                     if self.state == .loaded {
                         
@@ -264,17 +291,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                             
                         }
                         
-                    } else {
-                        //First time load
-                        self.state = .loaded
-                        
-                    }
+                    } 
                     
                 }
                 
             case .failure(let err):
                 print("Error: \(err)")
-             
+                
                 self.state = .error
                 
                 DispatchQueue.main.async {
@@ -550,8 +573,9 @@ extension HomeViewController: UICollectionViewDelegate {
         
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
             
+           
             startArticel += articelSize
-            
+         
             //get data home news
             getHomeArticelData()
             

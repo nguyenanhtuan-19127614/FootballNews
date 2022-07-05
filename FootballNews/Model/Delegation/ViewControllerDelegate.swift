@@ -9,12 +9,15 @@ import Foundation
 
 protocol ViewControllerDelegate: AnyObject {
     
+    //MARK: Pass Data Method
     //pass Content ID (use for articelDetail)
     func passContentID(contentID: String)
     //pass Publisher Logo (use for articelDetail)
     func passPublisherLogo(url: String)
     //pass detail articel (use for articelDetailOffline)
     func passArticelDetail(detail: ArticelDetailModel?)
+    
+    //MARK: Action, Button click method
 }
 
 //Optionnal Protocol Function

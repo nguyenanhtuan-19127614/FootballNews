@@ -58,6 +58,8 @@ class HomeDataSource {
     
     var cacheActive = false
     
+    var isVCLoaded = false
+    
     var apiNumbers = 3
     var apiLoadedCount = 0 {
         
@@ -65,9 +67,16 @@ class HomeDataSource {
             
             if apiLoadedCount == apiNumbers {
                 
-                delegate?.reloadData()
-                delegate?.stopRefresh()
+                if !isVCLoaded {
+                    print("hihihi")
+                   
+                    delegate?.reloadData()
+                    diskCachingData()
+                    isVCLoaded = true
+                }
                 
+                delegate?.stopRefresh()
+               
             }
             
         }
@@ -98,7 +107,6 @@ class HomeDataSource {
         didSet {
             
             articelSize = articleData.count
-            diskCachingData()
             
         }
     }
