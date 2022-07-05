@@ -11,16 +11,16 @@ enum DiskCacheKey: String {
     
     case homeArticel
     case articelDetail
-
+    
 }
 
 class DiskCache {
     
     let userDefault = UserDefaults.standard
     //Store Home Article list Data
-    var homeArticelData: [HomeArticleModel] = []
+    var homeArticelData: [HomeArticleModel] = [] 
     //Store Articel Detail as: [contentID: articelDetail]
-    var articelDetail: [String: ArticelDetailModel] = [:]
+    var articelDetail: [String: ArticelDetailModel] = [:] 
     
     init() {
         
@@ -39,10 +39,10 @@ class DiskCache {
             
             // Create JSON Encoder
             let encoder = JSONEncoder()
-
+            
             // Encode Note
             let data = try encoder.encode(data)
-
+            
             // Write/Set Data
             UserDefaults.standard.set(data, forKey: key.rawValue)
             
@@ -61,10 +61,10 @@ class DiskCache {
             
             // Create JSON Encoder
             let encoder = JSONEncoder()
-
+            
             // Encode Note
             let data = try encoder.encode(data)
-
+            
             // Write/Set Data
             UserDefaults.standard.set(data, forKey: key.rawValue)
             
@@ -100,8 +100,8 @@ class DiskCache {
                 
             }
         }
-        
     }
+    
     
     
 }

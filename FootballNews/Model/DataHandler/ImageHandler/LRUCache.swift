@@ -6,10 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
 
-
-class LRUCache <Key:Hashable, Value> {
+class LRUCache {
     
     private struct CacheValue: Equatable {
         
@@ -18,20 +18,23 @@ class LRUCache <Key:Hashable, Value> {
         }
         
         
-        var value: Value
-        let key: Key
+        var value: UIImage
+        let key: String
 
     }
     
     private let lockQueue = DispatchQueue(label:"LockQueue", attributes: .concurrent)
     
     //Array store key orderedly by accessed numbers
-    private var array: [Key] = []
+    private var array: [String] = []
     
     //Dict will store value by key, use to look up and access data
-    private var nodesDict: [Key: CacheValue] = [:]
+    private var nodesDict: [String: CacheValue] = [:]
     
     private let sizeLimit: Int
+    
+    //Disk Cache mode
+    private var diskCacheMode: Bool = false
     
     var size: Int {
         get {
@@ -39,7 +42,7 @@ class LRUCache <Key:Hashable, Value> {
         }
     }
     
-    init(size: Int) {
+    init(size: Int, diskCacheMode: Bool) {
         
         if size < 1 {
             
@@ -48,10 +51,12 @@ class LRUCache <Key:Hashable, Value> {
             
         }
         self.sizeLimit = size
-
+        
+        self.diskCacheMode = diskCacheMode
+        
     }
     
-    func addValue(value: Value, key: Key) {
+    func addValue(value: UIImage, key: String) {
         
         lockQueue.sync(flags: [.barrier]) {
         
@@ -70,23 +75,23 @@ class LRUCache <Key:Hashable, Value> {
                     if let lastKey = array.last {
                         
                         nodesDict.removeValue(forKey: lastKey)
-                        
+                    
                     }
                     
                     array.removeLast()
-                    
+                   
                 }
                 
                 array.addHead(cacheValue.key)
                 nodesDict[key] = cacheValue
-                
+
             }
        
         }
       
     }
     
-    func getValue(key: Key) -> Value? {
+    func getValue(key: String) -> UIImage? {
         
         lockQueue.sync {
    
@@ -99,7 +104,13 @@ class LRUCache <Key:Hashable, Value> {
             return existedValue.value
            
         }
-       
+
+    }
+    
+    func getDiskValue(key: String) -> UIImage? {
+        
+        let image = UIImage().loadImageFromDisk(imageName: key)
+        return image
         
     }
 

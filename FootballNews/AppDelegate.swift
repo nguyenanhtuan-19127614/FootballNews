@@ -19,22 +19,20 @@ enum ViewControllerState {
 
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+   
     var window: UIWindow?
     var navController: UINavigationController?
-    //let homeVC = HomeViewController()
     var homeVC = HomeViewController()
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-    
+       
         navController = UINavigationController(rootViewController: homeVC)
-        
+        homeVC.state = .offline
         navController?.navigationBar.backgroundColor = .white
         navController?.navigationBar.isTranslucent = false
         

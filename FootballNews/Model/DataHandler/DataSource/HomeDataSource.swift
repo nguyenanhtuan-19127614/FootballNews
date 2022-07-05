@@ -45,7 +45,7 @@ struct HomeCompetitionModel {
 }
 
 class HomeDataSource {
-
+    
     weak var delegate: DataSoureDelegate?
     
     lazy var diskCache = DiskCache()
@@ -69,7 +69,7 @@ class HomeDataSource {
                 delegate?.stopRefresh()
                 
             }
-           
+            
         }
     }
     
@@ -77,7 +77,7 @@ class HomeDataSource {
     var cellSize: Int {
         
         get {
-        
+            
             return articelSize
             
         }
@@ -96,63 +96,10 @@ class HomeDataSource {
         }
         
         didSet {
-
-            articelSize = articleData.count
             
-            //Store article Data swift
-            if cacheActive == false {
-                
-                DispatchQueue.global(qos: .background).async {
-                    
-                    [unowned self] in
-                    //Save article Data
-                    self.diskCache.cacheData(data: self.articleData, key: .homeArticel)
-    
-                }
-                
-                DispatchQueue.global(qos: .background).async {
-                    
-                    [unowned self] in
-                    var articelDetail: [String: ArticelDetailModel] = [:]
-                    
-                    //Save detail article data
-                    for article in self.articleData {
-                        
-                        QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
-                    
-                            (result: Result<ResponseModel<ContentModel>, Error>) in
-                            
-                            switch result {
-                            case .success(let data):
-                                
-                                guard let content = data.data?.content else {
-                                    return
-                                }
-                                //Save detail data
-                                let detailData = ArticelDetailModel(title: content.title,
-                                                                    date: content.date,
-                                                                    description: content.description,
-                                                                    source: content.source,
-                                                                    sourceLogo: content.publisherLogo,
-                                                                    sourceIcon: content.publisherIcon,
-                                                                    body: content.body)
-                                
-                                articelDetail[article.contentID] = detailData
-                                self.diskCache.cacheData(data: articelDetail, key: .articelDetail)
-                                
-                            case .failure(_):
-                                return
-                                
-                            }
-                        }
-                    }
-                }
-                
-                cacheActive = true
-                
-                
-            }
- 
+            articelSize = articleData.count
+            diskCachingData()
+            
         }
     }
     
@@ -162,8 +109,8 @@ class HomeDataSource {
             
             lock.lock()
             if apiLoadedCount < apiNumbers {
-               
-               apiLoadedCount += 1
+                
+                apiLoadedCount += 1
                 
             }
             lock.unlock()
@@ -171,7 +118,7 @@ class HomeDataSource {
         }
         
         didSet {
-        
+            
             scoreBoardSize = scoreBoardData.count
             
         }
@@ -184,8 +131,8 @@ class HomeDataSource {
             
             lock.lock()
             if apiLoadedCount < apiNumbers {
-               
-               apiLoadedCount += 1
+                
+                apiLoadedCount += 1
             }
             lock.unlock()
             
@@ -194,7 +141,7 @@ class HomeDataSource {
         didSet {
             
             competitionSize = competitionData.count
-
+            
         }
         
     }
@@ -212,7 +159,118 @@ class HomeDataSource {
         
         apiLoadedCount = 0
         self.delegate?.getData()
+        
+    }
+    
+    //MARK: Disk cache after get first article data
+    
+    func diskCachingData() {
+        
+        //Store article Data swift
+        if cacheActive == false {
+       
+            DispatchQueue.global(qos: .background).async {
+                
+                [unowned self] in
+                //Save article Data
+                self.diskCache.cacheData(data: self.articleData, key: .homeArticel)
+                //Download and cache image to disk
+                for data in articleData {
+                    
+                    let avatar = data.avatar
+                    ImageDownloader.sharedService.download(url: avatar) {
+                        
+                        result in
+                        switch result {
+                            
+                        case .success(let image):
+                            
+                            image?.saveImageToDisk(avatar)
+                            
+                        case .failure( _):
+                            return
+                            
+                        }
+                    }
+                }
+                
+            }
+            
+            DispatchQueue.global(qos: .background).async {
+                
+                [unowned self] in
+                var articelDetail: [String: ArticelDetailModel] = [:]
+                
+                //Save detail article data
+                for article in self.articleData {
+                    
+                    QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
+                        
+                        (result: Result<ResponseModel<ContentModel>, Error>) in
+                        
+                        switch result {
+                        case .success(let data):
+                            
+                            guard let content = data.data?.content else {
+                                return
+                            }
+                            //Save detail data
+                            let detailData = ArticelDetailModel(title: content.title,
+                                                                date: content.date,
+                                                                description: content.description,
+                                                                source: content.source,
+                                                                sourceLogo: content.publisherLogo,
+                                                                sourceIcon: content.publisherIcon,
+                                                                body: content.body)
+                            self.lock.lock()
+                            articelDetail[article.contentID] = detailData
+                            self.diskCache.cacheData(data: articelDetail, key: .articelDetail)
+                            self.lock.unlock()
+                            
+                            //Download and cache image to disk
+                            if let body = detailData.body {
+                                
+                                for content in body {
+                                    
+                                    if content.type != "text" {
+                                        
+                                        ImageDownloader.sharedService.download(url: content.content) {
+                                            
+                                            result in
+                                            switch result {
+                                                
+                                            case .success(let image):
+                                                
+                                                image?.saveImageToDisk(content.content)
+                                                
+                                            case .failure( _):
+                                                return
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
 
+                        case .failure(_):
+                            return
+                            
+                        }
+                    }
+                }
+               
+            }
+            
+            cacheActive = true
+            
+            
+        }
+        
     }
     
 }
+

@@ -14,7 +14,7 @@ import UIKit
 
 //MARK: Class custom Operation
 fileprivate class NetworkDownloadOperation: CustomOperation {
-    
+
     var data: Data?
     
     var url: String?
@@ -23,11 +23,11 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
     private var task : URLSessionDataTask?
     
     init(url: String, session: URLSession) {
-       
+        
         super.init()
         self.url = url
         self.session = session
-
+        
     }
     
     //MARK: Create and run download task
@@ -37,54 +37,53 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
         
         //Create URL
         guard let url = URL(string: url) else {
-          
+            
             completion(.failure(AppErrors.BadURL))
-           
+            
             return
             
         }
-
+       
         self.task = session.dataTask(with: url) {
             
-
+            
             (data, response, error) in
-                                         
-          
+            
             guard response != nil else {
                 
                 completion(.failure(AppErrors.BadResponse))
-            
+                
                 return
                 
                 
             }
-        
+            
             guard let data = data else {
-
+                
                 if let error = error {
                     
                     completion(.failure(error))
-
+                    
                 }
-        
+                
                 return
                 
             }
-        
+            
             completion(.success(data))
-           
+            
         }
         
         self.task?.resume()
-       
+        
     }
     
-   //MARK: Main function
+    //MARK: Main function
     
     override func main() {
         
         if isCancelled {
-        
+            
             return
             
         }
@@ -113,7 +112,7 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
             self?.finish()
             
         }
-
+        
     }
     
     //Handling cancel, if operation is cancel, cancel download task
@@ -128,12 +127,13 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
 
 //MARK: Class Image Downloader
 class ImageDownloader {
-
+    
+    var offlineMode: Bool = true
     //Singleton
     static let sharedService = ImageDownloader()
     
     //Image Cache
-    private let imageCacheLRU = LRUCache<String, UIImage>(size: 20)
+    private let imageCacheLRU: LRUCache
     
     //Constant (Use to config sessoin)
     private let timeoutForRequest = TimeInterval(30)
@@ -154,28 +154,42 @@ class ImageDownloader {
         sessionConfig.timeoutIntervalForResource = timeoutForResource
         
         self.downloadSession = URLSession(configuration: sessionConfig,
-                                  delegate: nil,
-                                  delegateQueue: nil)
+                                          delegate: nil,
+                                          delegateQueue: nil)
         
         //Config Operation Queue
         operationQueue.maxConcurrentOperationCount = 5
-
+        
         let dispatchQueue = DispatchQueue(label: "downloadQueue", qos: .utility, attributes: .concurrent)
         operationQueue.underlyingQueue = dispatchQueue
+        
+        //Create Cache, if online mode, use diskcache to store local
+        imageCacheLRU = LRUCache(size: 20, diskCacheMode: !offlineMode)
     }
     
     
     //MARK: Main function, use this for download
     func download (url: String,
                    completion: @escaping ( Result<UIImage?,Error> ) -> Void ){
-
+        
+       
+        //Check if offline mode
+        if offlineMode == true {
+            
+            guard let image = imageCacheLRU.getDiskValue(key: url) else {
+                completion(.failure(AppErrors.BadData))
+                return
+            }
+            completion(.success(image))
+            return
+            
+        }
         //Check if image is in cache
-    
         if let cachedImage = imageCacheLRU.getValue(key: url) {
             print(imageCacheLRU.size)
             completion(.success(cachedImage))
             return
-
+            
         }
         
         guard let downloadSession = downloadSession else {
@@ -185,44 +199,45 @@ class ImageDownloader {
             
         }
         
-       
+        
         let customOperation = NetworkDownloadOperation(url: url, session: downloadSession)
         
         //Name custom operation
         customOperation.name = url
-
+        
         //check if operation allready in queue
         for ope in operationQueue.operations {
-
+            
             if customOperation.name == ope.name {
                 
                 //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
                 ope.waitUntilFinished()
                 guard let data = (ope as! NetworkDownloadOperation).data else {
-
+                    
                     completion(.failure(AppErrors.BadData))
                     return
-
+                    
                 }
                 
                 guard let image = UIImage(data: data) else {
                     completion(.failure(AppErrors.BadData))
                     return
                 }
-    
+                
                 completion(.success(image))
-
+                
                 return
             }
-
+            
         }
         
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
             [unowned customOperation, weak self] in
-        
+            
+            
             guard let data = customOperation.data else {
                 
                 completion(.failure(AppErrors.BadData))
@@ -232,26 +247,24 @@ class ImageDownloader {
             
             //Store image data to cache
             
-//            self?.imageCache.addImage(imgData: data, url: url)
-            
             guard let image = UIImage(data: data) else {
                 
                 completion(.failure(AppErrors.BadData))
                 return
                 
             }
-            
+            //save cache
             self?.imageCacheLRU.addValue(value: image, key: url)
             
             completion(.success(image))
-           
-        
+            
+            
         }
         
-      
+        
         //add operation
         operationQueue.addOperation(customOperation)
-       
+        
     }
-
+    
 }

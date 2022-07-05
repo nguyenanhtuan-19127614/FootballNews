@@ -28,6 +28,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     // Datasource
     let dataSource = HomeDataSource()
     
+    //Disk Caching
+    lazy var diskCache = DiskCache()
+    
     //ScoreBoard and competition Exist or not
     var scoreBoardExist: Bool = false
     var competitionExist: Bool = false
@@ -68,6 +71,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //MARK: Delegation Function
     
     func getData() {
+        
+        if state == .offline {
+            diskCache.getData()
+            return
+        }
         
         self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
         
@@ -122,7 +130,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.dataSource = self
         homeCollection.delegate = self
        
-      
         homeCollection.collectionViewLayout = homeLayout
         //MARK: Add layout and Subviews
        
@@ -152,6 +159,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     //MARK: Refresh methods
     @objc func refresh() {
+        
+        if state == .offline {
+            self.stopRefresh()
+            return
+        }
         
         self.startArticel = 0
         self.competitionLocation = []
@@ -378,7 +390,10 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-       
+        if state == .offline {
+            return self.diskCache.homeArticelData.count
+        }
+        
         if state == .loading || state == .error {
              
             return 1
@@ -393,6 +408,15 @@ extension HomeViewController: UICollectionViewDataSource {
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if state == .offline {
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            
+            articelCell.backgroundColor = UIColor.white
+            articelCell.loadData(inputData: self.diskCache.homeArticelData[indexPath.row])
+            
+            return articelCell
+        }
         
         guard state == .loaded else {
             
@@ -474,6 +498,18 @@ extension HomeViewController: UICollectionViewDelegate {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if state == .offline {
+            
+            let articelDetailVC = OfflineArticelDetailController()
+            self.delegate = articelDetailVC
+            let contentID = diskCache.homeArticelData[indexPath.row].contentID
+            let detail = diskCache.articelDetail[contentID]
+            self.delegate?.passArticelDetail(detail: detail)
+            
+            navigationController?.pushViewController(articelDetailVC, animated: true)
+            
+        }
+        
         if self.state == .loaded {
             
             //Pass Data and call articelDetail View Controller
@@ -495,7 +531,9 @@ extension HomeViewController: UICollectionViewDelegate {
     //Load More Data
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if dataSource.articleData.count == 0 {
+        
+        
+        if dataSource.articleData.count == 0 || state == .offline {
             return
         }
         
@@ -519,6 +557,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         
         let totalWidth = self.view.bounds.width
         let totalHeight = self.view.bounds.height
+        
+        if state == .offline {
+            
+            return CGSize(width: totalWidth,
+                          height: totalHeight/7)
+               
+        }
         
         if state == .loading || state == .error {
             
