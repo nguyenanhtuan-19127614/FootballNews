@@ -57,7 +57,6 @@ class HomeDataSource {
     var competitionSize = 0
     
     var cacheActive = false
-    
     var isVCLoaded = false
     
     var apiNumbers = 3
@@ -67,14 +66,21 @@ class HomeDataSource {
             
             if apiLoadedCount == apiNumbers {
                 
+                //First loaded when apicount == api numbers
                 if !isVCLoaded {
-                    print("hihihi")
                    
+                    //Reload data
                     delegate?.reloadData()
-                    diskCachingData()
+                    //MARK: Start to caching data to disk
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+                        [unowned self] in
+                        self.diskCachingData()
+                    }
+                    //diskCachingData()
                     isVCLoaded = true
+                    
                 }
-                
+                //Refresh case
                 delegate?.stopRefresh()
                
             }
@@ -96,25 +102,21 @@ class HomeDataSource {
     //When articleData are loaded, store it to local
     var articleData: [HomeArticleModel] = [] {
         
-        willSet {
-            
-            lock.lock()
-            apiLoadedCount += 1
-            lock.unlock()
-            
-        }
-        
         didSet {
             
             articelSize = articleData.count
+            lock.lock()
+            apiLoadedCount += 1
+            lock.unlock()
             
         }
     }
     
     var scoreBoardData: [HomeScoreBoardModel] = [] {
         
-        willSet {
+        didSet {
             
+            scoreBoardSize = scoreBoardData.count
             lock.lock()
             if apiLoadedCount < apiNumbers {
                 
@@ -122,12 +124,6 @@ class HomeDataSource {
                 
             }
             lock.unlock()
-            
-        }
-        
-        didSet {
-            
-            scoreBoardSize = scoreBoardData.count
             
         }
         
@@ -135,20 +131,15 @@ class HomeDataSource {
     
     var competitionData: [HomeCompetitionModel] = [] {
         
-        willSet {
+        didSet {
             
+            competitionSize = competitionData.count
             lock.lock()
             if apiLoadedCount < apiNumbers {
                 
                 apiLoadedCount += 1
             }
             lock.unlock()
-            
-        }
-        
-        didSet {
-            
-            competitionSize = competitionData.count
             
         }
         
@@ -176,9 +167,11 @@ class HomeDataSource {
         
         //Store article Data swift
         if cacheActive == false {
-            print("size: \(self.articelSize)")
+            
             diskCache.removeAllImageFromDisk()
-            DispatchQueue.global(qos: .background).async {
+            let concurrentQueue = DispatchQueue(label: "OfflineDownloadQueue", qos: .background, attributes: .concurrent)
+            
+            concurrentQueue.async {
                 
                 [unowned self] in
                 //Save article Data
@@ -194,7 +187,7 @@ class HomeDataSource {
                 
             }
             
-            DispatchQueue.global(qos: .background).async {
+           concurrentQueue.async {
                 
                 [unowned self] in
                 var articelDetail: [String: ArticelDetailModel] = [:]

@@ -264,6 +264,14 @@ extension ArticelDetailController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        if self.dataSource.detailData == nil && state == .offline {
+            state = .error
+            DispatchQueue.main.async {
+                self.articleDetailCollection.reloadData()
+            }
+            
+        }
+        
         guard state == .loaded || state == .offline else {
             
             if state == .loading {

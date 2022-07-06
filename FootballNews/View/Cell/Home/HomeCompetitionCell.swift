@@ -37,6 +37,7 @@ class HomeCompetitionCell: UICollectionViewCell {
     let competitionName: UILabel = {
         
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textAlignment = .center
         label.numberOfLines = 3
         label.lineBreakMode = .byWordWrapping

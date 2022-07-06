@@ -116,7 +116,7 @@ extension HomeCompetitionCollectionCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.bounds.width/4,
+        return CGSize(width: self.bounds.width/3,
                       height: self.bounds.height)
     }
     

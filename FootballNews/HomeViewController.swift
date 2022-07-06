@@ -82,7 +82,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             return
         }
         //Get data from server
-        self.getScoreBoardData(compID: 0, date: Date().getTodayAPIQueryString())
+        self.getScoreBoardData(compID: 0, date: "0")
         
         //get data home news
         self.getHomeArticelData()
@@ -95,7 +95,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     func reloadData() {
         
         DispatchQueue.main.async {
-            print("state: \(self.state)")
             self.homeCollection.reloadData()
             
         }
@@ -119,6 +118,33 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
+    //MARK: Add Observers
+    
+    //Func to addObserver of NotificationCenter
+    func addObservers() {
+        
+        //Evetn click item of score board
+        NotificationCenter.default
+                          .addObserver(self,
+                                       selector: #selector(scoreBoardClick(_:)),
+                         name: NSNotification.Name ("ScoreBoardCollectionClickItem"), object: nil)
+        
+    }
+    
+    //Observer function
+    @objc func scoreBoardClick(_ notification: Notification) {
+        
+        guard let index = notification.object as? Int else {
+            return
+        }
+        
+        let matchDetailVC = MatchDetailController()
+        self.delegate = matchDetailVC
+        delegate?.passHeaderData(scoreBoard: dataSource.scoreBoardData[index])
+        navigationController?.pushViewController(matchDetailVC, animated: true)
+        
+    }
+    
     //MARK: loadView() state
     override func loadView() {
         
@@ -136,9 +162,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.delegate = self
         
         homeCollection.collectionViewLayout = homeLayout
-        //MARK: Add layout and Subviews
         
-        view.addSubview(homeCollection )
+        //MARK: Add observers
+        self.addObservers()
+        
+        //MARK: Add Subviews
+        view.addSubview(homeCollection)
         
         self.view = view
         
@@ -167,6 +196,26 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
+    //MARK: Refresh methods
+    @objc func refresh() {
+        
+        if state == .offline {
+            
+            self.stopRefresh()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.connectionErrorAlert()
+            }
+            
+            return
+        }
+        
+        self.startArticel = 0
+        self.competitionLocation = []
+        dataSource.refresh()
+        
+    }
+    
     //MARK: Offline alert notification
     func connectionErrorAlert() {
         
@@ -178,28 +227,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
     }
-    
-    //MARK: Refresh methods
-    @objc func refresh() {
-        
-        if state == .offline {
-            
-            self.stopRefresh()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-                self.connectionErrorAlert()
-            }
-            
-            return
-        }
-        
-        self.startArticel = 0
-        self.competitionLocation = []
-        
-        dataSource.refresh()
-        
-    }
-    
     //MARK: viewWillAppear() state
     override func viewWillAppear(_ animated: Bool) {
         
@@ -271,6 +298,18 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         
                     }
                     
+                    
+                    //Load more case, if firest time load, do not reload, let datasource reload
+                    if self.state == .loaded {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.homeCollection.reloadData()
+                            
+                        }
+                        
+                    }
+                    
                     //changed vc state ( first time loading, when vc is loading state)
                     if state == .loading {
                         
@@ -280,17 +319,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     
                     // add data to datasource
                     self.dataSource.articleData.append(contentsOf: articelArray)
-                   
-                    //Load more case
-                    if self.state == .loaded {
-                        
-                        DispatchQueue.main.async {
-                            
-                            self.homeCollection.reloadData()
-                            
-                        }
-                        
-                    } 
                     
                 }
                 
@@ -392,7 +420,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         
                     }
                     competitionExist = true
-                    print("hi \(self.dataSource.competitionData)")
                     //Add location for competition cell
                     if competitionLocation.isEmpty {
                         
@@ -547,7 +574,7 @@ extension HomeViewController: UICollectionViewDelegate {
                 articelDetailVC.state = .offline
                 self.delegate = articelDetailVC
                 let contentID = diskCache.homeArticelData[indexPath.row].contentID
-                let detail = diskCache.articelDetail[contentID]
+                let detail = diskCache.articelDetail[contentID]  
                 self.delegate?.passArticelDetail(detail: detail)
                 
                 

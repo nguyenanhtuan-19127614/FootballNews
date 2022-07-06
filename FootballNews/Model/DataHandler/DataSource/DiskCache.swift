@@ -198,7 +198,7 @@ class DiskCache {
         let documentsDirectory = paths[0]
         
         do {
-            print("paths: \(documentsDirectory.absoluteString)")
+           
             let fileNames = try FileManager.default.contentsOfDirectory(atPath: documentsDirectory.path)
             
             for fileName in fileNames {
