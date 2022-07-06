@@ -30,6 +30,31 @@ extension UIImage {
         }
         return image
     }
-   
     
+    func scale(outputSize: CGSize) -> UIImage {
+        
+        // Determine the scale factor that preserves aspect ratio
+        let widthRatio = outputSize.width / self.size.width
+        let heightRatio = outputSize.height / self.size.height
+        
+        let scaleFactor = min(widthRatio, heightRatio)
+        
+        //New image size from scaleFactor
+        let scaledImageSize = CGSize(width: self.size.width * scaleFactor,
+                                    height: self.size.height * scaleFactor)
+        
+        // Draw and return the resized UIImage
+        let renderer = UIGraphicsImageRenderer(
+            size: scaledImageSize
+        )
+        
+        let scaledImage = renderer.image { _ in
+            self.draw(in: CGRect(
+                origin: .zero,
+                size: scaledImageSize
+            ))
+        }
+        
+        return scaledImage
+    }
 }

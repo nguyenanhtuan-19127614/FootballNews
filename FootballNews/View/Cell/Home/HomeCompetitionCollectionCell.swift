@@ -57,8 +57,6 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
                                              width: self.bounds.width,
                                              height: self.bounds.height)
         
-        //self.competitionCollection.addShadow()
-      
     }
     
     //MARK: Load data to cell

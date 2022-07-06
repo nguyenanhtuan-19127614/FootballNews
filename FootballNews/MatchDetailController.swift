@@ -27,6 +27,9 @@ class MatchDetailController: UIViewController, ViewControllerDelegate {
         return matchDetailCollection
     }()
     
+    //Header
+    let headerView = MatchDetailHeader()
+    
     //MARK: Delegation Function
     func passHeaderData(scoreBoard: HomeScoreBoardModel?) {
         
@@ -34,6 +37,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate {
             return
         }
         dataSource.headerData = scoreBoard
+        loadHeaderData(scoreBoard: scoreBoard)
         print("HeaderData: \(scoreBoard)")
     }
     //MARK: loadView() state
@@ -54,9 +58,10 @@ class MatchDetailController: UIViewController, ViewControllerDelegate {
         
         //MARK: Add layout and Subviews
         
+        addSubviewsLayout()
         //view.addSubview(matchDetailCollection)
-        
-       
+     
+        view.addSubview(headerView)
         self.view = view
         
     }
@@ -64,32 +69,48 @@ class MatchDetailController: UIViewController, ViewControllerDelegate {
     //MARK: viewDidLoad() state
     override func viewDidLoad() {
         
+        
         super.viewDidLoad()
        
     }
     
+    //MARK: Add subviews layout
+    func addSubviewsLayout() {
+        
+        headerView.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: self.view.bounds.width,
+                                  height: self.view.bounds.height/5)
+        
+        
+    }
     
     //MARK: viewWillAppear() state
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         //Custom Navigation Bars
-//        self.navigationController?.navigationBar.tintColor = UIColor.white
-//        if #available(iOS 13.0, *) {
-//            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
-//            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
-//            let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
-//            navigationController?.navigationBar.setTitleAndGradientBackground(colors: [startColor],
-//
-//        }
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
+            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
+            
+            navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor])
+                           
+        }
        
-        navigationController?.navigationBar.setImageBackground(image: nil)
+        //navigationController?.navigationBar.setImageBackground(image: nil)
         self.title = dataSource.headerData?.competition
         
        
     }
     
-    
+    //MARK: GET, Load Data Functions
+    func loadHeaderData(scoreBoard: HomeScoreBoardModel) {
+        
+        self.headerView.loadData(scoreBoard: scoreBoard)
+        
+    }
 }
 
 

@@ -358,7 +358,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                         soccerMatchsArray.append(HomeScoreBoardModel(
                             status: i.matchStatus,
                             competition: i.competition.competitionName,
-                            time: i.startTime,
+                            startTime: i.startTime,
                             homeLogo: i.homeTeam.teamLogo,
                             homeName: i.homeTeam.teamName,
                             homeScore: i.homeScored,

@@ -131,6 +131,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.tintColor = UIColor.blue
         //Set titleview of navigation bar
         
         let titleView = CustomTitleView(frame: CGRect(x: 0,
@@ -204,8 +205,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                 
                 self.dataSource.relatedArticleData.append(contentsOf: articelArray)
                 self.state = .loaded
-               
-               
+              
             case .failure(let err):
                 print(err)
                 self.state = .error

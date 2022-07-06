@@ -49,19 +49,9 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
     }()
     
-    let homeTeam: ScoreBoardTeamStatus = {
-        
-        let scoreStatus = ScoreBoardTeamStatus()
-        return scoreStatus
-        
-    }()
+    let homeTeam = ScoreBoardTeamStatus()
     
-    let awayTeam: ScoreBoardTeamStatus = {
-        
-        let scoreStatus = ScoreBoardTeamStatus()
-        return scoreStatus
-        
-    }()
+    let awayTeam = ScoreBoardTeamStatus() 
     
     //MARK: Add subviews to cell
     func addSubViews() {
@@ -114,7 +104,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
         //Subviews that don't need downloading
         self.competitionLabel.text = inputData.competition
-        let date = Date().timestampToDate(inputData.time)
+        let date = Date().timestampToDate(inputData.startTime)
        
         //Subviews that need downloading
         self.homeTeam.loadData(logoTeam: inputData.homeLogo,
