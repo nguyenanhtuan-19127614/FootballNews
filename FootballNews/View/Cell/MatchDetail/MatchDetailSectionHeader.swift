@@ -30,20 +30,18 @@ class MatchDetailSectionHeader: UICollectionReusableView {
             
         }
         
-       //var selectionList = [newsContent,matchDetailContent,rankingContent]
         newsContent.textColor = selectedColor
-        
-        let tap = UITapGestureRecognizer(target: nil, action: #selector(selectLabel(_:)))
-        newsContent.addGestureRecognizer(tap)
+    
         //add sub views
         addSubViews()
         //add Gesture
-        //addGesture()
+        addGestures()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: Define Sub-views
 
@@ -95,12 +93,6 @@ class MatchDetailSectionHeader: UICollectionReusableView {
         
     }()
     
-    //MARK: Tap Event
-  
-    @objc func selectLabel(_ sender: UITapGestureRecognizer?) {
-        print("dasdadasda")
-    }
-    
     
     //MARK: Add subviews to cell
     func addSubViews() {
@@ -111,15 +103,6 @@ class MatchDetailSectionHeader: UICollectionReusableView {
         
     }
     
-    //MARK: Add gesture
-//    func addGesture() {
-//
-//        newsContent.addGestureRecognizer(tap)
-//        matchDetailContent.addGestureRecognizer(tap)
-//        rankingContent.addGestureRecognizer(tap)
-//
-//    }
-   
     //MARK: Add layout subviews
     override func layoutSubviews() {
         
@@ -141,6 +124,46 @@ class MatchDetailSectionHeader: UICollectionReusableView {
         
         ])
 
+    }
+    
+    //MARK: Add Gesture
+    func addGestures() {
+        
+        let newsTap = UITapGestureRecognizer(target: self, action: #selector(selectNews(_:)))
+        
+        let matchDetailTap = UITapGestureRecognizer(target: self, action: #selector(selectMatch(_:)))
+        
+        let rankingTap = UITapGestureRecognizer(target: self, action: #selector(selectRanking(_:)))
+        
+        newsContent.addGestureRecognizer(newsTap)
+        matchDetailContent.addGestureRecognizer(matchDetailTap)
+        rankingContent.addGestureRecognizer(rankingTap)
+        
+    }
+    //MARK: Tap Event
+  
+    @objc func selectNews(_ sender: UITapGestureRecognizer?) {
+        
+        newsContent.textColor = selectedColor
+        matchDetailContent.textColor = .lightGray
+        rankingContent.textColor = .lightGray
+        
+    }
+    
+    @objc func selectMatch(_ sender: UITapGestureRecognizer?) {
+        
+        newsContent.textColor = .lightGray
+        matchDetailContent.textColor = selectedColor
+        rankingContent.textColor = .lightGray
+        
+    }
+    
+    @objc func selectRanking(_ sender: UITapGestureRecognizer?) {
+        
+        newsContent.textColor = .lightGray
+        matchDetailContent.textColor = .lightGray
+        rankingContent.textColor = selectedColor
+        
     }
     
 }
