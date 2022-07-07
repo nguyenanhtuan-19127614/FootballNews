@@ -120,10 +120,9 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        
-        addSubviewsLayout()
-        
+        //get data
         getArticelDetailData(contentID)
+        addSubviewsLayout()
         
     }
     
@@ -131,6 +130,8 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
+        //set button color
         self.navigationController?.navigationBar.tintColor = UIColor.blue
         //Set titleview of navigation bar
         
@@ -158,10 +159,14 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     //MARK: GET Data Functions
     func getArticelDetailData(_ contentID: String?) {
         
-        guard let contentID = contentID else {
+        if state == .offline {
             return
         }
         
+        guard let contentID = contentID else {
+            return
+        }
+        navigationItem.hidesBackButton = true
         QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
             
             [unowned self]
@@ -205,14 +210,22 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                 
                 self.dataSource.relatedArticleData.append(contentsOf: articelArray)
                 self.state = .loaded
+                DispatchQueue.main.async {
+                    self.navigationItem.hidesBackButton = false
+                }
+               
               
             case .failure(let err):
+                
                 print(err)
                 self.state = .error
                 
                 DispatchQueue.main.async {
                     self.articleDetailCollection.reloadData()
+                    self.navigationItem.hidesBackButton = false
                 }
+                
+                
             }
             
             
@@ -265,6 +278,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if self.dataSource.detailData == nil && state == .offline {
+        
             state = .error
             DispatchQueue.main.async {
                 self.articleDetailCollection.reloadData()

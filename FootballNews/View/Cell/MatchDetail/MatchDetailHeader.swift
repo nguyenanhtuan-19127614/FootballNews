@@ -216,10 +216,21 @@ class ScoreView: UIView {
         return label
     }()
     
+    let matchDate: UILabel = {
+        
+        let label = UILabel()
+        label.font = label.font.withSize(15)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+       
+        return label
+        
+    }()
+    
     let matchTime: UILabel = {
         
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = label.font.withSize(15)
         label.textColor = UIColor.white
         label.textAlignment = .center
        
@@ -234,6 +245,7 @@ class ScoreView: UIView {
         addSubview(homeScore)
         addSubview(awayScore)
         addSubview(matchTime)
+        addSubview(matchDate)
     }
     
     //MARK: Add layout for subviews
@@ -243,6 +255,7 @@ class ScoreView: UIView {
         homeScore.translatesAutoresizingMaskIntoConstraints = false
         awayScore.translatesAutoresizingMaskIntoConstraints = false
         matchTime.translatesAutoresizingMaskIntoConstraints = false
+        matchDate.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
@@ -256,9 +269,12 @@ class ScoreView: UIView {
             awayScore.widthAnchor.constraint(equalToConstant: self.bounds.width/2),
             awayScore.heightAnchor.constraint(equalToConstant: self.bounds.height/3),
             
-            matchTime.topAnchor.constraint(equalTo: homeScore.bottomAnchor, constant: 10),
-            matchTime.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+            matchTime.topAnchor.constraint(equalTo: homeScore.bottomAnchor, constant: 0),
             matchTime.widthAnchor.constraint(equalToConstant: self.bounds.width),
+           
+            matchDate.topAnchor.constraint(equalTo: matchTime.bottomAnchor),
+            matchDate.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            matchTime.heightAnchor.constraint(equalToConstant: 20),
             
             
         ])
@@ -270,20 +286,32 @@ class ScoreView: UIView {
         
         let matchStatus = scoreBoard.status
         
+        let date = Date().timestampToDate(scoreBoard.startTime)
+      
         if matchStatus == 1 {
             
             homeScore.text = "-"
             awayScore.text = "-"
+            matchDate.text = Date().dateToString(date)
+            matchTime.text = scoreBoard.time
+            
+            
+        } else if matchStatus == 2 {
+            
+            homeScore.text = String(scoreBoard.homeScore)
+            awayScore.text = String(scoreBoard.awayScore)
+            matchDate.text = Date().dateToString(date)
+            matchTime.text = scoreBoard.time
             
         } else {
             
             homeScore.text = String(scoreBoard.homeScore)
             awayScore.text = String(scoreBoard.awayScore)
+            matchDate.text = Date().dateToString(date)
+            matchTime.text = scoreBoard.time
             
         }
 
-        let date = Date().timestampToDate(scoreBoard.startTime)
-        matchTime.text = Date().dateToString(date)
-        
+       
     }
 }

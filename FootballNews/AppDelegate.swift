@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
        
         navController = UINavigationController(rootViewController: homeVC)
-//        homeVC.state = .offline
-//        ImageDownloader.sharedService.offlineMode = true
+        homeVC.state = .offline
+        ImageDownloader.sharedService.offlineMode = true
         navController?.navigationBar.backgroundColor = .white
         navController?.navigationBar.isTranslucent = false
         

@@ -30,10 +30,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Datasource
     let dataSource = HomeDataSource()
-    
-    //Disk Caching
-    lazy var diskCache = DiskCache()
-    
+
     //ScoreBoard and competition Exist or not
     var scoreBoardExist: Bool = false
     var competitionExist: Bool = false
@@ -77,7 +74,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         //Get offline data from disk if offline mode
         if state == .offline {
-            diskCache.getData()
+            dataSource.diskCache.getData()
             return
         }
         //Get data from server
@@ -358,6 +355,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                             matchID: i.matchID,
                             status: i.matchStatus,
                             competition: i.competition.competitionName,
+                            time: i.time,
                             startTime: i.startTime,
                             homeLogo: i.homeTeam.teamLogo,
                             homeName: i.homeTeam.teamName,
@@ -451,7 +449,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if state == .offline {
-            return self.diskCache.homeArticelData.count
+            return self.dataSource.diskCache.homeArticelData.count
         }
         
         if state == .loading || state == .error {
@@ -473,7 +471,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
             articelCell.backgroundColor = UIColor.white
-            articelCell.loadData(inputData: self.diskCache.homeArticelData[indexPath.row])
+            articelCell.loadData(inputData: self.dataSource.diskCache.homeArticelData[indexPath.row])
             
             return articelCell
         }
@@ -573,8 +571,8 @@ extension HomeViewController: UICollectionViewDelegate {
             if state == .offline {
                 articelDetailVC.state = .offline
                 self.delegate = articelDetailVC
-                let contentID = diskCache.homeArticelData[indexPath.row].contentID
-                let detail = diskCache.articelDetail[contentID]  
+                let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
+                let detail = dataSource.diskCache.articelDetail[contentID]  
                 self.delegate?.passArticelDetail(detail: detail)
                 
                 

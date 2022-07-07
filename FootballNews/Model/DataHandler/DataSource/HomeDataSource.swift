@@ -26,6 +26,7 @@ struct HomeScoreBoardModel {
     
     var status: Int
     var competition: String
+    var time: String
     var startTime: String
     
     var homeLogo: String

@@ -73,8 +73,9 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
             return
         }
         
-        self.getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
-  
+       
+        getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
+      
     }
     
     //MARK: loadView() state
@@ -98,7 +99,12 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         
         //MARK: Add layout and Subviews
         
-        addSubviewsLayout()
+        headerView.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: self.view.bounds.width,
+                                  height: self.view.bounds.height/5)
+        
+   
         view.addSubview(matchDetailCollection)
         view.addSubview(headerView)
         self.view = view
@@ -109,24 +115,25 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        addSubviewsLayout()
         
         self.getData()
-        
+
     }
-    
+   
     //MARK: Add subviews layout
     func addSubviewsLayout() {
-        
-        headerView.frame = CGRect(x: 0,
-                                  y: 0,
-                                  width: self.view.bounds.width,
-                                  height: self.view.bounds.height/5)
-        
-        matchDetailCollection.frame = CGRect(x: 0,
-                                             y: headerView.frame.maxY,
-                                             width: self.view.bounds.width,
-                                             height: self.view.bounds.height - headerView.bounds.height - 10)
     
+        matchDetailCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+            matchDetailCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,
+                                                       constant: headerView.bounds.height),
+            matchDetailCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            matchDetailCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            matchDetailCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+            
+        ])
         
     }
     
@@ -171,7 +178,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         guard let matchID = matchID else {
             return
         }
-        
+        navigationItem.hidesBackButton = true
         QueryService.sharedService.get(ContentAPITarget.match(id: String(matchID), start: 0, size: 20)) {
             
             [unowned self]
@@ -206,9 +213,16 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                     
                 }
                 
+                DispatchQueue.main.async {
+                    self.navigationItem.hidesBackButton = false
+                }
+                
             case .failure(let err):
                 print("Error: \(err)")
-                
+                DispatchQueue.main.async {
+                    self.navigationItem.hidesBackButton = false
+                }
+          
             }
         }
     }
