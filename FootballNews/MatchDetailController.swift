@@ -403,10 +403,12 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
             if selectedContent == .news {
                 return CGSize(width: totalWidth,
                               height: totalHeight/7)
+            } else {
+                //ranking content
+                return CGSize(width: totalWidth ,
+                              height: collectionView.bounds.height/15)
             }
-            //ranking content
-            return CGSize(width: totalWidth ,
-                          height: totalHeight/15)
+            
         }
         
     }

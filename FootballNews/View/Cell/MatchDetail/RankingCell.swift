@@ -26,8 +26,9 @@ class RankingCell: UICollectionViewCell {
     let indexLabel: UILabel = {
         
         let label = UILabel()
-        label.textAlignment = .right
+        label.textAlignment = .center
         label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
@@ -36,8 +37,9 @@ class RankingCell: UICollectionViewCell {
     let teamNameLabel: UILabel = {
         
         let label = UILabel()
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
@@ -48,6 +50,7 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
@@ -58,6 +61,7 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
     }()
@@ -67,6 +71,7 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
@@ -145,7 +150,17 @@ class RankingCell: UICollectionViewCell {
             
         } else {
             
-            self.backgroundColor = .lightGray
+            if #available(iOS 13.0, *) {
+                
+                let grayColor = UIColor(red: 232/255, green: 239/255, blue: 242/255, alpha: 0.5)
+                self.backgroundColor = grayColor
+                
+            } else {
+                
+                self.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                
+            }
+            
             
         }
     }
