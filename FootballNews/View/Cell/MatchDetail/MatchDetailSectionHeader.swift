@@ -11,6 +11,7 @@ import UIKit
 class MatchDetailSectionHeader: UICollectionReusableView {
     
     var selectedColor: UIColor?
+    weak var delegate: DataSoureDelegate?
     
     //MARK: Override Init
     override init(frame: CGRect) {
@@ -61,22 +62,6 @@ class MatchDetailSectionHeader: UICollectionReusableView {
         
     }()
     
-    let matchDetailContent: UILabel = {
-        
-        let label = UILabel()
-        label.text = "Chi tiết trận đấu"
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .lightGray
-        
-        label.numberOfLines = 0
-        label.sizeToFit()
-        
-        label.isUserInteractionEnabled = true
-        
-        return label
-        
-    }()
-    
     let rankingContent: UILabel = {
         
         let label = UILabel()
@@ -98,7 +83,6 @@ class MatchDetailSectionHeader: UICollectionReusableView {
     func addSubViews() {
     
         addSubview(newsContent)
-        addSubview(matchDetailContent)
         addSubview(rankingContent)
         
     }
@@ -108,18 +92,14 @@ class MatchDetailSectionHeader: UICollectionReusableView {
         
         super.layoutSubviews()
         newsContent.translatesAutoresizingMaskIntoConstraints = false
-        matchDetailContent.translatesAutoresizingMaskIntoConstraints = false
         rankingContent.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
         
             newsContent.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             newsContent.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            
-            matchDetailContent.leadingAnchor.constraint(equalTo: newsContent.trailingAnchor, constant: 20),
-            matchDetailContent.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            
-            rankingContent.leadingAnchor.constraint(equalTo: matchDetailContent.trailingAnchor, constant: 20),
+          
+            rankingContent.leadingAnchor.constraint(equalTo: newsContent.trailingAnchor, constant: 20),
             rankingContent.heightAnchor.constraint(equalToConstant: self.bounds.height),
         
         ])
@@ -130,13 +110,9 @@ class MatchDetailSectionHeader: UICollectionReusableView {
     func addGestures() {
         
         let newsTap = UITapGestureRecognizer(target: self, action: #selector(selectNews(_:)))
-        
-        let matchDetailTap = UITapGestureRecognizer(target: self, action: #selector(selectMatch(_:)))
-        
         let rankingTap = UITapGestureRecognizer(target: self, action: #selector(selectRanking(_:)))
         
         newsContent.addGestureRecognizer(newsTap)
-        matchDetailContent.addGestureRecognizer(matchDetailTap)
         rankingContent.addGestureRecognizer(rankingTap)
         
     }
@@ -145,24 +121,19 @@ class MatchDetailSectionHeader: UICollectionReusableView {
     @objc func selectNews(_ sender: UITapGestureRecognizer?) {
         
         newsContent.textColor = selectedColor
-        matchDetailContent.textColor = .lightGray
         rankingContent.textColor = .lightGray
         
-    }
-    
-    @objc func selectMatch(_ sender: UITapGestureRecognizer?) {
-        
-        newsContent.textColor = .lightGray
-        matchDetailContent.textColor = selectedColor
-        rankingContent.textColor = .lightGray
-        
+        delegate?.changeContentMatchDetail(content: .news)
+        delegate?.reloadData()
     }
     
     @objc func selectRanking(_ sender: UITapGestureRecognizer?) {
         
         newsContent.textColor = .lightGray
-        matchDetailContent.textColor = .lightGray
         rankingContent.textColor = selectedColor
+        
+        delegate?.changeContentMatchDetail(content: .ranking)
+        delegate?.reloadData()
         
     }
     

@@ -342,11 +342,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             
             [unowned self]
             (result: Result<ResponseModel<MatchModel>, Error>) in
+            var soccerMatchsArray: [HomeScoreBoardModel] = []
             switch result {
                 
             case .success(let res):
                 
-                var soccerMatchsArray: [HomeScoreBoardModel] = []
                 if let soccerMatch = res.data?.soccerMatch {
                     
                     for i in soccerMatch {
@@ -355,6 +355,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                             matchID: i.matchID,
                             status: i.matchStatus,
                             competition: i.competition.competitionName,
+                            competitionID: i.competition.competitionID,
                             time: i.time,
                             startTime: i.startTime,
                             homeLogo: i.homeTeam.teamLogo,
@@ -380,6 +381,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
                 
             case .failure(let err):
+                self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
                 print(err)
                 
             }
@@ -394,13 +396,14 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             
             [unowned self]
             (result: Result<ResponseModel<CompetitionModel>, Error>) in
+            var competitionArray: [HomeCompetitionModel] = []
             switch result {
-                
+
             case .success(let res):
                 
                 if let contents = res.data?.soccerCompetitions {
                     
-                    var competitionArray: [HomeCompetitionModel] = []
+                  
                     for i in contents {
                         
                         competitionArray.append(HomeCompetitionModel(logo: i.competitionLogo,
@@ -432,6 +435,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
             case .failure(let err):
                 
+                self.dataSource.competitionData.append(contentsOf: competitionArray)
                 print(err)
                 
             }

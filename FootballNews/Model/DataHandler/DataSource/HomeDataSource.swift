@@ -26,6 +26,8 @@ struct HomeScoreBoardModel {
     
     var status: Int
     var competition: String
+    var competitionID: Int
+    
     var time: String
     var startTime: String
     
@@ -172,9 +174,9 @@ class HomeDataSource {
         if cacheActive == false {
             
             diskCache.removeAllImageFromDisk()
-            let concurrentQueue = DispatchQueue(label: "OfflineDownloadQueue", qos: .background, attributes: .concurrent)
+            let queue = DispatchQueue(label: "OfflineDownloadQueue", qos: .background)
             
-            concurrentQueue.async {
+            queue.async {
                 
                 [unowned self] in
                 //Save article Data
@@ -190,7 +192,7 @@ class HomeDataSource {
                 
             }
             
-           concurrentQueue.async {
+           queue.async {
                 
                 [unowned self] in
                 var articelDetail: [String: ArticelDetailModel] = [:]

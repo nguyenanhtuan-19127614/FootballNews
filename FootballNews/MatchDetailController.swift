@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+enum MatchDetailContent {
+    
+    case news
+    case ranking
+    
+}
+
 class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoureDelegate {
     
     //Delegate
@@ -16,6 +23,8 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     //Datasource
     let dataSource = MatchDetailDataSource()
     
+    //Contain to show
+    var selectedContent: MatchDetailContent = .news
     
     //State
     var state: ViewControllerState = .loading
@@ -34,10 +43,12 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         //Register data for CollectionView
         //Cell
         matchDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        matchDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         matchDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
         matchDetailCollection.register(MatchDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MatchDetailSectionHeader")
         return matchDetailCollection
+        
     }()
     
     //Header
@@ -52,7 +63,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         
         dataSource.headerData = scoreBoard
         loadHeaderData(scoreBoard: scoreBoard)
-        print("HeaderData: \(scoreBoard)")
+       
     }
     
     func reloadData() {
@@ -71,6 +82,10 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         
     }
     
+    func changeContentMatchDetail(content: MatchDetailContent) {
+        self.selectedContent = content
+    }
+    
     func getData() {
         
         if state == .offline {
@@ -79,7 +94,8 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         
        
         getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
-      
+        getCompetitionRankingData(competitionID: self.dataSource.headerData?.competitionID)
+        
     }
     
     //MARK: loadView() state
@@ -145,7 +161,6 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     override func viewDidLayoutSubviews() {
         
         matchDetailLayout.sectionInsetReference = .fromSafeArea
-        matchDetailLayout.minimumLineSpacing = 20
         matchDetailLayout.sectionHeadersPinToVisibleBounds = true
        
     }
@@ -157,6 +172,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
         if #available(iOS 13.0, *) {
+            
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
             let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
             
@@ -164,10 +180,8 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                            
         }
        
-        //navigationController?.navigationBar.setImageBackground(image: nil)
         self.title = dataSource.headerData?.competition
-        
-       
+  
     }
     
     //MARK: GET, Load Data Functions
@@ -223,6 +237,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                 }
                 
             case .failure(let err):
+                
                 print("Error: \(err)")
                 DispatchQueue.main.async {
                     self.navigationItem.hidesBackButton = false
@@ -230,6 +245,46 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
           
             }
         }
+    }
+    
+    func getCompetitionRankingData(competitionID: Int?) {
+        
+        guard let competitionID = competitionID else {
+            return
+        }
+        
+        QueryService.sharedService.get(CompetitionAPITarget.standing(id: String(competitionID))) {
+            [unowned self]
+            (result: Result<ResponseModel<CompetitionStandingModel>, Error>) in
+            var rankingArray: [RankingModel] = []
+            
+            switch result {
+                
+            case .success(let res):
+                
+                if let contents = res.data?.soccerStandings {
+                    
+                    
+                    for i in contents {
+                        
+                        rankingArray.append(RankingModel(teamName: i.teamName,
+                                                         totalStat: i.total,
+                                                         homeStat: i.home,
+                                                         awayStat: i.away))
+                        
+                    }
+    
+                }
+                
+            case .failure(let err):
+                
+                print("Error: \(err)")
+          
+            }
+            // add data to datasource
+            self.dataSource.rankingData.append(contentsOf: rankingArray)
+        }
+        
     }
 }
 
@@ -246,8 +301,12 @@ extension MatchDetailController: UICollectionViewDataSource {
             
         } else {
             
-            return dataSource.articelSize
+            //news articel content
+            if selectedContent == .news {
+                return dataSource.articelSize
+            }
             
+            return dataSource.rankingSize
         }
         
     }
@@ -260,16 +319,30 @@ extension MatchDetailController: UICollectionViewDataSource {
             let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
             
             indicatorCell.indicator.startAnimating()
+            
             return indicatorCell
             
         }
+         
+        //News Articel Containt
+        if selectedContent == .news {
+            
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            
+            articelCell.backgroundColor = UIColor.white
+            articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+           
+            return articelCell
+            
+        }
         
-        let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+        let rankingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RankingCell", for: indexPath) as! RankingCell
         
-        articelCell.backgroundColor = UIColor.white
-        articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+        
+        rankingCell.loadData(inputData: self.dataSource.rankingData[indexPath.row],
+                             index: indexPath.row)
        
-        return articelCell
+        return rankingCell
         
     }
     
@@ -279,6 +352,7 @@ extension MatchDetailController: UICollectionViewDataSource {
         if kind == UICollectionView.elementKindSectionHeader {
             
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MatchDetailSectionHeader", for: indexPath) as! MatchDetailSectionHeader
+            sectionHeader.delegate = self
             return sectionHeader
             
             
@@ -325,8 +399,28 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
                           height: totalHeight)
         } else {
             
-            return CGSize(width: totalWidth,
-                          height: totalHeight/7)
+            //news articel content
+            if selectedContent == .news {
+                return CGSize(width: totalWidth,
+                              height: totalHeight/7)
+            }
+            //ranking content
+            return CGSize(width: totalWidth ,
+                          height: totalHeight/15)
+        }
+        
+    }
+    
+    //Line spaceing between cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        if selectedContent == .news {
+            
+            return 20
+            
+        } else {
+            
+            return 0
             
         }
         
@@ -339,6 +433,8 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
                       height: collectionView.frame.height/14)
         
     }
+    
+    
     
     
 }

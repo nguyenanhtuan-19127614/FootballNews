@@ -7,6 +7,15 @@
 
 import Foundation
 
+struct RankingModel {
+    
+    var teamName: String
+    var totalStat: Stats
+    var homeStat: Stats
+    var awayStat: Stats
+    
+}
+
 class MatchDetailDataSource {
     
     weak var delegate: DataSoureDelegate?
@@ -17,8 +26,9 @@ class MatchDetailDataSource {
     var isVCLoaded = false
     
     var articelSize = 0
+    var rankingSize = 0
     
-    var apiNumbers = 1
+    var apiNumbers = 2
     var apiLoadedCount = 0 {
         
         didSet {
@@ -41,18 +51,10 @@ class MatchDetailDataSource {
         
     }
     
-    var dataSourceSize: Int {
-        
-        get {
-            
-            return articelSize
-            
-        }
-        
-    }
-    
+    //Header Info data
     var headerData: HomeScoreBoardModel?
-    //When articleData are loaded, store it to local
+    
+    //Articel news data
     var articleData: [HomeArticleModel] = [] {
         
         didSet {
@@ -63,5 +65,21 @@ class MatchDetailDataSource {
             lock.unlock()
             
         }
+    }
+    
+    //Competition ranking data
+    var rankingData: [RankingModel] = [] {
+        
+        didSet {
+            
+            rankingSize = rankingData.count
+            print("rankingData: \(rankingData)")
+            lock.lock()
+            apiLoadedCount += 1
+            lock.unlock()
+            
+        }
+        
+        
     }
 }

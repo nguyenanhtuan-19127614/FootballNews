@@ -49,6 +49,7 @@
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
 		03DC833B2876BC9D005D5078 /* MatchDetailSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833A2876BC9D005D5078 /* MatchDetailSectionHeader.swift */; };
+		03DC833E2876E971005D5078 /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833D2876E971005D5078 /* RankingCell.swift */; };
 		03E1FFDF2861BF8000851333 /* ArticelDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */; };
 		03E1FFE52862D9AB00851333 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E1FFE42862D9AB00851333 /* UILabelExtension.swift */; };
 		03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */; };
@@ -121,6 +122,7 @@
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
 		03DC833A2876BC9D005D5078 /* MatchDetailSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailSectionHeader.swift; sourceTree = "<group>"; };
+		03DC833D2876E971005D5078 /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
 		03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailHeaderCell.swift; sourceTree = "<group>"; };
 		03E1FFE42862D9AB00851333 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceDelegate.swift; sourceTree = "<group>"; };
@@ -209,7 +211,7 @@
 		0305AF4028597CDA009398A6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */,
+				03DC833C2876D4C4005D5078 /* Notification */,
 				036D64C6286479BD006E68C5 /* NavigationBar */,
 				0305AF462859DE33009398A6 /* Cell */,
 			);
@@ -331,8 +333,17 @@
 			children = (
 				03DC833828754EDF005D5078 /* MatchDetailHeader.swift */,
 				03DC833A2876BC9D005D5078 /* MatchDetailSectionHeader.swift */,
+				03DC833D2876E971005D5078 /* RankingCell.swift */,
 			);
 			path = MatchDetail;
+			sourceTree = "<group>";
+		};
+		03DC833C2876D4C4005D5078 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		03E1FFD928601E1300851333 /* ArticelDetail */ = {
@@ -543,6 +554,7 @@
 				0305AF2F28583C8E009398A6 /* CompetitionModel.swift in Sources */,
 				03ADCEB928677252007E5668 /* APITarget.swift in Sources */,
 				037DE5F92863240500DD588D /* StringExtension.swift in Sources */,
+				03DC833E2876E971005D5078 /* RankingCell.swift in Sources */,
 				036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */,
 				03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */,
 			);

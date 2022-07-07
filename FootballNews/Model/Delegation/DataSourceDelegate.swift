@@ -14,6 +14,8 @@ protocol DataSoureDelegate: AnyObject {
     func getData()
     func stopRefresh()
     
+    //Change Content (Use for match detail VC)
+    func changeContentMatchDetail(content: MatchDetailContent)
 }
 
 //Optionnal Protocol Function
@@ -22,4 +24,5 @@ extension DataSoureDelegate {
     func getData() {}
     func stopRefresh() {}
     
+    func changeContentMatchDetail(content: MatchDetailContent){}
 }

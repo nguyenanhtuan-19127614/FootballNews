@@ -45,9 +45,9 @@ struct Competition: Codable {
 }
 
 // MARK: - DataClass [Soccer Standing]
-struct StandingModel: Codable {
+struct CompetitionStandingModel: Codable {
     
-    let soccerStandings: [SoccerStanding]
+    let soccerStandings: [CompetitionStanding]
 
     enum CodingKeys: String, CodingKey {
             
@@ -59,7 +59,7 @@ struct StandingModel: Codable {
 
 
 // MARK: - SoccerStanding
-struct SoccerStanding: Codable {
+struct CompetitionStanding: Codable {
     let teamID: Int
     let teamName: String
     let groupID: Int
