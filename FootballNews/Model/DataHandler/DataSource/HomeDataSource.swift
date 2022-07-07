@@ -22,6 +22,8 @@ struct HomeArticleModel: Codable {
 //Data for Score Board
 struct HomeScoreBoardModel {
     
+    var matchID: Int
+    
     var status: Int
     var competition: String
     var startTime: String

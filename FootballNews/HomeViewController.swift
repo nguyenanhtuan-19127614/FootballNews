@@ -22,7 +22,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Internet Connection
     
-    
     //Delegate
     weak var delegate: ViewControllerDelegate?
     
@@ -356,6 +355,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     for i in soccerMatch {
                         
                         soccerMatchsArray.append(HomeScoreBoardModel(
+                            matchID: i.matchID,
                             status: i.matchStatus,
                             competition: i.competition.competitionName,
                             startTime: i.startTime,

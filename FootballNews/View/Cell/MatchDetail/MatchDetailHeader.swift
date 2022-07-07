@@ -157,7 +157,7 @@ class TeamView: UIView {
             teamLogo.widthAnchor.constraint(equalToConstant: self.bounds.height/2.5),
             teamLogo.heightAnchor.constraint(equalToConstant: self.bounds.height/2.5),
             
-            teamName.topAnchor.constraint(equalTo: teamLogo.bottomAnchor, constant: 30),
+            teamName.topAnchor.constraint(equalTo: teamLogo.bottomAnchor, constant: 10),
             teamName.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
             teamName.widthAnchor.constraint(equalToConstant: self.bounds.width),
       
@@ -200,7 +200,6 @@ class ScoreView: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 40)
         label.textColor = UIColor.white
-        label.text = "-"
         label.textAlignment = .left
         
         return label
@@ -212,7 +211,6 @@ class ScoreView: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 40)
         label.textColor = UIColor.white
-        label.text = "-"
         label.textAlignment = .right
        
         return label
@@ -261,7 +259,7 @@ class ScoreView: UIView {
             matchTime.topAnchor.constraint(equalTo: homeScore.bottomAnchor, constant: 10),
             matchTime.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
             matchTime.widthAnchor.constraint(equalToConstant: self.bounds.width),
-            matchTime.heightAnchor.constraint(equalToConstant: self.bounds.height/2)
+            
             
         ])
         
@@ -270,9 +268,20 @@ class ScoreView: UIView {
     //MARK: Load data to cell
     func loadData(scoreBoard: HomeScoreBoardModel) {
         
-        homeScore.text = String(scoreBoard.homeScore)
-        awayScore.text = String(scoreBoard.awayScore)
+        let matchStatus = scoreBoard.status
         
+        if matchStatus == 1 {
+            
+            homeScore.text = "-"
+            awayScore.text = "-"
+            
+        } else {
+            
+            homeScore.text = String(scoreBoard.homeScore)
+            awayScore.text = String(scoreBoard.awayScore)
+            
+        }
+
         let date = Date().timestampToDate(scoreBoard.startTime)
         matchTime.text = Date().dateToString(date)
         
