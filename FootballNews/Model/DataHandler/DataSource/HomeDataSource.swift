@@ -75,11 +75,11 @@ class HomeDataSource {
                     //Reload data
                     delegate?.reloadData()
                     //MARK: Start to caching data to disk
-                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                        [unowned self] in
-                        self.diskCachingData()
-                    }
-                    //diskCachingData()
+//                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+//                        [unowned self] in
+//                        self.diskCachingData()
+//                    }
+                   
                     isVCLoaded = true
                     
                 }
@@ -247,8 +247,7 @@ class HomeDataSource {
             }
             
             cacheActive = true
-            
-            
+
         }
         
     }

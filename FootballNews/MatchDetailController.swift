@@ -16,11 +16,12 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     //Datasource
     let dataSource = MatchDetailDataSource()
     
-    //Main CollectionView Layout
-    var matchDetailLayout = UICollectionViewFlowLayout()
     
     //State
     var state: ViewControllerState = .loading
+    
+    //Main CollectionView Layout
+    var matchDetailLayout = UICollectionViewFlowLayout()
     
     //Main CollectionView
     var matchDetailCollection: UICollectionView = {
@@ -31,8 +32,11 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         matchDetailCollection.contentInsetAdjustmentBehavior = .always
         
         //Register data for CollectionView
+        //Cell
         matchDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         matchDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
+        //Section
+        matchDetailCollection.register(MatchDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MatchDetailSectionHeader")
         return matchDetailCollection
     }()
     
@@ -142,6 +146,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         
         matchDetailLayout.sectionInsetReference = .fromSafeArea
         matchDetailLayout.minimumLineSpacing = 20
+        matchDetailLayout.sectionHeadersPinToVisibleBounds = true
        
     }
     
@@ -178,7 +183,9 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         guard let matchID = matchID else {
             return
         }
+        
         navigationItem.hidesBackButton = true
+        
         QueryService.sharedService.get(ContentAPITarget.match(id: String(matchID), start: 0, size: 20)) {
             
             [unowned self]
@@ -199,16 +206,14 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                                                              date: i.date))
                         
                     }
-                    
-                    // add data to datasource
-                    
+    
                     //changed vc state
                     if state == .loading {
                         
                         self.state = .loaded
                         
                     }
-                    
+                    // add data to datasource
                     self.dataSource.articleData.append(contentsOf: articelArray)
                     
                 }
@@ -263,8 +268,25 @@ extension MatchDetailController: UICollectionViewDataSource {
         
         articelCell.backgroundColor = UIColor.white
         articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
-        
+       
         return articelCell
+        
+    }
+    
+    //return section
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+        if kind == UICollectionView.elementKindSectionHeader {
+            
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MatchDetailSectionHeader", for: indexPath) as! MatchDetailSectionHeader
+            return sectionHeader
+            
+            
+       } else {
+           
+            return UICollectionReusableView()
+           
+       }
         
     }
 }
@@ -291,6 +313,7 @@ extension MatchDetailController: UICollectionViewDelegate {
 //MARK: Delegate Flow Layout extension
 extension MatchDetailController: UICollectionViewDelegateFlowLayout {
     
+    //Cell size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let totalWidth = self.view.bounds.width
@@ -308,6 +331,15 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
         }
         
     }
+    
+    //Section Header Size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.width,
+                      height: collectionView.frame.height/14)
+        
+    }
+    
     
 }
 

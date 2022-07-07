@@ -23,12 +23,4 @@ extension UIView {
         
     }
     
-    func removeShadow() {
-        
-        self.layer.shadowColor = .none
-        self.layer.shadowOpacity = .nan
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = .nan
-        
-    }
 }

@@ -266,7 +266,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             return (self.dataSource.detailData?.body?.count ?? 0) + 1
             
             
-        }else {
+        } else {
             
             return dataSource.dataSourceSize
             
