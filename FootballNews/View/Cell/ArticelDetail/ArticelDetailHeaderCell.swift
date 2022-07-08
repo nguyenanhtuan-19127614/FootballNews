@@ -1,8 +1,6 @@
 
 import UIKit
 
-fileprivate let paddingLeft = 15.0
-
 class ArticelDetailHeaderCell: UICollectionViewCell {
     
     //MARK: Overide Init
@@ -24,6 +22,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.boldSystemFont(ofSize: 27)
+    
         return label
         
     }()
@@ -41,13 +40,14 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.boldSystemFont(ofSize: 23)
+      
         return label
         
     }()
     
     //MARK: Add subviews to cell
     func addSubViews() {
-        
+       
         addSubview(titleLabel)
         addSubview(subTitleLabel)
         addSubview(descriptionLabel)
@@ -57,20 +57,20 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         
-        titleLabel.frame = CGRect(x: paddingLeft,
-                                  y: 0,
+        titleLabel.frame = CGRect(x: 15,
+                                  y: 20,
                                   width: self.bounds.width - 35,
                                   height: 0)
         titleLabel.sizeToFit()
        
  
         
-        subTitleLabel.frame = CGRect(x: paddingLeft,
+        subTitleLabel.frame = CGRect(x: 15,
                                      y: titleLabel.frame.maxY + 10.0,
                                      width: self.bounds.width - 35,
                                      height: 30)
         
-        descriptionLabel.frame = CGRect(x: paddingLeft,
+        descriptionLabel.frame = CGRect(x: 15,
                                         y: subTitleLabel.frame.maxY + 10.0,
                                         width: self.bounds.width - 35,
                                         height: 0)
@@ -84,6 +84,9 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         
         titleLabel.text = inputData.title
         descriptionLabel.text = inputData.description
+        
+        titleLabel.addLineSpacing(lineSpacing: 5)
+        descriptionLabel.addLineSpacing(lineSpacing: 5)
         
         subTitleLabel.loadData(sourceIcon: inputData.sourceIcon,
                                sourceLabel: inputData.source,

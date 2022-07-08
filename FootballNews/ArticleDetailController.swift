@@ -438,16 +438,18 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             let titleLabel = UILabel()
             titleLabel.text = detailData.title
             titleLabel.font = UIFont.boldSystemFont(ofSize: 27)
+            titleLabel.addLineSpacing(lineSpacing: 5)
             
             let descriptionLabel = UILabel()
             descriptionLabel.text = detailData.description
             descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
+            descriptionLabel.addLineSpacing(lineSpacing: 5)
             
             var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
             height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += 50 
-
-            
+            height += 50 // line spacing of all element
+            height += 20 //padding top
+      
             return CGSize(width: totalWidth ,
                           height: height)
             
