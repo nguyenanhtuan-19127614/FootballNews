@@ -43,7 +43,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
     let timeLabel: UILabel = {
         
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.font = UIFont.boldSystemFont(ofSize: 10)
         label.textColor = UIColor(red: 0.694, green: 0.694, blue: 0.694, alpha: 1)
         return label
         
@@ -88,14 +88,15 @@ class HomeScoreBoardCell: UICollectionViewCell {
         timeLabel.sizeToFit()
         
         homeTeam.frame = CGRect(x: statusView.frame.maxX + 12,
-                                y: timeLabel.frame.maxY + 20,
+                                y: timeLabel.frame.maxY + 7,
                                 width: self.bounds.width - 20,
                                 height: competitionLabel.bounds.height)
 
         awayTeam.frame = CGRect(x: statusView.frame.maxX + 12,
-                                y: homeTeam.frame.maxY + 8,
+                                y: homeTeam.frame.maxY + 10,
                                 width: homeTeam.bounds.width,
                                 height: competitionLabel.bounds.height)
+       
     }
     
     //MARK: Load data to cell
@@ -116,8 +117,9 @@ class HomeScoreBoardCell: UICollectionViewCell {
                           scoreLabel: String(inputData.awayScore))
         
         //Load status bar, timelabel based on status bar
+      
         switch inputData.status {
-       
+            
         // Live Match
         case 0:
             self.statusView.backgroundColor = .red
@@ -186,7 +188,8 @@ class ScoreBoardTeamStatus: UIView {
     let teamName: UILabel = {
         
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        
         return label
         
     }()

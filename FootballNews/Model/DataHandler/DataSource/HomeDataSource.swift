@@ -73,9 +73,9 @@ class HomeDataSource {
                 
                 //First loaded when apicount == api numbers
                 if !isVCLoaded {
-                   
+                    
                     //Reload data
-                    delegate?.reloadData()
+                   
                     //MARK: Start to caching data to disk
 //                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
 //                        [unowned self] in
@@ -85,6 +85,9 @@ class HomeDataSource {
                     isVCLoaded = true
                     
                 }
+                delegate?.reloadData()
+                print("countedLoaded ")
+                
                 //Refresh case
                 delegate?.stopRefresh()
                
@@ -110,8 +113,16 @@ class HomeDataSource {
         didSet {
             
             articelSize = articleData.count
+            
             lock.lock()
             apiLoadedCount += 1
+            //Load more case
+            if apiLoadedCount > apiNumbers {
+             
+                self.delegate?.reloadData()
+                
+            }
+            
             lock.unlock()
             
         }
@@ -157,11 +168,15 @@ class HomeDataSource {
         scoreBoardSize = 0
         competitionSize = 0
         
+    
+        isVCLoaded = false
+
         articleData = []
         scoreBoardData = []
         competitionData = []
         
         apiLoadedCount = 0
+        
         self.delegate?.getData()
         
     }

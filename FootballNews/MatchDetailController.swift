@@ -123,7 +123,6 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                                   y: 0,
                                   width: self.view.bounds.width,
                                   height: self.view.bounds.height/5)
-        
    
         view.addSubview(matchDetailCollection)
         view.addSubview(headerView)
@@ -166,7 +165,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     }
     
     //MARK: viewWillAppear() state
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear( _ animated: Bool) {
         
         super.viewWillAppear(animated)
         //Custom Navigation Bars
@@ -176,9 +175,14 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
             let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
             
+            navigationController?.navigationBar.setTitleAttribute(color: .white,
+                                                                  font: UIFont.boldSystemFont(ofSize: 20))
             navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor])
-                           
+            
         }
+        
+        //Back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
        
         self.title = dataSource.headerData?.competition
   
@@ -197,8 +201,6 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         guard let matchID = matchID else {
             return
         }
-        
-        navigationItem.hidesBackButton = true
         
         QueryService.sharedService.get(ContentAPITarget.match(id: String(matchID), start: 0, size: 20)) {
             
@@ -232,17 +234,11 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
                     
                 }
                 
-                DispatchQueue.main.async {
-                    self.navigationItem.hidesBackButton = false
-                }
-                
+            
             case .failure(let err):
                 
                 print("Error: \(err)")
-                DispatchQueue.main.async {
-                    self.navigationItem.hidesBackButton = false
-                }
-          
+               
             }
         }
     }
@@ -361,7 +357,6 @@ extension MatchDetailController: UICollectionViewDataSource {
             return UICollectionReusableView()
            
        }
-        
     }
 }
 
@@ -372,14 +367,18 @@ extension MatchDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        let articelDetailVC = ArticelDetailController()
-        
-        self.delegate = articelDetailVC
-        self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-        self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
-        
-        navigationController?.pushViewController(articelDetailVC, animated: true)
-        
+        if selectedContent == .news {
+            
+            let articelDetailVC = ArticelDetailController()
+            
+            self.delegate = articelDetailVC
+            self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+            self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
+            
+            navigationController?.pushViewController(articelDetailVC, animated: true)
+            
+        }
+     
     }
 
 }

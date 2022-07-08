@@ -9,10 +9,23 @@ import UIKit
 
 class RankingCell: UICollectionViewCell {
     
+    var grayColor: UIColor = .lightGray.withAlphaComponent(0.2)
+    
+    
     //MARK: Override Init
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+        
+        if #available(iOS 13.0, *) {
+            
+            grayColor = UIColor(red: 232/255, green: 239/255, blue: 242/255, alpha: 1)
+           
+            
+        }
+        
+        //add colors for subviews border
+        addBorderColor()
         //add sub views
         addSubViews()
         
@@ -23,24 +36,24 @@ class RankingCell: UICollectionViewCell {
     }
     
     //MARK: Define Sub-views
-    let indexLabel: UILabel = {
+    let indexLabel: PaddingLabel = {
         
-        let label = UILabel()
-        label.textAlignment = .center
+        let label = PaddingLabel()
+        label.textAlignment = .right
+        label.setupPadding(top: 0, bottom: 0, left: 0, right: 10)
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
     }()
     
-    let teamNameLabel: UILabel = {
+    let teamNameLabel: PaddingLabel = {
         
-        let label = UILabel()
-        label.textAlignment = .center
+        let label = PaddingLabel()
+        label.textAlignment = .left
+        label.setupPadding(top: 0, bottom: 0, left: 10, right: 0)
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-        
+       
         return label
         
     }()
@@ -50,8 +63,7 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-        
+       
         return label
         
     }()
@@ -61,7 +73,6 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
     }()
@@ -71,7 +82,6 @@ class RankingCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         
         return label
         
@@ -123,6 +133,16 @@ class RankingCell: UICollectionViewCell {
         
     }
     
+    func addBorderColor() {
+        
+        indexLabel.layer.borderColor = grayColor.cgColor
+        teamNameLabel.layer.borderColor = grayColor.cgColor
+        playedLabel.layer.borderColor = grayColor.cgColor
+        differenceLabel.layer.borderColor = grayColor.cgColor
+        pointsLabel.layer.borderColor = grayColor.cgColor
+       
+    }
+    
     //MARK: Load data to cell
     func loadData(inputData: RankingModel, index: Int) {
     
@@ -150,17 +170,7 @@ class RankingCell: UICollectionViewCell {
             
         } else {
             
-            if #available(iOS 13.0, *) {
-                
-                let grayColor = UIColor(red: 232/255, green: 239/255, blue: 242/255, alpha: 0.5)
-                self.backgroundColor = grayColor
-                
-            } else {
-                
-                self.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                
-            }
-            
+            self.backgroundColor = grayColor
             
         }
     }

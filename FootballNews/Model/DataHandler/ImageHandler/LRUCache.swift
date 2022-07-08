@@ -33,8 +33,6 @@ class LRUCache {
     
     private let sizeLimit: Int
     
-    //Disk Cache mode
-    private var diskCacheMode: Bool = false
     
     var size: Int {
         get {
@@ -42,7 +40,7 @@ class LRUCache {
         }
     }
     
-    init(size: Int, diskCacheMode: Bool) {
+    init(size: Int) {
         
         if size < 1 {
             
@@ -50,9 +48,8 @@ class LRUCache {
             return
             
         }
-        self.sizeLimit = size
         
-        self.diskCacheMode = diskCacheMode
+        self.sizeLimit = size
         
     }
     

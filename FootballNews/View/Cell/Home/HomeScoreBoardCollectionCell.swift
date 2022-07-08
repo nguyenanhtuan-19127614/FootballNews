@@ -14,7 +14,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
     var scoreBoardCollection: UICollectionView = {
         
         let scoreBoardLayout = UICollectionViewFlowLayout()
-        scoreBoardLayout.minimumLineSpacing = 20
+        scoreBoardLayout.minimumLineSpacing = 10
         scoreBoardLayout.scrollDirection = .horizontal
         
         let scoreBoardCollection = UICollectionView(frame: .zero, collectionViewLayout: scoreBoardLayout)
@@ -118,7 +118,7 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.bounds.width/1.5,
+        return CGSize(width: self.bounds.width/1.8,
                       height: self.bounds.height)
         
     }

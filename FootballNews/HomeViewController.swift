@@ -40,7 +40,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     let competitionIndex = 4
     
     //Location and competiion
-    var competitionLocation: [Int] = []
+    var competitionLocation: Set<Int> = []
     
     //query param
     var startArticel = 0
@@ -91,6 +91,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     func reloadData() {
         
         DispatchQueue.main.async {
+            
             self.homeCollection.reloadData()
             
         }
@@ -207,8 +208,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         self.startArticel = 0
-        self.competitionLocation = []
+       
         dataSource.refresh()
+      
         
     }
     
@@ -238,6 +240,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             
         }
         
+        //Back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+     
     }
     
     //MARK: Function to add layout for subviews
@@ -280,7 +285,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                 
                 if let contents = res.data?.contents {
                     
-                    self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
+                    self.competitionLocation.insert( self.dataSource.articelSize + self.competitionIndex)
                     
                     
                     var articelArray: [HomeArticleModel] = []
@@ -291,18 +296,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                                                              title: i.title,
                                                              publisherLogo: i.publisherLogo,
                                                              date: i.date))
-                        
-                    }
-                    
-                    
-                    //Load more case, if firest time load, do not reload, let datasource reload
-                    if self.state == .loaded {
-                        
-                        DispatchQueue.main.async {
-                            
-                            self.homeCollection.reloadData()
-                            
-                        }
                         
                     }
                     
@@ -424,12 +417,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                     //Add location for competition cell
                     if competitionLocation.isEmpty {
                         
-                        competitionLocation.append(self.competitionIndex)
+                        competitionLocation.insert(self.competitionIndex)
                         return
                         
                     }
                     
-                    self.competitionLocation.append( self.dataSource.articelSize + self.competitionIndex)
+                    self.competitionLocation.insert( self.dataSource.articelSize + self.competitionIndex)
                     
                 }
                 
@@ -648,7 +641,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 
                 //Hot match size
                 return CGSize(width: totalWidth,
-                              height: totalHeight/5)
+                              height: totalHeight/6.5)
                 
             } else if indexPath.row < dataSource.articelSize - 1 {
                 

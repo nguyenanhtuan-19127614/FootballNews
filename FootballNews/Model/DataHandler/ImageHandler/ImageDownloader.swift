@@ -123,6 +123,7 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
         self.finish()
         
     }
+ 
 }
 
 //MARK: Class Image Downloader
@@ -167,9 +168,9 @@ class ImageDownloader {
         operationQueue.underlyingQueue = dispatchQueue
         
         //Create Cache, if online mode, use diskcache to store local
-        imageCacheLRU = LRUCache(size: 20, diskCacheMode: !offlineMode)
+        imageCacheLRU = LRUCache(size: 20)
+        
     }
-    
     
     //MARK: Main function, use this for download
     func download (url: String,
@@ -224,8 +225,10 @@ class ImageDownloader {
                 }
                 
                 guard let image = UIImage(data: data) else {
+                    
                     completion(.failure(AppErrors.BadData))
                     return
+                    
                 }
                 
                 completion(.success(image))

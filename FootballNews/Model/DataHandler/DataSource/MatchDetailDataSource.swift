@@ -73,7 +73,6 @@ class MatchDetailDataSource {
         didSet {
             
             rankingSize = rankingData.count
-            print("rankingData: \(rankingData)")
             lock.lock()
             apiLoadedCount += 1
             lock.unlock()

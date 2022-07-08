@@ -130,9 +130,12 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
         //set button color
         self.navigationController?.navigationBar.tintColor = UIColor.blue
+        
+        //Back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         //Set titleview of navigation bar
         
         let titleView = CustomTitleView(frame: CGRect(x: 0,
@@ -166,7 +169,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         guard let contentID = contentID else {
             return
         }
-        navigationItem.hidesBackButton = true
+      
         QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
             
             [unowned self]
@@ -210,11 +213,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                 
                 self.dataSource.relatedArticleData.append(contentsOf: articelArray)
                 self.state = .loaded
-                DispatchQueue.main.async {
-                    self.navigationItem.hidesBackButton = false
-                }
-               
-              
+                
             case .failure(let err):
                 
                 print(err)
@@ -222,7 +221,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
                 
                 DispatchQueue.main.async {
                     self.articleDetailCollection.reloadData()
-                    self.navigationItem.hidesBackButton = false
+                   
                 }
                 
                 
