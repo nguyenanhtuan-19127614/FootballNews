@@ -217,6 +217,7 @@ class ImageDownloader {
                 //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
                 ope.waitUntilFinished()
+                
                 guard let data = (ope as! NetworkDownloadOperation).data else {
                     
                     completion(.failure(AppErrors.BadData))

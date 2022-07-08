@@ -188,6 +188,14 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
   
     }
     
+    //MARK: viewWillDisaper() state
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        QueryService.sharedService.operationQueue.cancelAllOperations()
+        
+    }
+    
     //MARK: GET, Load Data Functions
     
     func loadHeaderData(scoreBoard: HomeScoreBoardModel) {

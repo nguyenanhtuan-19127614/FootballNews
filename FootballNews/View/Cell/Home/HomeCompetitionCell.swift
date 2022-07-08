@@ -61,11 +61,13 @@ class HomeCompetitionCell: UICollectionViewCell {
         competitionName.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-
+            
+            competitionLogo.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 18),
             competitionLogo.widthAnchor.constraint(equalToConstant: self.bounds.width),
             competitionLogo.heightAnchor.constraint(equalToConstant: self.bounds.height * 2 / 3),
             competitionLogo.topAnchor.constraint(equalTo: self.topAnchor),
         
+            competitionName.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant:  18),
             competitionName.topAnchor.constraint(equalTo: competitionLogo.bottomAnchor),
             competitionName.widthAnchor.constraint(equalToConstant: self.bounds.width),
             competitionName.heightAnchor.constraint(equalToConstant: self.bounds.height * 1 / 3)

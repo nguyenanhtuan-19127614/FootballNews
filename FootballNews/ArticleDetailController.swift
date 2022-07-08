@@ -152,6 +152,14 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         
     }
     
+    //MARK: viewWillDisaper() state
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        QueryService.sharedService.operationQueue.cancelAllOperations()
+        
+    }
+    
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         

@@ -90,8 +90,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     func reloadData() {
        
-        print("sourceScoreBoard: \(competitionLocation)")
-       
         DispatchQueue.main.async {
             
             self.homeCollection.reloadData()
@@ -267,8 +265,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewDidLayoutSubviews() {
         
         homeLayout.sectionInsetReference = .fromSafeArea
-       
-        
+      
     }
     
     
@@ -449,7 +446,9 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if state == .offline {
+            
             return self.dataSource.diskCache.homeArticelData.count
+            
         }
         
         if state == .loading || state == .error {
@@ -501,6 +500,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
             
             competitionCell.backgroundColor = UIColor.white
+            
             DispatchQueue.main.async {
                 
                 [unowned self] in
