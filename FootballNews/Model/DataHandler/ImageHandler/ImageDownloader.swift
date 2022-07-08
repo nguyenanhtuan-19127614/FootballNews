@@ -188,13 +188,6 @@ class ImageDownloader {
             return
             
         }
-        //Check if image is in cache
-        if let cachedImage = imageCacheLRU.getValue(key: url) {
-    
-            completion(.success(cachedImage))
-            return
-            
-        }
         
         guard let downloadSession = downloadSession else {
             
@@ -218,10 +211,7 @@ class ImageDownloader {
                 customOperation.cancel()
                 
                 //Create a operation waiting for executing operaion
-                let  completionOperation = Operation()
-                completionOperation.addDependency(ope)
-            
-                completionOperation.completionBlock = {
+                let waitingOperation = BlockOperation {
                     
                     guard let data = (ope as! NetworkDownloadOperation).data else {
                         
@@ -236,16 +226,26 @@ class ImageDownloader {
                         return
                         
                     }
-                    
+        
                     completion(.success(image))
                     
                 }
                 
-                operationQueue.addOperation(completionOperation)
+                waitingOperation.addDependency(ope)
+            
+                operationQueue.addOperation(waitingOperation)
                 
                 return
                
             }
+            
+        }
+        
+        //Check if image is in cache
+        if let cachedImage = imageCacheLRU.getValue(key: url) {
+    
+            completion(.success(cachedImage))
+            return
             
         }
         
