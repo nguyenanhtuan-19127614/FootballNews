@@ -70,7 +70,8 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
     func loadData(_ inputData: String, subtype: String?) {
         
         contentLabel.renderHTMLAtribute(from: inputData, size: 22)
-       
+        contentLabel.addLineSpacing(lineSpacing: 5)
+        
         guard subtype != nil else {
             return
         }

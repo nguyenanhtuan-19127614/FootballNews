@@ -135,9 +135,7 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
     
         super.viewDidLoad()
         addSubviewsLayout()
-        
-        self.getData()
-
+      
     }
    
     //MARK: Add subviews layout
@@ -184,8 +182,14 @@ class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoure
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
        
+        //Title
         self.title = dataSource.headerData?.competition
-  
+        
+        //Getdata
+        if state == .loading {
+            self.getData()
+        }
+        
     }
     
     //MARK: viewWillDisaper() state

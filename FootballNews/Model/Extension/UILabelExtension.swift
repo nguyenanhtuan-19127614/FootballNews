@@ -21,6 +21,7 @@ extension UILabel {
         label.lineBreakMode = .byWordWrapping
         label.font = self.font
         label.text = self.text
+        label.attributedText = self.attributedText
         label.sizeToFit()
         
         return label.frame.height
@@ -38,6 +39,7 @@ extension UILabel {
         label.lineBreakMode = .byWordWrapping
         label.font = self.font
         label.text = self.text
+        label.attributedText = self.attributedText
         label.sizeToFit()
         
         return label.frame.width
@@ -49,12 +51,12 @@ extension UILabel {
         if let attributeString = string.renderHTMLAttribute() {
             
             self.attributedText = attributeString
-           
+            
             
         } else {
             
             self.text = string
-           
+            
         }
         
         if size != 0 {
@@ -62,13 +64,25 @@ extension UILabel {
             self.font = self.font.withSize(size)
             
         }
+        
+    }
     
+    func addLineSpacing(lineSpacing: CGFloat) {
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        
+        let attrString = NSMutableAttributedString(string: self.text ?? "")
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        
+        self.attributedText = attrString
+        
     }
     
     func compareDatewithToday(date: Date) {
- 
+        
         let diff = Date().compareWithToday(date: date)
-       
+        
         if let year = diff.year,
            let month = diff.month,
            let day = diff.day,
@@ -96,7 +110,7 @@ extension UILabel {
                         self.text = "\(hour) Giờ"
                         
                     }
-  
+                    
                 } else if minute > 0 {
                     
                     self.text = "\(minute) Phút"
@@ -114,6 +128,6 @@ extension UILabel {
             }
             
         }
-
+        
     }
 }

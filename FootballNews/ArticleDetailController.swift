@@ -120,8 +120,7 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        //get data
-        getArticelDetailData(contentID)
+        
         addSubviewsLayout()
         
     }
@@ -150,6 +149,13 @@ class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSour
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
         
+        //get data
+        if state == .loading {
+            
+            getArticelDetailData(contentID)
+            
+        }
+       
     }
     
     //MARK: viewWillDisaper() state
@@ -459,7 +465,8 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 let contentLabel = UILabel()
                 contentLabel.text = bodyContent[indexPath.row - 1].content
                 contentLabel.font =  UIFont(name: "TimesNewRomanPS-BoldMT", size: 22.0) ?? UIFont.systemFont(ofSize: 20)
-                    
+                contentLabel.addLineSpacing(lineSpacing: 5)
+                
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {
