@@ -429,7 +429,7 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
         
         if selectedContent == .news {
             
-            return 20
+            return 10
             
         } else {
             

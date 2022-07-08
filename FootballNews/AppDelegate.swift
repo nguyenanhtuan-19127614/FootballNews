@@ -17,7 +17,6 @@ enum ViewControllerState {
 }
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
    
@@ -33,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        homeVC.state = .offline
 //        ImageDownloader.sharedService.offlineMode = true
         navController?.navigationBar.isTranslucent = false
-        
+      
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
         return true

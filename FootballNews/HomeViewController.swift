@@ -17,7 +17,6 @@ import Network
 
 //Passing data with delegate
 
-
 class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Internet Connection
@@ -68,11 +67,15 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK: Delegation Function
     
     func getData() {
         
-        //Get offline data from disk if offline mode
+        //Get off data from disk if offline mode
         if state == .offline {
             dataSource.diskCache.getData()
             return
@@ -240,6 +243,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
             
         }
+        
+        //Status bar
+        navigationController?.navigationBar.barStyle = .black
         
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)

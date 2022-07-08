@@ -210,31 +210,41 @@ class ImageDownloader {
         customOperation.name = url
         
         //check if operation allready in queue
-        for ope in operationQueue.operations {
+        for ope in operationQueue.operations.reversed() {
             
             if customOperation.name == ope.name {
                 
                 //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
-                ope.waitUntilFinished()
                 
-                guard let data = (ope as! NetworkDownloadOperation).data else {
+                //Create a operation waiting for executing operaion
+                let  completionOperation = Operation()
+                completionOperation.addDependency(ope)
+            
+                completionOperation.completionBlock = {
                     
-                    completion(.failure(AppErrors.BadData))
-                    return
+                    guard let data = (ope as! NetworkDownloadOperation).data else {
+                        
+                        completion(.failure(AppErrors.BadData))
+                        return
+                        
+                    }
+                    
+                    guard let image = UIImage(data: data) else {
+                        
+                        completion(.failure(AppErrors.BadData))
+                        return
+                        
+                    }
+                    
+                    completion(.success(image))
                     
                 }
                 
-                guard let image = UIImage(data: data) else {
-                    
-                    completion(.failure(AppErrors.BadData))
-                    return
-                    
-                }
-                
-                completion(.success(image))
+                operationQueue.addOperation(completionOperation)
                 
                 return
+               
             }
             
         }
