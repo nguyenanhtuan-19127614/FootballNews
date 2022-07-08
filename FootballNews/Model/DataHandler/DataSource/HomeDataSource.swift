@@ -61,6 +61,10 @@ class HomeDataSource {
     var scoreBoardSize = 0
     var competitionSize = 0
     
+    var articleAPILoaded = false
+    var scoreBoardAPILoaded = false
+    var competitionAPILoaded = false
+    
     var cacheActive = false
     var isVCLoaded = false
     
@@ -86,8 +90,6 @@ class HomeDataSource {
                     
                 }
                 delegate?.reloadData()
-                print("countedLoaded ")
-                
                 //Refresh case
                 delegate?.stopRefresh()
                
@@ -117,7 +119,7 @@ class HomeDataSource {
             lock.lock()
             apiLoadedCount += 1
             //Load more case
-            if apiLoadedCount > apiNumbers {
+            if apiLoadedCount > apiNumbers && articelSize != 0 {
              
                 self.delegate?.reloadData()
                 
@@ -134,10 +136,10 @@ class HomeDataSource {
             
             scoreBoardSize = scoreBoardData.count
             lock.lock()
-            if apiLoadedCount < apiNumbers {
+            if !scoreBoardAPILoaded {
                 
                 apiLoadedCount += 1
-                
+                scoreBoardAPILoaded = true
             }
             lock.unlock()
             
@@ -151,9 +153,11 @@ class HomeDataSource {
             
             competitionSize = competitionData.count
             lock.lock()
-            if apiLoadedCount < apiNumbers {
+            if !competitionAPILoaded {
                 
                 apiLoadedCount += 1
+                
+                competitionAPILoaded = true
             }
             lock.unlock()
             
@@ -163,19 +167,15 @@ class HomeDataSource {
     
     //Refresh data source
     func refresh() {
-        
-        articelSize = 0
-        scoreBoardSize = 0
-        competitionSize = 0
-        
     
-        isVCLoaded = false
-
         articleData = []
         scoreBoardData = []
         competitionData = []
         
         apiLoadedCount = 0
+        scoreBoardAPILoaded = false
+        competitionAPILoaded = false
+        isVCLoaded = false
         
         self.delegate?.getData()
         

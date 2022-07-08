@@ -89,7 +89,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     }
     
     func reloadData() {
-        
+       
+        print("sourceScoreBoard: \(competitionLocation)")
+       
         DispatchQueue.main.async {
             
             self.homeCollection.reloadData()
@@ -100,6 +102,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     func stopRefresh() {
         
+      
         DispatchQueue.main.async {
             
             self.homeCollection.refreshControl?.endRefreshing()
@@ -251,7 +254,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             
-            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
             homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
@@ -264,7 +267,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewDidLayoutSubviews() {
         
         homeLayout.sectionInsetReference = .fromSafeArea
-        homeLayout.minimumLineSpacing = 20
+       
         
     }
     
@@ -498,7 +501,6 @@ extension HomeViewController: UICollectionViewDataSource {
             let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
             
             competitionCell.backgroundColor = UIColor.white
-            
             DispatchQueue.main.async {
                 
                 [unowned self] in
@@ -514,7 +516,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
             scoreBoardCell.backgroundColor = UIColor.white
-            
+      
             DispatchQueue.main.async {
                 
                 [unowned self] in

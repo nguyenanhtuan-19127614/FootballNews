@@ -77,19 +77,19 @@ class HomeArticleCell: UICollectionViewCell {
         super.layoutSubviews()
         
         newsAvatar.frame = CGRect(x: 18,
-                                  y: 20,
+                                  y: 18,
                                   width: bounds.height + 20,
-                                  height: bounds.height - 20)
+                                  height: bounds.height - 18)
         
         title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
-                             y: 20,
+                             y: 18,
                              width: self.bounds.width - newsAvatar.bounds.width - 60,
                              height: 0)
         title.font = title.font.withSize(self.bounds.width/25)
         title.sizeToFit()
         
         publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,
-                                    y: bounds.height - bounds.height/7 ,
+                                     y: newsAvatar.frame.maxY - bounds.height/7 ,
                                     width: title.bounds.width / 5,
                                     height: bounds.height/7)
         

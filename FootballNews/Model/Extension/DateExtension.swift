@@ -63,7 +63,16 @@ extension Date {
         }
         
         let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        if let localTimeZoneAbbreviation = TimeZone.current.abbreviation() {
+            
+            dateFormatter.timeZone = TimeZone(abbreviation: localTimeZoneAbbreviation)
+            
+        } else {
+            
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+            
+        }
+        
         dateFormatter.locale = Locale.current
         
         if fullDate {

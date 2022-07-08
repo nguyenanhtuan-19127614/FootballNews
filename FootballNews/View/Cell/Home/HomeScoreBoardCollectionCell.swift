@@ -46,7 +46,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
        
         scoreBoardCollection.dataSource = self
         scoreBoardCollection.delegate = self
-        
+
         addSubview(scoreBoardCollection)
         
     }
@@ -56,9 +56,9 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
         
         super.layoutSubviews()
        
-        self.scoreBoardCollection.frame = CGRect(x: 18,
-                                                 y: 20,
-                                                 width: self.bounds.width,
+        self.scoreBoardCollection.frame = CGRect(x: 20,
+                                                 y: 0,
+                                                 width: self.bounds.width - 40,
                                                  height: self.bounds.height)
    
     }
@@ -118,7 +118,7 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.bounds.width/1.8,
+        return CGSize(width: self.bounds.width/1.7,
                       height: self.bounds.height)
         
     }
