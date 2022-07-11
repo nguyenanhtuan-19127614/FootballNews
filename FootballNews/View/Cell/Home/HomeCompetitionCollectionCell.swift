@@ -52,10 +52,10 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         
         super.layoutSubviews()
       
-        self.competitionCollection.frame = CGRect(x:0,
-                                             y: 0,
-                                             width: self.bounds.width,
-                                             height: self.bounds.height)
+        self.competitionCollection.frame = CGRect(x: 20,
+                                                  y: 0,
+                                                  width: self.bounds.width - 40,
+                                                  height: self.bounds.height)
         
     }
     

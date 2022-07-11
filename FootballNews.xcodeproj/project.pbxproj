@@ -161,6 +161,7 @@
 		0305AF3B28597C74009398A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				03A6AFC92872A63B00E9FB01 /* DiskCache.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0305AF50285AE337009398A6 /* Extension */,
 				0305AF3C28597C7A009398A6 /* DataHandler */,
@@ -172,7 +173,6 @@
 		0305AF3C28597C7A009398A6 /* DataHandler */ = {
 			isa = PBXGroup;
 			children = (
-				036D64CF2865956B006E68C5 /* DataSource */,
 				0305AF3D28597C85009398A6 /* DataModel */,
 				0305AF3E28597CA3009398A6 /* ImageHandler */,
 			);
@@ -273,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				032AB20C284E01C400C6A83A /* AppDelegate.swift */,
+				036D64CF2865956B006E68C5 /* DataSource */,
 				03DC833328753136005D5078 /* MatchDetailController.swift */,
 				03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */,
 				0305AF57285C390E009398A6 /* HomeViewController.swift */,
@@ -314,7 +315,6 @@
 				036D64D02865957C006E68C5 /* HomeDataSource.swift */,
 				03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */,
 				0340FF312869C9F1000F022E /* ArticelDetailDataSource.swift */,
-				03A6AFC92872A63B00E9FB01 /* DiskCache.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";

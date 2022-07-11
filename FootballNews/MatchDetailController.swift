@@ -408,6 +408,7 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
             
             return CGSize(width: totalWidth ,
                           height: totalHeight)
+            
         } else {
             
             //news articel content

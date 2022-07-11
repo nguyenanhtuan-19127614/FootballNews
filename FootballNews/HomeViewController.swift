@@ -24,27 +24,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //Delegate
     weak var delegate: ViewControllerDelegate?
     
-    //ViewController State
-    var state: ViewControllerState = .loading
-    
     // Datasource
     let dataSource = HomeDataSource()
 
-    //ScoreBoard and competition Exist or not
-    var scoreBoardExist: Bool = false
-    var competitionExist: Bool = false
-    
-    //Index where score board and competition should be based on articels list
-    var scoreBoardIndex = 0
-    let competitionIndex = 4
-    
-    //Location and competiion
-    var competitionLocation: Set<Int> = []
-    
-    //query param
-    var startArticel = 0
-    var articelSize = 20
-    
     //Main CollectionView Layout
     var homeLayout = UICollectionViewFlowLayout()
     
@@ -76,18 +58,18 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     func getData() {
         
         //Get off data from disk if offline mode
-        if state == .offline {
+        if dataSource.state == .offline {
             dataSource.diskCache.getData()
             return
         }
         //Get data from server
-        self.getScoreBoardData(compID: 0, date: "0")
+        self.dataSource.getScoreBoardData(compID: 0, date: "0")
         
         //get data home news
-        self.getHomeArticelData()
+        self.dataSource.getHomeArticelData()
         
         //get data competition
-        self.getCompetitionData()
+        self.dataSource.getCompetitionData()
         
     }
     
@@ -114,7 +96,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     func changeState(state: ViewControllerState) {
         
-        self.state = state
+        self.dataSource.state = state
         self.homeCollection.reloadData()
         
     }
@@ -200,7 +182,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //MARK: Refresh methods
     @objc func refresh() {
         
-        if state == .offline {
+        if dataSource.state == .offline {
             
             self.stopRefresh()
             
@@ -211,7 +193,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             return
         }
         
-        self.startArticel = 0
+        self.dataSource.startArticel = 0
        
         dataSource.refresh()
       
@@ -221,7 +203,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //MARK: Offline alert notification
     func connectionErrorAlert() {
         
-        if state == .offline {
+        if dataSource.state == .offline {
             
             let notification = ConnectionErrorNotification()
             self.present(notification, animated: false, completion: nil)
@@ -270,177 +252,11 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
+        super.viewDidLayoutSubviews()
         homeLayout.sectionInsetReference = .fromSafeArea
       
     }
-    
-    
-    //MARK: GET Data Functions
-    
-    //get data home news listing
-    func getHomeArticelData() {
-        
-        QueryService.sharedService.get(ContentAPITarget.home(start: startArticel,
-                                                             size: articelSize)) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<ContentModel>, Error>) in
-            switch result {
-                
-            case .success(let res):
-                
-                if let contents = res.data?.contents {
-                    
-                    self.competitionLocation.insert( self.dataSource.articelSize + self.competitionIndex)
-                    
-                    
-                    var articelArray: [HomeArticleModel] = []
-                    for i in contents {
-                        
-                        articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                             avatar: i.avatar,
-                                                             title: i.title,
-                                                             publisherLogo: i.publisherLogo,
-                                                             date: i.date))
-                        
-                    }
-                    
-                    //changed vc state ( first time loading, when vc is loading state)
-                    if state == .loading {
-                        
-                        self.state = .loaded
-                        
-                    }
-                    
-                    // add data to datasource
-                    self.dataSource.articleData.append(contentsOf: articelArray)
-                    
-                }
-                
-            case .failure(let err):
-                print("Error: \(err)")
-                
-                self.state = .error
-                
-                DispatchQueue.main.async {
-                    self.homeCollection.reloadData()
-                }
-                
-            }
-        }
-        
-    }
-    
-    //get data score board
-    func getScoreBoardData(compID: Int, date: String) {
-        
-        QueryService.sharedService.get(MatchAPITarget.matchByDate(compID: String(compID),
-                                                                  date: date,
-                                                                  start: 0,
-                                                                  size: 25)) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<MatchModel>, Error>) in
-            var soccerMatchsArray: [HomeScoreBoardModel] = []
-            switch result {
-                
-            case .success(let res):
-                
-                if let soccerMatch = res.data?.soccerMatch {
-                    
-                    for i in soccerMatch {
-                        
-                        soccerMatchsArray.append(HomeScoreBoardModel(
-                            matchID: i.matchID,
-                            status: i.matchStatus,
-                            competition: i.competition.competitionName,
-                            competitionID: i.competition.competitionID,
-                            time: i.time,
-                            startTime: i.startTime,
-                            homeLogo: i.homeTeam.teamLogo,
-                            homeName: i.homeTeam.teamName,
-                            homeScore: i.homeScored,
-                            awayLogo: i.awayTeam.teamLogo,
-                            awayName: i.awayTeam.teamName,
-                            awayScore: i.awayScored))
-                        
-                    }
-                    
-                }
-                
-                self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
-                if dataSource.scoreBoardData.isEmpty {
-                    
-                    scoreBoardExist = false
-                    return
-                    
-                }
-                
-                scoreBoardExist = true
-                
-                
-            case .failure(let err):
-                self.dataSource.scoreBoardData.append(contentsOf: soccerMatchsArray)
-                print(err)
-                
-            }
-            
-        }
-    }
-    
-    //get data competition
-    func getCompetitionData() {
-        
-        QueryService.sharedService.get(CompetitionAPITarget.hot) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<CompetitionModel>, Error>) in
-            var competitionArray: [HomeCompetitionModel] = []
-            switch result {
-
-            case .success(let res):
-                
-                if let contents = res.data?.soccerCompetitions {
-                    
-                  
-                    for i in contents {
-                        
-                        competitionArray.append(HomeCompetitionModel(logo: i.competitionLogo,
-                                                                     name: i.competitionName))
-                        
-                    }
-                    
-                    self.dataSource.competitionData.append(contentsOf: competitionArray)
-                    
-                    //Check if competition exist
-                    if dataSource.competitionData.isEmpty {
-                        
-                        competitionExist = false
-                        return
-                        
-                    }
-                    competitionExist = true
-                    //Add location for competition cell
-                    if competitionLocation.isEmpty {
-                        
-                        competitionLocation.insert(self.competitionIndex)
-                        return
-                        
-                    }
-                    
-                    self.competitionLocation.insert( self.dataSource.articelSize + self.competitionIndex)
-                    
-                }
-                
-            case .failure(let err):
-                
-                self.dataSource.competitionData.append(contentsOf: competitionArray)
-                print(err)
-                
-            }
-        }
-    }
-    
+ 
     
     
 }
@@ -450,6 +266,8 @@ extension HomeViewController: UICollectionViewDataSource {
     
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        let state = dataSource.state
         
         if state == .offline {
             
@@ -472,7 +290,7 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if state == .offline {
+        if self.dataSource.state == .offline {
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
             articelCell.backgroundColor = UIColor.white
@@ -481,10 +299,10 @@ extension HomeViewController: UICollectionViewDataSource {
             return articelCell
         }
         
-        guard state == .loaded else {
+        guard self.dataSource.state == .loaded else {
             
             
-            if state == .loading {
+            if self.dataSource.state == .loading {
                 //Loading State
                 let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
                 
@@ -501,7 +319,8 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         
         //Loaded State
-        if competitionLocation.contains(indexPath.row)  && competitionExist == true  {
+        if dataSource.competitionLocation.contains(indexPath.row)  &&
+           dataSource.competitionExist == true  {
             
             let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
             
@@ -509,15 +328,20 @@ extension HomeViewController: UICollectionViewDataSource {
             
             DispatchQueue.main.async {
                 
-                [unowned self] in
-                competitionCell.loadData(inputData: self.dataSource.competitionData)
-                
+                [weak self] in
+                if let self = self {
+                    
+                    competitionCell.loadData(inputData: self.dataSource.competitionData)
+                    
+                }
+               
                 
             }
             
             return competitionCell
             
-        } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
+        } else if indexPath.row == dataSource.scoreBoardIndex &&
+                  dataSource.scoreBoardExist == true  {
             
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
@@ -525,9 +349,11 @@ extension HomeViewController: UICollectionViewDataSource {
       
             DispatchQueue.main.async {
                 
-                [unowned self] in
-                scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
-                
+                [weak self] in
+                if let self = self {
+                    scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
+                }
+    
             }
             
             
@@ -561,11 +387,12 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if self.state == .loaded || state == .offline{
+        let state = dataSource.state
+        if state == .loaded || state == .offline{
             
             //Pass Data and call articelDetail View Controller
-            if (competitionLocation.contains(indexPath.row) && competitionExist) ||
-                (indexPath.row == scoreBoardIndex && scoreBoardExist) {
+            if (dataSource.competitionLocation.contains(indexPath.row) && dataSource.competitionExist) ||
+                (indexPath.row == dataSource.scoreBoardIndex && dataSource.scoreBoardExist) {
                 
               return
                 
@@ -599,17 +426,17 @@ extension HomeViewController: UICollectionViewDelegate {
         
         
         
-        if dataSource.articleData.count == 0 || state == .offline {
+        if dataSource.articleData.count == 0 || dataSource.state == .offline {
             return
         }
         
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
             
            
-            startArticel += articelSize
+            dataSource.startArticel += dataSource.articelSize
          
             //get data home news
-            getHomeArticelData()
+            dataSource.getHomeArticelData()
             
             
         }
@@ -625,6 +452,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         let totalWidth = self.view.bounds.width
         let totalHeight = self.view.bounds.height
         
+        let state = dataSource.state
+        
         if state == .offline {
             
             return CGSize(width: totalWidth,
@@ -638,14 +467,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                           height: totalHeight)
         } else {
             
-            if competitionLocation.contains(indexPath.row)  && competitionExist == true {
+            if dataSource.competitionLocation.contains(indexPath.row)  &&
+               dataSource.competitionExist == true {
                 
                 //competition size
                 
                 return CGSize(width: totalWidth,
                               height: totalHeight/5)
                 
-            } else if indexPath.row == scoreBoardIndex && scoreBoardExist == true  {
+            } else if indexPath.row == dataSource.scoreBoardIndex &&
+                      dataSource.scoreBoardExist == true  {
                 
                 //Hot match size
                 return CGSize(width: totalWidth,

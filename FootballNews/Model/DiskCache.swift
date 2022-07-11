@@ -17,6 +17,7 @@ enum DiskCacheKey: String {
 class DiskCache {
     
     let userDefault = UserDefaults.standard
+    var lock = NSLock()
     //Store Home Article list Data
     var homeArticelData: [HomeArticleModel] = [] 
     //Store Articel Detail as: [contentID: articelDetail]
@@ -211,5 +212,88 @@ class DiskCache {
         } catch let removeError{
             print("couldn't remove files at path", removeError)
         }
+    }
+    
+    //MARK: Disk cache after get first article data
+    
+    func diskCachingData(articleData: [HomeArticleModel]) {
+        
+        //Store article Data swift
+        self.removeAllImageFromDisk()
+        let queue = DispatchQueue(label: "OfflineDownloadQueue", qos: .background)
+        
+        queue.async {
+            
+            [unowned self] in
+            //Save article Data
+            self.cacheData(data: articleData, key: .homeArticel)
+            //Download and cache image to disk
+            for data in articleData {
+                
+                let avatar = data.avatar
+                let publisherLogo = data.publisherLogo
+                self.downloadAndsaveImageToDisk(url: avatar)
+                self.downloadAndsaveImageToDisk(url: publisherLogo)
+            }
+            
+        }
+        
+       queue.async {
+            
+            [unowned self] in
+            var articelDetail: [String: ArticelDetailModel] = [:]
+            
+            //Save detail article data
+            for article in articleData {
+                
+                QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
+                    [unowned self]
+                    (result: Result<ResponseModel<ContentModel>, Error>) in
+                    
+                    switch result {
+                    case .success(let data):
+                        
+                        guard let content = data.data?.content else {
+                            return
+                        }
+                        //Save detail data
+                        let detailData = ArticelDetailModel(title: content.title,
+                                                            date: content.date,
+                                                            description: content.description,
+                                                            source: content.source,
+                                                            sourceLogo: content.publisherLogo,
+                                                            sourceIcon: content.publisherIcon,
+                                                            body: content.body)
+                        self.lock.lock()
+                        articelDetail[article.contentID] = detailData
+                        self.cacheData(data: articelDetail, key: .articelDetail)
+                        self.lock.unlock()
+                        
+                        //Download and cache image to disk
+                        if let body = detailData.body {
+                            
+                            for content in body {
+                                
+                                if content.type != "text" {
+                                    
+                                    self.downloadAndsaveImageToDisk(url: content.content)
+                    
+                                        
+                                }
+                                    
+                            }
+                                
+                        }
+
+                    case .failure(_):
+                        return
+                        
+                    }
+                }
+            }
+           
+        }
+
+        
     }
 }

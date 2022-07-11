@@ -252,8 +252,15 @@ class ImageDownloader {
         //Completion block, execute after operation main() done
         customOperation.completionBlock = {
             
-            [unowned customOperation, weak self] in
+            [weak customOperation, weak self] in
             
+            guard let customOperation = customOperation,
+                  let self = self else {
+                
+                completion(.failure(AppErrors.DuplicateOperation))
+                return
+                
+            }
             
             guard let data = customOperation.data else {
                 
@@ -271,7 +278,7 @@ class ImageDownloader {
                 
             }
             //save cache
-            self?.imageCacheLRU.addValue(value: image, key: url)
+            self.imageCacheLRU.addValue(value: image, key: url)
             
             completion(.success(image))
             

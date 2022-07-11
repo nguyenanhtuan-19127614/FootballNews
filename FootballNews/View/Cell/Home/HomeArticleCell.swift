@@ -103,16 +103,6 @@ class HomeArticleCell: UICollectionViewCell {
         
     }
     
-    //MARK: PrepareForReuse
-    override func prepareForReuse() {
-        
-        super.prepareForReuse()
-        self.newsAvatar.image = nil
-        self.title.text = nil
-        self.publisherLogo.image = nil
-        self.timeLabel.text = nil
-    }
-    
     //MARK: Load data to cell
     func loadData(inputData: HomeArticleModel) {
         

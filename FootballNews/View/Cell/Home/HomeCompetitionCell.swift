@@ -57,27 +57,16 @@ class HomeCompetitionCell: UICollectionViewCell {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         
-        competitionLogo.translatesAutoresizingMaskIntoConstraints = false
-        competitionName.translatesAutoresizingMaskIntoConstraints = false
+        competitionLogo.frame = CGRect(x: 0,
+                                       y: 0,
+                                       width: self.bounds.width,
+                                       height: self.bounds.height * 2 / 3)
         
-        NSLayoutConstraint.activate([
-            
-            competitionLogo.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 18),
-            competitionLogo.widthAnchor.constraint(equalToConstant: self.bounds.width),
-            competitionLogo.heightAnchor.constraint(equalToConstant: self.bounds.height * 2 / 3),
-            competitionLogo.topAnchor.constraint(equalTo: self.topAnchor),
-        
-            competitionName.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant:  18),
-            competitionName.topAnchor.constraint(equalTo: competitionLogo.bottomAnchor),
-            competitionName.widthAnchor.constraint(equalToConstant: self.bounds.width),
-            competitionName.heightAnchor.constraint(equalToConstant: self.bounds.height * 1 / 3)
-            
-        ])
-        
-
-        //competitionName.sizeToFit()
-        //competitionName.frame.size.width = self.bounds.width
-        
+        competitionName.frame = CGRect(x: 0,
+                                       y:  competitionLogo.frame.maxY,
+                                       width: self.bounds.width,
+                                       height: self.bounds.height / 3)
+      
     }
     
     //MARK: Load data to cell
