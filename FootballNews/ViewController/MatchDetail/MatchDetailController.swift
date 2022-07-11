@@ -20,11 +20,8 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     //Datasource
     let dataSource = MatchDetailDataSource()
     
-    //Contain to show
-    var selectedContent: MatchDetailContent = .news
-    
-    //State
-    var state: ViewControllerState = .loading
+    //Header
+    let headerView = MatchDetailHeader()
     
     //Main CollectionView Layout
     var matchDetailLayout = UICollectionViewFlowLayout()
@@ -48,9 +45,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
     }()
     
-    //Header
-    let headerView = MatchDetailHeader()
-    
+   
     //MARK: Delegation Function
     func passHeaderData(scoreBoard: HomeScoreBoardModel?) {
         
@@ -75,23 +70,23 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     
     func changeState(state: ViewControllerState) {
         
-        self.state = state
+        self.dataSource.state = state
+        self.reloadData()
         
     }
     
     func changeContentMatchDetail(content: MatchDetailContent) {
-        self.selectedContent = content
+        self.dataSource.selectedContent = content
     }
     
     func getData() {
         
-        if state == .offline {
+        if dataSource.state == .offline {
             return
         }
-        
        
-        getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
-        getCompetitionRankingData(competitionID: self.dataSource.headerData?.competitionID)
+        dataSource.getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
+        dataSource.getCompetitionRankingData(competitionID: self.dataSource.headerData?.competitionID)
         
     }
     
@@ -183,17 +178,9 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         self.title = dataSource.headerData?.competition
         
         //Getdata
-        if state == .loading {
+        if dataSource.state == .loading {
             self.getData()
         }
-        
-    }
-    
-    //MARK: viewWillDisaper() state
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
-        QueryService.sharedService.operationQueue.cancelAllOperations()
         
     }
     
@@ -205,92 +192,6 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    func getRelatedArticelData(matchID: Int?) {
-        
-        guard let matchID = matchID else {
-            return
-        }
-        
-        QueryService.sharedService.get(ContentAPITarget.match(id: String(matchID), start: 0, size: 20)) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<ContentModel>, Error>) in
-            switch result {
-                
-            case .success(let res):
-                
-                if let contents = res.data?.contents {
-                    
-                    var articelArray: [HomeArticleModel] = []
-                    for i in contents {
-                        
-                        articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                             avatar: i.avatar,
-                                                             title: i.title,
-                                                             publisherLogo: i.publisherLogo,
-                                                             date: i.date))
-                        
-                    }
-    
-                    //changed vc state
-                    if state == .loading {
-                        
-                        self.state = .loaded
-                        
-                    }
-                    // add data to datasource
-                    self.dataSource.articleData.append(contentsOf: articelArray)
-                    
-                }
-                
-            
-            case .failure(let err):
-                
-                print("Error: \(err)")
-               
-            }
-        }
-    }
-    
-    func getCompetitionRankingData(competitionID: Int?) {
-        
-        guard let competitionID = competitionID else {
-            return
-        }
-        
-        QueryService.sharedService.get(CompetitionAPITarget.standing(id: String(competitionID))) {
-            [unowned self]
-            (result: Result<ResponseModel<CompetitionStandingModel>, Error>) in
-            var rankingArray: [RankingModel] = []
-            
-            switch result {
-                
-            case .success(let res):
-                
-                if let contents = res.data?.soccerStandings {
-                    
-                    
-                    for i in contents {
-                        
-                        rankingArray.append(RankingModel(teamName: i.teamName,
-                                                         totalStat: i.total,
-                                                         homeStat: i.home,
-                                                         awayStat: i.away))
-                        
-                    }
-    
-                }
-                
-            case .failure(let err):
-                
-                print("Error: \(err)")
-          
-            }
-            // add data to datasource
-            self.dataSource.rankingData.append(contentsOf: rankingArray)
-        }
-        
-    }
 }
 
 
@@ -300,6 +201,8 @@ extension MatchDetailController: UICollectionViewDataSource {
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        let state = dataSource.state
+        
         if state == .loading || state == .error {
             
             return 1
@@ -307,17 +210,20 @@ extension MatchDetailController: UICollectionViewDataSource {
         } else {
             
             //news articel content
-            if selectedContent == .news {
-                return dataSource.articelSize
+            if dataSource.selectedContent == .news {
+                return dataSource.articleData.count
             }
             
-            return dataSource.rankingSize
+            return dataSource.rankingData.count
         }
         
     }
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let state = dataSource.state
+        let selectedContent = dataSource.selectedContent
         
         guard state == .loaded else {
             
@@ -376,7 +282,7 @@ extension MatchDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        if selectedContent == .news {
+        if dataSource.selectedContent == .news {
             
             let articelDetailVC = ArticelDetailController()
         
@@ -399,7 +305,9 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
         
         let totalWidth = self.view.bounds.width
         let totalHeight = self.view.bounds.height
-    
+        let state = dataSource.state
+        let selectedContent = dataSource.selectedContent
+        
         if state == .loading || state == .error {
             
             return CGSize(width: totalWidth ,
@@ -424,7 +332,7 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
     //Line spaceing between cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
-        if selectedContent == .news {
+        if dataSource.selectedContent == .news {
             
             return 10
             
@@ -443,9 +351,6 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
                       height: collectionView.frame.height/14)
         
     }
-    
-    
-    
-    
+
 }
 

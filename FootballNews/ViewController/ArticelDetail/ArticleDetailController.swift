@@ -15,13 +15,6 @@ import UIKit
 
 class ArticelDetailController: UIViewController, DataSoureDelegate {
     
-    //ViewController State
-    var state: ViewControllerState = .loading
-    
-    //Variable
-    var contentID: String = ""
-    var publisherLogo: String = ""
-    
     // Datasource
     let dataSource = ArticelDetailDataSource()
     
@@ -46,13 +39,13 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     //MARK: Delegation Function
     func passContentID(contentID: String) {
         
-        self.contentID = contentID
+        self.dataSource.contentID = contentID
         
     }
     
     func passPublisherLogo(url: String) {
         
-        self.publisherLogo = url
+        self.dataSource.publisherLogo = url
         
     }
     
@@ -76,16 +69,16 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     
     func getData() {
         
-        if state == .offline {
+        if dataSource.state == .offline {
             return
         }
-        self.getArticelDetailData(contentID)
+        self.dataSource.getArticelDetailData()
         
     }
     
     func changeState(state: ViewControllerState) {
         
-        self.state = state
+        self.dataSource.state = state
         self.articleDetailCollection.reloadData()
         
     }
@@ -139,7 +132,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
                                                       width: (self.navigationController?.navigationBar.bounds.width ?? 0)/2,
                                                       height: (self.navigationController?.navigationBar.bounds.height ?? 0)/2))
         
-        titleView.loadData(url: URL(string: self.publisherLogo))
+        titleView.loadData(url: URL(string: self.dataSource.publisherLogo))
         
         self.navigationItem.titleView = titleView
         
@@ -147,20 +140,12 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         self.navigationController?.navigationBar.setImageBackground(image: nil)
         
         //get data
-        if state == .loading {
+        if dataSource.state == .loading {
             
-            getArticelDetailData(contentID)
+            dataSource.getArticelDetailData()
             
         }
        
-    }
-    
-    //MARK: viewWillDisaper() state
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
-        QueryService.sharedService.operationQueue.cancelAllOperations()
-        
     }
     
     //MARK: Custom Layout
@@ -169,78 +154,6 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         articleDetailLayout.sectionInsetReference = .fromSafeArea
         articleDetailLayout.minimumLineSpacing = 15
        
-    }
-    //MARK: GET Data Functions
-    func getArticelDetailData(_ contentID: String?) {
-        
-        if state == .offline {
-            return
-        }
-        
-        guard let contentID = contentID else {
-            return
-        }
-      
-        QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
-            
-            [unowned self]
-            (result: Result<ResponseModel<ContentModel>, Error>) in
-            
-            switch result {
-            case .success(let data):
-                
-                guard let content = data.data?.content else {
-                    
-                    return
-                    
-                }
-                //Load detail data
-                let detailData = ArticelDetailModel(title: content.title,
-                                                    date: content.date,
-                                                    description: content.description,
-                                                    source: content.source,
-                                                    sourceLogo: content.publisherLogo,
-                                                    sourceIcon: content.publisherIcon,
-                                                    body: content.body)
-                self.dataSource.detailData = detailData
-                
-                guard let related = data.data?.related else {
-                    
-                    return
-                    
-                }
-                
-                //Load related contents data
-                var articelArray: [HomeArticleModel] = []
-                for i in related.contents {
-                    
-                    articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                        avatar: i.avatar,
-                                                        title: i.title,
-                                                        publisherLogo: i.publisherLogo,
-                                                        date: i.date))
-                    
-                }
-                
-                self.dataSource.relatedArticleData.append(contentsOf: articelArray)
-                self.state = .loaded
-                
-            case .failure(let err):
-                
-                print(err)
-                self.state = .error
-                
-                DispatchQueue.main.async {
-                    self.articleDetailCollection.reloadData()
-                   
-                }
-                
-                
-            }
-            
-            
-        }
-        
     }
     
     //MARK: Function to add layout for subviews
@@ -267,6 +180,8 @@ extension ArticelDetailController: UICollectionViewDataSource {
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        let state = dataSource.state
+        
         if state == .loading || state == .error {
              
             return 1
@@ -287,9 +202,11 @@ extension ArticelDetailController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let state = dataSource.state
+        
         if self.dataSource.detailData == nil && state == .offline {
         
-            state = .error
+            dataSource.state = .error
             DispatchQueue.main.async {
                 self.articleDetailCollection.reloadData()
             }
@@ -386,7 +303,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if state == .offline {
+        if dataSource.state == .offline {
             return
         }
         //Pass data and call articel detail view controller (Related Articel)
@@ -414,6 +331,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
         
         let totalWidth = self.view.bounds.width
         let totalHeight = self.view.bounds.height
+        let state = dataSource.state
         
         if state == .loading || state == . error {
             

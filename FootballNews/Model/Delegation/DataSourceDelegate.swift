@@ -12,17 +12,16 @@ protocol DataSoureDelegate: AnyObject {
     func reloadData()
     func changeState(state: ViewControllerState)
     func getData()
+    func storeData()
+    
     func stopRefresh()
     
-    //Change Content (Use for match detail VC)
-    func changeContentMatchDetail(content: MatchDetailContent)
 }
 
 //Optionnal Protocol Function
 extension DataSoureDelegate {
     
-    func getData() {}
     func stopRefresh() {}
+    func storeData() {}
     
-    func changeContentMatchDetail(content: MatchDetailContent){}
 }

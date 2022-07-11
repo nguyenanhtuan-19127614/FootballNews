@@ -11,7 +11,7 @@ import UIKit
 class MatchDetailSectionHeader: UICollectionReusableView {
     
     var selectedColor: UIColor?
-    weak var delegate: DataSoureDelegate?
+    weak var delegate: MatchDetailController?
     
     //MARK: Override Init
     override init(frame: CGRect) {

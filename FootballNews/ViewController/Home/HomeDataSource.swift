@@ -7,47 +7,6 @@
 
 import Foundation
 
-//Data for Listing Articel
-
-struct HomeArticleModel: Codable {
-    
-    var contentID: String
-    var avatar: String
-    var title: String
-    var publisherLogo: String
-    var date: Int
-    
-}
-
-//Data for Score Board
-struct HomeScoreBoardModel {
-    
-    var matchID: Int
-    
-    var status: Int
-    var competition: String
-    var competitionID: Int
-    
-    var time: String
-    var startTime: String
-    
-    var homeLogo: String
-    var homeName: String
-    var homeScore: Int
-    
-    var awayLogo: String
-    var awayName: String
-    var awayScore: Int
-    
-}
-
-//Data for Competition Board
-struct HomeCompetitionModel {
-    
-    var logo: String
-    var name: String
-    
-}
 
 class HomeDataSource {
     

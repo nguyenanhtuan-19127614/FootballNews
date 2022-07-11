@@ -377,7 +377,7 @@ extension HomeViewController: UICollectionViewDelegate {
             let articelDetailVC = ArticelDetailController()
          
             if state == .offline {
-                articelDetailVC.state = .offline
+                articelDetailVC.changeState(state: .offline)
                 let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
                 let detail = dataSource.diskCache.articelDetail[contentID]  
                 articelDetailVC.passArticelDetail(detail: detail)
