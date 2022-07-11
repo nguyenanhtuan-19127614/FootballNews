@@ -7,16 +7,6 @@
 
 import UIKit
 
-enum ViewControllerState {
-    
-    case loading
-    case loaded
-    case error
-    case offline
-    
-}
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
    
