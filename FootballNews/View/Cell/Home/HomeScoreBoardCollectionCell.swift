@@ -10,6 +10,8 @@ import UIKit
 //MARK: Cell that contain collectionView of HomeScoreBoardCell
 class HomeScoreBoardCollectionCell: UICollectionViewCell {
     
+    weak var delegate: HomeViewController?
+    
     var scoreBoardData: [HomeScoreBoardModel] = []
     var scoreBoardCollection: UICollectionView = {
         
@@ -106,7 +108,7 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegate {
     //Tap Event
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        NotificationCenter.default.post(name: NSNotification.Name("ScoreBoardCollectionClickItem"), object: indexPath.row)
+        delegate?.scoreBoardClick(index: indexPath.row)
           
     }
     

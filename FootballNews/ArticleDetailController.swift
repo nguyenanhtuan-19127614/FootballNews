@@ -13,10 +13,7 @@ import UIKit
 //ListViewController
 //
 
-class ArticelDetailController: UIViewController,ViewControllerDelegate, DataSoureDelegate {
-    
-    //Delegate
-    weak var delegate: ViewControllerDelegate?
+class ArticelDetailController: UIViewController, DataSoureDelegate {
     
     //ViewController State
     var state: ViewControllerState = .loading
@@ -399,9 +396,8 @@ extension ArticelDetailController: UICollectionViewDelegate {
             let index = indexPath.row - dataSource.contentBodySize  - 1
             
             let articelDetailVC = ArticelDetailController()
-            self.delegate = articelDetailVC
-            self.delegate?.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
-            self.delegate?.passPublisherLogo(url: dataSource.relatedArticleData[index].publisherLogo)
+            articelDetailVC.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
+            articelDetailVC.passPublisherLogo(url: dataSource.relatedArticleData[index].publisherLogo)
             
             navigationController?.pushViewController(articelDetailVC, animated: true)     
             

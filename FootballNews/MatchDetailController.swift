@@ -15,10 +15,7 @@ enum MatchDetailContent {
     
 }
 
-class MatchDetailController: UIViewController, ViewControllerDelegate, DataSoureDelegate {
-    
-    //Delegate
-    weak var delegate: ViewControllerDelegate?
+class MatchDetailController: UIViewController, DataSoureDelegate {
 
     //Datasource
     let dataSource = MatchDetailDataSource()
@@ -382,10 +379,9 @@ extension MatchDetailController: UICollectionViewDelegate {
         if selectedContent == .news {
             
             let articelDetailVC = ArticelDetailController()
-            
-            self.delegate = articelDetailVC
-            self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-            self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
+        
+            articelDetailVC.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+            articelDetailVC.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
             
             navigationController?.pushViewController(articelDetailVC, animated: true)
             

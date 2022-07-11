@@ -21,9 +21,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Internet Connection
     
-    //Delegate
-    weak var delegate: ViewControllerDelegate?
-    
     // Datasource
     let dataSource = HomeDataSource()
 
@@ -101,33 +98,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: Add Observers
-    
-    //Func to addObserver of NotificationCenter
-    func addObservers() {
-        
-        //Evetn click item of score board
-        NotificationCenter.default
-                          .addObserver(self,
-                                       selector: #selector(scoreBoardClick(_:)),
-                         name: NSNotification.Name ("ScoreBoardCollectionClickItem"), object: nil)
-        
-    }
-    
-    //Observer function
-    @objc func scoreBoardClick(_ notification: Notification) {
-        
-        guard let index = notification.object as? Int else {
-            return
-        }
-        
-        let matchDetailVC = MatchDetailController()
-        self.delegate = matchDetailVC
-        delegate?.passHeaderData(scoreBoard: dataSource.scoreBoardData[index])
-        navigationController?.pushViewController(matchDetailVC, animated: true)
-        
-    }
-    
     //MARK: loadView() state
     override func loadView() {
         
@@ -145,9 +115,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.delegate = self
         
         homeCollection.collectionViewLayout = homeLayout
-        
-        //MARK: Add observers
-        self.addObservers()
         
         //MARK: Add Subviews
         view.addSubview(homeCollection)
@@ -346,7 +313,8 @@ extension HomeViewController: UICollectionViewDataSource {
             let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
             
             scoreBoardCell.backgroundColor = UIColor.white
-      
+            scoreBoardCell.delegate = self
+            
             DispatchQueue.main.async {
                 
                 [weak self] in
@@ -355,8 +323,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 }
     
             }
-            
-            
+    
             return scoreBoardCell
             
         } else if indexPath.row < dataSource.articelSize - 1{
@@ -385,6 +352,15 @@ extension HomeViewController: UICollectionViewDelegate {
     
     //Tap Event
     
+    func scoreBoardClick(index: Int) {
+        
+        let matchDetailVC = MatchDetailController()
+        matchDetailVC.passHeaderData(scoreBoard: dataSource.scoreBoardData[index])
+       
+        navigationController?.pushViewController(matchDetailVC, animated: true)
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let state = dataSource.state
@@ -402,17 +378,15 @@ extension HomeViewController: UICollectionViewDelegate {
          
             if state == .offline {
                 articelDetailVC.state = .offline
-                self.delegate = articelDetailVC
                 let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
                 let detail = dataSource.diskCache.articelDetail[contentID]  
-                self.delegate?.passArticelDetail(detail: detail)
+                articelDetailVC.passArticelDetail(detail: detail)
                 
                 
             } else {
-                
-                self.delegate = articelDetailVC
-                self.delegate?.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-                self.delegate?.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
+
+                articelDetailVC.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
+                articelDetailVC.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
                 
             }
   
@@ -423,22 +397,18 @@ extension HomeViewController: UICollectionViewDelegate {
     
     //Load More Data
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        
-        
+  
         if dataSource.articleData.count == 0 || dataSource.state == .offline {
             return
         }
         
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            
-           
+    
             dataSource.startArticel += dataSource.articelSize
          
             //get data home news
             dataSource.getHomeArticelData()
-            
-            
+ 
         }
     }
     

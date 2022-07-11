@@ -30,7 +30,6 @@
 		0344A93D286D942400B38E38 /* ArticelDetailBodyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */; };
 		0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */; };
 		0344A941286EF3BF00B38E38 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344A940286EF3BF00B38E38 /* UIViewExtension.swift */; };
-		03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */; };
 		036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C7286479CD006E68C5 /* CustomTitleView.swift */; };
 		036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */; };
 		036D64CC2865652F006E68C5 /* HomeCompetitionCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64CB2865652F006E68C5 /* HomeCompetitionCollectionCell.swift */; };
@@ -104,7 +103,6 @@
 		0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticelDetailBodyImageCell.swift; sourceTree = "<group>"; };
 		0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtension.swift; sourceTree = "<group>"; };
 		0344A940286EF3BF00B38E38 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		036D64C7286479CD006E68C5 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScoreBoardCollectionCell.swift; sourceTree = "<group>"; };
 		036D64CB2865652F006E68C5 /* HomeCompetitionCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCompetitionCollectionCell.swift; sourceTree = "<group>"; };
@@ -362,7 +360,6 @@
 		03EB3ABF286B0A2C006097C5 /* Delegation */ = {
 			isa = PBXGroup;
 			children = (
-				03465540286AAF8C004BD77D /* ViewControllerDelegate.swift */,
 				03EB3AC0286B0A45006097C5 /* DataSourceDelegate.swift */,
 			);
 			path = Delegation;
@@ -537,7 +534,6 @@
 				03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */,
 				0305AF2928583C2E009398A6 /* ContentModel.swift in Sources */,
 				0340FF322869C9F1000F022E /* ArticelDetailDataSource.swift in Sources */,
-				03465541286AAF8C004BD77D /* ViewControllerDelegate.swift in Sources */,
 				03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */,
 				036D64CC2865652F006E68C5 /* HomeCompetitionCollectionCell.swift in Sources */,
 				03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */,
