@@ -37,6 +37,7 @@
 		036D64D12865957C006E68C5 /* HomeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D64D02865957C006E68C5 /* HomeDataSource.swift */; };
 		037DE5F92863240500DD588D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037DE5F82863240500DD588D /* StringExtension.swift */; };
 		0384E970287BD3E2000C4561 /* ViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0384E96F287BD3E2000C4561 /* ViewControllerState.swift */; };
+		0384E979287BD4FD000C4561 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0384E978287BD4FD000C4561 /* ImageDownloader.swift */; };
 		03A6AFC6287288D300E9FB01 /* ErrorOccurredCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6AFC5287288D300E9FB01 /* ErrorOccurredCell.swift */; };
 		03A6AFC828729A1F00E9FB01 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6AFC728729A1F00E9FB01 /* UIImageExtension.swift */; };
 		03A6AFCA2872A63B00E9FB01 /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6AFC92872A63B00E9FB01 /* DiskCache.swift */; };
@@ -44,7 +45,6 @@
 		03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEBA28677453007E5668 /* CustomOperation.swift */; };
 		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
 		03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */; };
-		03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */; };
 		03DC833428753136005D5078 /* MatchDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833328753136005D5078 /* MatchDetailController.swift */; };
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
@@ -111,6 +111,7 @@
 		036D64D02865957C006E68C5 /* HomeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataSource.swift; sourceTree = "<group>"; };
 		037DE5F82863240500DD588D /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0384E96F287BD3E2000C4561 /* ViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerState.swift; sourceTree = "<group>"; };
+		0384E978287BD4FD000C4561 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		03A6AFC5287288D300E9FB01 /* ErrorOccurredCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOccurredCell.swift; sourceTree = "<group>"; };
 		03A6AFC728729A1F00E9FB01 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		03A6AFC92872A63B00E9FB01 /* DiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCache.swift; sourceTree = "<group>"; };
@@ -118,7 +119,6 @@
 		03ADCEBA28677453007E5668 /* CustomOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperation.swift; sourceTree = "<group>"; };
 		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
 		03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionErrorNotification.swift; sourceTree = "<group>"; };
-		03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = FootballNews/Model/DataHandler/ImageHandler/ImageDownloader.swift; sourceTree = SOURCE_ROOT; };
 		03DC833328753136005D5078 /* MatchDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailController.swift; sourceTree = "<group>"; };
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
@@ -161,11 +161,7 @@
 		0305AF3B28597C74009398A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				03A6AFC92872A63B00E9FB01 /* DiskCache.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
-				0305AF50285AE337009398A6 /* Extension */,
-				0305AF3C28597C7A009398A6 /* DataHandler */,
-				0305AF3F28597CBB009398A6 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -173,6 +169,7 @@
 		0305AF3C28597C7A009398A6 /* DataHandler */ = {
 			isa = PBXGroup;
 			children = (
+				03A6AFC92872A63B00E9FB01 /* DiskCache.swift */,
 				0305AF3D28597C85009398A6 /* DataModel */,
 				0305AF3E28597CA3009398A6 /* ImageHandler */,
 			);
@@ -194,8 +191,8 @@
 		0305AF3E28597CA3009398A6 /* ImageHandler */ = {
 			isa = PBXGroup;
 			children = (
-				03CF3DA9284F3D1A00200D02 /* ImageDownloader.swift */,
 				03EB3AC3286B1804006097C5 /* LRUCache.swift */,
+				0384E978287BD4FD000C4561 /* ImageDownloader.swift */,
 			);
 			path = ImageHandler;
 			sourceTree = "<group>";
@@ -276,7 +273,7 @@
 				0384E96E287BD3C9000C4561 /* ViewController */,
 				0305AF4028597CDA009398A6 /* View */,
 				0305AF3B28597C74009398A6 /* Model */,
-				0384E974287BD450000C4561 /* Repositories */,
+				0384E977287BD4E7000C4561 /* Repositories */,
 				03ECED1D284E0B65009D9D3C /* Resources */,
 			);
 			path = FootballNews;
@@ -345,9 +342,12 @@
 			path = ArticelDetail;
 			sourceTree = "<group>";
 		};
-		0384E974287BD450000C4561 /* Repositories */ = {
+		0384E977287BD4E7000C4561 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				0305AF50285AE337009398A6 /* Extension */,
+				0305AF3C28597C7A009398A6 /* DataHandler */,
+				0305AF3F28597CBB009398A6 /* Network */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -564,7 +564,7 @@
 				0384E970287BD3E2000C4561 /* ViewControllerState.swift in Sources */,
 				0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
-				03CF3DAC284F3D1A00200D02 /* ImageDownloader.swift in Sources */,
+				0384E979287BD4FD000C4561 /* ImageDownloader.swift in Sources */,
 				03EB3AD3286C5E73006097C5 /* ArrayExtension.swift in Sources */,
 				0344A93D286D942400B38E38 /* ArticelDetailBodyImageCell.swift in Sources */,
 				03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */,
