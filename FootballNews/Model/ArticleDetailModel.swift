@@ -9,14 +9,6 @@ import Foundation
 
 struct ArticelDetailModel: Codable {
     
-    var title: String
-    var date: Int
-    var description: String
-    
-    var source: String
-    var sourceLogo: String
-    var sourceIcon: String
-    
     var body: [Body]?
     
 }

@@ -91,18 +91,20 @@ class MatchDetailSectionHeader: UICollectionReusableView {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        newsContent.translatesAutoresizingMaskIntoConstraints = false
-        rankingContent.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
+        newsContent.frame = CGRect(x: 20,
+                                   y: 0,
+                                   width: 0,
+                                   height: self.bounds.height)
+        newsContent.sizeToFit()
+        newsContent.frame.size.height = self.bounds.height
         
-            newsContent.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            newsContent.heightAnchor.constraint(equalToConstant: self.bounds.height),
-          
-            rankingContent.leadingAnchor.constraint(equalTo: newsContent.trailingAnchor, constant: 20),
-            rankingContent.heightAnchor.constraint(equalToConstant: self.bounds.height),
-        
-        ])
+        rankingContent.frame = CGRect(x: newsContent.frame.maxX + 20,
+                                      y: 0,
+                                      width: 0,
+                                      height: self.bounds.height)
+        rankingContent.sizeToFit()
+        rankingContent.frame.size.height = self.bounds.height
 
     }
     

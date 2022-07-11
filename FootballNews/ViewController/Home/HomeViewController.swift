@@ -23,13 +23,17 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Datasource
     let dataSource = HomeDataSource()
-
+    
+    //Router
+    let router = ViewControllerRouter()
+    
     //Main CollectionView Layout
     var homeLayout = UICollectionViewFlowLayout()
     
     //Main CollectionView
     var homeCollection: UICollectionView = {
         
+
         //Custom CollectionView
         let homeCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         homeCollection.backgroundColor = UIColor.white
@@ -128,6 +132,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewDidLoad()
         addSubviewsLayout()
+        // set up router navigation controller
+        router.setUpNavigationController(self.navigationController)
         
         //Add Refresh control to homeCollection
         
@@ -138,8 +144,10 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         //Internet checking
         
-        //Push Offline alert notification
+        //Push Offline alert notification if offline Mode
         connectionErrorAlert()
+        
+
         
         //get data score board
         self.getData()
@@ -354,10 +362,7 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func scoreBoardClick(index: Int) {
         
-        let matchDetailVC = MatchDetailController()
-        matchDetailVC.passHeaderData(scoreBoard: dataSource.scoreBoardData[index])
-       
-        navigationController?.pushViewController(matchDetailVC, animated: true)
+        router.routing(to: .detailMatch(dataMatch: dataSource.scoreBoardData[index]))
         
     }
     
@@ -374,23 +379,19 @@ extension HomeViewController: UICollectionViewDelegate {
                 
             }
             
-            let articelDetailVC = ArticelDetailController()
-         
+            
             if state == .offline {
-                articelDetailVC.changeState(state: .offline)
+                
                 let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
-                let detail = dataSource.diskCache.articelDetail[contentID]  
-                articelDetailVC.passArticelDetail(detail: detail)
-                
-                
+                let detail = dataSource.diskCache.articelDetail[contentID]
+                router.routing(to: .detailArticleOffline(dataArticle: detail))
+             
             } else {
 
-                articelDetailVC.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-                articelDetailVC.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
-                
+                router.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+               
             }
-  
-            navigationController?.pushViewController(articelDetailVC, animated: true)
+  	
         }
         
     }

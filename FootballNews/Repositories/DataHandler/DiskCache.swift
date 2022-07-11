@@ -134,8 +134,11 @@ class DiskCache {
         
         ImageDownloader.sharedService.download(url: url) {
             
-            [unowned self]
+            [weak self]
             result in
+            guard let self = self else {
+                return
+            }
             switch result {
                 
             case .success(let image):
@@ -224,7 +227,10 @@ class DiskCache {
         
         queue.async {
             
-            [unowned self] in
+            [weak self] in
+            guard let self = self else {
+                return
+            }
             //Save article Data
             self.cacheData(data: articleData, key: .homeArticel)
             //Download and cache image to disk
@@ -240,16 +246,21 @@ class DiskCache {
         
        queue.async {
             
-            [unowned self] in
+            [weak self] in
+            guard let self = self else {
+                return
+            }
             var articelDetail: [String: ArticelDetailModel] = [:]
             
             //Save detail article data
             for article in articleData {
                 
                 QueryService.sharedService.get(ContentAPITarget.detail(contentID: article.contentID)) {
-                    [unowned self]
+                    [weak self]
                     (result: Result<ResponseModel<ContentModel>, Error>) in
-                    
+                    guard let self = self else {
+                        return
+                    }
                     switch result {
                     case .success(let data):
                         
@@ -257,13 +268,7 @@ class DiskCache {
                             return
                         }
                         //Save detail data
-                        let detailData = ArticelDetailModel(title: content.title,
-                                                            date: content.date,
-                                                            description: content.description,
-                                                            source: content.source,
-                                                            sourceLogo: content.publisherLogo,
-                                                            sourceIcon: content.publisherIcon,
-                                                            body: content.body)
+                        let detailData = ArticelDetailModel(body: content.body)
                         self.lock.lock()
                         articelDetail[article.contentID] = detailData
                         self.cacheData(data: articelDetail, key: .articelDetail)

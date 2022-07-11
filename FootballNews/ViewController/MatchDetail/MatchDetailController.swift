@@ -20,6 +20,9 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     //Datasource
     let dataSource = MatchDetailDataSource()
     
+    //Router
+    let router = ViewControllerRouter()
+    
     //Header
     let headerView = MatchDetailHeader()
     
@@ -126,6 +129,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        router.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
       
     }
@@ -282,17 +286,16 @@ extension MatchDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        if dataSource.selectedContent == .news {
+        switch dataSource.selectedContent {
             
-            let articelDetailVC = ArticelDetailController()
+        case .news:
+            router.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+            
+        case .ranking:
+            return
         
-            articelDetailVC.passContentID(contentID: dataSource.articleData[indexPath.row].contentID)
-            articelDetailVC.passPublisherLogo(url: dataSource.articleData[indexPath.row].publisherLogo)
-            
-            navigationController?.pushViewController(articelDetailVC, animated: true)
-            
         }
-     
+
     }
 
 }
@@ -311,7 +314,7 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
         if state == .loading || state == .error {
             
             return CGSize(width: totalWidth ,
-                          height: totalHeight)
+                          height: collectionView.bounds.height)
             
         } else {
             

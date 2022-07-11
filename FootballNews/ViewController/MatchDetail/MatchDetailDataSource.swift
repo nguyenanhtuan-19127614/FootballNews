@@ -100,11 +100,13 @@ class MatchDetailDataSource {
                     for i in contents {
                         
                         articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                             avatar: i.avatar,
                                                              title: i.title,
+                                                             description: i.description,
+                                                             avatar: i.avatar,
+                                                             source: i.source,
                                                              publisherLogo: i.publisherLogo,
+                                                             publisherIcon: i.publisherIcon,
                                                              date: i.date))
-                        
                     }
     
                     //changed vc state

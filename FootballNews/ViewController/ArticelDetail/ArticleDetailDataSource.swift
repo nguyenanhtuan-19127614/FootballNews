@@ -13,12 +13,7 @@ class ArticelDetailDataSource {
     
     //ViewController State
     var state: ViewControllerState = .loading
-    
-    //Variable
-    var contentID: String = ""
-    var publisherLogo: String = ""
-    
-    
+
     let lock = NSLock()
     
     var contentHeadSize = 0
@@ -37,6 +32,8 @@ class ArticelDetailDataSource {
         }
         
     }
+    
+    var headerData: HomeArticleModel? 
     
     var detailData: ArticelDetailModel? {
         
@@ -88,7 +85,11 @@ class ArticelDetailDataSource {
             return
         }
         
-        let contentID = self.contentID
+        guard let headerData = headerData else {
+            return
+        }
+
+        let contentID = headerData.contentID
       
         QueryService.sharedService.get(ContentAPITarget.detail(contentID: contentID)) {
             
@@ -108,13 +109,7 @@ class ArticelDetailDataSource {
                     
                 }
                 //Load detail data
-                let detailData = ArticelDetailModel(title: content.title,
-                                                    date: content.date,
-                                                    description: content.description,
-                                                    source: content.source,
-                                                    sourceLogo: content.publisherLogo,
-                                                    sourceIcon: content.publisherIcon,
-                                                    body: content.body)
+                let detailData = ArticelDetailModel(body: content.body)
                 self.detailData = detailData
                 
                 guard let related = data.data?.related else {
@@ -128,11 +123,14 @@ class ArticelDetailDataSource {
                 for i in related.contents {
                     
                     articelArray.append(HomeArticleModel(contentID: String(i.contentID),
-                                                        avatar: i.avatar,
-                                                        title: i.title,
-                                                        publisherLogo: i.publisherLogo,
-                                                        date: i.date))
-                    
+                                                         title: i.title,
+                                                         description: i.description,
+                                                         avatar: i.avatar,
+                                                         source: i.source,
+                                                         publisherLogo: i.publisherLogo,
+                                                         publisherIcon: i.publisherIcon,
+                                                         date: i.date))
+                        
                 }
                 
                 self.relatedArticleData.append(contentsOf: articelArray)

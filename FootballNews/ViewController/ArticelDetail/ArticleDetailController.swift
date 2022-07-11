@@ -15,8 +15,13 @@ import UIKit
 
 class ArticelDetailController: UIViewController, DataSoureDelegate {
     
+    var headerHeight: CGFloat = 0
+    
     // Datasource
     let dataSource = ArticelDetailDataSource()
+    
+    //Router
+    let router = ViewControllerRouter()
     
     //Main Collection
     let articleDetailLayout = UICollectionViewFlowLayout()
@@ -37,18 +42,14 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     
     
     //MARK: Delegation Function
-    func passContentID(contentID: String) {
+    
+    
+    func passHeaderDetail(data: HomeArticleModel) {
         
-        self.dataSource.contentID = contentID
+        self.dataSource.headerData = data
         
     }
-    
-    func passPublisherLogo(url: String) {
-        
-        self.dataSource.publisherLogo = url
-        
-    }
-    
+
     func passArticelDetail(detail: ArticelDetailModel?) {
         guard let detail = detail else {
             return
@@ -111,6 +112,14 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     
         super.viewDidLoad()
         
+        //get data
+        if dataSource.state == .loading {
+            
+            self.getData()
+            
+        }
+        
+        router.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
         
     }
@@ -132,19 +141,14 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
                                                       width: (self.navigationController?.navigationBar.bounds.width ?? 0)/2,
                                                       height: (self.navigationController?.navigationBar.bounds.height ?? 0)/2))
         
-        titleView.loadData(url: URL(string: self.dataSource.publisherLogo))
+        titleView.loadData(url: URL(string: dataSource.headerData?.publisherLogo ?? ""))
         
         self.navigationItem.titleView = titleView
         
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
         
-        //get data
-        if dataSource.state == .loading {
-            
-            dataSource.getArticelDetailData()
-            
-        }
+        
        
     }
     
@@ -184,7 +188,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
         
         if state == .loading || state == .error {
              
-            return 1
+            return 2
             
         } else if state == .offline{
             
@@ -213,6 +217,21 @@ extension ArticelDetailController: UICollectionViewDataSource {
             
         }
         
+        if indexPath.row == 0 {
+            
+            //Header Part
+            let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
+            
+            headerCell.backgroundColor = UIColor.white
+            if let headerData = self.dataSource.headerData {
+                
+                headerCell.loadData(headerData)
+                
+            }
+         
+            return headerCell
+        }
+        
         guard state == .loaded || state == .offline else {
             
             if state == .loading {
@@ -233,21 +252,8 @@ extension ArticelDetailController: UICollectionViewDataSource {
         }
         
         //Loaded state
-        if indexPath.row == 0 {
-            
-            //Header Part
-            let headerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailHeaderCell", for: indexPath) as! ArticelDetailHeaderCell
-            
-            headerCell.backgroundColor = UIColor.white
-            if let detailData = self.dataSource.detailData {
-                
-                headerCell.loadData(detailData)
-                
-            }
-         
-            return headerCell
-            
-        } else if indexPath.row > dataSource.contentBodySize && state != .offline {
+           
+        if indexPath.row > dataSource.contentBodySize && state != .offline {
             
             let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
             
@@ -303,6 +309,8 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        //Tap Event
+        
         if dataSource.state == .offline {
             return
         }
@@ -311,12 +319,8 @@ extension ArticelDetailController: UICollectionViewDelegate {
             
             
             let index = indexPath.row - dataSource.contentBodySize  - 1
-            
-            let articelDetailVC = ArticelDetailController()
-            articelDetailVC.passContentID(contentID: dataSource.relatedArticleData[index].contentID)
-            articelDetailVC.passPublisherLogo(url: dataSource.relatedArticleData[index].publisherLogo)
-            
-            navigationController?.pushViewController(articelDetailVC, animated: true)     
+
+            router.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
             
         }
     }
@@ -333,10 +337,39 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
         let totalHeight = self.view.bounds.height
         let state = dataSource.state
         
+        guard let headerData = dataSource.headerData else {
+            
+            return CGSize(width: 0,
+                          height: 0)
+            
+        }
+        
+        if indexPath.row == 0 {
+            
+            let titleLabel = UILabel()
+            titleLabel.text = headerData.title
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 27)
+            titleLabel.addLineSpacing(lineSpacing: 5)
+            
+            let descriptionLabel = UILabel()
+            descriptionLabel.text = headerData.description
+            descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
+            descriptionLabel.addLineSpacing(lineSpacing: 5)
+            
+            var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
+            height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
+            height += 50 //line spacing of all element
+            height += 20 //padding top
+            self.headerHeight = height
+            return CGSize(width: totalWidth ,
+                          height: height)
+            
+        }
+        
         if state == .loading || state == . error {
             
             return CGSize(width: totalWidth,
-                          height: totalHeight)
+                          height: totalHeight - self.headerHeight)
             
         }
         
@@ -347,27 +380,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             
         }
         
-        if indexPath.row == 0 {
-            
-            let titleLabel = UILabel()
-            titleLabel.text = detailData.title
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 27)
-            titleLabel.addLineSpacing(lineSpacing: 5)
-            
-            let descriptionLabel = UILabel()
-            descriptionLabel.text = detailData.description
-            descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
-            descriptionLabel.addLineSpacing(lineSpacing: 5)
-            
-            var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += 50 // line spacing of all element
-            height += 20 //padding top
-      
-            return CGSize(width: totalWidth ,
-                          height: height)
-            
-        } else if indexPath.row <= dataSource.contentBodySize {
+        if indexPath.row <= dataSource.contentBodySize {
             
             guard let bodyContent = detailData.body else {
                 

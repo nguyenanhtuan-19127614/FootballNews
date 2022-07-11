@@ -12,9 +12,14 @@ import Foundation
 struct HomeArticleModel: Codable {
     
     var contentID: String
-    var avatar: String
     var title: String
+    var description: String
+    var avatar: String
+
+    var source: String
     var publisherLogo: String
+    var publisherIcon: String
+    
     var date: Int
     
 }

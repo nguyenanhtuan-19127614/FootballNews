@@ -101,35 +101,31 @@ class RankingCell: UICollectionViewCell {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
       
-        indexLabel.translatesAutoresizingMaskIntoConstraints = false
-        teamNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        playedLabel.translatesAutoresizingMaskIntoConstraints = false
-        differenceLabel.translatesAutoresizingMaskIntoConstraints = false
-        pointsLabel.translatesAutoresizingMaskIntoConstraints = false
+        indexLabel.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: self.bounds.width/10,
+                                  height: self.bounds.height)
         
-        NSLayoutConstraint.activate([
-            
-            indexLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            indexLabel.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            indexLabel.widthAnchor.constraint(equalToConstant: self.bounds.width/10),
-            
-            teamNameLabel.leadingAnchor.constraint(equalTo: indexLabel.trailingAnchor),
-            teamNameLabel.trailingAnchor.constraint(equalTo: playedLabel.leadingAnchor),
-            teamNameLabel.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            
-            playedLabel.trailingAnchor.constraint(equalTo: differenceLabel.leadingAnchor),
-            playedLabel.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            playedLabel.widthAnchor.constraint(equalToConstant: self.bounds.width/10),
-         
-            differenceLabel.trailingAnchor.constraint(equalTo: pointsLabel.leadingAnchor),
-            differenceLabel.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            differenceLabel.widthAnchor.constraint(equalToConstant: self.bounds.width/10),
-            
-            pointsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            pointsLabel.heightAnchor.constraint(equalToConstant: self.bounds.height),
-            pointsLabel.widthAnchor.constraint(equalToConstant: self.bounds.width/10)
+        pointsLabel.frame = CGRect(x: self.bounds.width - self.bounds.width/10,
+                                   y: 0,
+                                   width: self.bounds.width/10,
+                                   height: self.bounds.height)
         
-        ])
+        differenceLabel.frame = CGRect(x: pointsLabel.frame.minX - self.bounds.width/10,
+                                       y: 0,
+                                       width: self.bounds.width/10,
+                                       height: self.bounds.height)
+    
+        playedLabel.frame = CGRect(x: differenceLabel.frame.minX - self.bounds.width/10,
+                                   y: 0,
+                                   width: self.bounds.width/10,
+                                   height: self.bounds.height)
+        
+        let teamNameLabelWidth = self.bounds.width - indexLabel.bounds.width + pointsLabel.bounds.width - differenceLabel.bounds.width - playedLabel.bounds.width
+        teamNameLabel.frame = CGRect(x: indexLabel.frame.maxX,
+                                     y: 0,
+                                     width: teamNameLabelWidth,
+                                     height: self.bounds.height)
         
     }
     

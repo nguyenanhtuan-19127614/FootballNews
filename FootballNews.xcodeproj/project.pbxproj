@@ -169,7 +169,7 @@
 		0305AF3B28597C74009398A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				03EB3ABF286B0A2C006097C5 /* Delegation */,
+				0305AF3D28597C85009398A6 /* DataModel */,
 				0384E97C287BDC94000C4561 /* HomeViewModel.swift */,
 				0384E97E287BDCB9000C4561 /* MatchDetailModel.swift */,
 				0384E980287BDCDA000C4561 /* ArticleDetailModel.swift */,
@@ -181,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				03A6AFC92872A63B00E9FB01 /* DiskCache.swift */,
-				0305AF3D28597C85009398A6 /* DataModel */,
 				0305AF3E28597CA3009398A6 /* ImageHandler */,
 			);
 			path = DataHandler;
@@ -320,6 +319,7 @@
 			children = (
 				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
 				0384E96F287BD3E2000C4561 /* ViewControllerState.swift */,
+				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0384E971287BD3FB000C4561 /* Home */,
 				0384E972287BD40D000C4561 /* MatchDetail */,
 				0384E973287BD421000C4561 /* ArticelDetail */,

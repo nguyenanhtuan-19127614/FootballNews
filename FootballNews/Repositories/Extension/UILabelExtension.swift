@@ -19,9 +19,11 @@ extension UILabel {
                              height: 0)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
         label.font = self.font
         label.text = self.text
         label.attributedText = self.attributedText
+       
         label.sizeToFit()
         
         return label.frame.height
@@ -37,9 +39,11 @@ extension UILabel {
                              height: cellHeight)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
         label.font = self.font
         label.text = self.text
         label.attributedText = self.attributedText
+        
         label.sizeToFit()
         
         return label.frame.width

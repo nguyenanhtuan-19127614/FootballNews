@@ -59,28 +59,28 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         
         titleLabel.frame = CGRect(x: 15,
                                   y: 20,
-                                  width: self.bounds.width - 35,
+                                  width: self.bounds.width - 30,
                                   height: 0)
         titleLabel.sizeToFit()
-       
+        titleLabel.frame.size.width = self.bounds.width - 30
  
         
         subTitleLabel.frame = CGRect(x: 15,
                                      y: titleLabel.frame.maxY + 10.0,
-                                     width: self.bounds.width - 35,
+                                     width: self.bounds.width - 30,
                                      height: 30)
         
         descriptionLabel.frame = CGRect(x: 15,
                                         y: subTitleLabel.frame.maxY + 10.0,
-                                        width: self.bounds.width - 35,
+                                        width: self.bounds.width - 30,
                                         height: 0)
         descriptionLabel.sizeToFit()
-        
+        descriptionLabel.frame.size.width = self.bounds.width - 30
         
     }
     
     //MARK: Load Data
-    func loadData(_ inputData: ArticelDetailModel) {
+    func loadData(_ inputData: HomeArticleModel) {
         
         titleLabel.text = inputData.title
         descriptionLabel.text = inputData.description
@@ -88,7 +88,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         titleLabel.addLineSpacing(lineSpacing: 5)
         descriptionLabel.addLineSpacing(lineSpacing: 5)
         
-        subTitleLabel.loadData(sourceIcon: inputData.sourceIcon,
+        subTitleLabel.loadData(sourceIcon: inputData.publisherIcon,
                                sourceLabel: inputData.source,
                                date: String(inputData.date))
         
