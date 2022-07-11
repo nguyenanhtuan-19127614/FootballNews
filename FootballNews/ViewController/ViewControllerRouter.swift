@@ -8,18 +8,21 @@
 import Foundation
 import UIKit
 
+enum Destination {
+    
+    case detailArticle(dataArticle: HomeArticleModel?)
+    case detailArticleOffline(dataArticle: ArticelDetailModel?)
+    case detailMatch(dataMatch: HomeScoreBoardModel?)
+    
+}
+
 class ViewControllerRouter {
     
+    static var shared = ViewControllerRouter()
+    private init() {}
+    
     private weak var navController: UINavigationController?
-    
-    enum Destination {
-        
-        case detailArticle(dataArticle: HomeArticleModel?)
-        case detailArticleOffline(dataArticle: ArticelDetailModel?)
-        case detailMatch(dataMatch: HomeScoreBoardModel?)
-        
-    }
-    
+   
     func setUpNavigationController(_ navController: UINavigationController?) {
         self.navController = navController
     }

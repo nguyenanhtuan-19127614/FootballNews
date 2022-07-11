@@ -20,9 +20,6 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     // Datasource
     let dataSource = ArticelDetailDataSource()
     
-    //Router
-    let router = ViewControllerRouter()
-    
     //Main Collection
     let articleDetailLayout = UICollectionViewFlowLayout()
     var articleDetailCollection: UICollectionView = {
@@ -119,7 +116,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
             
         }
         
-        router.setUpNavigationController(self.navigationController)
+        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
         
     }
@@ -320,7 +317,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
             
             let index = indexPath.row - dataSource.contentBodySize  - 1
 
-            router.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
+            ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
             
         }
     }

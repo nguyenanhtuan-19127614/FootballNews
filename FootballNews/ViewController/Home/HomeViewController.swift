@@ -24,9 +24,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     // Datasource
     let dataSource = HomeDataSource()
     
-    //Router
-    let router = ViewControllerRouter()
-    
     //Main CollectionView Layout
     var homeLayout = UICollectionViewFlowLayout()
     
@@ -133,7 +130,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         addSubviewsLayout()
         // set up router navigation controller
-        router.setUpNavigationController(self.navigationController)
+        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         
         //Add Refresh control to homeCollection
         
@@ -362,7 +359,7 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func scoreBoardClick(index: Int) {
         
-        router.routing(to: .detailMatch(dataMatch: dataSource.scoreBoardData[index]))
+        ViewControllerRouter.shared.routing(to: .detailMatch(dataMatch: dataSource.scoreBoardData[index]))
         
     }
     
@@ -384,11 +381,11 @@ extension HomeViewController: UICollectionViewDelegate {
                 
                 let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
                 let detail = dataSource.diskCache.articelDetail[contentID]
-                router.routing(to: .detailArticleOffline(dataArticle: detail))
+                ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail))
              
             } else {
 
-                router.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+                ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
                
             }
   	

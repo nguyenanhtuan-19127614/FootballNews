@@ -20,9 +20,6 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     //Datasource
     let dataSource = MatchDetailDataSource()
     
-    //Router
-    let router = ViewControllerRouter()
-    
     //Header
     let headerView = MatchDetailHeader()
     
@@ -129,7 +126,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        router.setUpNavigationController(self.navigationController)
+        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
       
     }
@@ -289,7 +286,7 @@ extension MatchDetailController: UICollectionViewDelegate {
         switch dataSource.selectedContent {
             
         case .news:
-            router.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+            ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
             
         case .ranking:
             return
