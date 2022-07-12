@@ -29,7 +29,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         articleDetailCollection.register(ArticelDetailHeaderCell.self, forCellWithReuseIdentifier: "ArticelDetailHeaderCell")
         articleDetailCollection.register(ArticelDetailBodyTextCell.self, forCellWithReuseIdentifier: "ArticelDetailTextCell")
         articleDetailCollection.register(ArticelDetailBodyImageCell.self, forCellWithReuseIdentifier: "ArticelDetailImageCell")
-        articleDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
+        articleDetailCollection.register(ArticleCell.self, forCellWithReuseIdentifier: "ArticelDetailRelatedCell")
         articleDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         articleDetailCollection.register(ErrorOccurredCell.self, forCellWithReuseIdentifier: "ErrorCell")
         
@@ -236,7 +236,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
         case .loaded:
             if indexPath.row > dataSource.contentBodySize {
                 
-                let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
+                let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! ArticleCell
                 
                 relatedCell.backgroundColor = UIColor.white
                 

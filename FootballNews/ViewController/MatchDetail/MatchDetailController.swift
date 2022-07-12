@@ -36,7 +36,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
         //Register data for CollectionView
         //Cell
-        matchDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        matchDetailCollection.register(ArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         matchDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         matchDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
@@ -244,7 +244,7 @@ extension MatchDetailController: UICollectionViewDataSource {
         //News Articel Containt
         if selectedContent == .news {
             
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
             
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])

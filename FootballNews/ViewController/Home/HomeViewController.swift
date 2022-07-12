@@ -37,7 +37,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.contentInsetAdjustmentBehavior = .always
         
         //Register data for CollectionView
-        homeCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        homeCollection.register(ArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         homeCollection.register(HomeCompetitionCollectionCell.self, forCellWithReuseIdentifier: "HomeCompetitionColectionCell")
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
@@ -269,7 +269,7 @@ extension HomeViewController: UICollectionViewDataSource {
         switch self.dataSource.state {
             
         case .offline:
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
             
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.diskCache.homeArticelData[indexPath.row])
@@ -335,7 +335,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 
             } else if indexPath.row < dataSource.articleData.count{
                 
-                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
                 
                 articelCell.backgroundColor = UIColor.white
                 articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])

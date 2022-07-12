@@ -3,7 +3,7 @@
 import UIKit
 
 
-class HomeArticleCell: UICollectionViewCell {
+class ArticleCell: UICollectionViewCell {
     
     //MARK: Overide Init
     override init(frame: CGRect) {

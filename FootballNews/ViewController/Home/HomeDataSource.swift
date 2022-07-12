@@ -20,8 +20,12 @@ class HomeDataSource {
     var scoreBoardAPILoaded = false
     var competitionAPILoaded = false
     
+    //active disk cache to cache data first time call api
     var cacheActive = false
     var isVCLoaded = false
+    
+    //refresh
+    var isRefresh = false
     
     //ViewController State
     var state: ViewControllerState = .loading
@@ -190,7 +194,11 @@ class HomeDataSource {
                         
                     }
                     
-                    // add data to datasource
+                    if self.isRefresh == false {
+                        self.articleData = articelArray
+                        self.isRefresh = true
+                        return
+                    }
                     self.articleData.append(contentsOf: articelArray)
                     
                 }
@@ -251,7 +259,8 @@ class HomeDataSource {
                     
                 }
                 
-                self.scoreBoardData.append(contentsOf: soccerMatchsArray)
+                self.scoreBoardData = soccerMatchsArray
+                
                 if self.scoreBoardData.isEmpty {
                     
                     self.scoreBoardExist = false
@@ -297,7 +306,7 @@ class HomeDataSource {
                         
                     }
                     
-                    self.competitionData.append(contentsOf: competitionArray)
+                    self.competitionData = competitionArray
                     
                     //Check if competition exist
                     if self.competitionData.isEmpty {
@@ -332,14 +341,10 @@ class HomeDataSource {
     //Refresh data source
     func refresh() {
         
-        articleData = []
-        scoreBoardData = []
-        competitionData = []
-        
         apiLoadedCount = 0
         scoreBoardAPILoaded = false
         competitionAPILoaded = false
-        isVCLoaded = false
+        isRefresh = false
         
         self.delegate?.getData()
         

@@ -36,7 +36,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         
         //Register data for CollectionView
         //Cell
-        compDetailCollection.register(HomeArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
+        compDetailCollection.register(ArticleCell.self, forCellWithReuseIdentifier: "HomeArticleCell")
         compDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         compDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
@@ -244,7 +244,7 @@ extension CompetitionDetailController: UICollectionViewDataSource {
         //News Articel Containt
         if selectedContent == .news {
             
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
             
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
