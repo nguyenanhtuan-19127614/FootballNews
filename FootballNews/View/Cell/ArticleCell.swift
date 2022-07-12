@@ -5,6 +5,8 @@ import UIKit
 
 class ArticleCell: UICollectionViewCell {
     
+    var avatarURL: String = ""
+    var publisherLogoURL: String = ""
     //MARK: Overide Init
     override init(frame: CGRect) {
         
@@ -35,6 +37,7 @@ class ArticleCell: UICollectionViewCell {
     let title: UILabel = {
         
         let label = UILabel()
+        
         label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
   
@@ -60,7 +63,7 @@ class ArticleCell: UICollectionViewCell {
         return label
         
     }()
-   
+    
     //MARK: Add subviews to cell
     func addViews() {
         
@@ -68,6 +71,20 @@ class ArticleCell: UICollectionViewCell {
         addSubview(title)
         addSubview(publisherLogo)
         addSubview(timeLabel)
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        newsAvatar.image = nil
+        newsAvatar.stopLoadImagefromURL(url: avatarURL)
+        
+        publisherLogo.image = nil
+        publisherLogo.stopLoadImagefromURL(url: publisherLogoURL)
+        
+        title.text = nil
+        timeLabel.text = nil
         
     }
     
@@ -85,7 +102,7 @@ class ArticleCell: UICollectionViewCell {
                              y: 18,
                              width: self.bounds.width - newsAvatar.bounds.width - 60,
                              height: 0)
-        title.font = title.font.withSize(self.bounds.width/25)
+        title.font = UIFont.boldSystemFont(ofSize: self.bounds.width/25)
         title.sizeToFit()
         
         publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,
@@ -122,6 +139,8 @@ class ArticleCell: UICollectionViewCell {
         self.newsAvatar.loadImageFromUrl(url: inputData.avatar)
         self.publisherLogo.loadImageFromUrl(url: inputData.publisherLogo)
        
+        self.avatarURL = inputData.avatar
+        self.publisherLogoURL = inputData.publisherLogo
     }
 
 }

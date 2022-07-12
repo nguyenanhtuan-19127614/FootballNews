@@ -52,6 +52,22 @@ extension UIImageView {
 
     }
     
+    func stopLoadImagefromURL(url: String?) {
+        
+        guard let url = url else {
+            return
+        }
+        
+        for ope in ImageDownloader.sharedService.operationQueue.operations {
+            
+            if ope.name == url {
+                ope.cancel()
+                return
+            }
+            
+        }
+     
+    }
    
     
 }
