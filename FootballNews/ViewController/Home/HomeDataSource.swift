@@ -16,10 +16,6 @@ class HomeDataSource {
     
     var lock = NSLock()
     
-    var articelSize = 0
-    var scoreBoardSize = 0
-    var competitionSize = 0
-    
     var articleAPILoaded = false
     var scoreBoardAPILoaded = false
     var competitionAPILoaded = false
@@ -81,7 +77,7 @@ class HomeDataSource {
         
         get {
             
-            return articelSize
+            return articleData.count
             
         }
         
@@ -91,13 +87,12 @@ class HomeDataSource {
     var articleData: [HomeArticleModel] = [] {
         
         didSet {
-            
-            articelSize = articleData.count
+
             
             lock.lock()
             apiLoadedCount += 1
             //Load more case
-            if apiLoadedCount > apiNumbers && articelSize != 0 {
+            if apiLoadedCount > apiNumbers && articleData.count != 0 {
                 
                 self.delegate?.reloadData()
                 
@@ -111,8 +106,7 @@ class HomeDataSource {
     var scoreBoardData: [HomeScoreBoardModel] = [] {
         
         didSet {
-            
-            scoreBoardSize = scoreBoardData.count
+        
             lock.lock()
             if !scoreBoardAPILoaded {
                 
@@ -130,7 +124,6 @@ class HomeDataSource {
         
         didSet {
             
-            competitionSize = competitionData.count
             lock.lock()
             if !competitionAPILoaded {
                 
@@ -167,7 +160,7 @@ class HomeDataSource {
                 
                 if let contents = res.data?.contents {
                     
-                    self.competitionLocation.insert( self.articelSize + self.competitionIndex)
+                    self.competitionLocation.insert( self.articleData.count + self.competitionIndex)
                     
                     
                     var articelArray: [HomeArticleModel] = []
@@ -315,7 +308,7 @@ class HomeDataSource {
                         
                     }
                     
-                    self.competitionLocation.insert( self.articelSize + self.competitionIndex)
+                    self.competitionLocation.insert( self.articleData.count + self.competitionIndex)
                     
                 }
                 

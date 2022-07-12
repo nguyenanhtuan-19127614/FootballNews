@@ -253,7 +253,7 @@ extension HomeViewController: UICollectionViewDataSource {
             
         } else {
             
-            return dataSource.cellSize
+            return dataSource.cellSize + 1
             
         }
         
@@ -262,90 +262,89 @@ extension HomeViewController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if self.dataSource.state == .offline {
+        switch self.dataSource.state {
+            
+        case .offline:
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
             
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.diskCache.homeArticelData[indexPath.row])
             
             return articelCell
-        }
-        
-        guard self.dataSource.state == .loaded else {
             
-            
-            if self.dataSource.state == .loading {
-                //Loading State
-                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
-                
-                indicatorCell.indicator.startAnimating()
-                return indicatorCell
-                
-            } else {
-                //Error State
-                let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
-                errorCell.delegate = self
-                return errorCell
-                
-            }
-        }
-        
-        //Loaded State
-        if dataSource.competitionLocation.contains(indexPath.row)  &&
-           dataSource.competitionExist == true  {
-            
-            let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
-            
-            competitionCell.backgroundColor = UIColor.white
-            
-            DispatchQueue.main.async {
-                
-                [weak self] in
-                if let self = self {
-                    
-                    competitionCell.loadData(inputData: self.dataSource.competitionData)
-                    
-                }
-               
-                
-            }
-            
-            return competitionCell
-            
-        } else if indexPath.row == dataSource.scoreBoardIndex &&
-                  dataSource.scoreBoardExist == true  {
-            
-            let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
-            
-            scoreBoardCell.backgroundColor = UIColor.white
-            scoreBoardCell.delegate = self
-            
-            DispatchQueue.main.async {
-                
-                [weak self] in
-                if let self = self {
-                    scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
-                }
-    
-            }
-    
-            return scoreBoardCell
-            
-        } else if indexPath.row < dataSource.articelSize - 1{
-            
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
-            
-            articelCell.backgroundColor = UIColor.white
-            articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
-            
-            return articelCell
-            
-        } else {
+        case .loading:
             
             let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
             
             indicatorCell.indicator.startAnimating()
             return indicatorCell
+            
+        case .error:
+            
+            let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
+            errorCell.delegate = self
+            return errorCell
+            
+        case .loaded:
+            
+            //Loaded State
+            if dataSource.competitionLocation.contains(indexPath.row)  &&
+               dataSource.competitionExist == true  {
+                
+                let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
+                
+                competitionCell.backgroundColor = UIColor.white
+                
+                DispatchQueue.main.async {
+                    
+                    [weak self] in
+                    if let self = self {
+                        
+                        competitionCell.loadData(inputData: self.dataSource.competitionData)
+                        
+                    }
+                   
+                    
+                }
+                
+                return competitionCell
+                
+            } else if indexPath.row == dataSource.scoreBoardIndex &&
+                      dataSource.scoreBoardExist == true  {
+                
+                let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
+                
+                scoreBoardCell.backgroundColor = UIColor.white
+                scoreBoardCell.delegate = self
+                
+                DispatchQueue.main.async {
+                    
+                    [weak self] in
+                    if let self = self {
+                        scoreBoardCell.loadData(inputData: self.dataSource.scoreBoardData)
+                    }
+        
+                }
+        
+                return scoreBoardCell
+                
+            } else if indexPath.row < dataSource.articleData.count{
+                
+                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+                
+                articelCell.backgroundColor = UIColor.white
+                articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+                
+                return articelCell
+                
+            } else {
+                
+                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+                
+                indicatorCell.indicator.startAnimating()
+                return indicatorCell
+                
+            }
             
         }
     }
@@ -402,8 +401,7 @@ extension HomeViewController: UICollectionViewDelegate {
         
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
     
-            dataSource.startArticel += dataSource.articelSize
-         
+            dataSource.startArticel += dataSource.articelLoadSize
             //get data home news
             dataSource.getHomeArticelData()
  
@@ -450,7 +448,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 return CGSize(width: totalWidth,
                               height: totalHeight/6.5)
                 
-            } else if indexPath.row < dataSource.articelSize - 1 {
+            } else if indexPath.row < dataSource.articleData.count {
                 
                 //articel size
                 return CGSize(width: totalWidth,
