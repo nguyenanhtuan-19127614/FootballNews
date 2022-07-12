@@ -13,6 +13,7 @@ enum Destination {
     case detailArticle(dataArticle: HomeArticleModel?)
     case detailArticleOffline(dataArticle: ArticelDetailModel?, headerData: HomeArticleModel?)
     case detailMatch(dataMatch: HomeScoreBoardModel?)
+    case detailCompetition(dataComp: HomeCompetitionModel?)
     
 }
 
@@ -71,6 +72,14 @@ class ViewControllerRouter {
             matchDetailVC.passHeaderData(scoreBoard: dataMatch)
             return matchDetailVC
             
+        case .detailCompetition(dataComp: let dataComp):
+            
+            let competitionDetailVC = CompetitionDetailController()
+            guard let dataComp = dataComp else {
+                return nil
+            }
+            competitionDetailVC.passHeaderData(competition: dataComp)
+            return competitionDetailVC
         }
         
     }

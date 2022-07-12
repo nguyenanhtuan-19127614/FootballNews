@@ -298,6 +298,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
                 
                 competitionCell.backgroundColor = UIColor.white
+                competitionCell.delegate = self
                 
                 DispatchQueue.main.async {
                     
@@ -359,6 +360,12 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
     
     //Tap Event
+    
+    func competitionBoardClick(index: Int) {
+        
+        ViewControllerRouter.shared.routing(to: .detailCompetition(dataComp: dataSource.competitionData[index]))
+        
+    }
     
     func scoreBoardClick(index: Int) {
         

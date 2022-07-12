@@ -10,6 +10,8 @@ import UIKit
 //MARK: Cell that contain collectionView of HomeCompetitionCell
 class HomeCompetitionCollectionCell: UICollectionViewCell {
     
+    weak var delegate: HomeViewController?
+    
     var competitionData: [HomeCompetitionModel] = []
     var competitionCollection: UICollectionView = {
     
@@ -103,7 +105,7 @@ extension HomeCompetitionCollectionCell: UICollectionViewDelegate {
     //Tap Event
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        print("User tapped on item \(indexPath.row)")
+        delegate?.competitionBoardClick(index: indexPath.row)
         
     }
     

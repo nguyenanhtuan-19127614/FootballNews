@@ -32,14 +32,7 @@ class MatchDetailDataSource {
             if apiLoadedCount == apiNumbers {
                 
                 //First loaded when apicount == api numbers
-                if !isVCLoaded {
-                    //Reload data
-                    delegate?.reloadData()
-                    isVCLoaded = true
-                    
-                }
-                //Refresh case
-                delegate?.stopRefresh()
+                delegate?.reloadData()
                
             }
             

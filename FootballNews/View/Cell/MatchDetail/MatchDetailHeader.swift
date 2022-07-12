@@ -163,7 +163,8 @@ class TeamView: UIView {
       
         
         ])
-     
+        
+        //Round border
         teamLogo.layer.cornerRadius = teamLogo.bounds.width/2
     }
     

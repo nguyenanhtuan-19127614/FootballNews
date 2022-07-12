@@ -185,7 +185,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: GET, Load Data Functions
+    //MARK: Load Data Functions
     
     func loadHeaderData(scoreBoard: HomeScoreBoardModel) {
         
