@@ -9,14 +9,14 @@ import UIKit
 
 class SeparateCell: UICollectionViewCell {
     
-    let grayColor: UIColor = .lightGray.withAlphaComponent(0.2)
+    var grayColor: UIColor = UIColor(red: 0.937, green: 0.933, blue: 0.957, alpha: 1)
     //MARK: Override Init
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         self.backgroundColor = grayColor
-        
+      
     }
     
     required init?(coder: NSCoder) {

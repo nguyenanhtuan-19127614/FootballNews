@@ -203,14 +203,6 @@ class HomeDataSource {
                     
                     self.articleData.append(contentsOf: articelArray)
                     
-                    var count = 0
-                    for i in self.articleData {
-                        
-                        if i == nil {
-                            print(count)
-                        }
-                        count += 1
-                    }
                 }
                 
             case .failure(let err):
