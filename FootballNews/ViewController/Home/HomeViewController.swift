@@ -393,9 +393,12 @@ extension HomeViewController: UICollectionViewDelegate {
             
         case .offline:
             
-            let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
+            let header = dataSource.diskCache.homeArticelData[indexPath.row]
+            let contentID = header.contentID
+           
             let detail = dataSource.diskCache.articelDetail[contentID]
-            ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail))
+            ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail,
+                                                                         headerData: header))
             
         }
         

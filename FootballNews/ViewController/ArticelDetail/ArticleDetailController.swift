@@ -197,6 +197,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             return 2
             
         case .offline:
+
             return (self.dataSource.detailData?.body?.count ?? 0) + 1
             
         }
@@ -205,7 +206,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         if indexPath.row == 0 {
             
             //Header Part
@@ -222,7 +223,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
         }
         
         let state = dataSource.state
-        
+       
         switch state {
         case .loading:
             
@@ -287,7 +288,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             return errorCell
             
         case .offline:
-            
+           
             if self.dataSource.detailData == nil {
                 
                 dataSource.state = .error

@@ -55,10 +55,16 @@ class HomeDataSource {
                     //Reload data
                     
                     //MARK: Start to caching data to disk
-                    //                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                    //                        [unowned self] in
-                    //                        self.diskCachingData()
-                    //                    }
+//                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+//                        
+//                        [unowned self] in
+//                        
+//                        if !articleData.isEmpty {
+//                            self.diskCache.diskCachingData(articleData: articleData)
+//                        }
+//                       
+//                      
+//                    }
                     
                     isVCLoaded = true
                     

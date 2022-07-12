@@ -11,7 +11,7 @@ import UIKit
 enum Destination {
     
     case detailArticle(dataArticle: HomeArticleModel?)
-    case detailArticleOffline(dataArticle: ArticelDetailModel?)
+    case detailArticleOffline(dataArticle: ArticelDetailModel?, headerData: HomeArticleModel?)
     case detailMatch(dataMatch: HomeScoreBoardModel?)
     
 }
@@ -49,14 +49,17 @@ class ViewControllerRouter {
             articleDetailVC.passHeaderDetail(data: dataArticle)
             return articleDetailVC
             
-        case .detailArticleOffline(dataArticle: let dataArticle):
+        case .detailArticleOffline(dataArticle: let dataArticle, headerData: let header):
             
             let articleDetailVC = ArticelDetailController()
-            guard let dataArticle = dataArticle else {
+            guard let dataArticle = dataArticle,
+                  let header = header else {
                 return nil
             }
-            articleDetailVC.changeState(state: .offline)
+            articleDetailVC.passHeaderDetail(data: header)
             articleDetailVC.passArticelDetail(detail: dataArticle)
+            articleDetailVC.changeState(state: .offline)
+            
             return articleDetailVC
         
         case .detailMatch(let dataMatch):
