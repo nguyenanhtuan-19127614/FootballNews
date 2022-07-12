@@ -124,7 +124,7 @@ class CompetitionDetailSectionHeader: UICollectionReusableView {
         newsContent.textColor = selectedColor
         rankingContent.textColor = .lightGray
         
-        //delegate?.changeContentMatchDetail(content: .news)
+        delegate?.changeContentMatchDetail(content: .news)
         delegate?.reloadData()
     }
     
@@ -133,7 +133,7 @@ class CompetitionDetailSectionHeader: UICollectionReusableView {
         newsContent.textColor = .lightGray
         rankingContent.textColor = selectedColor
         
-        //delegate?.changeContentMatchDetail(content: .ranking)
+        delegate?.changeContentMatchDetail(content: .ranking)
         delegate?.reloadData()
         
     }

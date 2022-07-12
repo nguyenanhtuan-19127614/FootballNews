@@ -229,6 +229,7 @@
 			children = (
 				036D64CD28656E2A006E68C5 /* LoadMoreIndicatorCell.swift */,
 				03A6AFC5287288D300E9FB01 /* ErrorOccurredCell.swift */,
+				03DC833D2876E971005D5078 /* RankingCell.swift */,
 				037276AF287D2716004AE6C3 /* CompetitionDetail */,
 				03DC833728754E70005D5078 /* MatchDetail */,
 				03E1FFD928601E1300851333 /* ArticelDetail */,
@@ -409,7 +410,6 @@
 			children = (
 				03DC833828754EDF005D5078 /* MatchDetailHeader.swift */,
 				03DC833A2876BC9D005D5078 /* MatchDetailSectionHeader.swift */,
-				03DC833D2876E971005D5078 /* RankingCell.swift */,
 			);
 			path = MatchDetail;
 			sourceTree = "<group>";

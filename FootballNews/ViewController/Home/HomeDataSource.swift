@@ -290,8 +290,9 @@ class HomeDataSource {
                     
                     
                     for i in contents {
-                        
-                        competitionArray.append(HomeCompetitionModel(logo: i.competitionLogo,
+                    
+                        competitionArray.append(HomeCompetitionModel(id: i.competitionID,
+                                                                     logo: i.competitionLogo,
                                                                      name: i.competitionName))
                         
                     }

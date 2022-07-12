@@ -21,9 +21,6 @@ class MatchDetailDataSource {
     //State
     var state: ViewControllerState = .loading
     
-    var cacheActive = false
-    var isVCLoaded = false
-    
     var apiNumbers = 2
     var apiLoadedCount = 0 {
         

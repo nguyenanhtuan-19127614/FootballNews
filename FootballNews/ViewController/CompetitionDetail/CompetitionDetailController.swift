@@ -53,20 +53,9 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         }
         
         //dataSource.headerData = scoreBoard
-
+        dataSource.headerData = competition
         loadHeaderData(competition: competition)
        
-    }
-    
-    func changeState(state: ViewControllerState) {
-        
-        dataSource.state = state
-        self.reloadData()
-        
-    }
-    
-    func getData() {
-        
     }
     
     func reloadData() {
@@ -78,6 +67,28 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         }
         
     }
+    
+    func changeState(state: ViewControllerState) {
+        
+        dataSource.state = state
+        self.reloadData()
+        
+    }
+    
+    func changeContentMatchDetail(content: CompetitionDetailContent) {
+       
+        self.dataSource.selectedContent = content
+        
+    }
+    
+    func getData() {
+      
+        dataSource.getRelatedArticelData(compID: self.dataSource.headerData?.id)
+        dataSource.getCompetitionRankingData(competitionID: self.dataSource.headerData?.id)
+        
+    }
+    
+    
     
     
     //MARK: loadView() state
@@ -121,7 +132,18 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
     
     //MARK: Add subviews layout
     func addSubviewsLayout() {
-    
+        
+        compDetailCollection.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            compDetailCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: headerView.bounds.height),
+            compDetailCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            compDetailCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            compDetailCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+            
+        ])
+        
     }
     
     //MARK: Custom Layout
@@ -156,9 +178,9 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         self.title = "Giải Đấu"
         
         //Getdata
-//        if dataSource.state == .loading {
-//            self.getData()
-//        }
+        if dataSource.state == .loading {
+            self.getData()
+        }
     }
     
     //MARK: Load Data Functions
@@ -175,17 +197,69 @@ extension CompetitionDetailController: UICollectionViewDataSource {
     
     //return cell number
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        
+        let state = dataSource.state
+        switch state {
+        case .loading:
+            
+            return 1
+            
+        case .loaded:
+            
+            //news articel content
+            if dataSource.selectedContent == .news {
+                return dataSource.articleData.count
+            }
+            
+            return dataSource.rankingData.count
+            
+        case .error:
+            
+            return 1
+            
+        case .offline:
+            
+            return 0
+            
+        }
+        
     }
     
     //return cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+        let state = dataSource.state
+        let selectedContent = dataSource.selectedContent
         
-        indicatorCell.indicator.startAnimating()
+        guard state == .loaded else {
+            
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            
+            return indicatorCell
+            
+        }
+         
+        //News Articel Containt
+        if selectedContent == .news {
+            
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! HomeArticleCell
+            
+            articelCell.backgroundColor = UIColor.white
+            articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+           
+            return articelCell
+            
+        }
         
-        return indicatorCell
+        let rankingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RankingCell", for: indexPath) as! RankingCell
+        
+        
+        rankingCell.loadData(inputData: self.dataSource.rankingData[indexPath.row],
+                             index: indexPath.row)
+       
+        return rankingCell
         
     }
     
@@ -211,12 +285,77 @@ extension CompetitionDetailController: UICollectionViewDataSource {
 //MARK: Delegate Extension
 extension CompetitionDetailController: UICollectionViewDelegate {
     
+    //Tap Event
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        switch dataSource.selectedContent {
+            
+        case .news:
+            ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+            
+        case .ranking:
+            return
+        
+        }
+
+    }
+    
 }
 
 //MARK: Delegate Flow Layout extension
 extension CompetitionDetailController: UICollectionViewDelegateFlowLayout {
     
     //Cell size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let totalWidth = self.view.bounds.width
+        let totalHeight = self.view.bounds.height
+        let state = dataSource.state
+        let selectedContent = dataSource.selectedContent
+        
+        switch state {
+            
+        case .loading:
+            return CGSize(width: totalWidth ,
+                          height: collectionView.bounds.height)
+        case .loaded:
+            
+            //news articel content
+            if selectedContent == .news {
+                return CGSize(width: totalWidth,
+                              height: totalHeight/7)
+            } else {
+                //ranking content
+                return CGSize(width: totalWidth ,
+                              height: collectionView.bounds.height/15)
+            }
+            
+        case .error:
+            return CGSize(width: totalWidth ,
+                          height: collectionView.bounds.height)
+        case .offline:
+            
+            return CGSize(width: 0 ,
+                          height: 0)
+            
+        }
+    }
+    
+    //Line spaceing between cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        if dataSource.selectedContent == .news {
+            
+            return 10
+            
+        } else {
+            
+            return 0
+            
+        }
+        
+    }
     
     //Section Header Size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

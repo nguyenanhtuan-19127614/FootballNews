@@ -81,10 +81,6 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     
     func getData() {
         
-        if dataSource.state == .offline {
-            return
-        }
-       
         dataSource.getRelatedArticelData(matchID: self.dataSource.headerData?.matchID)
         dataSource.getCompetitionRankingData(competitionID: self.dataSource.headerData?.competitionID)
         

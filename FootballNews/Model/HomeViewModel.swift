@@ -49,6 +49,7 @@ struct HomeScoreBoardModel {
 //Data for Competition Board
 struct HomeCompetitionModel {
     
+    var id: Int
     var logo: String
     var name: String
     
