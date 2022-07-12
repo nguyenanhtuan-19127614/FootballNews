@@ -42,6 +42,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.register(HomeScoreBoardCollectionCell.self, forCellWithReuseIdentifier: "HomeScoreBoardColectionCell")
         homeCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         homeCollection.register(ErrorOccurredCell.self, forCellWithReuseIdentifier: "ErrorCell")
+        homeCollection.register(SeparateCell.self, forCellWithReuseIdentifier: "SeparateCell")
         
         return homeCollection
         
@@ -335,11 +336,20 @@ extension HomeViewController: UICollectionViewDataSource {
                 
             } else if indexPath.row < dataSource.articleData.count{
                 
+                
+                guard let data = self.dataSource.articleData[indexPath.row] else {
+                    
+                    let separateCell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeparateCell", for: indexPath) as! SeparateCell
+                    
+                    return separateCell
+                    
+                }
+            
                 let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
                 
                 articelCell.backgroundColor = UIColor.white
-                articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
-                
+                articelCell.loadData(inputData: data)
+            
                 return articelCell
                 
             } else {
@@ -465,6 +475,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             } else if indexPath.row < dataSource.articleData.count {
                 
                 //articel size
+                if dataSource.articleData[indexPath.row] == nil {
+                    return CGSize(width: totalWidth,
+                                 height: 10)
+                }
                 return CGSize(width: totalWidth,
                               height: totalHeight/7)
                 

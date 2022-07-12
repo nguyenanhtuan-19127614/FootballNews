@@ -36,7 +36,7 @@ class HomeDataSource {
     
     //Index where score board and competition should be based on articels list
     var scoreBoardIndex = 0
-    let competitionIndex = 4
+    let competitionIndex = 6
     
     //Location and competiion
     var competitionLocation: Set<Int> = []
@@ -44,7 +44,6 @@ class HomeDataSource {
     //query param
     var startArticel = 0
     var articelLoadSize = 20
-    
     
     var apiNumbers = 3
     var apiLoadedCount = 0 {
@@ -94,7 +93,7 @@ class HomeDataSource {
     }
     
     //When articleData are loaded, store it to local
-    var articleData: [HomeArticleModel] = [] {
+    var articleData: [HomeArticleModel?] = [] {
         
         didSet {
 
@@ -166,16 +165,14 @@ class HomeDataSource {
                 
             case .success(let res):
                 
-                
-                
                 if let contents = res.data?.contents {
                     
                     self.competitionLocation.insert( self.articleData.count + self.competitionIndex)
                     
                     
-                    var articelArray: [HomeArticleModel] = []
+                    var articelArray: [HomeArticleModel?] = []
                     for i in contents {
-                        
+                                                
                         articelArray.append(HomeArticleModel(contentID: String(i.contentID),
                                                              title: i.title,
                                                              description: i.description,
@@ -190,17 +187,30 @@ class HomeDataSource {
                     //changed vc state ( first time loading, when vc is loading state)
                     if self.state == .loading {
                         
+                        articelArray.insert(nil, at: self.scoreBoardIndex + 1)
                         self.state = .loaded
                         
                     }
+                    
+                    articelArray.insert(nil, at: self.competitionIndex - 1)
+                    articelArray.insert(nil, at: self.competitionIndex + 1)
                     
                     if self.isRefresh == false {
                         self.articleData = articelArray
                         self.isRefresh = true
                         return
                     }
+                    
                     self.articleData.append(contentsOf: articelArray)
                     
+                    var count = 0
+                    for i in self.articleData {
+                        
+                        if i == nil {
+                            print(count)
+                        }
+                        count += 1
+                    }
                 }
                 
             case .failure(let err):

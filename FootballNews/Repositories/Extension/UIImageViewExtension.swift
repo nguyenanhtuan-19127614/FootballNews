@@ -57,8 +57,8 @@ extension UIImageView {
         guard let url = url else {
             return
         }
-        
-        for ope in ImageDownloader.sharedService.operationQueue.operations {
+      
+        for ope in ImageDownloader.sharedService.operationQueue.operations.reversed() {
             
             if ope.name == url {
                 ope.cancel()

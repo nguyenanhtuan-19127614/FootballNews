@@ -5,8 +5,8 @@ import UIKit
 
 class ArticleCell: UICollectionViewCell {
     
-    var avatarURL: String = ""
-    var publisherLogoURL: String = ""
+    var avatarURL: String?
+    var publisherLogoURL: String?
     //MARK: Overide Init
     override init(frame: CGRect) {
         
@@ -75,6 +75,7 @@ class ArticleCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        
         super.prepareForReuse()
         
         newsAvatar.image = nil
@@ -85,6 +86,9 @@ class ArticleCell: UICollectionViewCell {
         
         title.text = nil
         timeLabel.text = nil
+        
+        avatarURL = ""
+        publisherLogoURL = ""
         
     }
     

@@ -21,7 +21,6 @@ struct HomeArticleModel: Codable {
     var publisherIcon: String
     
     var date: Int
-    
 }
 
 //Data for Score Board
