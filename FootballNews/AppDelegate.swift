@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
        
         navController = UINavigationController(rootViewController: homeVC)
-//        homeVC.state = .offline
+//        homeVC.changeState(state: .offline)
 //        ImageDownloader.sharedService.offlineMode = true
         navController?.navigationBar.isTranslucent = false
       

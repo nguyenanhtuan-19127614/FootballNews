@@ -241,21 +241,25 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let state = dataSource.state
         
-        if state == .offline {
+        switch state {
+        case .loading:
+            
+            return 1
+            
+        case .loaded:
+            
+            return dataSource.cellSize 
+            
+        case .error:
+            
+            return 1
+            
+        case .offline:
             
             return self.dataSource.diskCache.homeArticelData.count
             
         }
-        
-        if state == .loading || state == .error {
-            
-            return 1
-            
-        } else {
-            
-            return dataSource.cellSize + 1
-            
-        }
+
         
     }
     
@@ -364,30 +368,35 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if (dataSource.competitionLocation.contains(indexPath.row) && dataSource.competitionExist) ||
+            (indexPath.row == dataSource.scoreBoardIndex && dataSource.scoreBoardExist) {
+            
+          return
+            
+        }
+        
         let state = dataSource.state
-        if state == .loaded || state == .offline{
+        
+        switch state {
             
-            //Pass Data and call articelDetail View Controller
-            if (dataSource.competitionLocation.contains(indexPath.row) && dataSource.competitionExist) ||
-                (indexPath.row == dataSource.scoreBoardIndex && dataSource.scoreBoardExist) {
-                
-              return
-                
-            }
+        case .loading:
             
+            return
             
-            if state == .offline {
-                
-                let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
-                let detail = dataSource.diskCache.articelDetail[contentID]
-                ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail))
-             
-            } else {
-
-                ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
-               
-            }
-  	
+        case .loaded:
+            
+            ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+            
+        case .error:
+            
+            return
+            
+        case .offline:
+            
+            let contentID = dataSource.diskCache.homeArticelData[indexPath.row].contentID
+            let detail = dataSource.diskCache.articelDetail[contentID]
+            ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail))
+            
         }
         
     }
@@ -420,18 +429,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         
         let state = dataSource.state
         
-        if state == .offline {
-            
-            return CGSize(width: totalWidth,
-                          height: totalHeight/7)
-            
-        }
-        
-        if state == .loading || state == .error {
+        switch state {
+        case .loading:
             
             return CGSize(width: totalWidth ,
                           height: totalHeight)
-        } else {
+            
+        case .loaded:
             
             if dataSource.competitionLocation.contains(indexPath.row)  &&
                dataSource.competitionExist == true {
@@ -462,7 +466,18 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 
             }
             
+        case .error:
+            
+            return CGSize(width: totalWidth ,
+                          height: totalHeight)
+            
+        case .offline:
+            
+            return CGSize(width: totalWidth,
+                          height: totalHeight/7)
+            
         }
+        
         
     }
     

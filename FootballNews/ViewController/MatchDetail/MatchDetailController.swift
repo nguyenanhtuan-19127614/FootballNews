@@ -203,12 +203,12 @@ extension MatchDetailController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let state = dataSource.state
-        
-        if state == .loading || state == .error {
+        switch state {
+        case .loading:
             
             return 1
             
-        } else {
+        case .loaded:
             
             //news articel content
             if dataSource.selectedContent == .news {
@@ -216,6 +216,15 @@ extension MatchDetailController: UICollectionViewDataSource {
             }
             
             return dataSource.rankingData.count
+            
+        case .error:
+            
+            return 1
+            
+        case .offline:
+            
+            return 0
+            
         }
         
     }
@@ -308,12 +317,11 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
         let state = dataSource.state
         let selectedContent = dataSource.selectedContent
         
-        if state == .loading || state == .error {
-            
+        switch state {
+        case .loading:
             return CGSize(width: totalWidth ,
                           height: collectionView.bounds.height)
-            
-        } else {
+        case .loaded:
             
             //news articel content
             if selectedContent == .news {
@@ -325,7 +333,16 @@ extension MatchDetailController: UICollectionViewDelegateFlowLayout {
                               height: collectionView.bounds.height/15)
             }
             
+        case .error:
+            return CGSize(width: totalWidth ,
+                          height: collectionView.bounds.height)
+        case .offline:
+            
+            return CGSize(width: 0 ,
+                          height: 0)
+            
         }
+        
         
     }
     

@@ -77,7 +77,7 @@ class HomeDataSource {
         
         get {
             
-            return articleData.count
+            return articleData.count + 1
             
         }
         

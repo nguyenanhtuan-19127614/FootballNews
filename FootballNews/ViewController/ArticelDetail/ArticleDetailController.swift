@@ -46,12 +46,12 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         self.dataSource.headerData = data
         
     }
-
+    
     func passArticelDetail(detail: ArticelDetailModel?) {
         guard let detail = detail else {
             return
         }
-
+        
         self.dataSource.detailData = detail
     }
     
@@ -85,9 +85,9 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         super.loadView()
         //Add delegate for datasource
-       
+        
         dataSource.delegate = self
-   
+        
         //MARK: Create customView
         let view = UIView()
         view.backgroundColor = .white
@@ -106,7 +106,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     
     //MARK: viewDidLoad() state
     override func viewDidLoad() {
-    
+        
         super.viewDidLoad()
         
         //get data
@@ -146,7 +146,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         self.navigationController?.navigationBar.setImageBackground(image: nil)
         
         
-       
+        
     }
     
     //MARK: Custom Layout
@@ -154,47 +154,50 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         articleDetailLayout.sectionInsetReference = .fromSafeArea
         articleDetailLayout.minimumLineSpacing = 15
-       
+        
     }
     
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
-      
+        
         articleDetailCollection.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-
+            
             articleDetailCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             articleDetailCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             articleDetailCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             articleDetailCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
             
         ])
-  
+        
     }
-
+    
 }
 
 //MARK: Datasource Extension
 extension ArticelDetailController: UICollectionViewDataSource {
-
+    
     //Return Cells Numbers
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let state = dataSource.state
         
-        if state == .loading || state == .error {
-             
+        switch state {
+            
+        case .loading:
+            
             return 2
             
-        } else if state == .offline{
-            
-            return (self.dataSource.detailData?.body?.count ?? 0) + 1
-            
-            
-        } else {
+        case .loaded:
             
             return dataSource.dataSourceSize
+            
+        case .error:
+            return 2
+            
+        case .offline:
+            return (self.dataSource.detailData?.body?.count ?? 0) + 1
             
         }
         
@@ -202,17 +205,6 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let state = dataSource.state
-        
-        if self.dataSource.detailData == nil && state == .offline {
-        
-            dataSource.state = .error
-            DispatchQueue.main.async {
-                self.articleDetailCollection.reloadData()
-            }
-            
-        }
         
         if indexPath.row == 0 {
             
@@ -225,44 +217,86 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 headerCell.loadData(headerData)
                 
             }
-         
+            
             return headerCell
         }
         
-        guard state == .loaded || state == .offline else {
+        let state = dataSource.state
+        
+        switch state {
+        case .loading:
             
-            if state == .loading {
-                //Loading State
-                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            //Loading State
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            return indicatorCell
+            
+        case .loaded:
+            if indexPath.row > dataSource.contentBodySize {
                 
-                indicatorCell.indicator.startAnimating()
-                return indicatorCell
+                let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
+                
+                relatedCell.backgroundColor = UIColor.white
+                
+                let index = indexPath.row - dataSource.contentBodySize - 1
+                relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
+                return relatedCell
                 
             } else {
-                //Error State
-                let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
-                errorCell.delegate = self
-                return errorCell
+                
+                //Body Part
+                guard let bodyContent = dataSource.detailData?.body else {
+                    
+                    return UICollectionViewCell()
+                    
+                }
+                
+                if bodyContent[indexPath.row - 1].type == "text" {
+                    
+                    let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailTextCell", for: indexPath) as! ArticelDetailBodyTextCell
+                    
+                    bodyCell.backgroundColor = UIColor.white
+                    bodyCell.loadData(bodyContent[indexPath.row - 1].content,
+                                      subtype: bodyContent[indexPath.row - 1].subtype)
+                    
+                    bodyCell.bounds.size = CGSize(width: self.view.bounds.width,
+                                                  height: bodyCell.calculateHeight())
+                    
+                    return bodyCell
+                    
+                    
+                } else {
+                    
+                    let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailImageCell", for: indexPath) as! ArticelDetailBodyImageCell
+                    
+                    bodyCell.backgroundColor = UIColor.white
+                    
+                    bodyCell.loadData(bodyContent[indexPath.row - 1].content)
+                    return bodyCell
+                    
+                }
                 
             }
-           
-        }
-        
-        //Loaded state
-           
-        if indexPath.row > dataSource.contentBodySize && state != .offline {
             
-            let relatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailRelatedCell", for: indexPath) as! HomeArticleCell
+        case .error:
             
-            relatedCell.backgroundColor = UIColor.white
+            //Error State
+            let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
+            errorCell.delegate = self
+            return errorCell
             
-            let index = indexPath.row - dataSource.contentBodySize - 1
-            relatedCell.loadData(inputData: dataSource.relatedArticleData[index])
-            return relatedCell
+        case .offline:
             
+            if self.dataSource.detailData == nil {
+                
+                dataSource.state = .error
+                DispatchQueue.main.async {
+                    self.articleDetailCollection.reloadData()
+                }
+                
+            }
             
-        } else {
-             
             //Body Part
             guard let bodyContent = dataSource.detailData?.body else {
                 
@@ -277,7 +311,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 bodyCell.backgroundColor = UIColor.white
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content,
                                   subtype: bodyContent[indexPath.row - 1].subtype)
-              
+                
                 bodyCell.bounds.size = CGSize(width: self.view.bounds.width,
                                               height: bodyCell.calculateHeight())
                 
@@ -289,12 +323,12 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 let bodyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticelDetailImageCell", for: indexPath) as! ArticelDetailBodyImageCell
                 
                 bodyCell.backgroundColor = UIColor.white
-
+                
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content)
                 return bodyCell
                 
             }
-        
+            
         }
         
     }
@@ -316,7 +350,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
             
             
             let index = indexPath.row - dataSource.contentBodySize  - 1
-
+            
             ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
             
         }
@@ -362,7 +396,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                           height: height)
             
         }
-        
+    
         if state == .loading || state == . error {
             
             return CGSize(width: totalWidth,
@@ -396,16 +430,16 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {
-            
+                        
                         contentLabel.font =  UIFont(name: "TimesNewRomanPS-ItalicMT", size: 18.0) ?? UIFont.systemFont(ofSize: 18)
                         
                     }
-                   
+                    
                 }
                 
                 return CGSize(width: totalWidth - 30,
                               height: contentLabel.calculateHeight(cellWidth: totalWidth - 30 ))
-               
+                
                 
             } else {
                 
@@ -421,5 +455,5 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
         
     }
     
-   
+    
 }
