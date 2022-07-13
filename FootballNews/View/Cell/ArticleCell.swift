@@ -145,6 +145,7 @@ class ArticleCell: UICollectionViewCell {
        
         self.avatarURL = inputData.avatar
         self.publisherLogoURL = inputData.publisherLogo
+        
     }
 
 }

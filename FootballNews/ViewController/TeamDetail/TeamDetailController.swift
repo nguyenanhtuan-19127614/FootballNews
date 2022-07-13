@@ -7,14 +7,6 @@
 
 import UIKit
 
-struct TeamInfoData {
-    
-    var compID: Int
-    var teamID: Int
-    var teamName: String
-    var teamLogo: String
-}
-
 class TeamDetailController: UIViewController, DataSoureDelegate {
     
     // Datasource
@@ -251,6 +243,7 @@ extension TeamDetailController: UICollectionViewDelegate {
         switch dataSource.selectedContent {
             
         case .news:
+            
             ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
             
         case .ranking:
@@ -285,12 +278,12 @@ extension TeamDetailController: UICollectionViewDelegateFlowLayout {
                               height: totalHeight/7)
             } else {
                 //ranking content
-                return CGSize(width: totalWidth ,
+                return CGSize(width: totalWidth,
                               height: collectionView.bounds.height/15)
             }
             
         case .error:
-            return CGSize(width: totalWidth ,
+            return CGSize(width: totalWidth,
                           height: collectionView.bounds.height)
         case .offline:
             

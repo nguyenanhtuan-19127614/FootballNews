@@ -1,8 +1,8 @@
 //
-//  MatchDetailModel.swift
+//  RankingModel.swift
 //  FootballNews
 //
-//  Created by LAP13606 on 11/07/2022.
+//  Created by LAP13606 on 13/07/2022.
 //
 
 import Foundation

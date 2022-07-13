@@ -210,27 +210,36 @@ class QueryService {
             
             if customOperation.name == ope.name {
                 
+                //Cancel operation and get result from operation that already in queue
                 customOperation.cancel()
-                ope.waitUntilFinished()
-                guard let data = (ope as! QueryServiceOperation).data else {
+                //Create a operation waiting for executing operaion
+                let waitingOperation = BlockOperation {
+                    
+                    guard let data = (ope as? QueryServiceOperation)?.data else {
 
-                    completion(.failure(AppErrors.BadData))
-                    return
+                        completion(.failure(AppErrors.BadData))
+                        return
 
+                    }
+                    let decoder = JSONDecoder()
+                    
+                    do {
+
+                        let jsonData = try decoder.decode(T.self, from: data)
+                        completion(.success(jsonData))
+
+                    } catch {
+
+                        completion(.failure(error))
+                        print(error.localizedDescription)
+
+                    }
+                    
                 }
-                let decoder = JSONDecoder()
+               
+                waitingOperation.addDependency(ope)
                 
-                do {
-
-                    let jsonData = try decoder.decode(T.self, from: data)
-                    completion(.success(jsonData))
-
-                } catch {
-
-                    completion(.failure(error))
-                    print(error.localizedDescription)
-
-                }
+                operationQueue.addOperation(waitingOperation)
                 
                 return
                 

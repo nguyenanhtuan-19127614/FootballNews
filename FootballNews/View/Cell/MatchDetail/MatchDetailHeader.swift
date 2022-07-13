@@ -20,13 +20,13 @@ class MatchDetailHeader: UIView {
         if #available(iOS 13.0, *) {
             
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
-            //let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
             let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
             let colorsList = [startColor,endColor]
             
             if let gradientImage = UIImage().createGradientImage(colors: colorsList, frame: self.frame) {
+                
                 self.layer.contents = gradientImage.cgImage
-                //self.backgroundColor = UIColor(patternImage: gradientImage)
+                
             }
            
 

@@ -201,7 +201,7 @@ class HomeDataSource {
                     articelArray.insert(nil, at: self.competitionIndex + 1)
                     
                     if self.isRefresh == true {
-
+    
                         self.articleData = []
                         self.articleData.append(contentsOf: articelArray)
             

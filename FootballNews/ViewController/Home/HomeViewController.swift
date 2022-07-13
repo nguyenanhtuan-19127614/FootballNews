@@ -17,6 +17,7 @@ import Network
 
 //Passing data with delegate
 
+
 class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Internet Connection
@@ -47,10 +48,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         return homeCollection
         
     }()
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     
     //MARK: Delegation Function
     
@@ -145,8 +142,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         //Push Offline alert notification if offline Mode
         connectionErrorAlert()
         
-
-        
         //get data score board
         self.getData()
         
@@ -200,13 +195,13 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         //Status bar
-        navigationController?.navigationBar.barStyle = .black
-        
+       
+      
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
      
     }
-    
+
     //MARK: Function to add layout for subviews
     func addSubviewsLayout() {
         
@@ -270,6 +265,7 @@ extension HomeViewController: UICollectionViewDataSource {
         switch self.dataSource.state {
             
         case .offline:
+            
             let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as? ArticleCell
             
             guard let articelCell = articelCell else {

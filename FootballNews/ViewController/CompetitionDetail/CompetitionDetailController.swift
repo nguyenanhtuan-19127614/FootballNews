@@ -127,6 +127,11 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
+        
+        //Getdata
+        if dataSource.state == .loading {
+            self.getData()
+        }
       
     }
     
@@ -177,10 +182,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         //Title
         self.title = "Giải Đấu"
         
-        //Getdata
-        if dataSource.state == .loading {
-            self.getData()
-        }
+        
     }
     
     //MARK: Load Data Functions

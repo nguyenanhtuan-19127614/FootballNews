@@ -169,6 +169,7 @@ class ImageDownloader {
         
         let dispatchQueue = DispatchQueue(label: "downloadQueue", qos: .utility, attributes: .concurrent)
         operationQueue.underlyingQueue = dispatchQueue
+        operationQueue.qualityOfService = .userInitiated
         
         //Create Cache, if online mode, use diskcache to store local
         imageCacheLRU = LRUCache(size: 20)
@@ -216,7 +217,7 @@ class ImageDownloader {
                 //Create a operation waiting for executing operaion
                 let waitingOperation = BlockOperation {
                     
-                    guard let data = (ope as! NetworkDownloadOperation).data else {
+                    guard let data = (ope as? NetworkDownloadOperation)?.data else {
                         
                         completion(.failure(AppErrors.BadData))
                         return
