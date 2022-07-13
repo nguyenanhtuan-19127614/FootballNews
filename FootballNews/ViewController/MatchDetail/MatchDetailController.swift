@@ -126,6 +126,11 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
+        
+        //Getdata
+        if dataSource.state == .loading {
+            self.getData()
+        }
       
     }
    
@@ -176,10 +181,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         //Title
         self.title = dataSource.headerData?.competition
         
-        //Getdata
-        if dataSource.state == .loading {
-            self.getData()
-        }
+       
         
     }
     
@@ -293,7 +295,8 @@ extension MatchDetailController: UICollectionViewDelegate {
         guard let headerData = dataSource.headerData else {
             return
         }
-        let dataTeam = TeamInfoData(teamID: headerData.homeID,
+        let dataTeam = TeamInfoData(compID: headerData.competitionID,
+                                    teamID: headerData.homeID,
                                     teamName: headerData.homeName,
                                     teamLogo: headerData.homeLogo)
         ViewControllerRouter.shared.routing(to: .detailTeam(dataTeam: dataTeam))
@@ -305,7 +308,8 @@ extension MatchDetailController: UICollectionViewDelegate {
         guard let headerData = dataSource.headerData else {
             return
         }
-        let dataTeam = TeamInfoData(teamID: headerData.awayID,
+        let dataTeam = TeamInfoData(compID: headerData.competitionID,
+                                    teamID: headerData.awayID,
                                     teamName: headerData.awayName,
                                     teamLogo: headerData.awayLogo)
         ViewControllerRouter.shared.routing(to: .detailTeam(dataTeam: dataTeam))

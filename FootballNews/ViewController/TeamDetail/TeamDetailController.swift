@@ -9,6 +9,7 @@ import UIKit
 
 struct TeamInfoData {
     
+    var compID: Int
     var teamID: Int
     var teamName: String
     var teamLogo: String
@@ -38,8 +39,8 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         teamDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         teamDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
-//        teamDetailCollection.register(MatchDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MatchDetailSectionHeader")
-//      
+        teamDetailCollection.register(TeamDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TeamDetailSectionHeader")
+      
         return teamDetailCollection
         
     }()
@@ -81,6 +82,8 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
     
     func getData() {
         
+        dataSource.getRelatedArticelData(teamID: dataSource.headerData?.teamID)
+        dataSource.getCompetitionRankingData(competitionID: dataSource.headerData?.compID)
     }
     
     //MARK: loadView() state
@@ -119,6 +122,11 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
+        
+        //Getdata
+        if dataSource.state == .loading {
+            self.getData()
+        }
       
     }
    
@@ -151,30 +159,112 @@ extension TeamDetailController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        let state = dataSource.state
+        switch state {
+        case .loading:
+            
+            return 1
+            
+        case .loaded:
+            
+            //news articel content
+            if dataSource.selectedContent == .news {
+                return dataSource.articleData.count
+            }
+            
+            return dataSource.rankingData.count
+            
+        case .error:
+            
+            return 1
+            
+        case .offline:
+            
+            return 0
+            
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
         
-        indicatorCell.indicator.startAnimating()
+        let state = dataSource.state
+        let selectedContent = dataSource.selectedContent
         
-        return indicatorCell
+        guard state == .loaded else {
+            
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            
+            indicatorCell.indicator.startAnimating()
+            
+            return indicatorCell
+            
+        }
+         
+        //News Articel Containt
+        if selectedContent == .news {
+            
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
+            
+            articelCell.backgroundColor = UIColor.white
+            articelCell.loadData(inputData: self.dataSource.articleData[indexPath.row])
+           
+            return articelCell
+            
+        }
+        
+        let rankingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RankingCell", for: indexPath) as! RankingCell
+        
+        
+        rankingCell.loadData(inputData: self.dataSource.rankingData[indexPath.row],
+                             index: indexPath.row)
+       
+        return rankingCell
         
     }
     
+    //return section
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+        if kind == UICollectionView.elementKindSectionHeader {
+            
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "TeamDetailSectionHeader", for: indexPath) as! TeamDetailSectionHeader
+            sectionHeader.delegate = self
+            return sectionHeader
+            
+            
+       } else {
+           
+            return UICollectionReusableView()
+           
+       }
+    }
 }
 
 //MARK: Delegate Extension
 extension TeamDetailController: UICollectionViewDelegate {
+    //Tap Event
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        switch dataSource.selectedContent {
+            
+        case .news:
+            ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.articleData[indexPath.row]))
+            
+        case .ranking:
+            return
+        
+        }
+
+    }
 }
 
 //MARK: Delegate Flow Layout extension
 extension TeamDetailController: UICollectionViewDelegateFlowLayout {
     
+    //Cell Size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let totalWidth = self.view.bounds.width
@@ -183,25 +273,55 @@ extension TeamDetailController: UICollectionViewDelegateFlowLayout {
         let selectedContent = dataSource.selectedContent
         
         switch state {
-        case .loading:
-            return CGSize(width: totalWidth,
-                          height: totalHeight)
             
+        case .loading:
+            return CGSize(width: totalWidth ,
+                          height: collectionView.bounds.height)
         case .loaded:
-            return CGSize(width: totalWidth,
-                          height: totalHeight)
+            
+            //news articel content
+            if selectedContent == .news {
+                return CGSize(width: totalWidth,
+                              height: totalHeight/7)
+            } else {
+                //ranking content
+                return CGSize(width: totalWidth ,
+                              height: collectionView.bounds.height/15)
+            }
             
         case .error:
-            return CGSize(width: totalWidth,
-                          height: totalHeight)
-            
+            return CGSize(width: totalWidth ,
+                          height: collectionView.bounds.height)
         case .offline:
-            return CGSize(width: totalWidth,
-                          height: totalHeight)
+            
+            return CGSize(width: 0 ,
+                          height: 0)
             
         }
         
     }
     
+    //Line spaceing between cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        if dataSource.selectedContent == .news {
+            
+            return 10
+            
+        } else {
+            
+            return 0
+            
+        }
+        
+    }
+    
+    //Section Header Size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.width,
+                      height: collectionView.frame.height/14)
+        
+    }
     
 }

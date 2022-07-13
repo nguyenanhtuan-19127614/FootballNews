@@ -41,7 +41,7 @@ class TeamDetailHeader: UIView {
         
         let imgView = UIImageView()
         imgView.layer.masksToBounds = true
-        imgView.backgroundColor = .white
+    
         return imgView
         
     }()
@@ -87,11 +87,6 @@ class TeamDetailHeader: UIView {
             nameLabel.widthAnchor.constraint(equalToConstant: self.bounds.width)
 
         ])
-     
-       
-        //Round border
-        teamLogo.layoutIfNeeded()
-        teamLogo.layer.cornerRadius = teamLogo.bounds.width/2
     }
     
     //MARK: Load data

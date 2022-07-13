@@ -363,6 +363,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
 extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     
     //Set size for each cell
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let totalWidth = self.view.bounds.width
