@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 class HomeDataSource {
@@ -187,11 +188,13 @@ class HomeDataSource {
                     //changed vc state ( first time loading, when vc is loading state)
                     if self.state == .loading {
                         
+                        //add separate cell for scoreboard cell
                         articelArray.insert(nil, at: self.scoreBoardIndex + 1)
                         self.state = .loaded
                         
                     }
                     
+                    //add separate cell for competition cell
                     articelArray.insert(nil, at: self.competitionIndex - 1)
                     articelArray.insert(nil, at: self.competitionIndex + 1)
                     
@@ -250,9 +253,11 @@ class HomeDataSource {
                             competitionID: i.competition.competitionID,
                             time: i.time,
                             startTime: i.startTime,
+                            homeID: i.homeTeam.teamID,
                             homeLogo: i.homeTeam.teamLogo,
                             homeName: i.homeTeam.teamName,
                             homeScore: i.homeScored,
+                            awayID: i.awayTeam.teamID,
                             awayLogo: i.awayTeam.teamLogo,
                             awayName: i.awayTeam.teamName,
                             awayScore: i.awayScored))

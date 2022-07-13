@@ -39,6 +39,8 @@
 		037276B1287D2736004AE6C3 /* CompetitionDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037276B0287D2736004AE6C3 /* CompetitionDetailHeader.swift */; };
 		037276B3287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037276B2287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift */; };
 		037276B5287D6D16004AE6C3 /* SeparateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037276B4287D6D16004AE6C3 /* SeparateCell.swift */; };
+		037276B8287D8B84004AE6C3 /* TeamDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037276B7287D8B84004AE6C3 /* TeamDetailController.swift */; };
+		037276BA287D8B94004AE6C3 /* TeamDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037276B9287D8B94004AE6C3 /* TeamDetailDataSource.swift */; };
 		037DE5F92863240500DD588D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037DE5F82863240500DD588D /* StringExtension.swift */; };
 		0384E970287BD3E2000C4561 /* ViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0384E96F287BD3E2000C4561 /* ViewControllerState.swift */; };
 		0384E979287BD4FD000C4561 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0384E978287BD4FD000C4561 /* ImageDownloader.swift */; };
@@ -54,6 +56,7 @@
 		03ADCEBB28677453007E5668 /* CustomOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADCEBA28677453007E5668 /* CustomOperation.swift */; };
 		03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */; };
 		03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */; };
+		03CE6BF6287E82D0005CBC4B /* TeamDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */; };
 		03DC833428753136005D5078 /* MatchDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833328753136005D5078 /* MatchDetailController.swift */; };
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
@@ -122,6 +125,8 @@
 		037276B0287D2736004AE6C3 /* CompetitionDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionDetailHeader.swift; sourceTree = "<group>"; };
 		037276B2287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionDetailSectionHeader.swift; sourceTree = "<group>"; };
 		037276B4287D6D16004AE6C3 /* SeparateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparateCell.swift; sourceTree = "<group>"; };
+		037276B7287D8B84004AE6C3 /* TeamDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailController.swift; sourceTree = "<group>"; };
+		037276B9287D8B94004AE6C3 /* TeamDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailDataSource.swift; sourceTree = "<group>"; };
 		037DE5F82863240500DD588D /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0384E96F287BD3E2000C4561 /* ViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerState.swift; sourceTree = "<group>"; };
 		0384E978287BD4FD000C4561 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
@@ -137,6 +142,7 @@
 		03ADCEBA28677453007E5668 /* CustomOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperation.swift; sourceTree = "<group>"; };
 		03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
 		03C6071B2874270300EF0BBF /* ConnectionErrorNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionErrorNotification.swift; sourceTree = "<group>"; };
+		03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailHeader.swift; sourceTree = "<group>"; };
 		03DC833328753136005D5078 /* MatchDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailController.swift; sourceTree = "<group>"; };
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
@@ -234,6 +240,7 @@
 				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
 				03DC833D2876E971005D5078 /* RankingCell.swift */,
 				0305AF472859DE60009398A6 /* ArticleCell.swift */,
+				037276BB287D8C64004AE6C3 /* TeamDetail */,
 				037276AF287D2716004AE6C3 /* CompetitionDetail */,
 				03DC833728754E70005D5078 /* MatchDetail */,
 				03E1FFD928601E1300851333 /* ArticelDetail */,
@@ -334,6 +341,23 @@
 			path = CompetitionDetail;
 			sourceTree = "<group>";
 		};
+		037276B6287D8B62004AE6C3 /* TeamDetail */ = {
+			isa = PBXGroup;
+			children = (
+				037276B7287D8B84004AE6C3 /* TeamDetailController.swift */,
+				037276B9287D8B94004AE6C3 /* TeamDetailDataSource.swift */,
+			);
+			path = TeamDetail;
+			sourceTree = "<group>";
+		};
+		037276BB287D8C64004AE6C3 /* TeamDetail */ = {
+			isa = PBXGroup;
+			children = (
+				03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */,
+			);
+			path = TeamDetail;
+			sourceTree = "<group>";
+		};
 		0384E96E287BD3C9000C4561 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,9 +365,10 @@
 				0384E96F287BD3E2000C4561 /* ViewControllerState.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0384E971287BD3FB000C4561 /* Home */,
+				0384E973287BD421000C4561 /* ArticelDetail */,
 				037276AA287D226D004AE6C3 /* CompetitionDetail */,
 				0384E972287BD40D000C4561 /* MatchDetail */,
-				0384E973287BD421000C4561 /* ArticelDetail */,
+				037276B6287D8B62004AE6C3 /* TeamDetail */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -603,6 +628,7 @@
 				03A6AFC6287288D300E9FB01 /* ErrorOccurredCell.swift in Sources */,
 				036D64CE28656E2A006E68C5 /* LoadMoreIndicatorCell.swift in Sources */,
 				036D64C8286479CD006E68C5 /* CustomTitleView.swift in Sources */,
+				037276BA287D8B94004AE6C3 /* TeamDetailDataSource.swift in Sources */,
 				0344A941286EF3BF00B38E38 /* UIViewExtension.swift in Sources */,
 				0384E981287BDCDA000C4561 /* ArticleDetailModel.swift in Sources */,
 				03A6AFCA2872A63B00E9FB01 /* DiskCache.swift in Sources */,
@@ -635,6 +661,7 @@
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,
 				03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */,
 				0384E983287BDCF8000C4561 /* ArticleDetailDataSource.swift in Sources */,
+				03CE6BF6287E82D0005CBC4B /* TeamDetailHeader.swift in Sources */,
 				03DC833428753136005D5078 /* MatchDetailController.swift in Sources */,
 				03DC833B2876BC9D005D5078 /* MatchDetailSectionHeader.swift in Sources */,
 				0305AF3228583D7E009398A6 /* ResponseModel.swift in Sources */,
@@ -643,6 +670,7 @@
 				037DE5F92863240500DD588D /* StringExtension.swift in Sources */,
 				03DC833E2876E971005D5078 /* RankingCell.swift in Sources */,
 				036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */,
+				037276B8287D8B84004AE6C3 /* TeamDetailController.swift in Sources */,
 				03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */,
 				037276B3287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift in Sources */,
 			);

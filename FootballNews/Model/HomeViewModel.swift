@@ -21,6 +21,7 @@ struct HomeArticleModel: Codable {
     var publisherIcon: String
     
     var date: Int
+
 }
 
 //Data for Score Board
@@ -35,10 +36,12 @@ struct HomeScoreBoardModel {
     var time: String
     var startTime: String
     
+    var homeID: Int
     var homeLogo: String
     var homeName: String
     var homeScore: Int
     
+    var awayID: Int
     var awayLogo: String
     var awayName: String
     var awayScore: Int

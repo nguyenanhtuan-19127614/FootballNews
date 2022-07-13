@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 class MatchDetailDataSource {
     
     weak var delegate: DataSoureDelegate?

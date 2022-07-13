@@ -270,8 +270,11 @@ extension HomeViewController: UICollectionViewDataSource {
         switch self.dataSource.state {
             
         case .offline:
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
+            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as? ArticleCell
             
+            guard let articelCell = articelCell else {
+                return UICollectionViewCell()
+            }
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.diskCache.homeArticelData[indexPath.row])
             

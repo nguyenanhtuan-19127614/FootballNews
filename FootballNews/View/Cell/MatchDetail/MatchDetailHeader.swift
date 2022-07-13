@@ -9,6 +9,8 @@ import UIKit
 
 class MatchDetailHeader: UIView {
     
+    weak var delegate: MatchDetailController?
+    
     //MARK: Override Init
     override init(frame: CGRect) {
         
@@ -32,6 +34,9 @@ class MatchDetailHeader: UIView {
         //add sub views
         addSubViews()
         
+        //add Gestures
+        addGestures()
+       
     }
     
     required init?(coder: NSCoder) {
@@ -91,6 +96,32 @@ class MatchDetailHeader: UIView {
         
     }
     
+    //MARK: Add Gesture
+    
+    func addGestures() {
+        
+        let homeTap = UITapGestureRecognizer(target: self, action: #selector(homeTap(_:)))
+        let awayTap = UITapGestureRecognizer(target: self, action: #selector(awayTap(_:)))
+        
+        homeTeam.addGestureRecognizer(homeTap)
+        awayTeam.addGestureRecognizer(awayTap)
+        
+    }
+    
+    //MARK: Tap Event
+    
+    @objc func homeTap(_ sender: UIGestureRecognizer?) {
+        
+        delegate?.homeTap()
+        
+    }
+    
+    @objc func awayTap(_ sender: UIGestureRecognizer?) {
+        
+        delegate?.awayTap()
+        
+    }
+    
 }
 
 //Team Status View
@@ -117,7 +148,6 @@ class TeamView: UIView {
         imgView.layer.masksToBounds = true
         //imgView.contentMode = .scaleAspectFit
         imgView.backgroundColor = .white
-        
 
         return imgView
         
@@ -166,6 +196,7 @@ class TeamView: UIView {
         
         //Round border
         teamLogo.layer.cornerRadius = teamLogo.bounds.width/2
+        
     }
     
     //MARK: Load data to cell
@@ -177,6 +208,7 @@ class TeamView: UIView {
         self.teamLogo.loadImageFromUrl(url: teamLogo)
     
     }
+
 }
 
 class ScoreView: UIView {

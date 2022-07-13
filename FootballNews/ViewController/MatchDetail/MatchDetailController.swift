@@ -55,7 +55,11 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
         dataSource.headerData = scoreBoard
         loadHeaderData(scoreBoard: scoreBoard)
-       
+        
+    }
+    
+    func changeContentMatchDetail(content: MatchDetailContent) {
+        self.dataSource.selectedContent = content
     }
     
     func reloadData() {
@@ -75,9 +79,6 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    func changeContentMatchDetail(content: MatchDetailContent) {
-        self.dataSource.selectedContent = content
-    }
     
     func getData() {
         
@@ -111,6 +112,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
                                   y: 0,
                                   width: self.view.bounds.width,
                                   height: self.view.bounds.height/5)
+        headerView.delegate = self
    
         view.addSubview(matchDetailCollection)
         view.addSubview(headerView)
@@ -285,6 +287,31 @@ extension MatchDetailController: UICollectionViewDataSource {
 extension MatchDetailController: UICollectionViewDelegate {
     
     //Tap Event
+    
+    func homeTap() {
+        
+        guard let headerData = dataSource.headerData else {
+            return
+        }
+        let dataTeam = TeamInfoData(teamID: headerData.homeID,
+                                    teamName: headerData.homeName,
+                                    teamLogo: headerData.homeLogo)
+        ViewControllerRouter.shared.routing(to: .detailTeam(dataTeam: dataTeam))
+        
+    }
+    
+    func awayTap() {
+        
+        guard let headerData = dataSource.headerData else {
+            return
+        }
+        let dataTeam = TeamInfoData(teamID: headerData.awayID,
+                                    teamName: headerData.awayName,
+                                    teamLogo: headerData.awayLogo)
+        ViewControllerRouter.shared.routing(to: .detailTeam(dataTeam: dataTeam))
+        
+        
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
