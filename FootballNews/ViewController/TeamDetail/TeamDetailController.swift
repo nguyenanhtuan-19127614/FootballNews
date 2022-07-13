@@ -240,6 +240,10 @@ extension TeamDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+        if dataSource.state == .loading {
+            return
+        }
+        
         switch dataSource.selectedContent {
             
         case .news:

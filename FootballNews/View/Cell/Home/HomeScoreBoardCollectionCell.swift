@@ -59,9 +59,11 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
         super.layoutSubviews()
        
         self.scoreBoardCollection.frame = CGRect(x: 20,
-                                                 y: 0,
+                                                 y: 20,
                                                  width: self.bounds.width - 40,
-                                                 height: self.bounds.height)
+                                                 height: self.bounds.height - 20)
+        
+     
     
     }
     

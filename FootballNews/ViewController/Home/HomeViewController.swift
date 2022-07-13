@@ -488,7 +488,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 
                 //Hot match size
                 return CGSize(width: totalWidth,
-                              height: totalHeight/6.5)
+                              height: totalHeight/6.5 + 30)
                 
             } else if indexPath.row < dataSource.articleData.count {
                 
