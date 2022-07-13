@@ -186,21 +186,26 @@ class HomeDataSource {
                     }
                     
                     //changed vc state ( first time loading, when vc is loading state)
-                    if self.state == .loading {
+                    if self.state == .loading || self.isRefresh == true {
                         
-                        //add separate cell for scoreboard cell
                         articelArray.insert(nil, at: self.scoreBoardIndex + 1)
-                        self.state = .loaded
                         
+                        if self.state == .loading {
+                            self.state = .loaded
+                        }
+                       
                     }
                     
                     //add separate cell for competition cell
                     articelArray.insert(nil, at: self.competitionIndex - 1)
                     articelArray.insert(nil, at: self.competitionIndex + 1)
                     
-                    if self.isRefresh == false {
-                        self.articleData = articelArray
-                        self.isRefresh = true
+                    if self.isRefresh == true {
+
+                        self.articleData = []
+                        self.articleData.append(contentsOf: articelArray)
+            
+                        self.isRefresh = false
                         return
                     }
                     
@@ -351,7 +356,7 @@ class HomeDataSource {
         apiLoadedCount = 0
         scoreBoardAPILoaded = false
         competitionAPILoaded = false
-        isRefresh = false
+        isRefresh = true
         
         self.delegate?.getData()
         

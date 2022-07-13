@@ -477,11 +477,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 
             } else if indexPath.row < dataSource.articleData.count {
                 
-                //articel size
+                //separate size
                 if dataSource.articleData[indexPath.row] == nil {
                     return CGSize(width: totalWidth,
-                                 height: 6)
+                                 height: 10)
                 }
+                //article size
                 return CGSize(width: totalWidth,
                               height: totalHeight/7)
                 

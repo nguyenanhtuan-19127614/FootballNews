@@ -117,10 +117,13 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
     
     //Handling cancel, if operation is cancel, cancel download task
     override func cancel() {
-    
+        
         super.cancel()
-        self.task?.cancel()
-        self.finish()
+        if isExecuting {
+            
+            self.task?.cancel()
+            self.finish()
+        }
        
     }
  
