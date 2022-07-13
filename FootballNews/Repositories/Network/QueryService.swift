@@ -45,7 +45,9 @@ fileprivate class QueryServiceOperation: CustomOperation {
         }
         
         //Create URL
-        let url = urlComponent.url!
+        guard let url = urlComponent.url else {
+            return
+        }
         
         // Create a request URL
         var request = URLRequest(url: url)

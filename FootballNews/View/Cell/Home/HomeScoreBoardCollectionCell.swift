@@ -62,7 +62,7 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
                                                  y: 0,
                                                  width: self.bounds.width - 40,
                                                  height: self.bounds.height)
-   
+    
     }
     
     //MARK: Load data to cell

@@ -208,7 +208,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             
-            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
@@ -266,11 +266,10 @@ extension HomeViewController: UICollectionViewDataSource {
             
         case .offline:
             
-            let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as? ArticleCell
-            
-            guard let articelCell = articelCell else {
-                return UICollectionViewCell()
+            guard let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as? ArticleCell else {
+                break
             }
+
             articelCell.backgroundColor = UIColor.white
             articelCell.loadData(inputData: self.dataSource.diskCache.homeArticelData[indexPath.row])
             
@@ -278,24 +277,31 @@ extension HomeViewController: UICollectionViewDataSource {
             
         case .loading:
             
-            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+            guard let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as? LoadMoreIndicatorCell else {
+                break
+            }
             
             indicatorCell.indicator.startAnimating()
             return indicatorCell
             
         case .error:
             
-            let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as! ErrorOccurredCell
+            guard let errorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ErrorCell", for: indexPath) as? ErrorOccurredCell else {
+                break
+            }
+            
             errorCell.delegate = self
             return errorCell
-            
+                
         case .loaded:
             
             //Loaded State
-            if dataSource.competitionLocation.contains(indexPath.row)  &&
+            if dataSource.competitionIndex == indexPath.row  &&
                dataSource.competitionExist == true  {
                 
-                let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as! HomeCompetitionCollectionCell
+                guard let competitionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCompetitionColectionCell", for: indexPath) as? HomeCompetitionCollectionCell else {
+                    break
+                }
                 
                 competitionCell.backgroundColor = UIColor.white
                 competitionCell.delegate = self
@@ -317,7 +323,11 @@ extension HomeViewController: UICollectionViewDataSource {
             } else if indexPath.row == dataSource.scoreBoardIndex &&
                       dataSource.scoreBoardExist == true  {
                 
-                let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as! HomeScoreBoardCollectionCell
+                guard let scoreBoardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeScoreBoardColectionCell", for: indexPath) as? HomeScoreBoardCollectionCell else {
+                    
+                    break
+                    
+                }
                 
                 scoreBoardCell.backgroundColor = UIColor.white
                 scoreBoardCell.delegate = self
@@ -338,13 +348,17 @@ extension HomeViewController: UICollectionViewDataSource {
                 
                 guard let data = self.dataSource.articleData[indexPath.row] else {
                     
-                    let separateCell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeparateCell", for: indexPath) as! SeparateCell
+                    guard let separateCell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeparateCell", for: indexPath) as? SeparateCell else {
+                        break
+                    }
                     
                     return separateCell
                     
                 }
             
-                let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as! ArticleCell
+                guard let articelCell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeArticleCell", for: indexPath) as? ArticleCell else {
+                    break
+                }
                 
                 articelCell.backgroundColor = UIColor.white
                 articelCell.loadData(inputData: data)
@@ -353,14 +367,19 @@ extension HomeViewController: UICollectionViewDataSource {
                 
             } else {
                 
-                let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreIndicatorCell
+                guard let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as? LoadMoreIndicatorCell else {
+                    break
+                }
                 
                 indicatorCell.indicator.startAnimating()
                 return indicatorCell
                 
             }
-            
+        
         }
+        
+        return UICollectionViewCell()
+   
     }
 }
 
@@ -384,7 +403,7 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if (dataSource.competitionLocation.contains(indexPath.row) && dataSource.competitionExist) ||
+        if (dataSource.competitionIndex == indexPath.row && dataSource.competitionExist) ||
             (indexPath.row == dataSource.scoreBoardIndex && dataSource.scoreBoardExist) {
             
           return
@@ -456,7 +475,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             
         case .loaded:
             
-            if dataSource.competitionLocation.contains(indexPath.row)  &&
+            if dataSource.competitionIndex == indexPath.row  &&
                dataSource.competitionExist == true {
                 
                 //competition size

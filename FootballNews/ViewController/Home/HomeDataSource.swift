@@ -39,8 +39,6 @@ class HomeDataSource {
     var scoreBoardIndex = 0
     let competitionIndex = 6
     
-    //Location and competiion
-    var competitionLocation: Set<Int> = []
     
     //query param
     var startArticel = 0
@@ -168,9 +166,7 @@ class HomeDataSource {
                 
                 if let contents = res.data?.contents {
                     
-                    self.competitionLocation.insert( self.articleData.count + self.competitionIndex)
-                    
-                    
+                 
                     var articelArray: [HomeArticleModel?] = []
                     for i in contents {
                                                 
@@ -189,17 +185,16 @@ class HomeDataSource {
                     if self.state == .loading || self.isRefresh == true {
                         
                         articelArray.insert(nil, at: self.scoreBoardIndex + 1)
+                        //add separate cell for competition cell
+                        articelArray.insert(nil, at: self.competitionIndex - 1)
+                        articelArray.insert(nil, at: self.competitionIndex + 1)
                         
                         if self.state == .loading {
                             self.state = .loaded
                         }
                        
                     }
-                    
-                    //add separate cell for competition cell
-                    articelArray.insert(nil, at: self.competitionIndex - 1)
-                    articelArray.insert(nil, at: self.competitionIndex + 1)
-                    
+        
                     if self.isRefresh == true {
     
                         self.articleData = []
@@ -329,15 +324,8 @@ class HomeDataSource {
                     }
                     self.competitionExist = true
                     //Add location for competition cell
-                    if self.competitionLocation.isEmpty {
-                        
-                        self.competitionLocation.insert(self.competitionIndex)
-                        return
-                        
-                    }
                     
-                    self.competitionLocation.insert( self.articleData.count + self.competitionIndex)
-                    
+                  
                 }
                 
             case .failure(let err):
