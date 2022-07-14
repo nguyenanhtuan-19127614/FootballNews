@@ -433,7 +433,7 @@ extension HomeViewController: UICollectionViewDelegate {
            
             let detail = dataSource.diskCache.articelDetail[contentID]
             ViewControllerRouter.shared.routing(to: .detailArticleOffline(dataArticle: detail,
-                                                                         headerData: header))
+                                                                          headerData: header))
             
         }
         
@@ -481,14 +481,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 //competition size
                 
                 return CGSize(width: totalWidth,
-                              height: totalHeight/5)
+                              height: totalHeight/4)
                 
             } else if indexPath.row == dataSource.scoreBoardIndex &&
                       dataSource.scoreBoardExist == true  {
                 
                 //Hot match size
                 return CGSize(width: totalWidth,
-                              height: totalHeight/6.5 + 30)
+                              height: totalHeight/6.5 + 10)
                 
             } else if indexPath.row < dataSource.articleData.count {
                 

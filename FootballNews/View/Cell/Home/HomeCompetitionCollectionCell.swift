@@ -12,6 +12,18 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     
     weak var delegate: HomeViewController?
     
+    let nameLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "GIẢI ĐẤU"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+    
+        label.textColor = UIColor(red: 0.694, green: 0.694, blue: 0.694, alpha: 1)
+        
+        return label
+        
+    }()
+    
     var competitionData: [HomeCompetitionModel] = []
     var competitionCollection: UICollectionView = {
     
@@ -46,6 +58,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         competitionCollection.delegate = self
         
         addSubview(competitionCollection)
+        addSubview(nameLabel)
         
     }
     
@@ -53,12 +66,19 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-      
-        self.competitionCollection.frame = CGRect(x: 20,
-                                                  y: 0,
-                                                  width: self.bounds.width - 40,
-                                                  height: self.bounds.height)
+  
+        self.nameLabel.frame = CGRect(x: 10,
+                                      y: 0,
+                                      width: self.bounds.width,
+                                      height: self.bounds.height / 5)
+        self.nameLabel.sizeToFit()
+        self.nameLabel.frame.size.height = self.bounds.height / 5
         
+        self.competitionCollection.frame = CGRect(x: 0,
+                                                  y: self.nameLabel.frame.maxY,
+                                                  width: self.bounds.width ,
+                                                  height: self.bounds.height * 4 / 5 + 10)
+       
     }
     
     //MARK: Load data to cell
@@ -91,8 +111,7 @@ extension HomeCompetitionCollectionCell: UICollectionViewDataSource {
         competitionCell.backgroundColor = UIColor.white
         
         competitionCell.loadData(inputData: competitionData[indexPath.row])
-        
-        
+    
         return competitionCell
         
     }
@@ -116,8 +135,8 @@ extension HomeCompetitionCollectionCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.bounds.width/3,
-                      height: self.bounds.height)
+        return CGSize(width: competitionCollection.bounds.width/3,
+                      height: competitionCollection.bounds.height)
     }
     
 }

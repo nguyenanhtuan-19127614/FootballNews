@@ -121,7 +121,7 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         }
       
     }
-   
+    
     //MARK: Add subviews layout
     func addSubviewsLayout() {
     

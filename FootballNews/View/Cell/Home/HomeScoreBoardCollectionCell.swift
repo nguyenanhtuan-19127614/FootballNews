@@ -59,9 +59,9 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
         super.layoutSubviews()
        
         self.scoreBoardCollection.frame = CGRect(x: 20,
-                                                 y: 20,
+                                                 y: 5,
                                                  width: self.bounds.width - 40,
-                                                 height: self.bounds.height - 20)
+                                                 height: self.bounds.height )
         
      
     
@@ -123,7 +123,7 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: self.bounds.width/1.7,
-                      height: self.bounds.height)
+                      height: self.bounds.height - 10)
         
     }
     
