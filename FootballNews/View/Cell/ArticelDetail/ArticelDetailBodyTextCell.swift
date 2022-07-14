@@ -7,7 +7,6 @@
 
 import UIKit
 
-fileprivate let paddingLeft = 15.0
 
 //MARK: Articel Detail Body Cell that have type "text"
 class ArticelDetailBodyTextCell: UICollectionViewCell {
@@ -17,7 +16,7 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
         
         super.init(frame: frame)
         addSubViews()
-        
+      
     }
     
     required init?(coder: NSCoder) {
@@ -26,7 +25,6 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
     
     //MARK: Define Subviews
     let contentLabel: UILabel = {
-        
         
         let label = UILabel()
         label.numberOfLines = 0
@@ -48,22 +46,12 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
         
         super.layoutSubviews()
         
-        contentLabel.frame = CGRect (x: paddingLeft,
+        contentLabel.frame = CGRect (x: 15,
                                      y: 0,
                                      width: self.bounds.width - 30,
                                      height: 0)
         contentLabel.sizeToFit()
-        contentLabel.frame.size.width = self.bounds.width - 30
-        
-    }
-    
-    //MARK: Calculate height of cell base on subviews
-    func calculateHeight() -> CGFloat {
-        
-        var height: CGFloat = 0
-        height += contentLabel.calculateHeight(cellWidth: self.bounds.width)
-        
-        return height
+       
     }
     
     //MARK: Load Data

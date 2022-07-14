@@ -67,15 +67,15 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         
         super.layoutSubviews()
   
-        self.nameLabel.frame = CGRect(x: 10,
-                                      y: 0,
+        self.nameLabel.frame = CGRect(x: 20,
+                                      y: -10,
                                       width: self.bounds.width,
                                       height: self.bounds.height / 5)
         self.nameLabel.sizeToFit()
         self.nameLabel.frame.size.height = self.bounds.height / 5
         
         self.competitionCollection.frame = CGRect(x: 0,
-                                                  y: self.nameLabel.frame.maxY,
+                                                  y: self.nameLabel.frame.maxY + 10,
                                                   width: self.bounds.width ,
                                                   height: self.bounds.height * 4 / 5 )
        

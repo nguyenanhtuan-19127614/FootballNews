@@ -37,8 +37,7 @@ class ArticleCell: UICollectionViewCell {
     let title: UILabel = {
         
         let label = UILabel()
-        
-        label.numberOfLines = 3
+        label.numberOfLines = 4
         label.lineBreakMode = .byTruncatingTail
   
         return label
@@ -60,6 +59,7 @@ class ArticleCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = UIColor.lightGray
+        
         return label
         
     }()
@@ -104,10 +104,11 @@ class ArticleCell: UICollectionViewCell {
         
         title.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                              y: 18,
-                             width: self.bounds.width - newsAvatar.bounds.width - 60,
+                             width: self.bounds.width - newsAvatar.bounds.width - 50,
                              height: 0)
         title.font = UIFont.boldSystemFont(ofSize: self.bounds.width/25)
         title.sizeToFit()
+
         
         publisherLogo.frame = CGRect(x: newsAvatar.frame.maxX + 15,
                                      y: newsAvatar.frame.maxY - bounds.height/7 ,

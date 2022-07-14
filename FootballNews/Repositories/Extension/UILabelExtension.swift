@@ -10,13 +10,10 @@ import UIKit
 
 extension UILabel {
     
-    func calculateHeight(cellWidth: CGFloat) -> CGFloat {
+    func calculateHeight(frame: CGRect) -> CGFloat {
         
         let label = UILabel()
-        label.frame = CGRect(x: 0,
-                             y: 0,
-                             width: cellWidth,
-                             height: 0)
+        label.frame = frame
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         

@@ -59,24 +59,21 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         
         titleLabel.frame = CGRect(x: 15,
                                   y: 20,
-                                  width: self.bounds.width - 30,
+                                  width: self.bounds.width - 20,
                                   height: 0)
         titleLabel.sizeToFit()
-        titleLabel.frame.size.width = self.bounds.width - 30
- 
         
         subTitleLabel.frame = CGRect(x: 15,
                                      y: titleLabel.frame.maxY + 10.0,
-                                     width: self.bounds.width - 30,
+                                     width: self.bounds.width - 20,
                                      height: 30)
         
         descriptionLabel.frame = CGRect(x: 15,
                                         y: subTitleLabel.frame.maxY + 10.0,
-                                        width: self.bounds.width - 30,
+                                        width: self.bounds.width - 20,
                                         height: 0)
         descriptionLabel.sizeToFit()
-        descriptionLabel.frame.size.width = self.bounds.width - 30
-        
+      
     }
     
     //MARK: Load Data
@@ -93,6 +90,7 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
                                date: String(inputData.date))
         
     }
+    
 }
 
 //subtitle Class 

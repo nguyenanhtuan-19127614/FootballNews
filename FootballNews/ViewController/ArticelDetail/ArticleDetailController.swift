@@ -153,7 +153,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLayoutSubviews() {
         
         articleDetailLayout.sectionInsetReference = .fromSafeArea
-        articleDetailLayout.minimumLineSpacing = 15
+        articleDetailLayout.minimumLineSpacing = 20
         
     }
     
@@ -261,9 +261,6 @@ extension ArticelDetailController: UICollectionViewDataSource {
                     bodyCell.loadData(bodyContent[indexPath.row - 1].content,
                                       subtype: bodyContent[indexPath.row - 1].subtype)
                     
-                    bodyCell.bounds.size = CGSize(width: self.view.bounds.width,
-                                                  height: bodyCell.calculateHeight())
-                    
                     return bodyCell
                     
                     
@@ -313,8 +310,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content,
                                   subtype: bodyContent[indexPath.row - 1].subtype)
                 
-                bodyCell.bounds.size = CGSize(width: self.view.bounds.width,
-                                              height: bodyCell.calculateHeight())
+                
                 
                 return bodyCell
                 
@@ -389,11 +385,20 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
             descriptionLabel.addLineSpacing(lineSpacing: 5)
             
-            var height = titleLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += descriptionLabel.calculateHeight(cellWidth: totalWidth - 35)
-            height += 50 //line spacing of all element
+            var height = titleLabel.calculateHeight(frame: CGRect(x: 15,
+                                                                  y: 20,
+                                                                  width: self.view.bounds.width - 20,
+                                                                  height: 0))
+            
+            height += descriptionLabel.calculateHeight(frame: CGRect(x: 15,
+                                                                     y: 10.0,
+                                                                     width: self.view.bounds.width - 20,
+                                                                     height: 0))
+            height += 20 //line spacing of all element
             height += 20 //padding top
+            height += 30 //subTitle size
             self.headerHeight = height
+          
             return CGSize(width: totalWidth ,
                           height: height)
             
@@ -425,22 +430,27 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             if bodyContent[indexPath.row - 1].type == "text" {
                 
                 let contentLabel = UILabel()
-                contentLabel.text = bodyContent[indexPath.row - 1].content
-                contentLabel.font =  UIFont(name: "TimesNewRomanPS-BoldMT", size: 22.0) ?? UIFont.systemFont(ofSize: 20)
+                contentLabel.renderHTMLAtribute(from: bodyContent[indexPath.row - 1].content, size: 22)
                 contentLabel.addLineSpacing(lineSpacing: 5)
                 
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {
                         
-                        contentLabel.font =  UIFont(name: "TimesNewRomanPS-ItalicMT", size: 18.0) ?? UIFont.systemFont(ofSize: 18)
+                        contentLabel.font = contentLabel.font.withSize(18)
+                        contentLabel.textAlignment = .center
                         
                     }
                     
                 }
                 
-                return CGSize(width: totalWidth - 30,
-                              height: contentLabel.calculateHeight(cellWidth: totalWidth - 30 ))
+                let height = contentLabel.calculateHeight(frame:  CGRect (x: 15,
+                                                                          y: 0,
+                                                                          width: self.view.bounds.width - 30,
+                                                                          height: 0))
+              
+                return CGSize(width: totalWidth,
+                              height: height)
                 
                 
             } else {

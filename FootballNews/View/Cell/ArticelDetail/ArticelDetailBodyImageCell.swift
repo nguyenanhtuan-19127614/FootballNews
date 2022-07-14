@@ -39,7 +39,12 @@ class ArticelDetailBodyImageCell: UICollectionViewCell {
         addSubview(contentImage)
         
     }
-    
+    //MARK: Add layout for subviews
+    override func prepareForReuse() {
+        
+        contentImage.image = nil
+        
+    }
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         

@@ -195,8 +195,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         //Status bar
-       
-      
+
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
       
@@ -209,7 +208,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         NSLayoutConstraint.activate([
             
             homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            homeCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             homeCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             homeCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
             
@@ -222,7 +221,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewDidLayoutSubviews()
         homeLayout.sectionInsetReference = .fromSafeArea
-        homeLayout.minimumLineSpacing = 20
+        homeLayout.minimumLineSpacing = 15
         
     }
  

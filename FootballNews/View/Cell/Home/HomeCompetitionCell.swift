@@ -10,6 +10,7 @@ import UIKit
 //MARK: Home - Competition Cell
 class HomeCompetitionCell: UICollectionViewCell {
     
+    
     //MARK: Override Init
     override init(frame: CGRect) {
         
@@ -62,7 +63,7 @@ class HomeCompetitionCell: UICollectionViewCell {
         
         competitionLogo.image = nil
         competitionName.text = nil
-        
+       
     }
     
     //MARK: Add layout for subviews
@@ -89,6 +90,6 @@ class HomeCompetitionCell: UICollectionViewCell {
     
         //Subviews that need downloading
         self.competitionLogo.loadImageFromUrl(url: inputData.logo)
-        
+     
     }
 }
