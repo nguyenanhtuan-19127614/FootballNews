@@ -199,7 +199,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
       
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-     
+       // self.reloadData()
     }
 
     //MARK: Function to add layout for subviews

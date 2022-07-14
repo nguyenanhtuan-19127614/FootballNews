@@ -16,7 +16,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         
         let label = UILabel()
         label.text = "GIẢI ĐẤU"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
     
         label.textColor = UIColor(red: 0.694, green: 0.694, blue: 0.694, alpha: 1)
         
@@ -28,7 +28,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
     var competitionCollection: UICollectionView = {
     
         let competitionLayout = UICollectionViewFlowLayout()
-        competitionLayout.minimumLineSpacing = 20
+        competitionLayout.minimumLineSpacing = 5
         competitionLayout.scrollDirection = .horizontal
         
         let competitionCollection = UICollectionView(frame: .zero, collectionViewLayout: competitionLayout)
@@ -77,7 +77,7 @@ class HomeCompetitionCollectionCell: UICollectionViewCell {
         self.competitionCollection.frame = CGRect(x: 0,
                                                   y: self.nameLabel.frame.maxY,
                                                   width: self.bounds.width ,
-                                                  height: self.bounds.height * 4 / 5 + 10)
+                                                  height: self.bounds.height * 4 / 5 )
        
     }
     

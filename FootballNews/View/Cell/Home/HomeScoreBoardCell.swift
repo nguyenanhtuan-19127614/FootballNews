@@ -3,6 +3,8 @@ import UIKit
 //MARK: Home - ScoreBoard Cell
 class HomeScoreBoardCell: UICollectionViewCell {
     
+    var isPadding = false
+    
     //MARK: Override Init
     override init(frame: CGRect) {
         
@@ -11,6 +13,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
         self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.gray.cgColor
         self.layer.cornerRadius = 8.0
+    
         //add sub views
         addSubViews()
         
@@ -70,6 +73,17 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
         super.layoutSubviews()
         
+        if isPadding == false {
+            
+            self.frame = self.frame.inset(by: UIEdgeInsets(top: 0,
+                                                           left: 10,
+                                                           bottom: 0,
+                                                           right: 10))
+            isPadding = true
+            
+        }
+        
+ 
         statusView.frame = CGRect(x: 0,
                                   y: 0,
                                   width: self.bounds.width/50,
@@ -96,7 +110,8 @@ class HomeScoreBoardCell: UICollectionViewCell {
                                 y: homeTeam.frame.maxY + 10,
                                 width: homeTeam.bounds.width,
                                 height: competitionLabel.bounds.height)
-       
+        
+      
     }
     
     //MARK: Load data to cell
@@ -230,6 +245,8 @@ class ScoreBoardTeamStatus: UIView {
                                    width: 6,
                                    height: self.bounds.height)
         scoreLabel.sizeToFit()
+        
+        
     }
     
     //MARK: Load data to cell

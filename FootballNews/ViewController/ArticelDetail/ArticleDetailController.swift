@@ -343,7 +343,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
         
         //Tap Event
         
-        if dataSource.state == .offline {
+        if dataSource.state == .offline || dataSource.state == .loading {
             return
         }
         //Pass data and call articel detail view controller (Related Articel)

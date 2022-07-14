@@ -29,7 +29,10 @@ class HomeCompetitionCell: UICollectionViewCell {
         
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFit
-    
+        imgView.backgroundColor = .white
+        imgView.layer.borderWidth = 0.5
+        imgView.layer.borderColor = UIColor(red: 0.883, green: 0.875, blue: 0.9, alpha: 1).cgColor
+        
         return imgView
         
     }()
@@ -57,16 +60,18 @@ class HomeCompetitionCell: UICollectionViewCell {
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         
-        competitionLogo.frame = CGRect(x: 0,
+        competitionLogo.frame = CGRect(x: 20,
                                        y: 0,
-                                       width: self.bounds.width,
+                                       width: self.bounds.height * 2 / 3,
                                        height: self.bounds.height * 2 / 3)
         
-        competitionName.frame = CGRect(x: 0,
+        competitionName.frame = CGRect(x: 20,
                                        y:  competitionLogo.frame.maxY,
-                                       width: self.bounds.width,
+                                       width: competitionLogo.bounds.width,
                                        height: self.bounds.height / 3)
-      
+        
+        competitionLogo.layer.masksToBounds = true
+        competitionLogo.layer.cornerRadius = competitionLogo.bounds.width/2
     }
     
     //MARK: Load data to cell
