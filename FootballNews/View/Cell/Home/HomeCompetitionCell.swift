@@ -57,6 +57,14 @@ class HomeCompetitionCell: UICollectionViewCell {
         
     }
     
+    //MARK: Prepared For Reuse
+    override func prepareForReuse() {
+        
+        competitionLogo.image = nil
+        competitionName.text = nil
+        
+    }
+    
     //MARK: Add layout for subviews
     override func layoutSubviews() {
         

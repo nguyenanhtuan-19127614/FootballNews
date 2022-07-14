@@ -25,6 +25,9 @@ enum AppErrors: Error {
     case OperationCancel
     case DuplicateOperation
     
+    //Task Error
+    case TaskCancel
+    
 }
 
 //MARK: HTTP METHOD

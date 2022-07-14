@@ -67,23 +67,20 @@ class HomeScoreBoardCell: UICollectionViewCell {
         
     }
     
+    //MARK: Prepared For Reuse
+    override func prepareForReuse() {
+        
+        homeTeam.logoTeam.image = nil
+        awayTeam.logoTeam.image = nil
+        
+    }
+    
     //MARK: Add layout for subviews
     
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        
-        if isPadding == false {
-            
-            self.frame = self.frame.inset(by: UIEdgeInsets(top: 0,
-                                                           left: 10,
-                                                           bottom: 0,
-                                                           right: 10))
-            isPadding = true
-            
-        }
-        
- 
+    
         statusView.frame = CGRect(x: 0,
                                   y: 0,
                                   width: self.bounds.width/50,

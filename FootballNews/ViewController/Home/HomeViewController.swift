@@ -199,7 +199,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
       
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-       // self.reloadData()
+      
     }
 
     //MARK: Function to add layout for subviews
@@ -222,7 +222,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewDidLayoutSubviews()
         homeLayout.sectionInsetReference = .fromSafeArea
-      
+        homeLayout.minimumLineSpacing = 20
+        
     }
  
     
@@ -360,9 +361,10 @@ extension HomeViewController: UICollectionViewDataSource {
                     break
                 }
                 
+                
                 articelCell.backgroundColor = UIColor.white
                 articelCell.loadData(inputData: data)
-            
+               
                 return articelCell
                 
             } else {
@@ -488,14 +490,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 
                 //Hot match size
                 return CGSize(width: totalWidth,
-                              height: totalHeight/6.5 + 10)
+                              height: totalHeight/5)
                 
             } else if indexPath.row < dataSource.articleData.count {
                 
                 //separate size
                 if dataSource.articleData[indexPath.row] == nil {
                     return CGSize(width: totalWidth,
-                                 height: 10)
+                                 height: 15)
                 }
                 //article size
                 return CGSize(width: totalWidth,

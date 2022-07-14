@@ -56,11 +56,16 @@ class HomeScoreBoardCollectionCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-       
-        self.scoreBoardCollection.frame = CGRect(x: 0,
-                                                 y: 5,
-                                                 width: self.bounds.width ,
-                                                 height: self.bounds.height )
+        
+        scoreBoardCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scoreBoardCollection.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+            scoreBoardCollection.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            scoreBoardCollection.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            scoreBoardCollection.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            
+        ])
+
      
     }
     
@@ -119,8 +124,8 @@ extension HomeScoreBoardCollectionCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.bounds.width/1.5,
-                      height: self.bounds.height - 10)
+        return CGSize(width: scoreBoardCollection.bounds.width/1.5,
+                      height: scoreBoardCollection.bounds.height)
         
     }
     
