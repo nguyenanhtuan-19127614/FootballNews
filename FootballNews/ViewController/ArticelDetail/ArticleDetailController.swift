@@ -309,9 +309,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 bodyCell.backgroundColor = UIColor.white
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content,
                                   subtype: bodyContent[indexPath.row - 1].subtype)
-                
-                
-                
+ 
                 return bodyCell
                 
                 
@@ -338,13 +336,15 @@ extension ArticelDetailController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         //Tap Event
-        
+        if dataSource.contentBodySize == 0 {
+            return
+        }
         if dataSource.state == .offline || dataSource.state == .loading {
+           
             return
         }
         //Pass data and call articel detail view controller (Related Articel)
-        if indexPath.row > dataSource.contentBodySize {
-            
+        if indexPath.row > dataSource.contentBodySize && indexPath.row != 0 {
             
             let index = indexPath.row - dataSource.contentBodySize  - 1
             

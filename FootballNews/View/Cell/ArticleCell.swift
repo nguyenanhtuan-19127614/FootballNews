@@ -37,7 +37,7 @@ class ArticleCell: UICollectionViewCell {
     let title: UILabel = {
         
         let label = UILabel()
-        label.numberOfLines = 4
+        label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingTail
   
         return label

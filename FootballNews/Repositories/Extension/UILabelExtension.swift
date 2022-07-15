@@ -34,6 +34,7 @@ extension UILabel {
                              y: 0,
                              width: 0,
                              height: cellHeight)
+        
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         

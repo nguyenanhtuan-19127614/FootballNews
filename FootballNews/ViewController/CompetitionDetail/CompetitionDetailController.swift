@@ -165,6 +165,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         super.viewWillAppear(animated)
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        
         if #available(iOS 13.0, *) {
             
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)

@@ -31,30 +31,29 @@ extension UIImage {
         return image
     }
     
-    func scale(outputSize: CGSize) -> UIImage {
+    func resizeImage(targetSize: CGSize) -> UIImage? {
+        let size = self.size
         
-        // Determine the scale factor that preserves aspect ratio
-        let widthRatio = outputSize.width / self.size.width
-        let heightRatio = outputSize.height / self.size.height
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
         
-        let scaleFactor = min(widthRatio, heightRatio)
-        
-        //New image size from scaleFactor
-        let scaledImageSize = CGSize(width: self.size.width * scaleFactor,
-                                    height: self.size.height * scaleFactor)
-        
-        // Draw and return the resized UIImage
-        let renderer = UIGraphicsImageRenderer(
-            size: scaledImageSize
-        )
-        
-        let scaledImage = renderer.image { _ in
-            self.draw(in: CGRect(
-                origin: .zero,
-                size: scaledImageSize
-            ))
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
         }
         
-        return scaledImage
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }

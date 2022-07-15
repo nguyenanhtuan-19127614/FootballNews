@@ -190,15 +190,40 @@ class HomeViewController : UIViewController, DataSoureDelegate {
             let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
             let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
             
+            navigationController?.navigationBar.setTitleAttribute(color: .white,
+                                                                  font: UIFont.boldSystemFont(ofSize: 20))
             navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
             
         }
         
         //Status bar
-
-        //Back button
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Nav bar
+        if #available(iOS 13.0, *) {
+        
+            //let icon = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: nil)
+            //icon.tintColor = .white
+            let searchIcon = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: nil)
+            searchIcon.tintColor = .white
+           
+            //navigationItem.leftBarButtonItem = icon
+            self.tabBarController?.navigationItem.rightBarButtonItem = searchIcon
+            
+//            let img = UIImage(named: "newsIcon")?.resizeImage(targetSize: CGSize(width: 30, height: 30))
+//            let iconTest = UIBarButtonItem(image: img,
+//                                           style: .plain,
+//                                           target: self,
+//                                           action: nil)
+//            iconTest.tintColor = .white
+//            self.tabBarController?.navigationItem.leftBarButtonItem = iconTest
+        }
       
+        //Back button
+        navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
+       
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
     }
 
     //MARK: Function to add layout for subviews
