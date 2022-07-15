@@ -126,6 +126,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationController?.navigationBar.barStyle = .black
+        //add layout
         addSubviewsLayout()
         // set up router navigation controller
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
@@ -183,6 +185,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+       
         //Custom navigation bar
         if #available(iOS 13.0, *) {
             
@@ -200,22 +203,26 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         //Nav bar
         if #available(iOS 13.0, *) {
-        
-            //let icon = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: nil)
-            //icon.tintColor = .white
-            let searchIcon = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: nil)
-            searchIcon.tintColor = .white
-           
-            //navigationItem.leftBarButtonItem = icon
-            self.tabBarController?.navigationItem.rightBarButtonItem = searchIcon
             
-//            let img = UIImage(named: "newsIcon")?.resizeImage(targetSize: CGSize(width: 30, height: 30))
-//            let iconTest = UIBarButtonItem(image: img,
-//                                           style: .plain,
-//                                           target: self,
-//                                           action: nil)
-//            iconTest.tintColor = .white
-//            self.tabBarController?.navigationItem.leftBarButtonItem = iconTest
+            //search icon
+            let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
+            let iconSearch = UIBarButtonItem(image: imgSearch,
+                                             style: .plain,
+                                             target: self,
+                                             action: nil)
+            iconSearch.tintColor = .white
+            
+            self.tabBarController?.navigationItem.rightBarButtonItem = iconSearch
+            
+            
+            let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
+            let iconMenu = UIBarButtonItem(image: imgMenu,
+                                           style: .plain,
+                                           target: self,
+                                           action: nil)
+            iconMenu.tintColor = .white
+            self.tabBarController?.navigationItem.leftBarButtonItem = iconMenu
+            
         }
       
         //Back button

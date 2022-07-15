@@ -66,7 +66,7 @@ extension UILabel {
             self.font = self.font.withSize(size)
             
         }
-        
+       
     }
     
     func addLineSpacing(lineSpacing: CGFloat) {

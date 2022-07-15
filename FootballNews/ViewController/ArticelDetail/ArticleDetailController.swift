@@ -108,7 +108,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+      
         //get data
         if dataSource.state == .loading {
             
@@ -207,6 +207,14 @@ extension ArticelDetailController: UICollectionViewDataSource {
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
+        // Avoid NSAtributtedString converter crash 
+        if dataSource.state == .loading {
+            collectionView.isUserInteractionEnabled = false
+        } else {
+            collectionView.isUserInteractionEnabled = true
+        }
+        
+        //Return Cell
         if indexPath.row == 0 {
             
             //Header Part
@@ -335,17 +343,16 @@ extension ArticelDetailController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //Tap Event
-        if dataSource.contentBodySize == 0 {
-            return
-        }
+        
         if dataSource.state == .offline || dataSource.state == .loading {
-           
+            
             return
+            
         }
         //Pass data and call articel detail view controller (Related Articel)
         if indexPath.row > dataSource.contentBodySize && indexPath.row != 0 {
             
+           
             let index = indexPath.row - dataSource.contentBodySize  - 1
             
             ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))

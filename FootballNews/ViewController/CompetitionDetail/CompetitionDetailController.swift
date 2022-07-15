@@ -163,6 +163,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
     override func viewWillAppear( _ animated: Bool) {
         
         super.viewWillAppear(animated)
+       
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
         

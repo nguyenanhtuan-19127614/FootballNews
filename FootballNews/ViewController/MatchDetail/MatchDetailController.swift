@@ -124,6 +124,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        self.navigationController?.navigationBar.barStyle = .black
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
         
@@ -162,6 +163,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     override func viewWillAppear( _ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
         if #available(iOS 13.0, *) {

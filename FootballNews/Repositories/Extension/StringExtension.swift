@@ -9,7 +9,7 @@ import Foundation
 
 extension String {
     
-    func renderHTMLAttribute() -> NSAttributedString? {
+    func renderHTMLAttribute() -> NSMutableAttributedString? {
         
         guard let data = NSString(string: self).data(using: String.Encoding.unicode.rawValue) else {
             return nil
@@ -21,10 +21,10 @@ extension String {
             .characterEncoding: String.Encoding.unicode.rawValue
             
         ]
-        
-         if let attributedString = try? NSAttributedString(data: data,
-                                                           options: attributedOptions,
-                                                           documentAttributes: nil) {
+  
+        if let attributedString = try? NSMutableAttributedString(data: data,
+                                                                 options: attributedOptions,
+                                                                 documentAttributes: nil) {
 
             return attributedString
             

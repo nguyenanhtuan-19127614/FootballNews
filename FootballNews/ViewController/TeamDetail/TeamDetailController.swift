@@ -112,6 +112,9 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
     
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.barStyle = .black
+        
         ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
         

@@ -59,6 +59,7 @@
 		03CE6BF8287E8730005CBC4B /* TeamDetailSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6BF7287E8730005CBC4B /* TeamDetailSectionHeader.swift */; };
 		03CE6BFA287EBCA6005CBC4B /* TeamInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6BF9287EBCA6005CBC4B /* TeamInfoModel.swift */; };
 		03CE6BFC287EBD8B005CBC4B /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */; };
+		03CE6C0128815935005CBC4B /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0028815935005CBC4B /* UINavigationControllerExtension.swift */; };
 		03DC833428753136005D5078 /* MatchDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833328753136005D5078 /* MatchDetailController.swift */; };
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
@@ -147,6 +148,7 @@
 		03CE6BF7287E8730005CBC4B /* TeamDetailSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailSectionHeader.swift; sourceTree = "<group>"; };
 		03CE6BF9287EBCA6005CBC4B /* TeamInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamInfoModel.swift; sourceTree = "<group>"; };
 		03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
+		03CE6C0028815935005CBC4B /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		03DC833328753136005D5078 /* MatchDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailController.swift; sourceTree = "<group>"; };
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		0305AF50285AE337009398A6 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				03CE6C0028815935005CBC4B /* UINavigationControllerExtension.swift */,
 				0344A93E286D953B00B38E38 /* UINavigationBarExtension.swift */,
 				0305AF4E285AE174009398A6 /* UIImageViewExtension.swift */,
 				0305AF5B285C646A009398A6 /* DateExtension.swift */,
@@ -644,6 +647,7 @@
 				0384E970287BD3E2000C4561 /* ViewControllerState.swift in Sources */,
 				0344A93F286D953B00B38E38 /* UINavigationBarExtension.swift in Sources */,
 				0305AF58285C390E009398A6 /* HomeViewController.swift in Sources */,
+				03CE6C0128815935005CBC4B /* UINavigationControllerExtension.swift in Sources */,
 				0384E979287BD4FD000C4561 /* ImageDownloader.swift in Sources */,
 				03EB3AD3286C5E73006097C5 /* ArrayExtension.swift in Sources */,
 				037276B1287D2736004AE6C3 /* CompetitionDetailHeader.swift in Sources */,

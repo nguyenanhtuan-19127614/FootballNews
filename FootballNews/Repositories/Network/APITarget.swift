@@ -28,6 +28,9 @@ enum AppErrors: Error {
     //Task Error
     case TaskCancel
     
+    //String
+    case CannotConvertHTML
+    
 }
 
 //MARK: HTTP METHOD
