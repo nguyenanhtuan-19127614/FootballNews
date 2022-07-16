@@ -126,7 +126,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         super.viewWillAppear(animated)
         
         //set button color
-        self.navigationController?.navigationBar.tintColor = UIColor.blue
+        self.navigationController?.navigationBar.tintColor = UIColor.gray
         
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -356,6 +356,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
             let index = indexPath.row - dataSource.contentBodySize  - 1
             
             ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
+            
             
         }
     }

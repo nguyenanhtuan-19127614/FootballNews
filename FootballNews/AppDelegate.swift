@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         //MARK: Home View Controller
-        //homeVC.changeState(state: .offline)
-        //ImageDownloader.sharedService.offlineMode = true
+//        homeVC.changeState(state: .offline)
+//        ImageDownloader.sharedService.offlineMode = true
         let imgHome = UIImage(named: "newsIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let homeIcon = UITabBarItem(title: "Tin Tức", image: imgHome, tag: 0)
         homeVC.tabBarItem = homeIcon
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let chartIcon = UITabBarItem(title: "Xu Hướng", image: imgChart, tag: 2)
         trendingVC.tabBarItem = chartIcon
         trendingVC.view.backgroundColor = .white
-        
+     
         //MARK: Ultility View Controller
         let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let menuIcon = UITabBarItem(title: "Tiện Ích", image: imgMenu, tag: 3)

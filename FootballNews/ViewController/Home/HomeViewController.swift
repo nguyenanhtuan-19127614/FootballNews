@@ -186,17 +186,27 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewWillAppear(animated)
        
+        //Set titleview of navigation bar
+        
+        let titleView = CustomTitleView(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
+                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
+        
+        titleView.loadData(image: UIImage(named: "IconApp"))
+        
+        self.tabBarController?.navigationItem.titleView = titleView
+//        self.navigationItem.titleView = titleView
+        
         //Custom navigation bar
         if #available(iOS 13.0, *) {
-            
+
             let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
             let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
             let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
-            
-            navigationController?.navigationBar.setTitleAttribute(color: .white,
-                                                                  font: UIFont.boldSystemFont(ofSize: 20))
+
             navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
-            
+
         }
         
         //Status bar
@@ -211,7 +221,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                                              target: self,
                                              action: nil)
             iconSearch.tintColor = .white
-            
+           
             self.tabBarController?.navigationItem.rightBarButtonItem = iconSearch
             
             
@@ -226,7 +236,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
       
         //Back button
-        navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
+        //navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
        
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -257,8 +267,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
  
-    
-    
 }
 
 //MARK: Datasource Extension
@@ -528,7 +536,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
                 //separate size
                 if dataSource.articleData[indexPath.row] == nil {
                     return CGSize(width: totalWidth,
-                                 height: 15)
+                                 height: 6)
                 }
                 //article size
                 return CGSize(width: totalWidth,

@@ -14,8 +14,9 @@ class CustomTitleView: UIImageView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+ 
         addSubViews()
-        
+        addLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -42,9 +43,7 @@ class CustomTitleView: UIImageView {
     }
     
     //MARK: Add layout for subviews
-    override func layoutSubviews() {
-        
-        super.layoutSubviews()
+    func addLayout() {
         
         NSLayoutConstraint.activate([
             
@@ -56,6 +55,7 @@ class CustomTitleView: UIImageView {
         ])
   
     }
+   
     
     //MARK: Load data to cell
     
@@ -67,5 +67,14 @@ class CustomTitleView: UIImageView {
 
         titleImageView.loadImageFromUrl(url: url.absoluteString)
         
+    }
+    
+    func loadData(image: UIImage?) {
+        
+        guard let image = image else {
+            return
+        }
+        
+        titleImageView.image = image
     }
 }

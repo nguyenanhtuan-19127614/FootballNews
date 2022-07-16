@@ -39,7 +39,7 @@ extension UIImageView {
                     
                     DispatchQueue.main.async {
                         
-                        self?.image = UIImage(named: "loading")
+                        self?.image = UIImage(named: "noImage")
                         
                     }
                     

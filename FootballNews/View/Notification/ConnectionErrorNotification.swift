@@ -42,13 +42,7 @@ class ConnectionErrorNotification: UIViewController {
         button.setTitle("Đã hiểu", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        
-        if #available(iOS 13.0, *) {
-            
-            let color = UIColor(cgColor: CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1))
-            button.backgroundColor = color
-             
-        }
+        button.backgroundColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
         
         button.layer.cornerRadius = 7.0
         button.layer.masksToBounds = true
