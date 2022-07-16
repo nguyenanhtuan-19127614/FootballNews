@@ -305,7 +305,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         //Animation
-        UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: 0.3,
                        delay: 0.0,
                        options: .transitionFlipFromLeft,
                        animations: {[unowned self] in

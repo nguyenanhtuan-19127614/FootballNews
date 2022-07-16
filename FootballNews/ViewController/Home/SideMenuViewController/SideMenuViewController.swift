@@ -9,7 +9,6 @@ import UIKit
 
 class SideMenuViewController: UIViewController {
     
-    var shadowColor: UIColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 0.5)
     var isShow = false
     
     let iconApp: UIImageView = {
@@ -29,12 +28,12 @@ class SideMenuViewController: UIViewController {
         addLayout()
         
     }
-        
+    
     func addSubviews() {
         
         
         self.view.addSubview(iconApp)
-        //self.view.addSubview(headerView)
+       
     }
     
     func addLayout() {
@@ -56,7 +55,7 @@ class SideMenuViewController: UIViewController {
         
         var frame = view.frame
         frame.origin.x = 0
-        UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: 0.3,
                        delay: 0.0,
                        options: .transitionFlipFromLeft,
                        animations: {[unowned self] in
@@ -72,7 +71,7 @@ class SideMenuViewController: UIViewController {
         
         var frame = view.frame
         frame.origin.x = -frame.size.width
-        UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: 0.3,
                        delay: 0.0,
                        options: .transitionFlipFromRight,
                        animations: {[unowned self] in
@@ -84,3 +83,59 @@ class SideMenuViewController: UIViewController {
     
 }
 
+class AppInfoView: UIView {
+    
+    //MARK: Overide Init
+    
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+        addSubViews()
+//        addLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: Define SubViews
+    
+    let infoLabel: UILabel = {
+        
+        let label = UILabel()
+        return label
+        
+    }()
+    
+    let versionLabel: UILabel = {
+        
+        let label = UILabel()
+        return label
+        
+    }()
+    
+    let emailLabel: UILabel = {
+        
+        let label = UILabel()
+        return label
+        
+    }()
+    
+    let phoneNumberLabel: UILabel = {
+        
+        let label = UILabel()
+        return label
+        
+    }()
+    
+    func addSubViews() {
+        
+        self.addSubview(infoLabel)
+        self.addSubview(versionLabel)
+        self.addSubview(emailLabel)
+        self.addSubview(phoneNumberLabel)
+   
+    }
+    
+}
