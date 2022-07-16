@@ -24,6 +24,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Datasource
     let dataSource = HomeDataSource()
+
+    //Side Menu Controller
+    let sideMenuVC = SideMenuViewController()
     
     //Main CollectionView Layout
     var homeLayout = UICollectionViewFlowLayout()
@@ -101,7 +104,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func loadView() {
         
         super.loadView()
-        
+        self.view.backgroundColor = .white
         //Add delegate for datasource
         dataSource.delegate = self
         
@@ -181,11 +184,31 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
     }
+    //MARK: viewDidLayoutSubviews state
+   
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        homeLayout.sectionInsetReference = .fromSafeArea
+        homeLayout.minimumLineSpacing = 15
+        
+        // add side menu
+        let screenFrame = self.view.frame
+        let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
+                           (self.navigationController?.navigationBar.frame.height ?? 0.0)
+
+        sideMenuVC.view.frame = CGRect(x: -screenFrame.width,
+                                       y: topBarHeight,
+                                       width: screenFrame.width/1.5,
+                                       height: screenFrame.height)
+      
+        UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
+    }
+    
     //MARK: viewWillAppear() state
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-       
         //Set titleview of navigation bar
         
         let titleView = CustomTitleView(frame: CGRect(x: 0,
@@ -212,28 +235,28 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         //Status bar
         
         //Nav bar
-        if #available(iOS 13.0, *) {
-            
-            //search icon
-            let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
-            let iconSearch = UIBarButtonItem(image: imgSearch,
-                                             style: .plain,
-                                             target: self,
-                                             action: nil)
-            iconSearch.tintColor = .white
-           
-            self.tabBarController?.navigationItem.rightBarButtonItem = iconSearch
-            
-            
-            let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
-            let iconMenu = UIBarButtonItem(image: imgMenu,
-                                           style: .plain,
-                                           target: self,
-                                           action: nil)
-            iconMenu.tintColor = .white
-            self.tabBarController?.navigationItem.leftBarButtonItem = iconMenu
-            
-        }
+        
+        //Right Icon
+        //search icon
+        let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
+        let iconSearch = UIBarButtonItem(image: imgSearch,
+                                         style: .plain,
+                                         target: self,
+                                         action: nil)
+        iconSearch.tintColor = .white
+       
+        self.tabBarController?.navigationItem.rightBarButtonItem = iconSearch
+        
+        //Left Icon
+        //menu icon
+        let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
+        let iconMenu = UIBarButtonItem(image: imgMenu,
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(showSideMenu))
+        iconMenu.tintColor = .white
+        self.tabBarController?.navigationItem.leftBarButtonItem = iconMenu
+        
       
         //Back button
         //navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
@@ -247,6 +270,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     func addSubviewsLayout() {
         
         homeCollection.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             
             homeCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -258,13 +282,40 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: Custom Layout
-    override func viewDidLayoutSubviews() {
+    //MARK: Nav button Action
+    @objc func showSideMenu() {
         
-        super.viewDidLayoutSubviews()
-        homeLayout.sectionInsetReference = .fromSafeArea
-        homeLayout.minimumLineSpacing = 15
+        var frameVC = view.frame
+        var frameTabbar = tabBarController?.tabBar.frame
         
+        if sideMenuVC.isShow == false {
+            
+            sideMenuVC.show()
+            //set show frame
+            frameVC.origin.x = sideMenuVC.view.frame.width
+            frameTabbar?.origin.x = sideMenuVC.view.frame.width
+            
+        } else {
+           
+            sideMenuVC.hide()
+            //set hide frame
+            frameVC.origin.x = 0
+            frameTabbar?.origin.x = 0
+            
+        }
+        
+        //Animation
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .transitionFlipFromLeft,
+                       animations: {[unowned self] in
+            
+            self.view.frame = frameVC
+            if let frameTabbar = frameTabbar {
+                self.tabBarController?.tabBar.frame = frameTabbar
+            }
+           
+        }, completion: nil)
     }
  
 }

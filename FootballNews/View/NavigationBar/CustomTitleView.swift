@@ -10,7 +10,7 @@ import UIKit
 class CustomTitleView: UIImageView {
     
     //MARK: Overide Init
-   
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -49,8 +49,8 @@ class CustomTitleView: UIImageView {
             
             titleImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             titleImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            titleImageView.widthAnchor.constraint(equalToConstant: self.bounds.width),
-            titleImageView.heightAnchor.constraint(equalToConstant: self.bounds.height)
+            titleImageView.widthAnchor.constraint(equalToConstant: self.frame.width),
+            titleImageView.heightAnchor.constraint(equalToConstant: self.frame.height)
             
         ])
   
