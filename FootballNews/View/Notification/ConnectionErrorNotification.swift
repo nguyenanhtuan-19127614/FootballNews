@@ -75,7 +75,7 @@ class ConnectionErrorNotification: UIViewController {
         
         super.viewDidLoad()
         addSubViews()
-        
+        addLayout()
     }
     
   
@@ -87,7 +87,7 @@ class ConnectionErrorNotification: UIViewController {
         
     }
     
-    override func viewDidLayoutSubviews() {
+    func addLayout() {
         
         titleImage.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false

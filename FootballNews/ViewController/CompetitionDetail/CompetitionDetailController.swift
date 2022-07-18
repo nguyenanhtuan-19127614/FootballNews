@@ -154,6 +154,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
+        super.viewDidLayoutSubviews()
         compDetailLayout.sectionInsetReference = .fromSafeArea
         compDetailLayout.sectionHeadersPinToVisibleBounds = true
        

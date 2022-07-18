@@ -16,7 +16,6 @@ class SearchArticleViewController: UIViewController, DataSoureDelegate {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.setShowsCancelButton(false, animated: false)
-       
         
         let placeHolderText = "Tìm kiếm"
         
@@ -35,12 +34,10 @@ class SearchArticleViewController: UIViewController, DataSoureDelegate {
             
             //textField.backgroundColor = UIColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 0.2)
             textField.backgroundColor = UIColor.white.withAlphaComponent(0.2)
-        
             textField.textColor = .white
-    
+        
         }
-        
-        
+   
         return searchController
     }()
     
@@ -212,7 +209,22 @@ extension SearchArticleViewController: UICollectionViewDelegate {
         }
         
     }
-
+    
+    //Load More Data
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+  
+        if dataSource.hotArticles.count == 0 || dataSource.state == .offline {
+            return
+        }
+        
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+    
+            dataSource.startArticel += dataSource.articelLoadSize
+            //get data home news
+            dataSource.getHotArticelData()
+ 
+        }
+    }
 }
 
 //MARK: Datasource Extension
@@ -232,7 +244,7 @@ extension SearchArticleViewController: UICollectionViewDataSource {
         case .loaded:
             
             if dataSource.showContent == .hotArticles {
-                return dataSource.hotArticles.count
+                return dataSource.hotArticles.count + 1
             }
             return dataSource.searchArticles.count
             
@@ -267,11 +279,23 @@ extension SearchArticleViewController: UICollectionViewDataSource {
                 break
             }
             
+            guard let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as? LoadMoreIndicatorCell else {
+                break
+            }
+            
+            
             articelCell.backgroundColor = UIColor.white
             
             if dataSource.showContent == .hotArticles {
                 
-                
+                //load more
+                if indexPath.row >= self.dataSource.hotArticles.count {
+                    
+                    indicatorCell.indicator.startAnimating()
+                    return indicatorCell
+                    
+                }
+                //hot articles
                 if let data = self.dataSource.hotArticles[indexPath.row] {
                     articelCell.loadData(inputData: data)
                     return articelCell
@@ -279,6 +303,7 @@ extension SearchArticleViewController: UICollectionViewDataSource {
             
             } else {
                 
+                //search articles
                 if let data = self.dataSource.searchArticles[indexPath.row] {
                     articelCell.loadData(inputData: data)
                     return articelCell
@@ -286,10 +311,7 @@ extension SearchArticleViewController: UICollectionViewDataSource {
             
             }
             
-            guard let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadMoreCell", for: indexPath) as? LoadMoreIndicatorCell else {
-                break
-            }
-            
+           
             indicatorCell.indicator.startAnimating()
             return indicatorCell
         
@@ -332,6 +354,14 @@ extension SearchArticleViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: totalWidth ,
                           height: totalHeight)
         case .loaded:
+            
+            if dataSource.showContent == .hotArticles && indexPath.row >= self.dataSource.hotArticles.count {
+                
+                //load more animation cell size
+                return CGSize(width: totalWidth,
+                              height: totalHeight/24)
+                
+            }
             
             return CGSize(width: totalWidth,
                           height: totalHeight/7)

@@ -151,6 +151,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
+        super.viewDidLayoutSubviews()
         articleDetailLayout.sectionInsetReference = .fromSafeArea
         articleDetailLayout.minimumLineSpacing = 20
         

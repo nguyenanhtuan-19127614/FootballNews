@@ -154,6 +154,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
+        super.viewDidLayoutSubviews()
         matchDetailLayout.sectionInsetReference = .fromSafeArea
         matchDetailLayout.sectionHeadersPinToVisibleBounds = true
        

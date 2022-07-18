@@ -142,6 +142,7 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
     //MARK: Custom Layout
     override func viewDidLayoutSubviews() {
         
+        super.viewDidLayoutSubviews()
         teamDetailLayout.sectionInsetReference = .fromSafeArea
         teamDetailLayout.sectionHeadersPinToVisibleBounds = true
        
