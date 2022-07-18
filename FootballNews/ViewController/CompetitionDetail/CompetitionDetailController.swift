@@ -128,6 +128,9 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
        
         addSubviewsLayout()
         
+        compDetailLayout.sectionInsetReference = .fromSafeArea
+        compDetailLayout.sectionHeadersPinToVisibleBounds = true
+       
         //Getdata
         if dataSource.state == .loading {
             self.getData()
@@ -151,15 +154,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: Custom Layout
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
-        compDetailLayout.sectionInsetReference = .fromSafeArea
-        compDetailLayout.sectionHeadersPinToVisibleBounds = true
-       
-    }
-    
+   
     //MARK: viewWillAppear() state
     override func viewWillAppear( _ animated: Bool) {
         

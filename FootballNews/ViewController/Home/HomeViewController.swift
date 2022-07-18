@@ -124,24 +124,19 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         self.view = view
         
     }
-    
+    //MARK:
+   
     //MARK: viewDidLoad() state
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.navigationController?.navigationBar.barStyle = .black
-        //Set titleview of navigation bar
         
-        let titleView = CustomTitleView(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
-                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
-        
-        titleView.loadData(image: UIImage(named: "IconApp"))
-        self.tabBarController?.navigationItem.titleView = titleView
         //add layout
         addSubviewsLayout()
-
+        homeLayout.sectionInsetReference = .fromSafeArea
+        homeLayout.minimumLineSpacing = 15
+        
         //Add Refresh control to homeCollection
         
         let refreshControl = UIRefreshControl()
@@ -196,8 +191,16 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        homeLayout.sectionInsetReference = .fromSafeArea
-        homeLayout.minimumLineSpacing = 15
+      
+        //Set titleview of navigation bar
+        
+        let titleView = CustomTitleView(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
+                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
+        
+        titleView.loadData(image: UIImage(named: "IconApp"))
+        self.tabBarController?.navigationItem.titleView = titleView
         
     }
   

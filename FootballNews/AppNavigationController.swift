@@ -134,8 +134,9 @@ class AppNavigationController: UINavigationController {
  
         if sideMenuVC.isShow == false {
             
+            //show side menu
             sideMenuVC.show()
-            //set show frame
+            //Set blur effect
             homeVC.view.addBlurEffect()
             videoVC.view.addBlurEffect()
             trendingVC.view.addBlurEffect()
@@ -143,8 +144,9 @@ class AppNavigationController: UINavigationController {
             
         } else {
            
+            //hide side menu
             sideMenuVC.hide()
-            //set show frame
+            //Remove blur effect
             homeVC.view.removeBlurEffect()
             videoVC.view.removeBlurEffect()
             trendingVC.view.removeBlurEffect()

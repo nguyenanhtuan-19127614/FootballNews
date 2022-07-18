@@ -117,19 +117,9 @@ class SearchArticleViewController: UIViewController, DataSoureDelegate {
         
         //MARK: Add Layout
         addSubviewsLayout()
-        
-        self.getData()
-    }
-    
-  
-    //MARK: viewDidLayoutSubviews state
-    
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
         searchLayout.sectionInsetReference = .fromSafeArea
         searchLayout.minimumLineSpacing = 15
-        
+        self.getData()
     }
     
     //MARK: viewWillAppear() state

@@ -128,6 +128,9 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
        
         addSubviewsLayout()
         
+        matchDetailLayout.sectionInsetReference = .fromSafeArea
+        matchDetailLayout.sectionHeadersPinToVisibleBounds = true
+       
         //Getdata
         if dataSource.state == .loading {
             self.getData()
@@ -150,15 +153,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         ])
         
     }
-    
-    //MARK: Custom Layout
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
-        matchDetailLayout.sectionInsetReference = .fromSafeArea
-        matchDetailLayout.sectionHeadersPinToVisibleBounds = true
-       
-    }
+   
     
     //MARK: viewWillAppear() state
     override func viewWillAppear( _ animated: Bool) {

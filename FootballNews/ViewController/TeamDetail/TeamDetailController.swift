@@ -114,7 +114,10 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.barStyle = .black
-    
+        
+        teamDetailLayout.sectionInsetReference = .fromSafeArea
+        teamDetailLayout.sectionHeadersPinToVisibleBounds = true
+       
         addSubviewsLayout()
         
         //Getdata
@@ -139,14 +142,7 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: Custom Layout
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
-        teamDetailLayout.sectionInsetReference = .fromSafeArea
-        teamDetailLayout.sectionHeadersPinToVisibleBounds = true
-       
-    }
+   
 }
 
 //MARK: Datasource Extension

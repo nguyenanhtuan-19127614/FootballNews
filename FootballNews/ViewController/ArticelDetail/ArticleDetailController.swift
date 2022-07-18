@@ -117,6 +117,8 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         }
         
         addSubviewsLayout()
+        articleDetailLayout.sectionInsetReference = .fromSafeArea
+        articleDetailLayout.minimumLineSpacing = 30
         
     }
     
@@ -143,18 +145,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
-        
-        
-        
-    }
-    
-    //MARK: Custom Layout
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
-        articleDetailLayout.sectionInsetReference = .fromSafeArea
-        articleDetailLayout.minimumLineSpacing = 30
-        
+  
     }
     
     //MARK: Function to add layout for subviews
