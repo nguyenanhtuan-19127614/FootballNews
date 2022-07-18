@@ -125,7 +125,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
+       
         addSubviewsLayout()
         
         //Getdata

@@ -63,6 +63,9 @@
 		03CE6C0328829A99005CBC4B /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0228829A99005CBC4B /* SideMenuViewController.swift */; };
 		03CE6C0828830B57005CBC4B /* AppInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0728830B57005CBC4B /* AppInfoModel.swift */; };
 		03CE6C0A28831EE5005CBC4B /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */; };
+		03CE6C0C288501A1005CBC4B /* UpComingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0B288501A1005CBC4B /* UpComingViewController.swift */; };
+		03CE6C0F288504DA005CBC4B /* SearchArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0E288504DA005CBC4B /* SearchArticleViewController.swift */; };
+		03CE6C11288504FE005CBC4B /* SearchArticleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C10288504FE005CBC4B /* SearchArticleDataSource.swift */; };
 		03DC833428753136005D5078 /* MatchDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833328753136005D5078 /* MatchDetailController.swift */; };
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
@@ -155,6 +158,9 @@
 		03CE6C0228829A99005CBC4B /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		03CE6C0728830B57005CBC4B /* AppInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoModel.swift; sourceTree = "<group>"; };
 		03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
+		03CE6C0B288501A1005CBC4B /* UpComingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingViewController.swift; sourceTree = "<group>"; };
+		03CE6C0E288504DA005CBC4B /* SearchArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticleViewController.swift; sourceTree = "<group>"; };
+		03CE6C10288504FE005CBC4B /* SearchArticleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArticleDataSource.swift; sourceTree = "<group>"; };
 		03DC833328753136005D5078 /* MatchDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailController.swift; sourceTree = "<group>"; };
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
@@ -307,6 +313,7 @@
 				0305AF4028597CDA009398A6 /* View */,
 				0305AF3B28597C74009398A6 /* Model */,
 				0384E977287BD4E7000C4561 /* Repositories */,
+				0305AF50285AE337009398A6 /* Extension */,
 				03ECED1D284E0B65009D9D3C /* Resources */,
 			);
 			path = FootballNews;
@@ -376,11 +383,13 @@
 		0384E96E287BD3C9000C4561 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */,
-				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
 				0384E96F287BD3E2000C4561 /* ViewControllerState.swift */,
+				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
+				03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */,
+				03CE6C0B288501A1005CBC4B /* UpComingViewController.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0384E971287BD3FB000C4561 /* Home */,
+				03CE6C0D288504A7005CBC4B /* SearchArticle */,
 				0384E973287BD421000C4561 /* ArticelDetail */,
 				037276AA287D226D004AE6C3 /* CompetitionDetail */,
 				0384E972287BD40D000C4561 /* MatchDetail */,
@@ -420,7 +429,6 @@
 		0384E977287BD4E7000C4561 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				0305AF50285AE337009398A6 /* Extension */,
 				0305AF3C28597C7A009398A6 /* DataHandler */,
 				0305AF3F28597CBB009398A6 /* Network */,
 			);
@@ -457,6 +465,15 @@
 				03CE6C0728830B57005CBC4B /* AppInfoModel.swift */,
 			);
 			path = SideMenuViewController;
+			sourceTree = "<group>";
+		};
+		03CE6C0D288504A7005CBC4B /* SearchArticle */ = {
+			isa = PBXGroup;
+			children = (
+				03CE6C0E288504DA005CBC4B /* SearchArticleViewController.swift */,
+				03CE6C10288504FE005CBC4B /* SearchArticleDataSource.swift */,
+			);
+			path = SearchArticle;
 			sourceTree = "<group>";
 		};
 		03DC833728754E70005D5078 /* MatchDetail */ = {
@@ -688,6 +705,7 @@
 				037276AC287D228B004AE6C3 /* CompetitionDetailController.swift in Sources */,
 				0305AF482859DE60009398A6 /* ArticleCell.swift in Sources */,
 				0305AF122850877C009398A6 /* QueryService.swift in Sources */,
+				03CE6C11288504FE005CBC4B /* SearchArticleDataSource.swift in Sources */,
 				03DC83402877D335005D5078 /* PaddingLabel.swift in Sources */,
 				032AB20D284E01C400C6A83A /* AppDelegate.swift in Sources */,
 				03BC50CE285D77EF00D5C79C /* ArticleDetailController.swift in Sources */,
@@ -701,10 +719,12 @@
 				03ADCEB928677252007E5668 /* APITarget.swift in Sources */,
 				037DE5F92863240500DD588D /* StringExtension.swift in Sources */,
 				03DC833E2876E971005D5078 /* RankingCell.swift in Sources */,
+				03CE6C0C288501A1005CBC4B /* UpComingViewController.swift in Sources */,
 				036D64CA286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift in Sources */,
 				037276B8287D8B84004AE6C3 /* TeamDetailController.swift in Sources */,
 				03C6071C2874270300EF0BBF /* ConnectionErrorNotification.swift in Sources */,
 				037276B3287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift in Sources */,
+				03CE6C0F288504DA005CBC4B /* SearchArticleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@ enum Destination {
     case detailMatch(dataMatch: HomeScoreBoardModel?)
     case detailCompetition(dataComp: HomeCompetitionModel?)
     case detailTeam(dataTeam: TeamInfoData?)
+    case searchArticle
     
 }
 
@@ -91,6 +92,11 @@ class ViewControllerRouter {
             }
             teamDetailVC.passHeaderData(teamInfo: dataTeam)
             return teamDetailVC
+            
+        case .searchArticle:
+            
+            let searchVC = SearchArticleViewController()
+            return searchVC
             
         }
        

@@ -116,7 +116,6 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
             
         }
         
-        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
         addSubviewsLayout()
         
     }

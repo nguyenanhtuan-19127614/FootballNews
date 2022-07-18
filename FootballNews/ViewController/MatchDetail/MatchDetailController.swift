@@ -125,7 +125,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
     
         super.viewDidLoad()
         self.navigationController?.navigationBar.barStyle = .black
-        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
+       
         addSubviewsLayout()
         
         //Getdata

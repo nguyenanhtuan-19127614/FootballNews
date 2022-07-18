@@ -12,14 +12,18 @@ class AppNavigationController: UINavigationController {
     let tabController = UITabBarController()
     
     let homeVC = HomeViewController()
-    let videoVC = UIViewController()
-    let trendingVC = UIViewController()
-    let ultilityVC = UIViewController()
+    let videoVC = UpComingViewController()
+    let trendingVC = UpComingViewController()
+    let ultilityVC = UpComingViewController()
     
     let sideMenuVC = SideMenuViewController()
     
     
+    
     override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        ViewControllerRouter.shared.setUpNavigationController(self)
         
         //MARK: Home View Controller
         //        homeVC.changeState(state: .offline)
@@ -52,7 +56,7 @@ class AppNavigationController: UINavigationController {
         tabController.addChild(videoVC)
         tabController.addChild(trendingVC)
         tabController.addChild(ultilityVC)
-    
+        
         //MARK: Navigation Controller
         self.navigationBar.isTranslucent = false
         self.pushViewController(tabController, animated: false)
@@ -88,7 +92,7 @@ class AppNavigationController: UINavigationController {
         let iconSearch = UIBarButtonItem(image: imgSearch,
                                          style: .plain,
                                          target: self,
-                                         action: nil)
+                                         action: #selector(pushSearchViewController))
         iconSearch.tintColor = .white
         tabController.navigationItem.rightBarButtonItem = iconSearch
         
@@ -134,6 +138,14 @@ class AppNavigationController: UINavigationController {
         
     }
     
+    //MARK: Search
+    @objc func pushSearchViewController() {
+        
+        self.hideSideMenu()
+        homeVC.pushSearchViewController()
+       
+    }
+    
     //MARK: Nav button Action
     @objc func controlSideMenu() {
         
@@ -142,27 +154,27 @@ class AppNavigationController: UINavigationController {
         var frameTrending = trendingVC.view.frame
         var frameUltility = ultilityVC.view.frame
         var frameTabbar = tabController.tabBar.frame
-        
+      
         if sideMenuVC.isShow == false {
             
             sideMenuVC.show()
             //set show frame
             frameHome.origin.x = sideMenuVC.view.frame.width
-            frameTabbar.origin.x = sideMenuVC.view.frame.width
             frameVideo.origin.x = sideMenuVC.view.frame.width
             frameTrending.origin.x = sideMenuVC.view.frame.width
             frameUltility.origin.x = sideMenuVC.view.frame.width
-            
+            frameTabbar.origin.x = sideMenuVC.view.frame.width
+           
         } else {
            
             sideMenuVC.hide()
             //set hide frame
             frameHome.origin.x = 0
-            frameTabbar.origin.x = 0
             frameVideo.origin.x = 0
             frameTrending.origin.x = 0
             frameUltility.origin.x = 0
-            
+            frameTabbar.origin.x = 0
+    
         }
         
         //Animation
@@ -172,6 +184,9 @@ class AppNavigationController: UINavigationController {
                        animations: {[unowned self] in
             
             homeVC.view.frame = frameHome
+            videoVC.view.frame = frameVideo
+            trendingVC.view.frame = frameTrending
+            ultilityVC.view.frame = frameUltility
             tabController.tabBar.frame = frameTabbar
            
         }, completion: nil)

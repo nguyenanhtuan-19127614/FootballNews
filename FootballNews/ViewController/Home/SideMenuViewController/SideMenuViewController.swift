@@ -14,7 +14,7 @@ class SideMenuViewController: UIViewController {
     let iconAppHolder = IconHolder()
 
     let appInfo = AppInfoView()
-
+    
   
     override func viewDidLoad() {
         
@@ -116,7 +116,7 @@ class IconHolder: UIView {
         let imgView = UIImageView()
         imgView.contentMode = .scaleToFill
         imgView.image = UIImage(named: "IconApp")
-        imgView.addShadow(color: UIColor.gray.cgColor)
+      
         return imgView
         
     }()

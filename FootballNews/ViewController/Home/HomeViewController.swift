@@ -100,6 +100,12 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
+    func pushSearchViewController() {
+        
+        ViewControllerRouter.shared.routing(to: .searchArticle)
+        
+    }
+    
     //MARK: loadView() state
     override func loadView() {
         
@@ -130,11 +136,18 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
         super.viewDidLoad()
         self.navigationController?.navigationBar.barStyle = .black
+        //Set titleview of navigation bar
+        
+        let titleView = CustomTitleView(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
+                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
+        
+        titleView.loadData(image: UIImage(named: "IconApp"))
+        self.tabBarController?.navigationItem.titleView = titleView
         //add layout
         addSubviewsLayout()
-        // set up router navigation controller
-        ViewControllerRouter.shared.setUpNavigationController(self.navigationController)
-        
+
         //Add Refresh control to homeCollection
         
         let refreshControl = UIRefreshControl()
@@ -198,18 +211,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        //Set titleview of navigation bar
-        
-        let titleView = CustomTitleView(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
-                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
-        
-        titleView.loadData(image: UIImage(named: "IconApp"))
-        
-        self.tabBarController?.navigationItem.titleView = titleView
-//        self.navigationItem.titleView = titleView
-        
+       
+       
         //Custom navigation bar
         if #available(iOS 13.0, *) {
 
@@ -222,11 +225,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         //Status bar
-
-    
-        //Back button
-        //navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
-       
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
