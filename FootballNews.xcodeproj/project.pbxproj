@@ -61,6 +61,8 @@
 		03CE6BFC287EBD8B005CBC4B /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */; };
 		03CE6C0128815935005CBC4B /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0028815935005CBC4B /* UINavigationControllerExtension.swift */; };
 		03CE6C0328829A99005CBC4B /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0228829A99005CBC4B /* SideMenuViewController.swift */; };
+		03CE6C0828830B57005CBC4B /* AppInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0728830B57005CBC4B /* AppInfoModel.swift */; };
+		03CE6C0A28831EE5005CBC4B /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */; };
 		03DC833428753136005D5078 /* MatchDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833328753136005D5078 /* MatchDetailController.swift */; };
 		03DC833628753AD1005D5078 /* MatchDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */; };
 		03DC833928754EDF005D5078 /* MatchDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC833828754EDF005D5078 /* MatchDetailHeader.swift */; };
@@ -151,6 +153,8 @@
 		03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
 		03CE6C0028815935005CBC4B /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		03CE6C0228829A99005CBC4B /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
+		03CE6C0728830B57005CBC4B /* AppInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoModel.swift; sourceTree = "<group>"; };
+		03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		03DC833328753136005D5078 /* MatchDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailController.swift; sourceTree = "<group>"; };
 		03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailDataSource.swift; sourceTree = "<group>"; };
 		03DC833828754EDF005D5078 /* MatchDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailHeader.swift; sourceTree = "<group>"; };
@@ -372,6 +376,7 @@
 		0384E96E287BD3C9000C4561 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */,
 				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
 				0384E96F287BD3E2000C4561 /* ViewControllerState.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
@@ -449,6 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				03CE6C0228829A99005CBC4B /* SideMenuViewController.swift */,
+				03CE6C0728830B57005CBC4B /* AppInfoModel.swift */,
 			);
 			path = SideMenuViewController;
 			sourceTree = "<group>";
@@ -673,8 +679,10 @@
 				0305AF2B28583C59009398A6 /* TeamModel.swift in Sources */,
 				0305AF54285C30D4009398A6 /* HomeCompetitionCell.swift in Sources */,
 				03A6AFC828729A1F00E9FB01 /* UIImageExtension.swift in Sources */,
+				03CE6C0828830B57005CBC4B /* AppInfoModel.swift in Sources */,
 				037276AE287D2299004AE6C3 /* CompetitionDetailDataSource.swift in Sources */,
 				036D64D12865957C006E68C5 /* HomeDataSource.swift in Sources */,
+				03CE6C0A28831EE5005CBC4B /* AppNavigationController.swift in Sources */,
 				0305AF4F285AE174009398A6 /* UIImageViewExtension.swift in Sources */,
 				03EB3AC1286B0A45006097C5 /* DataSourceDelegate.swift in Sources */,
 				037276AC287D228B004AE6C3 /* CompetitionDetailController.swift in Sources */,

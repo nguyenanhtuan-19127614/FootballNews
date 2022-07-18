@@ -24,9 +24,9 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     
     // Datasource
     let dataSource = HomeDataSource()
-
-    //Side Menu Controller
-    let sideMenuVC = SideMenuViewController()
+    
+    //App Nav Controller delegate
+    weak var navDelegate: AppNavigationController?
     
     //Main CollectionView Layout
     var homeLayout = UICollectionViewFlowLayout()
@@ -192,17 +192,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeLayout.sectionInsetReference = .fromSafeArea
         homeLayout.minimumLineSpacing = 15
         
-        // add side menu
-        let screenFrame = self.view.frame
-        let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
-                           (self.navigationController?.navigationBar.frame.height ?? 0.0)
-
-        sideMenuVC.view.frame = CGRect(x: -screenFrame.width,
-                                       y: topBarHeight,
-                                       width: screenFrame.width/1.5,
-                                       height: screenFrame.height)
-      
-        UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
     }
     
     //MARK: viewWillAppear() state
@@ -233,31 +222,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         }
         
         //Status bar
-        
-        //Nav bar
-        
-        //Right Icon
-        //search icon
-        let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
-        let iconSearch = UIBarButtonItem(image: imgSearch,
-                                         style: .plain,
-                                         target: self,
-                                         action: nil)
-        iconSearch.tintColor = .white
-       
-        self.tabBarController?.navigationItem.rightBarButtonItem = iconSearch
-        
-        //Left Icon
-        //menu icon
-        let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
-        let iconMenu = UIBarButtonItem(image: imgMenu,
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(showSideMenu))
-        iconMenu.tintColor = .white
-        self.tabBarController?.navigationItem.leftBarButtonItem = iconMenu
-        
-      
+
+    
         //Back button
         //navigationController?.navigationBar.topItem?.title = "BÓNG ĐÁ MỚI"
        
@@ -282,42 +248,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
-    //MARK: Nav button Action
-    @objc func showSideMenu() {
-        
-        var frameVC = view.frame
-        var frameTabbar = tabBarController?.tabBar.frame
-        
-        if sideMenuVC.isShow == false {
-            
-            sideMenuVC.show()
-            //set show frame
-            frameVC.origin.x = sideMenuVC.view.frame.width
-            frameTabbar?.origin.x = sideMenuVC.view.frame.width
-            
-        } else {
-           
-            sideMenuVC.hide()
-            //set hide frame
-            frameVC.origin.x = 0
-            frameTabbar?.origin.x = 0
-            
-        }
-        
-        //Animation
-        UIView.animate(withDuration: 0.3,
-                       delay: 0.0,
-                       options: .transitionFlipFromLeft,
-                       animations: {[unowned self] in
-            
-            self.view.frame = frameVC
-            if let frameTabbar = frameTabbar {
-                self.tabBarController?.tabBar.frame = frameTabbar
-            }
-           
-        }, completion: nil)
-    }
- 
+    
 }
 
 //MARK: Datasource Extension
@@ -483,17 +414,23 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func competitionBoardClick(index: Int) {
         
+        navDelegate?.hideSideMenu()
+        
         ViewControllerRouter.shared.routing(to: .detailCompetition(dataComp: dataSource.competitionData[index]))
         
     }
     
     func scoreBoardClick(index: Int) {
         
+        navDelegate?.hideSideMenu()
+        
         ViewControllerRouter.shared.routing(to: .detailMatch(dataMatch: dataSource.scoreBoardData[index]))
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        navDelegate?.hideSideMenu()
         
         if (dataSource.competitionIndex == indexPath.row && dataSource.competitionExist) ||
             (indexPath.row == dataSource.scoreBoardIndex && dataSource.scoreBoardExist) {

@@ -11,14 +11,10 @@ class SideMenuViewController: UIViewController {
     
     var isShow = false
     
-    let iconApp: UIImageView = {
-        
-        let imgView = UIImageView()
-        imgView.contentMode = .scaleToFill
-        imgView.image = UIImage(named: "IconApp")
-        return imgView
-        
-    }()
+    let iconAppHolder = IconHolder()
+
+    let appInfo = AppInfoView()
+
   
     override func viewDidLoad() {
         
@@ -31,23 +27,37 @@ class SideMenuViewController: UIViewController {
     
     func addSubviews() {
         
-        
-        self.view.addSubview(iconApp)
+        //self.view.addSubview(appInfo)
+        self.view.addSubview(iconAppHolder)
        
     }
     
     func addLayout() {
         
-        iconApp.translatesAutoresizingMaskIntoConstraints = false
+        iconAppHolder.translatesAutoresizingMaskIntoConstraints = false
+        appInfo.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            iconApp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30),
-            iconApp.widthAnchor.constraint(equalTo: self.view.widthAnchor,multiplier: 1/2),
-            iconApp.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1/6),
-            iconApp.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            iconAppHolder.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+            iconAppHolder.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1/6),
+            iconAppHolder.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            iconAppHolder.centerYAnchor.constraint(equalTo: self.view.centerYAnchor,
+                                                   constant: self.view.bounds.height/4)
+//
+//            appInfo.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1/5),
+//            appInfo.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+//            appInfo.topAnchor.constraint(equalTo: iconAppHolder.bottomAnchor,constant: 20)
         
         ])
+        
+//        if let background = UIImage(named: "IconHolder") {
+//
+//            iconAppHolder.backgroundColor = UIColor(patternImage: background)
+//        }
+        
+        self.view.layer.borderWidth = 1
+        self.view.layer.borderColor = UIColor.lightGray.cgColor
     }
     
    
@@ -83,6 +93,58 @@ class SideMenuViewController: UIViewController {
     
 }
 
+class IconHolder: UIView {
+    
+    //MARK: Overide Init
+    
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+        addSubViews()
+        addLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: Define SubViews
+    
+    let iconApp: UIImageView = {
+        
+        let imgView = UIImageView()
+        imgView.contentMode = .scaleToFill
+        imgView.image = UIImage(named: "IconApp")
+        imgView.addShadow(color: UIColor.gray.cgColor)
+        return imgView
+        
+    }()
+    
+    func addSubViews() {
+        
+        self.addSubview(iconApp)
+   
+    }
+    
+    func addLayout() {
+        
+        iconApp.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            iconApp.widthAnchor.constraint(equalTo: self.widthAnchor,multiplier: 1/2),
+            iconApp.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/2),
+            iconApp.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            iconApp.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+    
+        ])
+       
+    }
+    
+}
+
+
 class AppInfoView: UIView {
     
     //MARK: Overide Init
@@ -92,7 +154,6 @@ class AppInfoView: UIView {
         super.init(frame: frame)
         
         addSubViews()
-//        addLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -101,9 +162,11 @@ class AppInfoView: UIView {
     
     //MARK: Define SubViews
     
-    let infoLabel: UILabel = {
+    let titleLabel: UILabel = {
         
         let label = UILabel()
+        label.text = "THÔNG TIN"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
         
     }()
@@ -111,6 +174,10 @@ class AppInfoView: UIView {
     let versionLabel: UILabel = {
         
         let label = UILabel()
+        label.text = "Phiên Bản: \(AppInfo.version.getValue())"
+        label.font = label.font.withSize(18)
+        label.numberOfLines = 0
+        
         return label
         
     }()
@@ -118,6 +185,10 @@ class AppInfoView: UIView {
     let emailLabel: UILabel = {
         
         let label = UILabel()
+        label.text = "Email: \(AppInfo.email.getValue())"
+        label.font = label.font.withSize(18)
+        label.numberOfLines = 0
+        
         return label
         
     }()
@@ -125,17 +196,49 @@ class AppInfoView: UIView {
     let phoneNumberLabel: UILabel = {
         
         let label = UILabel()
+        label.text = "Liên Hệ: \(AppInfo.phone.getValue())"
+        label.font = label.font.withSize(18)
+        label.numberOfLines = 0
+        
         return label
         
     }()
     
     func addSubViews() {
         
-        self.addSubview(infoLabel)
+        self.addSubview(titleLabel)
         self.addSubview(versionLabel)
         self.addSubview(emailLabel)
         self.addSubview(phoneNumberLabel)
    
     }
     
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        titleLabel.frame = CGRect(x: 10,
+                                  y: 20,
+                                  width: self.bounds.width,
+                                  height: 0)
+        titleLabel.sizeToFit()
+        
+        versionLabel.frame = CGRect(x: 10,
+                                    y: titleLabel.frame.maxY + 10,
+                                    width: self.bounds.width,
+                                    height: 0)
+        versionLabel.sizeToFit()
+        
+        emailLabel.frame = CGRect(x: 10,
+                                  y: versionLabel.frame.maxY,
+                                  width: self.bounds.width,
+                                  height: 0)
+        emailLabel.sizeToFit()
+        
+        phoneNumberLabel.frame = CGRect(x: 10,
+                                        y: emailLabel.frame.maxY,
+                                        width: self.bounds.width,
+                                        height: 0)
+        phoneNumberLabel.sizeToFit()
+    }
 }
