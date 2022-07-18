@@ -32,10 +32,10 @@ class SearchArticleViewController: UIViewController, DataSoureDelegate {
         //Custom Textfield
         if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
             
-            //textField.backgroundColor = UIColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 0.2)
-            textField.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+            textField.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+            //textField.addVibrancyEffect()
             textField.textColor = .white
-        
+            
         }
    
         return searchController
@@ -214,6 +214,10 @@ extension SearchArticleViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
   
         if dataSource.hotArticles.count == 0 || dataSource.state == .offline {
+            return
+        }
+        
+        if dataSource.showContent == .searchArticles {
             return
         }
         
@@ -407,15 +411,14 @@ extension SearchArticleViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        print("searchText \(String(describing: searchBar.text))")
-        guard let prefix = searchBar.text else {
+        guard let searchText = searchBar.text else {
             return
         }
         
         var searchData: [HomeArticleModel?] = []
         for article in dataSource.hotArticles {
           
-            if article?.title.hasPrefix(prefix) == true{
+            if article?.title.contains(searchText) == true{
                 searchData.append(article)
             }
             

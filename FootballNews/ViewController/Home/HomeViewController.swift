@@ -100,12 +100,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         
     }
     
-    func pushSearchViewController() {
-        
-        ViewControllerRouter.shared.routing(to: .searchArticle)
-        
-    }
-    
     //MARK: loadView() state
     override func loadView() {
         

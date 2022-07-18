@@ -8,11 +8,12 @@
 import Foundation
 import UIKit
 
-
 extension UIImageView {
     
     //Load Image from URL
     func loadImageFromUrl(url: String?)  {
+        
+        self.image = nil
         
         guard let url = url else {
             return
@@ -69,5 +70,4 @@ extension UIImageView {
      
     }
    
-    
 }

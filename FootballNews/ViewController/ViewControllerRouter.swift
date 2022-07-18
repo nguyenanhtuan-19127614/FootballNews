@@ -10,7 +10,6 @@ import UIKit
 
 enum Destination {
     
-   
     case detailArticle(dataArticle: HomeArticleModel?)
     case detailArticleOffline(dataArticle: ArticelDetailModel?, headerData: HomeArticleModel?)
     case detailMatch(dataMatch: HomeScoreBoardModel?)

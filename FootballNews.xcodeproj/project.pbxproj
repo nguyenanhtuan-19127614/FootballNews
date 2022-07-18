@@ -204,10 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				0384E985287C3CB7000C4561 /* QueryDataModel */,
-				0384E97C287BDC94000C4561 /* HomeViewModel.swift */,
-				0384E980287BDCDA000C4561 /* ArticleDetailModel.swift */,
-				03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */,
-				03CE6BF9287EBCA6005CBC4B /* TeamInfoModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,11 +255,6 @@
 				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
 				03DC833D2876E971005D5078 /* RankingCell.swift */,
 				0305AF472859DE60009398A6 /* ArticleCell.swift */,
-				037276BB287D8C64004AE6C3 /* TeamDetail */,
-				037276AF287D2716004AE6C3 /* CompetitionDetail */,
-				03DC833728754E70005D5078 /* MatchDetail */,
-				03E1FFD928601E1300851333 /* ArticelDetail */,
-				03BC50CC285D779000D5C79C /* Home */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -308,6 +299,7 @@
 		032AB20B284E01C400C6A83A /* FootballNews */ = {
 			isa = PBXGroup;
 			children = (
+				03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */,
 				032AB20C284E01C400C6A83A /* AppDelegate.swift */,
 				0384E96E287BD3C9000C4561 /* ViewController */,
 				0305AF4028597CDA009398A6 /* View */,
@@ -347,37 +339,41 @@
 		037276AA287D226D004AE6C3 /* CompetitionDetail */ = {
 			isa = PBXGroup;
 			children = (
+				037276AF287D2716004AE6C3 /* CompetitionDetailCell */,
+				03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */,
 				037276AB287D228B004AE6C3 /* CompetitionDetailController.swift */,
 				037276AD287D2299004AE6C3 /* CompetitionDetailDataSource.swift */,
 			);
 			path = CompetitionDetail;
 			sourceTree = "<group>";
 		};
-		037276AF287D2716004AE6C3 /* CompetitionDetail */ = {
+		037276AF287D2716004AE6C3 /* CompetitionDetailCell */ = {
 			isa = PBXGroup;
 			children = (
 				037276B0287D2736004AE6C3 /* CompetitionDetailHeader.swift */,
 				037276B2287D3159004AE6C3 /* CompetitionDetailSectionHeader.swift */,
 			);
-			path = CompetitionDetail;
+			path = CompetitionDetailCell;
 			sourceTree = "<group>";
 		};
 		037276B6287D8B62004AE6C3 /* TeamDetail */ = {
 			isa = PBXGroup;
 			children = (
+				037276BB287D8C64004AE6C3 /* TeamDetailCell */,
+				03CE6BF9287EBCA6005CBC4B /* TeamInfoModel.swift */,
 				037276B7287D8B84004AE6C3 /* TeamDetailController.swift */,
 				037276B9287D8B94004AE6C3 /* TeamDetailDataSource.swift */,
 			);
 			path = TeamDetail;
 			sourceTree = "<group>";
 		};
-		037276BB287D8C64004AE6C3 /* TeamDetail */ = {
+		037276BB287D8C64004AE6C3 /* TeamDetailCell */ = {
 			isa = PBXGroup;
 			children = (
 				03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */,
 				03CE6BF7287E8730005CBC4B /* TeamDetailSectionHeader.swift */,
 			);
-			path = TeamDetail;
+			path = TeamDetailCell;
 			sourceTree = "<group>";
 		};
 		0384E96E287BD3C9000C4561 /* ViewController */ = {
@@ -385,7 +381,6 @@
 			children = (
 				0384E96F287BD3E2000C4561 /* ViewControllerState.swift */,
 				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
-				03CE6C0928831EE5005CBC4B /* AppNavigationController.swift */,
 				03CE6C0B288501A1005CBC4B /* UpComingViewController.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
 				0384E971287BD3FB000C4561 /* Home */,
@@ -401,8 +396,10 @@
 		0384E971287BD3FB000C4561 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				03BC50CC285D779000D5C79C /* HomeCell */,
 				03CE6C0428829AE6005CBC4B /* SideMenuViewController */,
 				0305AF57285C390E009398A6 /* HomeViewController.swift */,
+				0384E97C287BDC94000C4561 /* HomeViewModel.swift */,
 				036D64D02865957C006E68C5 /* HomeDataSource.swift */,
 			);
 			path = Home;
@@ -411,6 +408,7 @@
 		0384E972287BD40D000C4561 /* MatchDetail */ = {
 			isa = PBXGroup;
 			children = (
+				03DC833728754E70005D5078 /* MatchDetailCell */,
 				03DC833328753136005D5078 /* MatchDetailController.swift */,
 				03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */,
 			);
@@ -420,6 +418,8 @@
 		0384E973287BD421000C4561 /* ArticelDetail */ = {
 			isa = PBXGroup;
 			children = (
+				03E1FFD928601E1300851333 /* ArticelDetailCell */,
+				0384E980287BDCDA000C4561 /* ArticleDetailModel.swift */,
 				03BC50CD285D77EF00D5C79C /* ArticleDetailController.swift */,
 				0384E982287BDCF8000C4561 /* ArticleDetailDataSource.swift */,
 			);
@@ -447,7 +447,7 @@
 			path = QueryDataModel;
 			sourceTree = "<group>";
 		};
-		03BC50CC285D779000D5C79C /* Home */ = {
+		03BC50CC285D779000D5C79C /* HomeCell */ = {
 			isa = PBXGroup;
 			children = (
 				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
@@ -455,7 +455,7 @@
 				036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */,
 				036D64CB2865652F006E68C5 /* HomeCompetitionCollectionCell.swift */,
 			);
-			path = Home;
+			path = HomeCell;
 			sourceTree = "<group>";
 		};
 		03CE6C0428829AE6005CBC4B /* SideMenuViewController */ = {
@@ -476,13 +476,13 @@
 			path = SearchArticle;
 			sourceTree = "<group>";
 		};
-		03DC833728754E70005D5078 /* MatchDetail */ = {
+		03DC833728754E70005D5078 /* MatchDetailCell */ = {
 			isa = PBXGroup;
 			children = (
 				03DC833828754EDF005D5078 /* MatchDetailHeader.swift */,
 				03DC833A2876BC9D005D5078 /* MatchDetailSectionHeader.swift */,
 			);
-			path = MatchDetail;
+			path = MatchDetailCell;
 			sourceTree = "<group>";
 		};
 		03DC833C2876D4C4005D5078 /* Notification */ = {
@@ -493,14 +493,14 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
-		03E1FFD928601E1300851333 /* ArticelDetail */ = {
+		03E1FFD928601E1300851333 /* ArticelDetailCell */ = {
 			isa = PBXGroup;
 			children = (
 				03E1FFDE2861BF8000851333 /* ArticelDetailHeaderCell.swift */,
 				0344A93A286D940C00B38E38 /* ArticelDetailBodyTextCell.swift */,
 				0344A93C286D942400B38E38 /* ArticelDetailBodyImageCell.swift */,
 			);
-			path = ArticelDetail;
+			path = ArticelDetailCell;
 			sourceTree = "<group>";
 		};
 		03EB3ABF286B0A2C006097C5 /* Delegation */ = {

@@ -18,8 +18,7 @@ class AppNavigationController: UINavigationController {
     
     let sideMenuVC = SideMenuViewController()
     
-    
-    
+  
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -47,6 +46,7 @@ class AppNavigationController: UINavigationController {
         //MARK: Ultility View Controller
         let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let menuIcon = UITabBarItem(title: "Tiện Ích", image: imgMenu, tag: 3)
+        
         ultilityVC.tabBarItem = menuIcon
         ultilityVC.view.backgroundColor = .white
         
@@ -110,86 +110,48 @@ class AppNavigationController: UINavigationController {
     
     //delegate func
     func hideSideMenu() {
-        
-        var frameHome = homeVC.view.frame
-        var frameVideo = videoVC.view.frame
-        var frameTrending = trendingVC.view.frame
-        var frameUltility = ultilityVC.view.frame
-        var frameTabbar = tabController.tabBar.frame
-        
+    
         sideMenuVC.hide()
         //set hide frame
-        frameHome.origin.x = 0
-        frameTabbar.origin.x = 0
-        frameVideo.origin.x = 0
-        frameTrending.origin.x = 0
-        frameUltility.origin.x = 0
-        
-        //Animation
-        UIView.animate(withDuration: 0.3,
-                       delay: 0.0,
-                       options: .transitionFlipFromLeft,
-                       animations: {[unowned self] in
-            
-            homeVC.view.frame = frameHome
-            tabController.tabBar.frame = frameTabbar
-           
-        }, completion: nil)
-        
+       
+        homeVC.view.removeBlurEffect()
+        videoVC.view.removeBlurEffect()
+        trendingVC.view.removeBlurEffect()
+        ultilityVC.view.removeBlurEffect()
+      
     }
     
     //MARK: Search
     @objc func pushSearchViewController() {
         
         self.hideSideMenu()
-        homeVC.pushSearchViewController()
-       
+        ViewControllerRouter.shared.routing(to: .searchArticle)
+        
     }
     
     //MARK: Nav button Action
     @objc func controlSideMenu() {
-        
-        var frameHome = homeVC.view.frame
-        var frameVideo = videoVC.view.frame
-        var frameTrending = trendingVC.view.frame
-        var frameUltility = ultilityVC.view.frame
-        var frameTabbar = tabController.tabBar.frame
-      
+ 
         if sideMenuVC.isShow == false {
             
             sideMenuVC.show()
             //set show frame
-            frameHome.origin.x = sideMenuVC.view.frame.width
-            frameVideo.origin.x = sideMenuVC.view.frame.width
-            frameTrending.origin.x = sideMenuVC.view.frame.width
-            frameUltility.origin.x = sideMenuVC.view.frame.width
-            frameTabbar.origin.x = sideMenuVC.view.frame.width
-           
+            homeVC.view.addBlurEffect()
+            videoVC.view.addBlurEffect()
+            trendingVC.view.addBlurEffect()
+            ultilityVC.view.addBlurEffect()
+            
         } else {
            
             sideMenuVC.hide()
-            //set hide frame
-            frameHome.origin.x = 0
-            frameVideo.origin.x = 0
-            frameTrending.origin.x = 0
-            frameUltility.origin.x = 0
-            frameTabbar.origin.x = 0
-    
-        }
-        
-        //Animation
-        UIView.animate(withDuration: 0.3,
-                       delay: 0.0,
-                       options: .transitionFlipFromLeft,
-                       animations: {[unowned self] in
-            
-            homeVC.view.frame = frameHome
-            videoVC.view.frame = frameVideo
-            trendingVC.view.frame = frameTrending
-            ultilityVC.view.frame = frameUltility
-            tabController.tabBar.frame = frameTabbar
+            //set show frame
+            homeVC.view.removeBlurEffect()
+            videoVC.view.removeBlurEffect()
+            trendingVC.view.removeBlurEffect()
+            ultilityVC.view.removeBlurEffect()
            
-        }, completion: nil)
+        }
+ 
     }
     
     
