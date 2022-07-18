@@ -13,11 +13,13 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        addLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+        addLayout()
     }
     
     var indicator : UIActivityIndicatorView = {
@@ -34,7 +36,7 @@ class LoadMoreIndicatorCell: UICollectionViewCell {
 
     }
     
-    override func layoutSubviews() {
+    func addLayout() {
         
         indicator.translatesAutoresizingMaskIntoConstraints = false
         

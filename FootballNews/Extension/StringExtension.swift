@@ -6,10 +6,10 @@
 //
 
 import Foundation
-
+import UIKit
 extension String {
     
-    func renderHTMLAttribute() -> NSMutableAttributedString? {
+    func renderHTMLAttribute(lineSpacing: CGFloat) -> NSMutableAttributedString? {
         
         guard let data = NSString(string: self).data(using: String.Encoding.unicode.rawValue) else {
             return nil
@@ -18,14 +18,20 @@ extension String {
         let attributedOptions: [NSAttributedString.DocumentReadingOptionKey : Any] = [
         
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.unicode.rawValue
+            .characterEncoding: String.Encoding.unicode.rawValue,
             
         ]
   
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        
+        //render html
         if let attributedString = try? NSMutableAttributedString(data: data,
                                                                  options: attributedOptions,
                                                                  documentAttributes: nil) {
-
+            //line spacing
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            
             return attributedString
             
         } else {

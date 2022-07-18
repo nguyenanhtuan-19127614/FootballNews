@@ -107,6 +107,14 @@ class AppNavigationController: UINavigationController {
         tabController.navigationItem.leftBarButtonItem = iconMenu
        
     }
+    //MARK: Search
+    @objc func pushSearchViewController() {
+        
+        self.hideSideMenu()
+        ViewControllerRouter.shared.routing(to: .searchArticle)
+        
+    }
+    
     
     //delegate func
     func hideSideMenu() {
@@ -120,15 +128,7 @@ class AppNavigationController: UINavigationController {
         ultilityVC.view.removeBlurEffect()
       
     }
-    
-    //MARK: Search
-    @objc func pushSearchViewController() {
-        
-        self.hideSideMenu()
-        ViewControllerRouter.shared.routing(to: .searchArticle)
-        
-    }
-    
+ 
     //MARK: Nav button Action
     @objc func controlSideMenu() {
  

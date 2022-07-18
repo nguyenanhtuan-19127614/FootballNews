@@ -48,9 +48,9 @@ extension UILabel {
         
     }
     
-    func renderHTMLAtribute(from string: String, size: CGFloat = 0) {
+    func renderHTMLAtribute(from string: String, size: CGFloat = 0, lineSpacing: CGFloat = 1) {
         
-        if let attributeString = string.renderHTMLAttribute() {
+        if let attributeString = string.renderHTMLAttribute(lineSpacing: lineSpacing) {
             
             self.attributedText = attributeString
             
@@ -75,6 +75,7 @@ extension UILabel {
         paragraphStyle.lineSpacing = lineSpacing
         
         let attrString = NSMutableAttributedString(string: self.text ?? "")
+      
         attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
         self.attributedText = attrString

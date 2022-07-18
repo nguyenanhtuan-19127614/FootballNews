@@ -153,7 +153,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         super.viewDidLayoutSubviews()
         articleDetailLayout.sectionInsetReference = .fromSafeArea
-        articleDetailLayout.minimumLineSpacing = 20
+        articleDetailLayout.minimumLineSpacing = 30
         
     }
     
@@ -438,9 +438,10 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             if bodyContent[indexPath.row - 1].type == "text" {
                 
                 let contentLabel = UILabel()
-                contentLabel.renderHTMLAtribute(from: bodyContent[indexPath.row - 1].content, size: 22)
-                contentLabel.addLineSpacing(lineSpacing: 5)
-                
+                contentLabel.renderHTMLAtribute(from: bodyContent[indexPath.row - 1].content,
+                                                size: 22,
+                                                lineSpacing: 5)
+               
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {

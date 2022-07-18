@@ -200,7 +200,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeLayout.minimumLineSpacing = 15
         
     }
-    
+  
     //MARK: viewWillAppear() state
     override func viewWillAppear(_ animated: Bool) {
         

@@ -121,11 +121,11 @@ fileprivate class NetworkDownloadOperation: CustomOperation {
         super.cancel()
         if isExecuting {
             
-            print("Canceled")
             self.task?.cancel()
             self.finish()
+            
         }
-       
+
     }
  
 }
