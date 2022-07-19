@@ -199,7 +199,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
                                                       width: (self.navigationController?.navigationBar.bounds.width ?? 0)/1.3,
                                                       height: (self.navigationController?.navigationBar.bounds.height ?? 0)/1.3))
         
-        titleView.loadData(image: UIImage(named: "IconApp"))
+        titleView.loadData(image: UIImage(named: "TitleView2"))
         self.tabBarController?.navigationItem.titleView = titleView
         
     }
@@ -208,8 +208,7 @@ class HomeViewController : UIViewController, DataSoureDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-       
-       
+  
         //Custom navigation bar
         if #available(iOS 13.0, *) {
 

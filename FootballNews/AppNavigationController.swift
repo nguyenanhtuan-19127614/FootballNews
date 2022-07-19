@@ -75,9 +75,11 @@ class AppNavigationController: UINavigationController {
         sideMenuVC.view.frame = CGRect(x: -screenFrame.width,
                                        y: topBarHeight,
                                        width: screenFrame.width/1.5,
-                                       height: screenFrame.height)
+                                       height: screenFrame.height-topBarHeight)
       
         UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
+        
+     
         
     }
     
@@ -107,6 +109,8 @@ class AppNavigationController: UINavigationController {
         tabController.navigationItem.leftBarButtonItem = iconMenu
        
     }
+    
+    
     //MARK: Search
     @objc func pushSearchViewController() {
         
