@@ -25,10 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
         
     }
-    
-    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        print("Memory Warning!!!")
-    }
    
 }
 

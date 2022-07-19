@@ -9,6 +9,11 @@ import UIKit
 
 class UpComingViewController: UIViewController {
     
+    //status bar style
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .lightContent
+    }
+    
     var iconImg: UIImageView = {
     
         let imgView = UIImageView()

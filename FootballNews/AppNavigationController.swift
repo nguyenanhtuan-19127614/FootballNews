@@ -18,6 +18,10 @@ class AppNavigationController: UINavigationController {
     
     let sideMenuVC = SideMenuViewController()
     
+    
+    override var childForStatusBarStyle: UIViewController? {
+        return visibleViewController
+    }
   
     override func viewDidLoad() {
         
@@ -74,7 +78,7 @@ class AppNavigationController: UINavigationController {
 
         sideMenuVC.view.frame = CGRect(x: -screenFrame.width,
                                        y: topBarHeight,
-                                       width: screenFrame.width/1.5,
+                                       width: screenFrame.width * 0.8,
                                        height: screenFrame.height-topBarHeight)
       
         UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
@@ -87,7 +91,7 @@ class AppNavigationController: UINavigationController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Nav bar
-        
+      
         //Right Icon
         //search icon
         let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))

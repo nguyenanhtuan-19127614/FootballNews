@@ -14,7 +14,7 @@ class SideMenuCellHeader: UICollectionReusableView {
         
         super.init(frame: frame)
         self.backgroundColor = .white
-        self.addBottomBorder(with: .lightGray, andWidth: 1)
+        
         //add sub views
         addSubViews()
        
@@ -32,7 +32,7 @@ class SideMenuCellHeader: UICollectionReusableView {
         let label = UILabel()
         label.text = "Tin tức"
         label.font = UIFont.boldSystemFont(ofSize: 25)
-       
+        
         return label
         
     }()
@@ -52,12 +52,12 @@ class SideMenuCellHeader: UICollectionReusableView {
         
         super.layoutSubviews()
         
-        headerLabel.frame = CGRect(x: 0,
+        headerLabel.frame = CGRect(x: 10,
                                    y: 0,
-                                   width: self.bounds.width,
+                                   width: self.bounds.width-20,
                                    height: self.bounds.height)
       
-
+        headerLabel.addBottomBorder(with: .lightGray, andWidth: 0.5)
     }
  
 }

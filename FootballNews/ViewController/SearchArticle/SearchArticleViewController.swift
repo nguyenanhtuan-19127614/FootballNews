@@ -9,7 +9,12 @@ import UIKit
 
 
 class SearchArticleViewController: UIViewController, DataSoureDelegate {
-   
+    
+    //status bar style
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .lightContent
+    }
+    
     //Search Controller
     let searchController: UISearchController = {
         

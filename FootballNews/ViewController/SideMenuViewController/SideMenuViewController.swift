@@ -30,6 +30,7 @@ class SideMenuViewController: UIViewController {
         //Section
         sideMenuCollection.register(SideMenuCellHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SideMenuCellHeader")
         sideMenuCollection.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyHeader")
+        
         return sideMenuCollection
         
     }()
@@ -56,8 +57,9 @@ class SideMenuViewController: UIViewController {
         addSubviews()
         addLayout()
         
+       
     }
-    
+
     func addSubviews() {
         
         self.view.addSubview(sideMenuCollection)
@@ -70,10 +72,10 @@ class SideMenuViewController: UIViewController {
         
         NSLayoutConstraint.activate([
 
-            sideMenuCollection.topAnchor.constraint(equalTo: self.view.topAnchor),
+            sideMenuCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             sideMenuCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            sideMenuCollection.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            sideMenuCollection.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            sideMenuCollection.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            sideMenuCollection.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
             
         ])
      
@@ -118,12 +120,13 @@ extension SideMenuViewController: UICollectionViewDelegate {
 
 extension SideMenuViewController: UICollectionViewDataSource {
     
+    //Section Number
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         return sectionNumbers
         
     }
-    
+    //Cell for each Section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 || section == sectionNumbers - 1 {
@@ -134,6 +137,7 @@ extension SideMenuViewController: UICollectionViewDataSource {
         
     }
     
+    //Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
@@ -145,7 +149,7 @@ extension SideMenuViewController: UICollectionViewDataSource {
             }
             
             headerCell.iconApp.image = UIImage(named: "IconApp")
-            headerCell.backgroundColor = UIColor.lightGray
+           
             return headerCell
             
         } else if indexPath.section == sectionNumbers - 1 {
@@ -167,25 +171,18 @@ extension SideMenuViewController: UICollectionViewDataSource {
         }
         
         sideMenuCell.loadData(data: sideMenuData.contents[indexPath.section-1][indexPath.row])
+      
         return sideMenuCell
-        
-//        if indexPath.section == 1 {
-//            sideMenuCell.loadData(data: sideMenuData.content[indexPath.row])
-//            return sideMenuCell
-//        } else {
-//            sideMenuCell.loadData(data: sideMenuData.config[indexPath.row])
-//            return sideMenuCell
-//        }
-        
       
     }
     
+    //Section
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if indexPath.section == 0 || indexPath.section == sectionNumbers - 1 {
             
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmptyHeader", for: indexPath)
-            
+        
             return sectionHeader
                 
         }
@@ -212,10 +209,11 @@ extension SideMenuViewController: UICollectionViewDataSource {
 
 extension SideMenuViewController: UICollectionViewDelegateFlowLayout {
     
+    //Cell size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let totalWidth = self.view.bounds.width
-        let totalHeight = self.view.bounds.height
+     
+        let totalWidth = collectionView.frame.width
+        let totalHeight = collectionView.frame.height
         
         if indexPath.section == 0 {
             
@@ -225,24 +223,28 @@ extension SideMenuViewController: UICollectionViewDelegateFlowLayout {
         } else if indexPath.section == sectionNumbers - 1 {
             
             return CGSize(width: totalWidth,
-                          height: totalHeight/7)
+                          height: totalHeight/5)
             
         }
         
-        return CGSize(width: totalWidth - 30,
+        return CGSize(width: totalWidth - 20,
                       height: totalHeight/15)
         
     }
     
+    //Section size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        let totalWidth = self.view.bounds.width
-        let totalHeight = self.view.bounds.height
+        let totalWidth = collectionView.frame.width
+        let totalHeight = collectionView.frame.height
         
         if section == 0 || section == sectionNumbers - 1 {
+            
             return CGSize(width: 0,
                           height: 0)
+            
         }
+        
         return CGSize(width: totalWidth,
                       height: totalHeight/15)
         

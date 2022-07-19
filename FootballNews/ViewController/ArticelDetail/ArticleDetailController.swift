@@ -15,6 +15,11 @@ import UIKit
 
 class ArticelDetailController: UIViewController, DataSoureDelegate {
     
+    //status bar style
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .default
+    }
+    
     var headerHeight: CGFloat = 0
     
     // Datasource
@@ -118,7 +123,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         addSubviewsLayout()
         articleDetailLayout.sectionInsetReference = .fromSafeArea
-        articleDetailLayout.minimumLineSpacing = 30
+        articleDetailLayout.minimumLineSpacing = 20
         
     }
     

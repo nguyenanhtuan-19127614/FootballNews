@@ -30,7 +30,7 @@ class AppInfoCell: UICollectionViewCell {
         
         let label = UILabel()
         label.text = "Thông tin App"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
         
     }()
@@ -39,7 +39,7 @@ class AppInfoCell: UICollectionViewCell {
         
         let label = UILabel()
         label.text = "Phiên Bản: \(AppInfo.version.getValue())"
-        label.font = label.font.withSize(17)
+        label.font = label.font.withSize(18)
         label.numberOfLines = 0
         
         return label
@@ -50,7 +50,7 @@ class AppInfoCell: UICollectionViewCell {
         
         let label = UILabel()
         label.text = "Email: \(AppInfo.email.getValue())"
-        label.font = label.font.withSize(17)
+        label.font = label.font.withSize(18)
         label.numberOfLines = 0
         
         return label
@@ -94,13 +94,13 @@ class AppInfoCell: UICollectionViewCell {
         versionLabel.sizeToFit()
         
         emailLabel.frame = CGRect(x: 10,
-                                  y: versionLabel.frame.maxY,
+                                  y: versionLabel.frame.maxY + 10,
                                   width: self.bounds.width,
                                   height: 0)
         emailLabel.sizeToFit()
         
         phoneNumberLabel.frame = CGRect(x: 10,
-                                        y: emailLabel.frame.maxY,
+                                        y: emailLabel.frame.maxY + 10,
                                         width: self.bounds.width,
                                         height: 0)
         phoneNumberLabel.sizeToFit()

@@ -9,6 +9,11 @@ import UIKit
 
 class TeamDetailController: UIViewController, DataSoureDelegate {
     
+    //status bar style
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .lightContent
+    }
+    
     // Datasource
     let dataSource = TeamDetailDataSource()
     

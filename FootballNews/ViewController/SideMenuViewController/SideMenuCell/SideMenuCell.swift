@@ -15,8 +15,7 @@ class SideMenuCell: UICollectionViewCell {
         super.init(frame: frame)
 //        self.layer.borderWidth = 0.5
 //        self.layer.borderColor = UIColor.lightGray.cgColor
-        self.backgroundColor = .white
-        self.addBottomBorder(with: .lightGray, andWidth: 1)
+        self.addBottomBorder(with: .lightGray, andWidth: 0.5)
         
         addSubViews()
     }
@@ -40,7 +39,7 @@ class SideMenuCell: UICollectionViewCell {
         
         let label = PaddingLabel()
         label.setupPadding(top: 0, bottom: 0, left: 10, right: 0)
-        label.font = label.font.withSize(18)
+        label.font = label.font.withSize(20)
      
         return label
         
