@@ -96,7 +96,7 @@ class DetailSectionHeader: UICollectionReusableView {
                        offset: CGSize(width: 0.0, height: 1.0))
 
         //Underline news content
-        newsContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0)
+        newsContent.drawUnderlineAnimation(lineColor: selectedColor, lineWidth: 3, duration: 0)
         
     }
     
@@ -115,9 +115,9 @@ class DetailSectionHeader: UICollectionReusableView {
     @objc func selectNews(_ sender: UITapGestureRecognizer?) {
       
         //Remove Underline Animation
-        rankingContent.removeUnderlineAnimation()
+        rankingContent.removeUnderline()
         //Underline Animation
-        newsContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0.2)
+        newsContent.drawUnderlineAnimation(lineColor: selectedColor, lineWidth: 3, duration: 0.2)
        
         newsContent.textColor = selectedColor
         rankingContent.textColor = .lightGray
@@ -129,9 +129,9 @@ class DetailSectionHeader: UICollectionReusableView {
     @objc func selectRanking(_ sender: UITapGestureRecognizer?) {
         
         //Remove Underline Animation
-        newsContent.removeUnderlineAnimation()
+        newsContent.removeUnderline()
         //Underline Animation
-        rankingContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0.2)
+        rankingContent.drawUnderlineAnimation(lineColor: selectedColor, lineWidth: 3, duration: 0.2)
     
         newsContent.textColor = .lightGray
         rankingContent.textColor = selectedColor

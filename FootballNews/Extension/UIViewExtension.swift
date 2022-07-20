@@ -65,53 +65,36 @@ extension UIView {
       
     }
     
-    func drawUnderlineAnimation(lineColor: CGColor?, lineWidth: CGFloat, duration: CFTimeInterval) {
+    func drawUnderlineAnimation(lineColor: UIColor?, lineWidth: CGFloat, duration: TimeInterval) {
         
+        //set up start underline
+        let underline = UIView()
+        underline.backgroundColor = lineColor ?? UIColor.black
+        //middle view
+        underline.frame = CGRect(x: self.frame.width/2, y: self.frame.maxY - lineWidth, width: 1, height: lineWidth)
+        //layer view
+        underline.layer.name = "Underline"
+        self.addSubview(underline)
         
-        //path
-        let path = UIBezierPath()
-
-        path.move(to: CGPoint(x: 0, y: self.frame.maxY))
-        path.addLine(to: CGPoint(x: self.frame.maxX - self.frame.minX, y: self.frame.maxY))
-        
-        //shape layer
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.name = "UnderlineShape"
-        
-        shapeLayer.fillColor = lineColor ?? UIColor.black.cgColor
-        shapeLayer.strokeColor = lineColor ?? UIColor.black.cgColor
-        shapeLayer.lineWidth = lineWidth
-        shapeLayer.path = path.cgPath
-        
-        //add sublayer
-        self.layer.addSublayer(shapeLayer)
         //animate
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = 0
-        animation.duration = duration
-        shapeLayer.add(animation, forKey: "UnderlineAnimation")
-    
-        
-    }
-    
-    func removeUnderlineAnimation() {
-        
-        if let sublayers = self.layer.sublayers {
+        UIView.animate(withDuration: duration, delay: 0, options: .layoutSubviews, animations: {
             
-            for sublayer in sublayers {
-                
-                if sublayer.name == "UnderlineShape" {
-                    
-                    sublayer.removeFromSuperlayer()
-                    
-                }
-                
-            }
+            underline.frame.origin.x = 0
+            underline.frame.size.width = self.frame.maxX - self.frame.minX
             
-        }
+        })
+        
        
     }
     
-    
+    func removeUnderline() {
+        
+        for subView in self.subviews {
+            if subView.layer.name == "Underline" {
+                subView.removeFromSuperview()
+            }
+        }
+        
+    }
     
 }
