@@ -116,6 +116,7 @@ class DetailSectionHeader: UICollectionReusableView {
       
         //Remove Underline Animation
         rankingContent.removeUnderline()
+       
         //Underline Animation
         newsContent.drawUnderlineAnimation(lineColor: selectedColor, lineWidth: 3, duration: 0.2)
        
@@ -130,6 +131,7 @@ class DetailSectionHeader: UICollectionReusableView {
         
         //Remove Underline Animation
         newsContent.removeUnderline()
+        
         //Underline Animation
         rankingContent.drawUnderlineAnimation(lineColor: selectedColor, lineWidth: 3, duration: 0.2)
     

@@ -67,6 +67,13 @@ extension UIView {
     
     func drawUnderlineAnimation(lineColor: UIColor?, lineWidth: CGFloat, duration: TimeInterval) {
         
+        //check if underlined
+        for subView in self.subviews {
+            if subView.layer.name == "Underline" {
+                return
+            }
+        }
+        
         //set up start underline
         let underline = UIView()
         underline.backgroundColor = lineColor ?? UIColor.black
@@ -80,11 +87,10 @@ extension UIView {
         UIView.animate(withDuration: duration, delay: 0, options: .layoutSubviews, animations: {
             
             underline.frame.origin.x = 0
-            underline.frame.size.width = self.frame.maxX - self.frame.minX
+            underline.frame.size.width = self.frame.width
             
         })
-        
-       
+    
     }
     
     func removeUnderline() {
