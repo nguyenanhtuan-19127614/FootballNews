@@ -15,11 +15,13 @@ class HeaderCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        if let background = UIImage(named: "IconHolder") {
-            
-            self.backgroundColor = UIColor(patternImage: background)
-            
-        }
+//        if let background = UIImage(named: "IconHolder") {
+//
+//            self.backgroundColor = UIColor(patternImage: background)
+//
+//        }
+        
+        self.addBottomBorder(with: .gray, andWidth: 0.5)
 
         addSubViews()
         addLayout()
@@ -45,6 +47,21 @@ class HeaderCell: UICollectionViewCell {
         
         self.addSubview(iconApp)
    
+    }
+    
+    override func layoutSubviews() {
+        
+        let startColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1).cgColor
+        let middleColor = UIColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1).cgColor
+        let endColor = UIColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1).cgColor
+        
+        if let gradient = UIImage().createGradientImage(colors: [startColor,middleColor,endColor], frame: self.frame) {
+            
+            self.backgroundColor = UIColor(patternImage: gradient)
+            
+        }
+        
+     
     }
     
     func addLayout() {

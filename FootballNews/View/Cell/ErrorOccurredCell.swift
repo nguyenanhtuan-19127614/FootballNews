@@ -47,12 +47,8 @@ class ErrorOccurredCell: UICollectionViewCell {
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
-        if #available(iOS 13.0, *) {
-            
-            let color = UIColor(cgColor: CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1))
-            button.backgroundColor = color
-             
-        }
+        let color = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
+        button.backgroundColor = color
         
         button.layer.cornerRadius = 7.0
         button.layer.masksToBounds = true

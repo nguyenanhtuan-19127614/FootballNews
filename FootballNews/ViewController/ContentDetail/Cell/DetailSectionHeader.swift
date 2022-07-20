@@ -14,15 +14,7 @@ class DetailSectionHeader: UICollectionReusableView {
         self.addShadow(color: UIColor.black.cgColor,
                        opacity: 1.0)
 
-        if #available(iOS 13.0, *) {
-            
-            selectedColor = UIColor(cgColor: CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1))
-            
-        } else {
-            
-            selectedColor = .blue
-            
-        }
+        selectedColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
         
         newsContent.textColor = selectedColor
     

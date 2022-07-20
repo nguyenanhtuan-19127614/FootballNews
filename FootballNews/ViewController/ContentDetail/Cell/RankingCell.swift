@@ -17,12 +17,7 @@ class RankingCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        if #available(iOS 13.0, *) {
-            
-            grayColor = UIColor(red: 232/255, green: 239/255, blue: 242/255, alpha: 1)
-           
-            
-        }
+        grayColor = UIColor(red: 232/255, green: 239/255, blue: 242/255, alpha: 1)
         
         //add colors for subviews border
         addBorderColor()

@@ -135,15 +135,12 @@ class SearchArticleViewController: UIViewController, DataSoureDelegate {
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
         //Custom navigation bar
-        if #available(iOS 13.0, *) {
+       
+        let startColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1).cgColor
+        let middleColor = UIColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1).cgColor
+        let endColor = UIColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1).cgColor
 
-            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
-            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
-            let endColor = CGColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1)
-
-            navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
-
-        }
+        navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor,endColor])
         
         //Status bar
         navigationItem.leftItemsSupplementBackButton = true

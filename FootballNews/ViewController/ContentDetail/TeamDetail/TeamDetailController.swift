@@ -139,16 +139,13 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         
         //Custom Navigation Bars
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        if #available(iOS 13.0, *) {
-            
-            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
-            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
-            
-            navigationController?.navigationBar.setTitleAttribute(color: .white,
-                                                                  font: UIFont.boldSystemFont(ofSize: 20))
-            navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor])
-            
-        }
+        
+        let startColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1).cgColor
+        let middleColor = UIColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1).cgColor
+        
+        navigationController?.navigationBar.setTitleAttribute(color: .white,
+                                                              font: UIFont.boldSystemFont(ofSize: 20))
+        navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor])
         
         //Back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
