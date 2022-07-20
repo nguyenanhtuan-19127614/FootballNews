@@ -16,7 +16,9 @@ class HeaderCell: UICollectionViewCell {
         super.init(frame: frame)
         
         if let background = UIImage(named: "IconHolder") {
+            
             self.backgroundColor = UIColor(patternImage: background)
+            
         }
 
         addSubViews()

@@ -6,13 +6,17 @@
 //
 
 import Foundation
+import UIKit
 
 struct SideMenuContentData {
-    
-    let contents: [[SideMenuModel]] = [
-    
+   
+   
+   
+    let contents: [[SideMenuModel]] =  [
+        
         [
-            SideMenuModel(icon: nil, label: "Giải Đấu"),
+            SideMenuModel(icon: nil,
+                          label: "Giải Đấu"),
             SideMenuModel(icon: nil, label: "Lịch thi đấu"),
             SideMenuModel(icon: nil, label: "Bảng xếp hạng"),
             SideMenuModel(icon: nil, label: "Tin nóng"),
@@ -29,6 +33,8 @@ struct SideMenuContentData {
     
     ]
     
+    
     let section: [String] = ["Nội dung", "Tiện ích"]
     
+   
 }

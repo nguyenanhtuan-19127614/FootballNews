@@ -25,7 +25,7 @@ class ViewControllerRouter {
     private init() {}
     
     private weak var navController: UINavigationController?
-   
+    
     func setUpNavigationController(_ navController: UINavigationController?) {
         self.navController = navController
     }
@@ -64,7 +64,7 @@ class ViewControllerRouter {
             articleDetailVC.changeState(state: .offline)
             
             return articleDetailVC
-        
+            
         case .detailMatch(let dataMatch):
             
             let matchDetailVC = MatchDetailController()
@@ -98,8 +98,8 @@ class ViewControllerRouter {
             return searchVC
             
         }
-       
+        
     }
     
-   
+    
 }

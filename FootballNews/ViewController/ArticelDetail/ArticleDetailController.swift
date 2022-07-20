@@ -17,7 +17,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     
     //status bar style
     override var preferredStatusBarStyle: UIStatusBarStyle {
-            return .default
+        return .default
     }
     
     var headerHeight: CGFloat = 0
@@ -88,7 +88,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     //MARK: loadView() state
     override func loadView() {
         
-        super.loadView()
+        //super.loadView()
         //Add delegate for datasource
         
         dataSource.delegate = self
@@ -113,7 +113,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-      
+        
         //get data
         if dataSource.state == .loading {
             
@@ -150,7 +150,7 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
-  
+        
     }
     
     //MARK: Function to add layout for subviews
@@ -190,10 +190,11 @@ extension ArticelDetailController: UICollectionViewDataSource {
             return dataSource.dataSourceSize
             
         case .error:
+            
             return 2
             
         case .offline:
-
+            
             return (self.dataSource.detailData?.body?.count ?? 0) + 1
             
         }
@@ -202,8 +203,8 @@ extension ArticelDetailController: UICollectionViewDataSource {
     
     //Return Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        // Avoid NSAtributtedString converter crash 
+        
+        // Avoid NSAtributtedString converter crash
         if dataSource.state == .loading {
             collectionView.isUserInteractionEnabled = false
         } else {
@@ -227,7 +228,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
         }
         
         let state = dataSource.state
-       
+        
         switch state {
         case .loading:
             
@@ -289,7 +290,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             return errorCell
             
         case .offline:
-           
+            
             if self.dataSource.detailData == nil {
                 
                 dataSource.state = .error
@@ -313,7 +314,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 bodyCell.backgroundColor = UIColor.white
                 bodyCell.loadData(bodyContent[indexPath.row - 1].content,
                                   subtype: bodyContent[indexPath.row - 1].subtype)
- 
+                
                 return bodyCell
                 
                 
@@ -345,14 +346,14 @@ extension ArticelDetailController: UICollectionViewDelegate {
             return
             
         }
+        
         //Pass data and call articel detail view controller (Related Articel)
         if indexPath.row > dataSource.contentBodySize && indexPath.row != 0 {
             
-           
+            
             let index = indexPath.row - dataSource.contentBodySize  - 1
             
             ViewControllerRouter.shared.routing(to: .detailArticle(dataArticle: dataSource.relatedArticleData[index]))
-            
             
         }
     }
@@ -363,7 +364,7 @@ extension ArticelDetailController: UICollectionViewDelegate {
 extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
     
     //Set size for each cell
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let totalWidth = self.view.bounds.width
@@ -402,12 +403,12 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             height += 20 //padding top
             height += 30 //subTitle size
             self.headerHeight = height
-          
+            
             return CGSize(width: totalWidth ,
                           height: height)
             
         }
-    
+        
         if state == .loading || state == . error {
             
             return CGSize(width: totalWidth,
@@ -437,7 +438,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 contentLabel.renderHTMLAtribute(from: bodyContent[indexPath.row - 1].content,
                                                 size: 22,
                                                 lineSpacing: 5)
-               
+                
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     
                     if subtype == "media-caption" {
@@ -453,7 +454,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                                                                           y: 0,
                                                                           width: self.view.bounds.width - 30,
                                                                           height: 0))
-              
+                
                 return CGSize(width: totalWidth,
                               height: height)
                 

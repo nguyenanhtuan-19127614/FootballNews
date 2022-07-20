@@ -16,7 +16,6 @@ class AppInfoCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .white
         
-      
         addSubViews()
     }
     
@@ -31,6 +30,7 @@ class AppInfoCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Thông tin App"
         label.font = UIFont.boldSystemFont(ofSize: 25)
+        
         return label
         
     }()
@@ -104,5 +104,7 @@ class AppInfoCell: UICollectionViewCell {
                                         width: self.bounds.width,
                                         height: 0)
         phoneNumberLabel.sizeToFit()
+        
     }
+    
 }

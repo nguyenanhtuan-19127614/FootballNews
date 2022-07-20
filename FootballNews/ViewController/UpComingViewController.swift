@@ -11,11 +11,11 @@ class UpComingViewController: UIViewController {
     
     //status bar style
     override var preferredStatusBarStyle: UIStatusBarStyle {
-            return .lightContent
+        return .lightContent
     }
     
     var iconImg: UIImageView = {
-    
+        
         let imgView = UIImageView()
         imgView.contentMode = .scaleToFill
         imgView.image = UIImage(named: "IconApp")
@@ -60,7 +60,7 @@ class UpComingViewController: UIViewController {
             
             label.topAnchor.constraint(equalTo: iconImg.bottomAnchor, constant: 20),
             label.widthAnchor.constraint(equalTo: self.view.widthAnchor)
-      
+            
         ])
     }
     

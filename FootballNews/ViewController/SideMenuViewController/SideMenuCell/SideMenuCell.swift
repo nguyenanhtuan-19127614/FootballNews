@@ -13,8 +13,6 @@ class SideMenuCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-//        self.layer.borderWidth = 0.5
-//        self.layer.borderColor = UIColor.lightGray.cgColor
         self.addBottomBorder(with: .lightGray, andWidth: 0.5)
         
         addSubViews()
@@ -38,7 +36,7 @@ class SideMenuCell: UICollectionViewCell {
     let menuLabel: PaddingLabel = {
         
         let label = PaddingLabel()
-        label.setupPadding(top: 0, bottom: 0, left: 10, right: 0)
+        label.setupPadding(top: 0, bottom: 0, left: 30, right: 0)
         label.font = label.font.withSize(20)
      
         return label
@@ -57,9 +55,9 @@ class SideMenuCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         menuIcon.frame = CGRect(x: 0,
-                                y: 0,
-                                width: self.bounds.height,
-                                height: self.bounds.height)
+                                y: self.bounds.height/4,
+                                width: self.bounds.height/2,
+                                height: self.bounds.height/2)
         
         menuLabel.frame = CGRect(x: menuIcon.frame.maxX,
                                  y: 0,
@@ -76,4 +74,5 @@ class SideMenuCell: UICollectionViewCell {
         menuLabel.text = data.label
         
     }
+    
 }

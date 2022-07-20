@@ -112,9 +112,6 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         //Add delegate for datasource
         dataSource.delegate = self
         
-        //MARK: Create customView
-        let view = UIView()
-        view.backgroundColor = .white
         //MARK: News Listing Collection View
         
         homeCollection.dataSource = self
@@ -123,9 +120,8 @@ class HomeViewController : UIViewController, DataSoureDelegate {
         homeCollection.collectionViewLayout = homeLayout
         
         //MARK: Add Subviews
-        view.addSubview(homeCollection)
-        
-        self.view = view
+        self.view.addSubview(homeCollection)
+     
         
     }
     //MARK:

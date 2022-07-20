@@ -13,7 +13,6 @@ protocol DataSoureDelegate: AnyObject {
     func changeState(state: ViewControllerState)
     func getData()
     func storeData()
-    
     func stopRefresh()
     
 }

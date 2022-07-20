@@ -18,11 +18,10 @@ class AppNavigationController: UINavigationController {
     
     let sideMenuVC = SideMenuViewController()
     
-    
     override var childForStatusBarStyle: UIViewController? {
         return visibleViewController
     }
-  
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -39,14 +38,14 @@ class AppNavigationController: UINavigationController {
         let imgVideo = UIImage(named: "videoIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let videoIcon = UITabBarItem(title: "Video", image: imgVideo, tag: 1)
         videoVC.tabBarItem = videoIcon
-       
+        
         
         //MARK: Trending View Controller
         let imgChart = UIImage(named: "chartIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let chartIcon = UITabBarItem(title: "Xu Hướng", image: imgChart, tag: 2)
         trendingVC.tabBarItem = chartIcon
         trendingVC.view.backgroundColor = .white
-     
+        
         //MARK: Ultility View Controller
         let imgMenu = UIImage(named: "menu")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
         let menuIcon = UITabBarItem(title: "Tiện Ích", image: imgMenu, tag: 3)
@@ -74,16 +73,14 @@ class AppNavigationController: UINavigationController {
         // add side menu
         let screenFrame = self.view.frame
         let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
-                           self.navigationBar.frame.height
-
+        self.navigationBar.frame.height
+        
         sideMenuVC.view.frame = CGRect(x: -screenFrame.width,
                                        y: topBarHeight,
-                                       width: screenFrame.width * 0.8,
+                                       width: screenFrame.width * 0.7,
                                        height: screenFrame.height-topBarHeight)
-      
-        UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
         
-     
+        UIApplication.shared.windows.last?.addSubview(sideMenuVC.view)
         
     }
     
@@ -91,7 +88,7 @@ class AppNavigationController: UINavigationController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Nav bar
-      
+        
         //Right Icon
         //search icon
         let imgSearch = UIImage(named: "searchIcon")?.resizeImage(targetSize: CGSize(width: 20, height: 20))
@@ -111,7 +108,7 @@ class AppNavigationController: UINavigationController {
                                        action: #selector(controlSideMenu))
         iconMenu.tintColor = .white
         tabController.navigationItem.leftBarButtonItem = iconMenu
-       
+        
     }
     
     
@@ -126,20 +123,20 @@ class AppNavigationController: UINavigationController {
     
     //delegate func
     func hideSideMenu() {
-    
+        
         sideMenuVC.hide()
         //set hide frame
-       
+        
         homeVC.view.removeBlurEffect()
         videoVC.view.removeBlurEffect()
         trendingVC.view.removeBlurEffect()
         ultilityVC.view.removeBlurEffect()
-      
+        
     }
- 
+    
     //MARK: Nav button Action
     @objc func controlSideMenu() {
- 
+        
         if sideMenuVC.isShow == false {
             
             //show side menu
@@ -151,7 +148,7 @@ class AppNavigationController: UINavigationController {
             ultilityVC.view.addBlurEffect()
             
         } else {
-           
+            
             //hide side menu
             sideMenuVC.hide()
             //Remove blur effect
@@ -159,9 +156,9 @@ class AppNavigationController: UINavigationController {
             videoVC.view.removeBlurEffect()
             trendingVC.view.removeBlurEffect()
             ultilityVC.view.removeBlurEffect()
-           
+            
         }
- 
+        
     }
     
     

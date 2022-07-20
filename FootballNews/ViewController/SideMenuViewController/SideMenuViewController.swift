@@ -57,7 +57,6 @@ class SideMenuViewController: UIViewController {
         addSubviews()
         addLayout()
         
-       
     }
 
     func addSubviews() {
@@ -94,8 +93,7 @@ class SideMenuViewController: UIViewController {
         }, completion: nil)
        
         isShow = true
-        
-        
+ 
     }
     
     func hide() {
@@ -203,8 +201,7 @@ extension SideMenuViewController: UICollectionViewDataSource {
         return UICollectionReusableView()
         
     }
-    
-    
+   
 }
 
 extension SideMenuViewController: UICollectionViewDelegateFlowLayout {

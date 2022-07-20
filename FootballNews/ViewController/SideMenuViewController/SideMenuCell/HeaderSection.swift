@@ -36,10 +36,7 @@ class SideMenuCellHeader: UICollectionReusableView {
         return label
         
     }()
-    
  
-    
-    
     //MARK: Add subviews to cell
     func addSubViews() {
     
@@ -58,6 +55,7 @@ class SideMenuCellHeader: UICollectionReusableView {
                                    height: self.bounds.height)
       
         headerLabel.addBottomBorder(with: .lightGray, andWidth: 0.5)
+        
     }
  
 }
