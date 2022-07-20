@@ -262,9 +262,6 @@
 			children = (
 				036D64CD28656E2A006E68C5 /* LoadMoreIndicatorCell.swift */,
 				03A6AFC5287288D300E9FB01 /* ErrorOccurredCell.swift */,
-				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
-				03DC833D2876E971005D5078 /* RankingCell.swift */,
-				0305AF472859DE60009398A6 /* ArticleCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -341,10 +338,23 @@
 		0359CC8B2887A31500F7DE03 /* ContentDetail */ = {
 			isa = PBXGroup;
 			children = (
-				0359CC872887A1FC00F7DE03 /* DetailSectionHeader.swift */,
+				03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */,
 				0359CC8C2887A37F00F7DE03 /* DetailContent.swift */,
+				0359CC8E2887A7E900F7DE03 /* Cell */,
+				037276AA287D226D004AE6C3 /* CompetitionDetail */,
+				0384E972287BD40D000C4561 /* MatchDetail */,
+				037276B6287D8B62004AE6C3 /* TeamDetail */,
 			);
 			path = ContentDetail;
+			sourceTree = "<group>";
+		};
+		0359CC8E2887A7E900F7DE03 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				03DC833D2876E971005D5078 /* RankingCell.swift */,
+				0359CC872887A1FC00F7DE03 /* DetailSectionHeader.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		036D64C6286479BD006E68C5 /* NavigationBar */ = {
@@ -358,39 +368,22 @@
 		037276AA287D226D004AE6C3 /* CompetitionDetail */ = {
 			isa = PBXGroup;
 			children = (
-				037276AF287D2716004AE6C3 /* CompetitionDetailCell */,
-				03CE6BFB287EBD8B005CBC4B /* RankingModel.swift */,
+				037276B0287D2736004AE6C3 /* CompetitionDetailHeader.swift */,
 				037276AB287D228B004AE6C3 /* CompetitionDetailController.swift */,
 				037276AD287D2299004AE6C3 /* CompetitionDetailDataSource.swift */,
 			);
 			path = CompetitionDetail;
 			sourceTree = "<group>";
 		};
-		037276AF287D2716004AE6C3 /* CompetitionDetailCell */ = {
-			isa = PBXGroup;
-			children = (
-				037276B0287D2736004AE6C3 /* CompetitionDetailHeader.swift */,
-			);
-			path = CompetitionDetailCell;
-			sourceTree = "<group>";
-		};
 		037276B6287D8B62004AE6C3 /* TeamDetail */ = {
 			isa = PBXGroup;
 			children = (
-				037276BB287D8C64004AE6C3 /* TeamDetailCell */,
+				03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */,
 				03CE6BF9287EBCA6005CBC4B /* TeamInfoModel.swift */,
 				037276B7287D8B84004AE6C3 /* TeamDetailController.swift */,
 				037276B9287D8B94004AE6C3 /* TeamDetailDataSource.swift */,
 			);
 			path = TeamDetail;
-			sourceTree = "<group>";
-		};
-		037276BB287D8C64004AE6C3 /* TeamDetailCell */ = {
-			isa = PBXGroup;
-			children = (
-				03CE6BF5287E82D0005CBC4B /* TeamDetailHeader.swift */,
-			);
-			path = TeamDetailCell;
 			sourceTree = "<group>";
 		};
 		03835DC328865A2600F5E664 /* SideMenuCell */ = {
@@ -416,9 +409,6 @@
 				03CE6C0D288504A7005CBC4B /* SearchArticle */,
 				0384E973287BD421000C4561 /* ArticelDetail */,
 				0359CC8B2887A31500F7DE03 /* ContentDetail */,
-				037276AA287D226D004AE6C3 /* CompetitionDetail */,
-				0384E972287BD40D000C4561 /* MatchDetail */,
-				037276B6287D8B62004AE6C3 /* TeamDetail */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -437,7 +427,7 @@
 		0384E972287BD40D000C4561 /* MatchDetail */ = {
 			isa = PBXGroup;
 			children = (
-				03DC833728754E70005D5078 /* MatchDetailCell */,
+				03DC833828754EDF005D5078 /* MatchDetailHeader.swift */,
 				03DC833328753136005D5078 /* MatchDetailController.swift */,
 				03DC833528753AD1005D5078 /* MatchDetailDataSource.swift */,
 			);
@@ -479,6 +469,8 @@
 		03BC50CC285D779000D5C79C /* HomeCell */ = {
 			isa = PBXGroup;
 			children = (
+				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
+				0305AF472859DE60009398A6 /* ArticleCell.swift */,
 				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
 				0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */,
 				036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */,
@@ -506,14 +498,6 @@
 				03CE6C10288504FE005CBC4B /* SearchArticleDataSource.swift */,
 			);
 			path = SearchArticle;
-			sourceTree = "<group>";
-		};
-		03DC833728754E70005D5078 /* MatchDetailCell */ = {
-			isa = PBXGroup;
-			children = (
-				03DC833828754EDF005D5078 /* MatchDetailHeader.swift */,
-			);
-			path = MatchDetailCell;
 			sourceTree = "<group>";
 		};
 		03DC833C2876D4C4005D5078 /* Notification */ = {
