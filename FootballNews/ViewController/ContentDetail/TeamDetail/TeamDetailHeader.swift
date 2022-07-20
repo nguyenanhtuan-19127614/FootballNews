@@ -30,6 +30,7 @@ class TeamDetailHeader: UIView {
         }
         //add sub views
         addSubViews()
+        addLayout()
         
     }
     
@@ -68,9 +69,8 @@ class TeamDetailHeader: UIView {
     }
     
     //MARK: Add layout for subviews
-    override func layoutSubviews() {
+    func addLayout() {
         
-        super.layoutSubviews()
         teamLogo.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -78,13 +78,13 @@ class TeamDetailHeader: UIView {
        
             teamLogo.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             teamLogo.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            teamLogo.widthAnchor.constraint(equalToConstant: self.bounds.height/2),
-            teamLogo.heightAnchor.constraint(equalToConstant: self.bounds.height/2),
-            
+            teamLogo.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/2),
+            teamLogo.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/2),
+        
             nameLabel.topAnchor.constraint(equalTo: teamLogo.bottomAnchor, constant: 10),
             nameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
             nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            nameLabel.widthAnchor.constraint(equalToConstant: self.bounds.width)
+            nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor)
 
         ])
     }

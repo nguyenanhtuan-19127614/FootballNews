@@ -33,7 +33,8 @@ class MatchDetailHeader: UIView {
         }
         //add sub views
         addSubViews()
-        
+        // add layout
+        addLayout()
         //add Gestures
         addGestures()
        
@@ -58,9 +59,7 @@ class MatchDetailHeader: UIView {
     
    
     //MARK: Add layout subviews
-    override func layoutSubviews() {
-        
-        super.layoutSubviews()
+    func addLayout() {
         
         homeTeam.translatesAutoresizingMaskIntoConstraints = false
         awayTeam.translatesAutoresizingMaskIntoConstraints = false
@@ -70,18 +69,18 @@ class MatchDetailHeader: UIView {
             
             homeTeam.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             homeTeam.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            homeTeam.widthAnchor.constraint(equalToConstant: self.bounds.width/4),
-            homeTeam.heightAnchor.constraint(equalToConstant: self.bounds.height - 20),
+            homeTeam.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4),
+            homeTeam.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -20),
             
             awayTeam.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             awayTeam.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            awayTeam.widthAnchor.constraint(equalToConstant: self.bounds.width/4),
-            awayTeam.heightAnchor.constraint(equalToConstant: self.bounds.height - 20),
+            awayTeam.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4),
+            awayTeam.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -20),
             
             scoreView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             scoreView.trailingAnchor.constraint(equalTo: awayTeam.leadingAnchor, constant: -30),
             scoreView.leadingAnchor.constraint(equalTo: homeTeam.trailingAnchor, constant: 30),
-            scoreView.heightAnchor.constraint(equalToConstant: self.bounds.height - 20),
+            scoreView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -20),
             
         ])
         
@@ -132,7 +131,7 @@ class TeamView: UIView {
         
         super.init(frame: frame)
         addSubViews()
-        
+        addLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -174,9 +173,8 @@ class TeamView: UIView {
     }
     
     //MARK: Add layout for subviews
-    override func layoutSubviews() {
+    func addLayout() {
         
-        super.layoutSubviews()
         teamLogo.translatesAutoresizingMaskIntoConstraints = false
         teamName.translatesAutoresizingMaskIntoConstraints = false
         
@@ -184,20 +182,26 @@ class TeamView: UIView {
        
             teamLogo.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             teamLogo.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            teamLogo.widthAnchor.constraint(equalToConstant: self.bounds.height/2.5),
-            teamLogo.heightAnchor.constraint(equalToConstant: self.bounds.height/2.5),
-            
+            teamLogo.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
+            teamLogo.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
+           
             teamName.topAnchor.constraint(equalTo: teamLogo.bottomAnchor, constant: 10),
             teamName.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            teamName.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            teamName.widthAnchor.constraint(equalTo: self.widthAnchor),
       
         
         ])
+   
+    }
+    
+    override func layoutSubviews() {
         
+        super.layoutSubviews()
         //Round border
         teamLogo.layer.cornerRadius = teamLogo.bounds.width/2
         
     }
+    
     
     //MARK: Load data to cell
     func loadData(teamName: String, teamLogo: String) {
@@ -218,6 +222,7 @@ class ScoreView: UIView {
         
         super.init(frame: frame)
         addSubViews()
+        addLayout()
         
     }
     
@@ -282,9 +287,8 @@ class ScoreView: UIView {
     }
     
     //MARK: Add layout for subviews
-    override func layoutSubviews() {
+    func addLayout() {
         
-        super.layoutSubviews()
         homeScore.translatesAutoresizingMaskIntoConstraints = false
         awayScore.translatesAutoresizingMaskIntoConstraints = false
         matchTime.translatesAutoresizingMaskIntoConstraints = false
@@ -294,19 +298,19 @@ class ScoreView: UIView {
             
             homeScore.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             homeScore.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            homeScore.widthAnchor.constraint(equalToConstant: self.bounds.width/2),
-            homeScore.heightAnchor.constraint(equalToConstant: self.bounds.height/3),
-            
+            homeScore.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2),
+            homeScore.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/3),
+       
             awayScore.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             awayScore.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            awayScore.widthAnchor.constraint(equalToConstant: self.bounds.width/2),
-            awayScore.heightAnchor.constraint(equalToConstant: self.bounds.height/3),
-            
+            awayScore.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2),
+            awayScore.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/3),
+       
             matchTime.topAnchor.constraint(equalTo: homeScore.bottomAnchor, constant: 0),
-            matchTime.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            matchTime.widthAnchor.constraint(equalTo: self.widthAnchor),
            
             matchDate.topAnchor.constraint(equalTo: matchTime.bottomAnchor),
-            matchDate.widthAnchor.constraint(equalToConstant: self.bounds.width),
+            matchDate.widthAnchor.constraint(equalTo: self.widthAnchor),
             matchTime.heightAnchor.constraint(equalToConstant: 20),
             
             

@@ -14,6 +14,7 @@ class ErrorOccurredCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
+        addLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +70,7 @@ class ErrorOccurredCell: UICollectionViewCell {
         
     }
     
-    override func layoutSubviews() {
+    func addLayout() {
       
         errorImgView.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -81,12 +82,12 @@ class ErrorOccurredCell: UICollectionViewCell {
            
             errorImgView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             errorImgView.bottomAnchor.constraint(equalTo: errorLabel.topAnchor, constant: -20),
-            errorImgView.widthAnchor.constraint(equalToConstant: self.bounds.width / 3),
-            errorImgView.heightAnchor.constraint(equalToConstant: self.bounds.width / 3),
-            
+            errorImgView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/3),
+            errorImgView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/3),
+         
             refreshButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             refreshButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 30),
-            refreshButton.widthAnchor.constraint(equalToConstant: self.bounds.width / 3),
+            refreshButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/3),
             refreshButton.heightAnchor.constraint(equalToConstant: 35)
                     
         ])

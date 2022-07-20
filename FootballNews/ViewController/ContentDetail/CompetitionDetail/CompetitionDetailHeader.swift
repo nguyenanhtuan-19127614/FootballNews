@@ -31,6 +31,7 @@ class CompetitionDetailHeader: UIView {
         }
         //add sub views
         addSubViews()
+        addLayout()
         
     }
     
@@ -70,9 +71,8 @@ class CompetitionDetailHeader: UIView {
     }
     
     //MARK: Add layout for subviews
-    override func layoutSubviews() {
+    func addLayout() {
         
-        super.layoutSubviews()
         compLogo.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -80,19 +80,21 @@ class CompetitionDetailHeader: UIView {
        
             compLogo.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             compLogo.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            compLogo.widthAnchor.constraint(equalToConstant: self.bounds.height/2),
-            compLogo.heightAnchor.constraint(equalToConstant: self.bounds.height/2),
-            
+            compLogo.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/2),
+            compLogo.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1/2),
+        
             nameLabel.topAnchor.constraint(equalTo: compLogo.bottomAnchor, constant: 10),
             nameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
             nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            nameLabel.widthAnchor.constraint(equalToConstant: self.bounds.width)
+            nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor)
 
         ])
-     
        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         //Round border
-        compLogo.layoutIfNeeded()
         compLogo.layer.cornerRadius = compLogo.bounds.width/2
     }
     
