@@ -86,9 +86,6 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    
-    
-    
     //MARK: loadView() state
     override func loadView() {
         

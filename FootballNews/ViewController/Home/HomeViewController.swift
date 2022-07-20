@@ -391,8 +391,8 @@ extension HomeViewController: UICollectionViewDataSource {
         
         }
         
-        return UICollectionViewCell()
-   
+        fatalError()
+        
     }
 }
 

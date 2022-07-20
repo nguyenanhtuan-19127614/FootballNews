@@ -65,4 +65,53 @@ extension UIView {
       
     }
     
+    func drawUnderlineAnimation(lineColor: CGColor?, lineWidth: CGFloat, duration: CFTimeInterval) {
+        
+        
+        //path
+        let path = UIBezierPath()
+
+        path.move(to: CGPoint(x: 0, y: self.frame.maxY))
+        path.addLine(to: CGPoint(x: self.frame.maxX - self.frame.minX, y: self.frame.maxY))
+        
+        //shape layer
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.name = "UnderlineShape"
+        
+        shapeLayer.fillColor = lineColor ?? UIColor.black.cgColor
+        shapeLayer.strokeColor = lineColor ?? UIColor.black.cgColor
+        shapeLayer.lineWidth = lineWidth
+        shapeLayer.path = path.cgPath
+        
+        //add sublayer
+        self.layer.addSublayer(shapeLayer)
+        //animate
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.duration = duration
+        shapeLayer.add(animation, forKey: "UnderlineAnimation")
+    
+        
+    }
+    
+    func removeUnderlineAnimation() {
+        
+        if let sublayers = self.layer.sublayers {
+            
+            for sublayer in sublayers {
+                
+                if sublayer.name == "UnderlineShape" {
+                    
+                    sublayer.removeFromSuperlayer()
+                    
+                }
+                
+            }
+            
+        }
+       
+    }
+    
+    
+    
 }

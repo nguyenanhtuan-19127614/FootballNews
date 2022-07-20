@@ -85,6 +85,8 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         self.articleDetailCollection.reloadData()
         
     }
+    
+   
     //MARK: loadView() state
     override func loadView() {
         
@@ -254,7 +256,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
                 //Body Part
                 guard let bodyContent = dataSource.detailData?.body else {
                     
-                    return UICollectionViewCell()
+                    fatalError()
                     
                 }
                 
@@ -303,7 +305,7 @@ extension ArticelDetailController: UICollectionViewDataSource {
             //Body Part
             guard let bodyContent = dataSource.detailData?.body else {
                 
-                return UICollectionViewCell()
+                fatalError()
                 
             }
             

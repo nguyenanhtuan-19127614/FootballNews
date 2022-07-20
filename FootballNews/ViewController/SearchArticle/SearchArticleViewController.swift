@@ -330,7 +330,7 @@ extension SearchArticleViewController: UICollectionViewDataSource {
             
         }
         
-        return UICollectionViewCell()
+        fatalError()
     }
     
     

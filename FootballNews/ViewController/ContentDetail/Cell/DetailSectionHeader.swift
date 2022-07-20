@@ -11,13 +11,12 @@ class DetailSectionHeader: UICollectionReusableView {
         
         super.init(frame: frame)
         self.backgroundColor = .white
-        self.addShadow(color: UIColor.black.cgColor,
-                       opacity: 1.0)
-
+       
         selectedColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
         
+        //Select news content first
         newsContent.textColor = selectedColor
-    
+      
         //add sub views
         addSubViews()
         //add Gesture
@@ -91,6 +90,14 @@ class DetailSectionHeader: UICollectionReusableView {
         rankingContent.sizeToFit()
         rankingContent.frame.size.height = self.bounds.height
 
+        //add shadow
+        self.addShadow(color: UIColor.black.cgColor,
+                       opacity: 0.1,
+                       offset: CGSize(width: 0.0, height: 1.0))
+
+        //Underline news content
+        newsContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0)
+        
     }
     
     //MARK: Add Gesture
@@ -103,10 +110,15 @@ class DetailSectionHeader: UICollectionReusableView {
         rankingContent.addGestureRecognizer(rankingTap)
         
     }
+    
     //MARK: Tap Event
-  
     @objc func selectNews(_ sender: UITapGestureRecognizer?) {
-        
+      
+        //Remove Underline Animation
+        rankingContent.removeUnderlineAnimation()
+        //Underline Animation
+        newsContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0.2)
+       
         newsContent.textColor = selectedColor
         rankingContent.textColor = .lightGray
         
@@ -116,6 +128,11 @@ class DetailSectionHeader: UICollectionReusableView {
     
     @objc func selectRanking(_ sender: UITapGestureRecognizer?) {
         
+        //Remove Underline Animation
+        newsContent.removeUnderlineAnimation()
+        //Underline Animation
+        rankingContent.drawUnderlineAnimation(lineColor: selectedColor?.cgColor, lineWidth: 3, duration: 0.2)
+    
         newsContent.textColor = .lightGray
         rankingContent.textColor = selectedColor
         

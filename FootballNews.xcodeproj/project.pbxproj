@@ -252,18 +252,17 @@
 				03DC833F2877D335005D5078 /* PaddingLabel.swift */,
 				03DC833C2876D4C4005D5078 /* Notification */,
 				036D64C6286479BD006E68C5 /* NavigationBar */,
-				0305AF462859DE33009398A6 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		0305AF462859DE33009398A6 /* Cell */ = {
+		0305AF462859DE33009398A6 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
 				036D64CD28656E2A006E68C5 /* LoadMoreIndicatorCell.swift */,
 				03A6AFC5287288D300E9FB01 /* ErrorOccurredCell.swift */,
 			);
-			path = Cell;
+			path = CustomCell;
 			sourceTree = "<group>";
 		};
 		0305AF50285AE337009398A6 /* Extension */ = {
@@ -404,6 +403,7 @@
 				0384E97A287BDB8D000C4561 /* ViewControllerRouter.swift */,
 				03CE6C0B288501A1005CBC4B /* UpComingViewController.swift */,
 				03EB3ABF286B0A2C006097C5 /* Delegation */,
+				0305AF462859DE33009398A6 /* CustomCell */,
 				03CE6C0428829AE6005CBC4B /* SideMenuViewController */,
 				0384E971287BD3FB000C4561 /* Home */,
 				03CE6C0D288504A7005CBC4B /* SearchArticle */,

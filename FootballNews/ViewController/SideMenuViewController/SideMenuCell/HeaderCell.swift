@@ -10,16 +10,9 @@ import UIKit
 class HeaderCell: UICollectionViewCell {
     
     //MARK: Overide Init
-    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        
-//        if let background = UIImage(named: "IconHolder") {
-//
-//            self.backgroundColor = UIColor(patternImage: background)
-//
-//        }
         
         self.addBottomBorder(with: .gray, andWidth: 0.5)
 
@@ -51,17 +44,26 @@ class HeaderCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         
+//        if let background = UIImage(named: "IconHolder") {
+//
+//            let resizedBackground = background.resizeImage(targetSize: CGSize(width: self.frame.width - 40,
+//                                                                              height: self.frame.height))  ?? background
+//
+//            self.backgroundColor = UIColor(patternImage: resizedBackground)
+//
+//        }
+        
         let startColor = UIColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1).cgColor
         let middleColor = UIColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1).cgColor
         let endColor = UIColor(red: 0.04, green: 0.31, blue: 0.58, alpha: 1).cgColor
-        
+
         if let gradient = UIImage().createGradientImage(colors: [startColor,middleColor,endColor], frame: self.frame) {
-            
+
+
             self.backgroundColor = UIColor(patternImage: gradient)
-            
+
         }
-        
-     
+
     }
     
     func addLayout() {
@@ -76,6 +78,7 @@ class HeaderCell: UICollectionViewCell {
             iconApp.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     
         ])
+    
        
     }
     
