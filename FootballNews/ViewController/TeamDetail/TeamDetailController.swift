@@ -36,7 +36,7 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         teamDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         teamDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
-        teamDetailCollection.register(TeamDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TeamDetailSectionHeader")
+        teamDetailCollection.register(DetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TeamDetailSectionHeader")
       
         return teamDetailCollection
         
@@ -56,7 +56,7 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    func changeContentTeamDetail(content: TeamDetailContent) {
+    func changeContent(content: DetailContent) {
         dataSource.selectedContent = content
     }
     
@@ -132,6 +132,28 @@ class TeamDetailController: UIViewController, DataSoureDelegate {
       
     }
     
+    //MARK: viewWillAppear() state
+    override func viewWillAppear( _ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        //Custom Navigation Bars
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            
+            let startColor = CGColor(red: 0.27, green: 0.63, blue: 0.62, alpha: 1)
+            let middleColor = CGColor(red: 0.05, green: 0.39, blue: 0.59, alpha: 1)
+            
+            navigationController?.navigationBar.setTitleAttribute(color: .white,
+                                                                  font: UIFont.boldSystemFont(ofSize: 20))
+            navigationController?.navigationBar.setGradientBackground(colors: [startColor,middleColor])
+            
+        }
+        
+        //Back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+    }
     //MARK: Add subviews layout
     func addSubviewsLayout() {
     
@@ -225,7 +247,7 @@ extension TeamDetailController: UICollectionViewDataSource {
 
         if kind == UICollectionView.elementKindSectionHeader {
             
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "TeamDetailSectionHeader", for: indexPath) as! TeamDetailSectionHeader
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "TeamDetailSectionHeader", for: indexPath) as! DetailSectionHeader
             sectionHeader.delegate = self
             return sectionHeader
             

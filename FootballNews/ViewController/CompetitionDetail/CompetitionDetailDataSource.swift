@@ -14,7 +14,7 @@ class CompetitionDetailDataSource {
     var lock = NSLock()
     
     //Contain to show
-    var selectedContent: CompetitionDetailContent = .news
+    var selectedContent: DetailContent = .news
 
     //State
     var state: ViewControllerState = .loading

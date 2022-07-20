@@ -11,6 +11,7 @@ protocol DataSoureDelegate: AnyObject {
     
     func reloadData()
     func changeState(state: ViewControllerState)
+    func changeContent(content: DetailContent)
     func getData()
     func storeData()
     func stopRefresh()
@@ -22,5 +23,6 @@ extension DataSoureDelegate {
     
     func stopRefresh() {}
     func storeData() {}
+    func changeContent(content: DetailContent) {}
     
 }

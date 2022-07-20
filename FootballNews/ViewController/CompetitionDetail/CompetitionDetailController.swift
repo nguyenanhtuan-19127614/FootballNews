@@ -8,13 +8,6 @@
 import Foundation
 import UIKit
 
-enum CompetitionDetailContent {
-    
-    case news
-    case ranking
-   
-}
-
 class CompetitionDetailController: UIViewController, DataSoureDelegate {
     
     //status bar style
@@ -45,7 +38,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         compDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         compDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
-        compDetailCollection.register(CompetitionDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CompetitionDetailSectionHeader")
+        compDetailCollection.register(DetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CompetitionDetailSectionHeader")
         return compDetailCollection
         
     }()
@@ -80,7 +73,7 @@ class CompetitionDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    func changeContentMatchDetail(content: CompetitionDetailContent) {
+    func changeContent(content: DetailContent) {
        
         self.dataSource.selectedContent = content
         
@@ -273,7 +266,7 @@ extension CompetitionDetailController: UICollectionViewDataSource {
 
         if kind == UICollectionView.elementKindSectionHeader {
             
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CompetitionDetailSectionHeader", for: indexPath) as! CompetitionDetailSectionHeader
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CompetitionDetailSectionHeader", for: indexPath) as! DetailSectionHeader
             sectionHeader.delegate = self
             return sectionHeader
             

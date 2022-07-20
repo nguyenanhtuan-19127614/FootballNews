@@ -15,20 +15,31 @@ struct SideMenuContentData {
     let contents: [[SideMenuModel]] =  [
         
         [
+            
             SideMenuModel(icon: nil,
                           label: "Giải Đấu"),
-            SideMenuModel(icon: nil, label: "Lịch thi đấu"),
-            SideMenuModel(icon: nil, label: "Bảng xếp hạng"),
-            SideMenuModel(icon: nil, label: "Tin nóng"),
-            SideMenuModel(icon: nil, label: "Tin mới"),
+            SideMenuModel(icon: nil,
+                          label: "Lịch thi đấu"),
+            SideMenuModel(icon: nil,
+                          label: "Bảng xếp hạng"),
+            SideMenuModel(icon: nil,
+                          label: "Tin nóng"),
+            SideMenuModel(icon: nil,
+                          label: "Tin mới"),
+            
         ],
         
         [
-            SideMenuModel(icon: nil, label: "Tài khoản"),
-            SideMenuModel(icon: nil, label: "Quan tâm"),
-            SideMenuModel(icon: nil, label: "Cài đặt"),
-            SideMenuModel(icon: nil, label: "Góp ý"),
-            SideMenuModel(icon: nil, label: "Điều khoản")
+            SideMenuModel(icon: nil,
+                          label: "Tài khoản"),
+            SideMenuModel(icon: nil,
+                          label: "Quan tâm"),
+            SideMenuModel(icon: nil,
+                          label: "Cài đặt"),
+            SideMenuModel(icon: nil,
+                          label: "Góp ý"),
+            SideMenuModel(icon: nil,
+                          label: "Điều khoản")
         ]
     
     ]

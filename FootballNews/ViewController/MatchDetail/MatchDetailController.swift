@@ -8,13 +8,6 @@
 import Foundation
 import UIKit
 
-enum MatchDetailContent {
-    
-    case news
-    case ranking
-    
-}
-
 class MatchDetailController: UIViewController, DataSoureDelegate {
 
     //status bar style
@@ -45,7 +38,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         matchDetailCollection.register(RankingCell.self, forCellWithReuseIdentifier: "RankingCell")
         matchDetailCollection.register(LoadMoreIndicatorCell.self, forCellWithReuseIdentifier: "LoadMoreCell")
         //Section
-        matchDetailCollection.register(MatchDetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MatchDetailSectionHeader")
+        matchDetailCollection.register(DetailSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MatchDetailSectionHeader")
         return matchDetailCollection
         
     }()
@@ -63,7 +56,7 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         
     }
     
-    func changeContentMatchDetail(content: MatchDetailContent) {
+    func changeContent(content: DetailContent) {
         self.dataSource.selectedContent = content
     }
     
@@ -184,8 +177,6 @@ class MatchDetailController: UIViewController, DataSoureDelegate {
         //Title
         self.title = dataSource.headerData?.competition
         
-       
-        
     }
     
     //MARK: Load Data Functions
@@ -275,7 +266,7 @@ extension MatchDetailController: UICollectionViewDataSource {
 
         if kind == UICollectionView.elementKindSectionHeader {
             
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MatchDetailSectionHeader", for: indexPath) as! MatchDetailSectionHeader
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MatchDetailSectionHeader", for: indexPath) as! DetailSectionHeader
             sectionHeader.delegate = self
             return sectionHeader
             

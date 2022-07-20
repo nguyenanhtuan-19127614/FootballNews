@@ -14,7 +14,7 @@ class MatchDetailDataSource {
     var lock = NSLock()
     
     //Contain to show
-    var selectedContent: MatchDetailContent = .news
+    var selectedContent: DetailContent = .news
 
     //State
     var state: ViewControllerState = .loading

@@ -1,16 +1,10 @@
-//
-//  TeamDetailSectionHeader.swift
-//  FootballNews
-//
-//  Created by LAP13606 on 13/07/2022.
-//
 
 import UIKit
 
-class TeamDetailSectionHeader: UICollectionReusableView {
+class DetailSectionHeader: UICollectionReusableView {
     
     var selectedColor: UIColor?
-    weak var delegate: TeamDetailController?
+    weak var delegate: DataSoureDelegate?
     
     //MARK: Override Init
     override init(frame: CGRect) {
@@ -124,7 +118,7 @@ class TeamDetailSectionHeader: UICollectionReusableView {
         newsContent.textColor = selectedColor
         rankingContent.textColor = .lightGray
         
-        delegate?.changeContentTeamDetail(content: .news)
+        delegate?.changeContent(content: .news)
         delegate?.reloadData()
     }
     
@@ -133,8 +127,9 @@ class TeamDetailSectionHeader: UICollectionReusableView {
         newsContent.textColor = .lightGray
         rankingContent.textColor = selectedColor
         
-        delegate?.changeContentTeamDetail(content: .ranking)
+        delegate?.changeContent(content: .ranking)
         delegate?.reloadData()
         
     }
+    
 }

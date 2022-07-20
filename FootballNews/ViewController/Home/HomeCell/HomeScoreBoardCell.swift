@@ -9,6 +9,7 @@ class HomeScoreBoardCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
+        self.backgroundColor = .white
         //custom parent view
         self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.gray.cgColor
