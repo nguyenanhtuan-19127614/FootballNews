@@ -95,7 +95,6 @@ class RankingCell: UICollectionViewCell {
     
     //MARK: Add layout for subviews
     override func layoutSubviews() {
-      
         indexLabel.frame = CGRect(x: 0,
                                   y: 0,
                                   width: self.bounds.width/10,

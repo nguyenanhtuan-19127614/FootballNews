@@ -59,7 +59,7 @@ class ArticelDetailBodyTextCell: UICollectionViewCell {
         
         contentLabel.renderHTMLAtribute(from: inputData,
                                         size: 22,
-                                        lineSpacing: 5)
+                                        lineSpacing: 7)
         
         guard subtype != nil else {
             return

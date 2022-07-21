@@ -141,14 +141,16 @@ class ArticelDetailController: UIViewController, DataSoureDelegate {
         
         //Set titleview of navigation bar
         
-        let titleView = CustomTitleView(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                      width: (self.navigationController?.navigationBar.bounds.width ?? 0)/2,
-                                                      height: (self.navigationController?.navigationBar.bounds.height ?? 0)/2))
+        let imgView = UIImageView(frame: CGRect(x: 0,
+                                                y: 0,
+                                                width: (self.navigationController?.navigationBar.bounds.width ?? 0)/2,
+                                                height: (self.navigationController?.navigationBar.bounds.height ?? 0)/2))
+        imgView.contentMode = .scaleAspectFit
+//        let titleView = CustomTitleView()
         
-        titleView.loadData(url: URL(string: dataSource.headerData?.publisherLogo ?? ""))
+        imgView.loadImageFromUrl(url: dataSource.headerData?.publisherLogo)
         
-        self.navigationItem.titleView = titleView
+        self.navigationItem.titleView = imgView
         
         //set background color
         self.navigationController?.navigationBar.setImageBackground(image: nil)
@@ -385,12 +387,12 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
             let titleLabel = UILabel()
             titleLabel.text = headerData.title
             titleLabel.font = UIFont.boldSystemFont(ofSize: 27)
-            titleLabel.addLineSpacing(lineSpacing: 5)
+            titleLabel.addLineSpacing(lineSpacing: 7)
             
             let descriptionLabel = UILabel()
             descriptionLabel.text = headerData.description
             descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
-            descriptionLabel.addLineSpacing(lineSpacing: 5)
+            descriptionLabel.addLineSpacing(lineSpacing: 7)
             
             var height = titleLabel.calculateHeight(frame: CGRect(x: 15,
                                                                   y: 20,
@@ -439,7 +441,7 @@ extension ArticelDetailController: UICollectionViewDelegateFlowLayout {
                 let contentLabel = UILabel()
                 contentLabel.renderHTMLAtribute(from: bodyContent[indexPath.row - 1].content,
                                                 size: 22,
-                                                lineSpacing: 5)
+                                                lineSpacing: 7)
                 
                 if let subtype = bodyContent[indexPath.row - 1].subtype {
                     

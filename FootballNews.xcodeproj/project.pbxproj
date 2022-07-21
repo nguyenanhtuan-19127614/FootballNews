@@ -469,8 +469,8 @@
 		03BC50CC285D779000D5C79C /* HomeCell */ = {
 			isa = PBXGroup;
 			children = (
-				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
 				0305AF472859DE60009398A6 /* ArticleCell.swift */,
+				037276B4287D6D16004AE6C3 /* SeparateCell.swift */,
 				0305AF4B285ACBDD009398A6 /* HomeScoreBoardCell.swift */,
 				0305AF53285C30D4009398A6 /* HomeCompetitionCell.swift */,
 				036D64C9286564E2006E68C5 /* HomeScoreBoardCollectionCell.swift */,

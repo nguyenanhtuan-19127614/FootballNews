@@ -82,8 +82,8 @@ class ArticelDetailHeaderCell: UICollectionViewCell {
         titleLabel.text = inputData.title
         descriptionLabel.text = inputData.description
         
-        titleLabel.addLineSpacing(lineSpacing: 5)
-        descriptionLabel.addLineSpacing(lineSpacing: 5)
+        titleLabel.addLineSpacing(lineSpacing: 7)
+        descriptionLabel.addLineSpacing(lineSpacing: 7)
         
         subTitleLabel.loadData(sourceIcon: inputData.publisherIcon,
                                sourceLabel: inputData.source,
@@ -157,14 +157,17 @@ class Subtitle: UIView {
         
         sourceLabel.frame = CGRect(x: sourceIcon.frame.maxX + 10,
                                    y: 0,
-                                   width: sourceLabel.calculateWidth(cellHeight: self.bounds.height),
+                                   width: 0,
                                    height: self.bounds.height)
-    
+        sourceLabel.sizeToFit()
+        sourceLabel.frame.size.height = self.bounds.height
+        
         date.frame = CGRect(x: sourceLabel.frame.maxX + 5,
                             y: 0,
-                            width: date.calculateWidth(cellHeight: self.bounds.height),
+                            width: 0,
                             height: self.bounds.height)
-      
+        date.sizeToFit()
+        date.frame.size.height = self.bounds.height
         
     }
     
