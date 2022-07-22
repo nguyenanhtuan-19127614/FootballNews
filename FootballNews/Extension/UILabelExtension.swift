@@ -27,27 +27,6 @@ extension UILabel {
         
     }
     
-    func calculateWidth(cellHeight: CGFloat) -> CGFloat {
-        
-        let label = UILabel()
-        label.frame = CGRect(x: 0,
-                             y: 0,
-                             width: 0,
-                             height: cellHeight)
-        
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        
-        label.font = self.font
-        label.text = self.text
-        label.attributedText = self.attributedText
-        
-        label.sizeToFit()
-        
-        return label.frame.width
-        
-    }
-    
     func renderHTMLAtribute(from string: String, size: CGFloat = 0, lineSpacing: CGFloat = 1) {
         
         if let attributeString = string.renderHTMLAttribute(lineSpacing: lineSpacing) {

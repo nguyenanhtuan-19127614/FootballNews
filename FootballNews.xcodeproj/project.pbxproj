@@ -310,7 +310,7 @@
 				0384E96E287BD3C9000C4561 /* ViewController */,
 				0305AF4028597CDA009398A6 /* View */,
 				0305AF3B28597C74009398A6 /* Model */,
-				0384E977287BD4E7000C4561 /* Repositories */,
+				033735C8288944E7005822D8 /* Module */,
 				0305AF50285AE337009398A6 /* Extension */,
 				03ECED1D284E0B65009D9D3C /* Resources */,
 			);
@@ -332,6 +332,15 @@
 				032AB22F284E01C600C6A83A /* FootballNewsUITestsLaunchTests.swift */,
 			);
 			path = FootballNewsUITests;
+			sourceTree = "<group>";
+		};
+		033735C8288944E7005822D8 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				0305AF3C28597C7A009398A6 /* DataHandler */,
+				0305AF3F28597CBB009398A6 /* Network */,
+			);
+			path = Module;
 			sourceTree = "<group>";
 		};
 		0359CC8B2887A31500F7DE03 /* ContentDetail */ = {
@@ -443,15 +452,6 @@
 				0384E982287BDCF8000C4561 /* ArticleDetailDataSource.swift */,
 			);
 			path = ArticelDetail;
-			sourceTree = "<group>";
-		};
-		0384E977287BD4E7000C4561 /* Repositories */ = {
-			isa = PBXGroup;
-			children = (
-				0305AF3C28597C7A009398A6 /* DataHandler */,
-				0305AF3F28597CBB009398A6 /* Network */,
-			);
-			path = Repositories;
 			sourceTree = "<group>";
 		};
 		0384E985287C3CB7000C4561 /* QueryDataModel */ = {

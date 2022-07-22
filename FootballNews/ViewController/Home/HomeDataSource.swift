@@ -184,6 +184,7 @@ class HomeDataSource {
                     //changed vc state ( first time loading, when vc is loading state)
                     if self.state == .loading || self.isRefresh == true {
                         
+                            
                         articelArray.insert(nil, at: self.scoreBoardIndex + 1)
                         //add separate cell for competition cell
                         articelArray.insert(nil, at: self.competitionIndex - 1)
